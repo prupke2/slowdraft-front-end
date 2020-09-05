@@ -1,3 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla&family=Rubik&display=swap');
+
+:root {
+  --main-bg: #ffffff;
+  --main-text:  #1b2733;
+  --alt-text:  #e0e0e0;
+  --gradient1: rgba(38, 38, 114, 0.3);
+  --gradient2: rgba(56, 56, 141, 0);
+  --gradient3: rgba(56, 100, 141, 0.3);
+  --gradient4: rgba(56, 100, 141, 0);
+  --main-dark: rgba(38, 38, 114, 0.8);
+
+  --alt-bg: #637282;
+  --h1-color: var(--alt-text);
+  --header-bg: var(--main-dark);
+  --alt-bg-opaque: rgba(38, 38, 114, 0.5);
+
+  --header-text: #ffffff;
+  --button: var(--main-dark);
+  --eligible: #00ff99;
+  --error: rgba(238, 11, 11, 0.651);
+}
+
+/* 🎨 colors: #ffffff | #1b2733 | #637282 | #AB24A1 */
+
+main {
+  display: grid;
+  height: 100vh;
+  overflow-y: scroll;
+  max-height: 95%;
+  background: var(--main-bg);
+  background:          
+            linear-gradient(336deg, var(--gradient1), var(--gradient2) 70.71%),
+            linear-gradient(127deg, var(--gradient3), var(--gradient4) 70.71%);         
+  grid-template-columns: minmax(100%, 10%);
+  text-align: center;
+  font-family: 'Karla', 'Rubik', sans-serif;
+  /* position: relative; */
+  min-width: 300px;
+  margin: 0 auto;
+  padding: 0;
+
+  /* font-family: 'Rubik', sans-serif; */
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 50px auto;
+  padding: 5px;
+  background: var(--alt-bg-opaque);
+  max-width: 100%;
+  color: var(--h1-color);
+  font-size: 2rem;
+  border-radius: 8px;
+}
+
+h2 {
+  background-color: var(--header-bg);
+  font-size: 1.7rem;
+  color: var(--header-text);
+  margin: 25px 0 0;
+  padding: 25px 5px;
+}
+
+h3 {
+  color: var(--alt-bg);
+  font-size: 1.6rem;
+  margin: 30px 0 0;
+  padding: 5px;
+  width: auto;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
 .App {
   text-align: center;
 }
@@ -15,7 +100,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  height: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,15 +109,18 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.navbar-tabs {
+  padding: 20px 0 10px 0;
+  font-size: 2rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.react-tabs__tab--selected {
+  font-weight: bold;
+}
+
+.navbar-tabs > div {
+  position: relative;
+  width: 100vw;
+  top: -10px;
+  overflow-y: scroll;
 }

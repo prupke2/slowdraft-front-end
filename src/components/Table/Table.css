@@ -1,0 +1,38 @@
+table {
+  border-spacing: 0;
+  border: 2px solid black;
+  border-radius: 4px;
+  margin: 10px auto;
+  font-size: 0.9rem;
+}
+
+tr:nth-child(odd) {
+  background-color: rgba(164, 189, 205, 0.7);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(200, 233, 255, 0.7);
+}
+
+tr:hover {
+  background-color: rgb(166, 220, 250);
+}
+
+table tr:last-child td {
+  border-bottom: 0;
+}
+
+th, td {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+td:last-child, th:last-child {
+  border-right: 0;
+}
+
+.pagination {
+  padding: 0.5rem;
+}
