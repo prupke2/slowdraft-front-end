@@ -8,8 +8,8 @@ import 'react-tabs/style/react-tabs.css';
 export default function App() {
 
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const toggle = () => setPopoverOpen(!popoverOpen);
-  let loggedIn = false;
+  // const toggle = () => setPopoverOpen(!popoverOpen);
+  let noToken, loggedIn = false;
 
     return (
       <div className="App">
@@ -18,12 +18,13 @@ export default function App() {
               <h1>Slow<span>Draft</span></h1>
               <p>Fantasy hockey drafting at your own pace</p>
               <p>Currently by invitation only</p>
-      
-                <div>
+                { noToken && (
+                  <div>
                   Unable to get access token.
                   <p>Response:</p>
                   <p>Error message:</p>
                 </div>
+                )}
                 <div class="connect-to-yahoo">
                   <div>
                     <Button class="connect-button" href="{{yahoo_auth_url}}">Sign in with Yahoo
