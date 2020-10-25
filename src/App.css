@@ -56,7 +56,6 @@ h1 {
   max-width: 100%;
   color: var(--h1-color);
   font-size: 2rem;
-  border-radius: 8px;
 }
 
 h2 {
