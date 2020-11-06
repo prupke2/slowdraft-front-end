@@ -1,0 +1,23 @@
+ul {
+  display: flex;
+  justify-content: space-around;
+}
+
+li.react-tabs__tab {
+  padding: 10px 3vw 5px;
+  position: relative;
+  border: 1px solid var(--gradient1);
+  border-radius: 8px 8px 0 0;
+  border-bottom: none;
+  bottom: 10px;
+  cursor: pointer;
+}
+
+li.react-tabs__tab--selected, .react-tabs__tab-panel {
+  border: 1px solid transparent;
+  background-color: var(--gradient1);
+}
+
+.react-tabs__tab-panel {
+  padding: 20px;
+}

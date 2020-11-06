@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import './Navbar.css';
 // import 'react-tabs/style/react-tabs.css';
 
 export default function Navbar() {
