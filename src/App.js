@@ -6,7 +6,7 @@ import './App.css';
 
 export default function App() {
   // const user = getCookie("user") === null ? setCookie("user") : getCookie("user");
-  const [loginStatus, setLoginStatus] = useState(true);
+  const [loginStatus, setLoginStatus] = useState(false);
 
   return (
     <React.Fragment>
