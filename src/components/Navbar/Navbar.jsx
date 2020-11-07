@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './Navbar.css';
 // import 'react-tabs/style/react-tabs.css';
@@ -19,7 +19,7 @@ export default function Navbar() {
   // }, [update]);
 
   return (
-    <Tabs className="navbar-tabs">
+    <Tabs defaultIndex="0" className="navbar-tabs">
       <TabList>
         <Tab>1</Tab>
         <Tab>2</Tab>

@@ -11,13 +11,26 @@ li.react-tabs__tab {
   border-bottom: none;
   bottom: 10px;
   cursor: pointer;
+  background: whitesmoke;
+}
+
+.react-tabs__tab-panel {
+  transition: background 0.2s ease;
+  padding: 20px;
+}
+
+.react-tabs__tab:hover {
+  background: var(--gradient1);
+  transition: background 0.2s ease;
+}
+
+li.react-tabs__tab--selected:hover {
+  cursor: auto;
 }
 
 li.react-tabs__tab--selected, .react-tabs__tab-panel {
   border: 1px solid transparent;
-  background-color: var(--gradient1);
+  background: var(--gradient1);
+  transition: background 0.2s ease;
 }
 
-.react-tabs__tab-panel {
-  padding: 20px;
-}
