@@ -1,33 +1,28 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Table from '../Table/Table';
-// import { fetchToken } from '../../util/actions';
-// import { connect } from 'react-redux';
-import { 
-  Button
-} from 'reactstrap';
 import Errors from '../Errors/Errors';
+import './Login.css';
 
 export default function Login(props) {
-  let token, errors = null;
+  const client_id = "dj0yJmk9ZnBhT05mU3JBYnJDJmQ9WVdrOWJrWjBXRlpSYlVNbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTAz"
+  let errors = null;
   let login = props.setLoggedIn;
-  let yahooLoginUrl;
-  if (props.oauthData) {
-    yahooLoginUrl = "https://api.login.yahoo.com/oauth2/request_auth" +
-      "?client_id=" + props.oauthData.client_id + 
-      "&redirect_uri=" + props.oauthData.redirect_uri + 
-      "&response_type=code&language=en-us&state=" + props.oauthData.state;
-  }
+  let yahooLoginUrl = "https://api.login.yahoo.com/oauth2/request_auth?client_id=" + client_id + 
+      "&redirect_uri=https://slowdraft.herokuapp.com/login&response_type=code&language=en-us"
 
   const oauthLogin = () => {
-    fetch('/login', {
-      method: 'GET',
-    })
-    .then(results => results.json())
-    .then(login)
+    if (props.oauthData) {
+      fetch('/login' + props.code, {
+        method: 'GET',
+      })
+      .then(results => results.json())
+      .then(login)
+    }
   }
 
   if (props.code) {
+    console.log("props.code: " + props.code);
     oauthLogin();
   }
 
@@ -37,7 +32,7 @@ export default function Login(props) {
   //   message: "Unable to get access token."
   // }
 
-  return(
+  return (
     <div className="App">
       {props.loggedIn === false && (
         <div className="login-container">
@@ -51,13 +46,10 @@ export default function Login(props) {
               />
             )}
             <div className="connect-to-yahoo">
-              <Button
-                className="connect-button" 
-                onClick={oauthLogin}
-              >
+              <a href={yahooLoginUrl}>
                 Sign in with &nbsp;
                 <img alt="Yahoo" src="yahoo.png" width="57" height="16" />
-              </Button>
+              </a>
             </div>
           </div>	
       )}
