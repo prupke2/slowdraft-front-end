@@ -1,0 +1,13 @@
+.connect-to-yahoo a {
+  border: 2px solid black;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: oldlace;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.connect-to-yahoo a:hover {
+  background-color: var(--gradient1);
+}
