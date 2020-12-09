@@ -1,28 +1,31 @@
 import React from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Table from '../Table/Table';
 import Errors from '../Errors/Errors';
 import './Login.css';
+import { setCookie } from '../../assets/Cookies';
+import 'axios';
 
-export default function Login(props) {
+export default function Login({ code }) {
   const client_id = "dj0yJmk9ZnBhT05mU3JBYnJDJmQ9WVdrOWJrWjBXRlpSYlVNbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTAz"
   let errors = null;
-  let login = props.setLoggedIn;
   let yahooLoginUrl = "https://api.login.yahoo.com/oauth2/request_auth?client_id=" + client_id + 
-      "&redirect_uri=https://slowdraft.herokuapp.com/login&response_type=code&language=en-us"
+      "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
+      // "&redirect_uri=oob&response_type=code&language=en-us" // for local testing
 
-  const oauthLogin = () => {
-    if (props.oauthData) {
-      fetch('/login' + props.code, {
-        method: 'GET',
-      })
-      .then(results => results.json())
-      .then(login)
-    }
+  function oauthLogin() {
+    fetch(`/login/${code}`, {
+      method: 'GET',
+    })
+    .then(results => results.json())
+    .then(data => {
+      console.log(data);
+      setCookie('access_token', data.access_token);
+      setCookie('refresh_token', data.refresh_token);
+      window.history.replaceState({}, document.title, "/");
+    });
   }
 
-  if (props.code) {
-    console.log("props.code: " + props.code);
+  if (code) {
     oauthLogin();
   }
 
@@ -34,47 +37,23 @@ export default function Login(props) {
 
   return (
     <div className="App">
-      {props.loggedIn === false && (
-        <div className="login-container">
-          <h1>Slow<span>Draft</span></h1>
-          <p>Fantasy hockey drafting at your own pace</p>
-          <p>Currently by invitation only</p>
-            { errors != null && (
-              <Errors
-                code={errors.code}
-                message={errors.message}
-              />
-            )}
-            <div className="connect-to-yahoo">
-              <a href={yahooLoginUrl}>
-                Sign in with &nbsp;
-                <img alt="Yahoo" src="yahoo.png" width="57" height="16" />
-              </a>
-            </div>
-          </div>	
-      )}
-
-      {props.loggedIn === true && (
-
-        <Tabs className="navbar-tabs">
-          <TabList>
-              <Tab>1</Tab>
-              <Tab>2</Tab>
-              <Tab>3</Tab>
-          </TabList>
-          <TabPanel>
-            <h2>tab 1 content</h2>
-            <Table />
-          </TabPanel>
-          <TabPanel>
-            <h2>tab 2 content</h2>
-          </TabPanel>
-          <TabPanel>
-            <h2>tab 3 content</h2>
-          </TabPanel>
-        </Tabs>
-
-      )}
+      <div className="login-container">
+        <h1>Slow<span>Draft</span></h1>
+        <p>Fantasy hockey drafting at your own pace</p>
+        <p>Currently by invitation only</p>
+          { errors != null && (
+            <Errors
+              code={errors.code}
+              message={errors.message}
+            />
+          )}
+        <div className="connect-to-yahoo">
+          <a href={yahooLoginUrl}>
+            Sign in with &nbsp;
+            <img alt="Yahoo" src="yahoo.png" width="57" height="16" />
+          </a>
+        </div>
+      </div>	
     </div>
   );
 }
