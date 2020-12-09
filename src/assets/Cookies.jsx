@@ -2,7 +2,7 @@
 export const setCookie = (string, value) => {
   const expiry = new Date(); 
   expiry.setDate(expiry.getDate() + 90)
-  document.cookie = string + "=" + value + "; expires=" + expiry
+  document.cookie = string + "=" + value + "; expires=" + expiry + "; SameSite=Lax;"
 }
 
 export const getCookie = (cookieName) => {
@@ -19,4 +19,8 @@ export const getCookie = (cookieName) => {
     }
   }
   return "";
+}
+
+export const deleteCookie = (cookieName) => {
+  document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
