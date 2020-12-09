@@ -6,16 +6,16 @@ export default function Table() {
   const data = React.useMemo(
     () => [
       {
-        col1: 'Hello',
-        col2: 'World',
+        player: 'Crosby',
+        stat: '10',
       },
       {
-        col1: 'react-table',
-        col2: 'rocks',
+        player: 'Ovechkin',
+        stat: '7',
       },
       {
-        col1: 'whatever',
-        col2: 'you want',
+        player: 'Kane',
+        stat: '4',
       },
     ],
     []
@@ -24,12 +24,12 @@ export default function Table() {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Column 1',
-        accessor: 'col1', // accessor is the "key" in the data
+        Header: 'Players',
+        accessor: 'player', // accessor is the "key" in the data
       },
       {
-        Header: 'Column 2',
-        accessor: 'col2',
+        Header: 'Stats',
+        accessor: 'stat',
       },
     ],
     []

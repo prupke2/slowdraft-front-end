@@ -1,48 +1,45 @@
-import React, { useState } from 'react';
-import Navbar from './components/Navbar/Navbar';
+import React, { useEffect } from 'react';
 import Login from './components/Login/Login';
 import qs from 'query-string';
 import './App.css';
 import Aux from './hoc/Aux';
-import { getCookie } from './assets/Cookies';
+import { getCookie, deleteCookie } from './assets/Cookies';
+import AppWrapper from './components/AppWrapper/AppWrapper';
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  // const [oauthData, setOauthData] = useState(null);
+  // const [loggedIn, setLoggedIn] = useState(false);
   const queryParams = qs.parse(window.location.search);
+  const code = queryParams["code"];
+  let yahooSession = true;
+  // let yahooSession = getCookie('access_token') ? true : false;
+  console.log("yahooSession: " + yahooSession);
 
-  // function getOauthData() {
-  //   fetch('/oauth_data', {
-  //     method: 'GET',
-  //   })
-  //   .then(response => {
-  //     console.log("response: " + JSON.stringify(response, null, 4))
-  //     return response.json()
-  //   })
-  //   .then(response => {
-  //     setOauthData(response)
-  //     console.log("response 2: " + JSON.stringify(response, null, 4))
-  //     return
-  //   })
-  //   .then(log => {
-  //     console.log("oauthData: " + oauthData);
-  //   })
-  // }
+  useEffect(() => {
+    if (yahooSession) {
+      window.history.replaceState({}, document.title, "/");
+    } 
+  }, [yahooSession]);
+  
+  function logout() { 
+    deleteCookie("access_token");
+    yahooSession = false;
+  }
 
-  const code = getCookie('access_token') || queryParams["code"];
-
+  console.log("yahoo: " + yahooSession);
   return (
     <Aux>
-      { !loggedIn && (
+      { !yahooSession && (
         <Login 
-          loggedIn={loggedIn}
-          login={setLoggedIn}
           code={code}
-        />
-      )}
+          />
+        )}
 
-      { loggedIn && (
-        <Navbar />
+      { yahooSession && (
+        <React.Fragment>
+          <AppWrapper
+          />
+          <button onClick={logout}>Logout</button>
+        </React.Fragment>
       )}
     </Aux>
   );
