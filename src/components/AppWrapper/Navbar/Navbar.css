@@ -34,3 +34,20 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
   transition: background 0.2s ease;
 }
 
+.navbar-tabs {
+  padding: 20px 0 10px 0;
+  font-size: 2rem;
+}
+
+.react-tabs__tab--selected {
+  font-weight: bold;
+  position: fixed;
+  /* top: 75px; */
+}
+
+.navbar-tabs > div {
+  position: relative;
+  width: 100vw;
+  top: -10px;
+  /* overflow-y: scroll; */
+}

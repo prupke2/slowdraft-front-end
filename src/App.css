@@ -60,11 +60,12 @@ h1 {
 
 h2 {
   background-color: transparent;
+  border-radius: 8px 8px 0 0;
   font-size: 1.7rem;
   color: var(--header-text);
   margin: 0 auto;
   text-align: center;
-  padding: 25px 5px;
+  padding: 5px 5px;
 }
 
 h3 {
@@ -109,18 +110,20 @@ h3 {
   color: white;
 }
 
-.navbar-tabs {
-  padding: 20px 0 10px 0;
-  font-size: 2rem;
+#logout {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99;
 }
 
-.react-tabs__tab--selected {
-  font-weight: bold;
+.button {
+  border-radius: 4px;
+  border: 1px solid var(--button);
+  color: white;
+  background: var(--gradient1);
 }
 
-.navbar-tabs > div {
-  position: relative;
-  width: 100vw;
-  top: -10px;
-  overflow-y: scroll;
+.button:hover {
+  background: var(--gradient3);
 }
