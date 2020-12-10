@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Login from './components/Login/Login';
 import qs from 'query-string';
-import './App.css';
 import Aux from './hoc/Aux';
 import AppWrapper from './components/AppWrapper/AppWrapper';
+import './App.css';
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -41,7 +41,7 @@ export default function App() {
         <React.Fragment>
           <AppWrapper
           />
-          <button onClick={logout}>Logout</button>
+          <button class="button" id="logout" onClick={logout}>Logout</button>
         </React.Fragment>
       )}
     </Aux>
