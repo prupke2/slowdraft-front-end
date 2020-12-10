@@ -6,13 +6,25 @@ import AppWrapper from './components/AppWrapper/AppWrapper';
 import './App.css';
 
 export default function App() {
+
   const [loggedIn, setLoggedIn] = useState(false);
+  const [pub, setPub] = useState("");
+  const [sub, setSub] = useState("");
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
+
+  // const publishKey = (pub) => {
+  //   setPub(pub);
+  // };
+  // const subscribeKey = (sub) => {
+  //   setSub(sub);
+  // };
 
   useEffect(() => {
     fetch('/check_login').then(res => res.json()).then(data => {
       if (data.success === true) {
+        setPub(data.pub);
+        setSub(data.sub);
         window.history.replaceState({}, document.title, "/");
         setLoggedIn(true);
       } else {
@@ -37,13 +49,15 @@ export default function App() {
           />
         )}
 
-      { loggedIn && (
-        <React.Fragment>
-          <AppWrapper
-          />
-          <button class="button" id="logout" onClick={logout}>Logout</button>
-        </React.Fragment>
+      { (loggedIn && pub !== "") && (
+        <AppWrapper
+          logout={logout}
+          pub={pub}
+          sub={sub}
+        />
       )}
     </Aux>
   );
 }
+
+

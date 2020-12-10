@@ -4,7 +4,7 @@
 
 .react-tabs__tab-panel--selected {
   margin-top: -50px;
-  position: fixed;
+  position: fixed !important;
   top: 80px;
   min-height: calc(100vh - 80px);
 }
