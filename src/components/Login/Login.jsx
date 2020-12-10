@@ -1,16 +1,13 @@
 import React from 'react';
-import Table from '../Table/Table';
 import Errors from '../Errors/Errors';
 import './Login.css';
-import { setCookie } from '../../assets/Cookies';
-import 'axios';
 
-export default function Login({ code }) {
+export default function Login({ code, login }) {
   const client_id = "dj0yJmk9ZnBhT05mU3JBYnJDJmQ9WVdrOWJrWjBXRlpSYlVNbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTAz"
   let errors = null;
   let yahooLoginUrl = "https://api.login.yahoo.com/oauth2/request_auth?client_id=" + client_id + 
       "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
-      // "&redirect_uri=oob&response_type=code&language=en-us" // for local testing
+      // "&redirect_uri=oob&response_type=code&language=en-us" // for testing login locally
 
   function oauthLogin() {
     fetch(`/login/${code}`, {
@@ -18,22 +15,18 @@ export default function Login({ code }) {
     })
     .then(results => results.json())
     .then(data => {
-      console.log(data);
-      setCookie('access_token', data.access_token);
-      setCookie('refresh_token', data.refresh_token);
-      window.history.replaceState({}, document.title, "/");
-    });
+      if (data.access_token && data.refresh_token) {
+        window.history.replaceState({}, document.title, "/");
+        login(true);
+      } else {
+        login(false);
+      }
+    })
   }
 
   if (code) {
     oauthLogin();
   }
-
-  // TODO: add test for error code handler
-  // errors = {
-  //   code: 400,
-  //   message: "Unable to get access token."
-  // }
 
   return (
     <div className="App">

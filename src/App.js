@@ -1,40 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Login from './components/Login/Login';
 import qs from 'query-string';
 import './App.css';
 import Aux from './hoc/Aux';
-import { getCookie, deleteCookie } from './assets/Cookies';
 import AppWrapper from './components/AppWrapper/AppWrapper';
 
 export default function App() {
-  // const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
-  let yahooSession = true;
-  // let yahooSession = getCookie('access_token') ? true : false;
-  console.log("yahooSession: " + yahooSession);
 
   useEffect(() => {
-    if (yahooSession) {
-      window.history.replaceState({}, document.title, "/");
-    } 
-  }, [yahooSession]);
+    fetch('/check_login').then(res => res.json()).then(data => {
+      if (data.success === true) {
+        window.history.replaceState({}, document.title, "/");
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    });
+  }, []);
   
-  function logout() { 
-    deleteCookie("access_token");
-    yahooSession = false;
+  function logout() {
+    fetch('/logout').then(res => res.json()).then(data => {
+      console.log(data.success);
+      setLoggedIn(false);
+    });
   }
 
-  console.log("yahoo: " + yahooSession);
   return (
     <Aux>
-      { !yahooSession && (
+      { !loggedIn && (
         <Login 
           code={code}
+          login={setLoggedIn}
           />
         )}
 
-      { yahooSession && (
+      { loggedIn && (
         <React.Fragment>
           <AppWrapper
           />
