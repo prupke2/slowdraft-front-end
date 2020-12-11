@@ -1,0 +1,54 @@
+
+#chatbox {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  margin: 0 0 0 10px;
+  padding: 10px;
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  border-radius: 4px 0 0 0;
+  height: calc(100vh - 50px);
+  width: 250px;
+  background-color: whitesmoke;
+}
+
+#chat-messages {
+  position: fixed;
+  display: flex;
+  justify-content: left;
+  top: 50px;
+  right: 0;
+  width: 245px;
+  height: calc(100vh - 110px);
+  padding: 5px;
+  margin: 2px;
+  word-wrap: break-word;
+  overflow: scroll;
+}
+
+.user {
+  color: blue;
+  font-weight: bold;
+  font-size: 0.6rem;
+}
+
+.message {
+  word-break: break-all;
+  word-break: break-word;
+  font-size: 0.8rem;
+}
+
+#messageInput {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 230px;
+  padding: 5px;
+}
+
+#send-message-button {
+  position: fixed;
+  right: -200px;
+  /* display: none; */
+}
