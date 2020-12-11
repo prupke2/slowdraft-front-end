@@ -13,13 +13,6 @@ export default function App() {
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
 
-  // const publishKey = (pub) => {
-  //   setPub(pub);
-  // };
-  // const subscribeKey = (sub) => {
-  //   setSub(sub);
-  // };
-
   useEffect(() => {
     fetch('/check_login').then(res => res.json()).then(data => {
       if (data.success === true) {

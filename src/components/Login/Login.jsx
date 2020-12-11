@@ -3,7 +3,7 @@ import Errors from '../Errors/Errors';
 import './Login.css';
 
 export default function Login({ code, login }) {
-  const client_id = "dj0yJmk9ZnBhT05mU3JBYnJDJmQ9WVdrOWJrWjBXRlpSYlVNbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTAz"
+  const client_id = "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
   let errors = null;
   let yahooLoginUrl = "https://api.login.yahoo.com/oauth2/request_auth?client_id=" + client_id + 
       "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
