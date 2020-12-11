@@ -1,0 +1,18 @@
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--main-dark);
+  transition: background 0.15s ease;
+  height: 100vh;
+  width: 100vw;
+  color: whitesmoke;
+  padding-bottom: 20vh;
+}
+
+.loading-gif {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
