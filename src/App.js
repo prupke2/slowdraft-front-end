@@ -12,6 +12,7 @@ export default function App() {
   // pub and sub (publish/subscribe) states are used for the chat backend
   const [pub, setPub] = useState(""); 
   const [sub, setSub] = useState("");
+  const [error, setError] = useState("");
   const [loadingText, setLoadingText] = useState("Loading...");
   const [isLoading, setIsLoading] = useState(true);
   const queryParams = qs.parse(window.location.search);
@@ -24,22 +25,28 @@ export default function App() {
     // This is called when the user goes to the site for the first time.
     // If they already have a login session stored, they are logged in.
     if (typeof(code) === "undefined") {
-      console.log("fetching check_login");
-      fetch('/check_login')
-        .then(res => res.json())
-        .then(data => {
-          if (data.success === true) {
-            setPub(data.pub);
-            setSub(data.sub);
-            window.history.replaceState({}, document.title, "/");
-            setLoggedIn(true);
-          } else {
-            setLoggedIn(false);
+      try {
+        console.log("fetching check_login");
+        fetch('/check_login')
+          .then(res => res.json())
+          .then(data => {
+            if (data.success === true) {
+              setPub(data.pub);
+              setSub(data.sub);
+              window.history.replaceState({}, document.title, "/");
+              setLoggedIn(true);
+            } else {
+              setLoggedIn(false);
+            }
+            console.log("setting isLoading to false");
+            setIsLoading(false)
           }
-          console.log("setting isLoading to false");
-          setIsLoading(false)
-        }
-      );
+        );
+      } catch(error) {
+        console.log("Error in App useEffect")
+        setError("Unable to reach Yahoo. " + error)
+        setIsLoading(false);
+      }
     } else {
       setIsLoading(false);
     }
@@ -56,11 +63,13 @@ export default function App() {
 
   return (
     <Aux>
+      { error && (
+        <div>{error}</div>
+      )}
       { isLoading && (
         <Loading 
           text={loadingText}
         />
-          
         )
       }
       { (!isLoading && !loggedIn) && (
@@ -73,7 +82,7 @@ export default function App() {
           setLoadingText={setLoadingText}
         />
       )}
-      { (!isLoading && loggedIn) && (
+      { loggedIn && (
         <AppWrapper
           logout={logout}
           pub={pub}
