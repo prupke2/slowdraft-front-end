@@ -9,52 +9,34 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading 
       "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
       // "&redirect_uri=oob&response_type=code&language=en-us" // for testing login locally
 
-  function loginUser() {
-    setIsLoading(true);
-    console.log("fetching /login/code");
-    fetch(`/login/${code}`)
-      .then(res => res.json())
-      .then(data => {
-        // return data;
-        window.history.replaceState({}, document.title, "/");
-        if (data.access_token && data.refresh_token) {
-          console.log("setting loggedIn to true");
-          setPub(data.pub);
-          setSub(data.sub);
-          setLoggedIn(true);
-        } else {
-          setLoggedIn(false);
-        }
-      }
-      ).then(
-        setIsLoading(false)
-      );
-  }
-
   useEffect(() => {
     console.log("in Login useEffect");
+    function loginUser() {
+      setIsLoading(true);
+      console.log("fetching /login/code");
+      fetch(`/login/${code}`)
+        .then(res => res.json())
+        .then(data => {
+          window.history.replaceState({}, document.title, "/");
+          if (data.access_token && data.refresh_token) {
+            console.log("setting loggedIn to true");
+            setPub(data.pub);
+            setSub(data.sub);
+            setLoggedIn(true);
+          } else {
+            setLoggedIn(false);
+          }
+        })
+        .then(
+          setIsLoading(false)
+        );
+    }
     if (typeof(code) !== "undefined") {
       console.log("Code is " + code + ", setting loading to true");
       setIsLoading(true);
       loginUser();
     }
-    // const fetchData = async () => {
-    //   console.log("data before: " + JSON.stringify(data, null, 4));
-
-    //   const data = await loginUser();
-    //   // if (data !== '') {
-    //     console.log("data after: " + JSON.stringify(data, null, 4));
-    //     window.history.replaceState({}, document.title, "/");
-    //     if (data.access_token && data.refresh_token) {
-    //       console.log("setting loggedIn to true");
-    //       login(true);
-    //     } else {
-    //       login(false);
-    //     }
-    //   // }
-    // }
-    // fetchData();
-  }, [code]);
+  });
 
   return (
     <div className="App">
