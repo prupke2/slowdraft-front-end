@@ -2,15 +2,10 @@ import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './Navbar.css';
 import Aux from '../../../hoc/Aux';
-import Table from '../../Table/Table';
+import PlayersTab from '../Tabs/PlayersTab/PlayersTab';
+import TeamTab from '../Tabs/TeamTab/TeamTab';
 
 export default function Navbar({logout}) {
-  function test() {
-    fetch('/get_league').then(res => res.json()).then(data => {
-      console.log("test data: " + JSON.stringify(data, null, 4));
-      return "Got 'em"
-    });
-  }
   // useEffect example
   // useEffect(() => {
   //   fetch('/test').then(res => res.json()).then(data => {
@@ -20,19 +15,17 @@ export default function Navbar({logout}) {
 
   return (
     <Aux>
-      <Tabs defaultIndex={0} className="navbar-tabs">
+      <Tabs defaultIndex={1} className="navbar-tabs">
         <TabList>
-          <Tab>1</Tab>
-          <Tab>2</Tab>
-          <Tab>3</Tab>
+          <Tab>Players</Tab>
+          <Tab>Team</Tab>
+          <Tab>Forum</Tab>
         </TabList>
         <TabPanel>
-          <h2>tab 1 content</h2>
-          <button onClick={test}>test</button>
+          <PlayersTab />
         </TabPanel>
         <TabPanel>
-          <h2>tab 2 content</h2>
-          <Table />
+          <TeamTab />
         </TabPanel>
         <TabPanel>
           <h2>tab 3 content</h2>
