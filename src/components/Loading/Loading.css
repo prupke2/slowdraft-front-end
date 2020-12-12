@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: var(--main-dark);
+  background: transparent;
   transition: background 0.15s ease;
   height: 100vh;
   width: 100vw;

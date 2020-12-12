@@ -2,34 +2,30 @@ import React from 'react';
 import { useTable } from 'react-table';
 import './Table.css';
 
-export default function Table() {
+export default function Table({players}) {
+
   const data = React.useMemo(
-    () => [
-      {
-        player: 'Crosby',
-        stat: '10',
-      },
-      {
-        player: 'Ovechkin',
-        stat: '7',
-      },
-      {
-        player: 'Kane',
-        stat: '4',
-      },
-    ],
-    []
+    () => players, [players]
   )
 
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Players',
-        accessor: 'player', // accessor is the "key" in the data
+        Header: 'Name',
+        accessor: 'name', // accessor is the "key" in the data
       },
       {
-        Header: 'Stats',
-        accessor: 'stat',
+        Header: 'Team',
+        accessor: 'team',
+      },
+      {
+        Header: 'Player ID',
+        accessor: 'player_id',
+        hidden: true
+      },
+      {
+        Header: 'Position',
+        accessor: 'position.position',
       },
     ],
     []
@@ -41,7 +37,7 @@ export default function Table() {
     rows,
     prepareRow,
   } = useTable({ columns, data })
-
+  
   return (
     <table {...getTableProps()}>
       <thead>
@@ -51,7 +47,8 @@ export default function Table() {
               <th
                 {...column.getHeaderProps()}
               >
-                {column.render('Header')}
+                { column.render('Header') }
+
               </th>
             ))}
           </tr>
@@ -63,13 +60,33 @@ export default function Table() {
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
-                return (
-                  <td
+                if (cell.column.Header === 'Position') {
+                  return (
+                    <td className={cell.column.Header}
                     {...cell.getCellProps()}
-                  >
-                    {cell.render('Cell')}
-                  </td>
-                )
+                    >
+                      {cell.render(({ value }) => String(value + ', ').substring(0, (String(value).length)))}
+                    </td>                    
+                  )
+                } else if (cell.column.Header === 'Name') {
+                  return (
+                    <td className="player-name"
+                    {...cell.getCellProps()}
+                    >
+                      <a href={`https://sports.yahoo.com/nhl/players/${cell.column.Header}`}>
+                        {cell.render('Cell')}
+                      </a>
+                    </td>                    
+                  )
+                } else {
+                  return (
+                    <td className={cell.column.Header}
+                    {...cell.getCellProps()}
+                    >
+                      {cell.render('Cell')}
+                    </td>
+                  )
+                }
               })}
             </tr>
           )
