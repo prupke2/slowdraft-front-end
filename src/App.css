@@ -24,7 +24,7 @@
 /* 🎨 colors: #ffffff | #1b2733 | #637282 | #AB24A1 */
 
 main {
-  display: grid;
+  display: flex;
   height: 100vh;
   overflow-y: scroll;
   max-height: 95%;
@@ -36,11 +36,20 @@ main {
   text-align: center;
   font-family: 'Karla', 'Rubik', sans-serif;
   /* position: relative; */
-  min-width: 300px;
-  margin: 0 auto;
+  margin: 0;
+  width: 80vw;
+  /* padding-right: 22vw; */
+  min-width: 500px;
+  /* margin: 0 auto; */
   padding: 0;
 
   /* font-family: 'Rubik', sans-serif; */
+}
+
+@media (max-width: 700px) {
+  main {
+    width: calc(100vw - 250px);
+  }
 }
 
 ul {
@@ -97,4 +106,8 @@ button {
 
 .button:hover {
   background: var(--gradient3);
+}
+
+.hidden {
+  display: none;
 }

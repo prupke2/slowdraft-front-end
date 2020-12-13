@@ -1,15 +1,18 @@
 
 #chatbox {
   position: fixed;
-  top: 50px;
+  display: flex;
+  justify-content: left;
+  top: 45px;
   right: 0;
   margin: 0 0 0 10px;
   padding: 10px;
   border-left: 2px solid black;
   border-top: 2px solid black;
   border-radius: 4px 0 0 0;
-  height: calc(100vh - 50px);
-  width: 250px;
+  height: calc(100vh - 45px);
+  width: 20vw;
+  min-width: 250px;
   background-color: whitesmoke;
 }
 
@@ -17,14 +20,21 @@
   position: fixed;
   display: flex;
   justify-content: left;
-  top: 50px;
+  text-align: left;
+  top: 70px;
   right: 0;
-  width: 245px;
+  width: 19vw;
+  min-width: 245px;
   height: calc(100vh - 110px);
   padding: 5px;
   margin: 2px;
   word-wrap: break-word;
   overflow: scroll;
+}
+
+#chat-title {
+  position: relative;
+  bottom: 45px;
 }
 
 .user {
@@ -43,7 +53,8 @@
   position: fixed;
   bottom: 10px;
   right: 10px;
-  width: 230px;
+  width: 18.5vw;
+  min-width: 230px;
   padding: 5px;
 }
 
