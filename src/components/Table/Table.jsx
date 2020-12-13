@@ -1,14 +1,74 @@
 import React from "react";
 import ReactHtmlParser from 'react-html-parser';
-import { useTable, usePagination } from 'react-table'
+import { useTable, useFilters, useSortBy, usePagination } from 'react-table';
+import { matchSorter } from 'match-sorter';
 import './Table.css';
 
-export default function Table({ columns, data, tableState }) {
+export default function Table({ columns, data, defaultColumnFilter, tableState }) {
+
+  const filterTypes = React.useMemo(
+    () => ({
+      // Add a new fuzzyTextFilterFn filter type.
+      fuzzyText: fuzzyTextFilterFn,
+      // Or, override the default text filter to use
+      // "startWith"
+      text: (rows, id, filterValue) => {
+        return rows.filter(row => {
+          const rowValue = row.values[id]
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true
+        })
+      },
+    }),
+    []
+  )
+
+
+  function fuzzyTextFilterFn(rows, id, filterValue) {
+    return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
+  }
 
   function expandPost(id) {
     const bodyId = document.getElementById('body-' + id);
     bodyId.classList.toggle('hidden');
   }
+
+  // This is a custom filter UI for selecting
+  // a unique option from a list
+  function SelectColumnFilter({
+    column: { filterValue, setFilter, preFilteredRows, id },
+  }) {
+    // Calculate the options for filtering
+    // using the preFilteredRows
+    const options = React.useMemo(() => {
+      const options = new Set()
+      preFilteredRows.forEach(row => {
+        options.add(row.values[id])
+      })
+      return [...options.values()]
+    }, [id, preFilteredRows])
+
+    // Render a multi-select box
+    return (
+      <select
+        value={filterValue}
+        onChange={e => {
+          setFilter(e.target.value || undefined)
+        }}
+      >
+        <option value="">All</option>
+        {options.map((option, i) => (
+          <option key={i} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    )
+  }
+
   tableState = {...tableState, pageIndex: 0, pageSize: 10}
   const {
       getTableProps,
@@ -23,15 +83,22 @@ export default function Table({ columns, data, tableState }) {
       gotoPage,
       nextPage,
       previousPage,
-      setPageSize,
-      state: { pageIndex, pageSize },
+      // setPageSize,
+      state: { 
+        pageIndex, 
+        // pageSize 
+      },
   } = useTable(
       {
         columns,
         data,
+        defaultColumnFilter,
+        filterTypes,
         initialState: tableState,
       },
-      usePagination
+      useFilters,
+      useSortBy,
+      usePagination,
   )
 
   return (
@@ -46,7 +113,20 @@ export default function Table({ columns, data, tableState }) {
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                <th>
+                  <span {...column.getHeaderProps(column.getSortByToggleProps())} >
+                    {column.render('Header')}
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                        ? ' ▼'
+                        : ' ▲'
+                      : ''}
+                    </span>
+                  </span>
+                  <div>{column.canFilter ? column.render('Filter') : null}</div>
+                  
+                </th>
               ))}
             </tr>
           ))}
@@ -87,7 +167,7 @@ export default function Table({ columns, data, tableState }) {
                       >
                         <strong>
                           {cell.render('Cell')} a
-                        </strong>⤵
+                        </strong>
                         <div id={`body-${cell.row.id}`} className='hidden'>
                           {ReactHtmlParser(cell.row.original.body)}
                         </div>
@@ -149,7 +229,7 @@ export default function Table({ columns, data, tableState }) {
             />
           </span>
         </li>{' '}
-        <select
+        {/* <select
             className="form-control"
             value={pageSize}
             onChange={e => {
@@ -162,7 +242,7 @@ export default function Table({ columns, data, tableState }) {
                     Show {pageSize}
                 </option>
             ))}
-        </select>
+        </select> */}
       </ul>
     </div >
   )
