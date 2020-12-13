@@ -128,15 +128,15 @@ export default function Table({ columns, data, tableState }) {
         </li>
 
         <li className="pagination-goto-page">
-          <a className="page-link">
+          <span className="page-link">
             Page&nbsp;
             <div className="page-of-page">
               <strong>
                   {pageIndex + 1} of {pageOptions.length}
               </strong>{' '}
             </div>
-          </a>
-          <a className="page-link">
+          </span>
+          <span className="page-link">
             <div>Go&nbsp;to:</div>
             <input
               type="number"
@@ -147,7 +147,7 @@ export default function Table({ columns, data, tableState }) {
               }}
               style={{ width: '40px', height: '22px' }}
             />
-          </a>
+          </span>
         </li>{' '}
         <select
             className="form-control"

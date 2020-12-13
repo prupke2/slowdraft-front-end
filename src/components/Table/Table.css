@@ -80,6 +80,7 @@ table tr:last-child td {
 
 .page-link {
   display: flex;
+  color: black;
 }
 
 .page-of-page {
