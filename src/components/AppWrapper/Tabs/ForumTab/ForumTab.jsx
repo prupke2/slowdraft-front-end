@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 // import Table from '../../../Table/Table';
 import Table from '../../../Table/Table';
 // import { getLeague } from '../../../../api/yahooApi';
+import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 
 export default function ForumTab() {
   const empty = {"": ""};
@@ -10,10 +11,12 @@ export default function ForumTab() {
     {
       Header: 'Post Title',
       accessor: 'title',
+      Filter: SearchColumnFilter,
     },
     {
       Header: 'User',
       accessor: 'user',
+      Filter: SearchColumnFilter,
     },
     {
       Header: 'Body',
@@ -23,6 +26,7 @@ export default function ForumTab() {
     {
       Header: 'Date Posted',
       accessor: 'create_date',
+      Filter: SearchColumnFilter,
     },
   ]
   const tableState = { 
@@ -47,6 +51,7 @@ export default function ForumTab() {
         data={posts}
         columns={columns}
         tableState={tableState}
+        defaultColumn='create_date'
       />
       {/* <button onClick={}>test</button> */}
     </React.Fragment>

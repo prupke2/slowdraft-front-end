@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import Loading from '../../../Loading/Loading';
 import Table from '../../../Table/Table';
+import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 
 
 export default function TeamTab() {
@@ -10,11 +11,14 @@ export default function TeamTab() {
   const columns = [
     {
       Header: 'Name',
-      accessor: 'name', // accessor is the "key" in the data
+      accessor: 'name', 
+      Filter: SearchColumnFilter,
+
     },
     {
       Header: 'Team',
       accessor: 'team',
+      Filter: SearchColumnFilter,
     },
     {
       Header: 'Player ID',
@@ -24,6 +28,7 @@ export default function TeamTab() {
     {
       Header: 'Position',
       accessor: 'position.position',
+      Filter: SearchColumnFilter,
     },
   ]
   const tableState = { 
@@ -57,9 +62,10 @@ export default function TeamTab() {
       <React.Fragment>
       { players !== empty && (
         <Table
-          data = {players}
-          columns = {columns}
-          tableState = {tableState}
+          data={players}
+          columns={columns}
+          tableState={tableState}
+          defaultColumn='player_id'
         />
       )}        
     </React.Fragment>
