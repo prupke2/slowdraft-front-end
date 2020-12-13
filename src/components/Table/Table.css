@@ -52,9 +52,10 @@ table tr:last-child td {
 .pagination {
   display: flex;
   justify-content: space-between;
-  width: 99%;
+  width: 97.5%;
   min-width: 550px;
-  padding: 1rem;
+  padding: 0;
+  margin: 0;
 }
 
 .pagination-arrows {
