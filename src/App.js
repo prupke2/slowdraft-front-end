@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Login from './components/Login/Login';
 import qs from 'query-string';
-import Aux from './hoc/Aux';
 import AppWrapper from './components/AppWrapper/AppWrapper';
 import Loading from './components/Loading/Loading';
 import './App.css';
@@ -62,7 +61,7 @@ export default function App() {
   }
 
   return (
-    <Aux>
+    <main>
       { error && (
         <div>{error}</div>
       )}
@@ -90,7 +89,7 @@ export default function App() {
           setLoadingText={setLoadingText}
         />
       )}
-    </Aux>
+    </main>
   );
 }
 

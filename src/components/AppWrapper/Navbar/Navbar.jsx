@@ -4,6 +4,7 @@ import './Navbar.css';
 import Aux from '../../../hoc/Aux';
 import PlayersTab from '../Tabs/PlayersTab/PlayersTab';
 import TeamTab from '../Tabs/TeamTab/TeamTab';
+import ForumTab from '../Tabs/ForumTab/ForumTab';
 
 export default function Navbar({logout}) {
   // useEffect example
@@ -28,7 +29,7 @@ export default function Navbar({logout}) {
           <TeamTab />
         </TabPanel>
         <TabPanel>
-          <h2>tab 3 content</h2>
+          <ForumTab />
         </TabPanel>
       </Tabs>
       <button id='logout' onClick={logout}>Logout</button>

@@ -100,6 +100,7 @@ export default function Chat({pub, sub}) {
     <React.Fragment>
       { (pub !== '' && sub !== '') && (
         <aside id="chatbox">
+          <h3 id="chat-title">League Chat</h3>
           <MessageLog
             messages={messages}
           />
