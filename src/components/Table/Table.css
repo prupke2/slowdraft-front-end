@@ -1,10 +1,26 @@
 table {
   border-spacing: 0;
-  border: 2px solid black;
+  text-align: left;
   border-radius: 4px;
-  margin: 10px auto;
+  padding: 0; 
   font-size: 0.9rem;
+  margin: 0;
+  width: 100vw;
+  padding-right: 22vw;
+  /* max-width: calc(100vw - 250px); */
 }
+
+thead, tbody {
+  max-width: 100%;
+}
+
+/* .tableWrap {
+  display: block;
+  max-width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  border-bottom: 1px solid black;
+} */
 
 tr:nth-child(odd) {
   background-color: rgba(164, 189, 205, 0.7);
@@ -18,10 +34,6 @@ tr:hover {
   background-color: rgb(166, 220, 250);
 }
 
-table tr:last-child td {
-  border-bottom: 0;
-}
-
 th, td {
   margin: 0;
   padding: 0.5rem;
@@ -33,6 +45,60 @@ td:last-child, th:last-child {
   border-right: 0;
 }
 
+table tr:last-child td {
+  border-bottom: 0;
+}
+
 .pagination {
-  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  width: 99%;
+  min-width: 550px;
+  padding: 1rem;
+}
+
+.pagination-arrows {
+  display: flex;
+  color: black !important;
+}
+
+.pagination-arrows span {
+  color: #000 !important;
+}
+
+.pagination li, .pagination select {
+  height: 33px;
+  width: 250px;
+}
+
+.pagination li.pagination-goto-page {
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+  border-radius: 4px;
+}
+
+.page-link {
+  display: flex;
+}
+
+.page-of-page {
+  width: 70px;
+}
+
+.pagination-goto-page a {
+  width: 200px;
+}
+
+.pagination-goto-page .page-link:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.pagination-goto-page .page-link:last-child {
+  border-radius: 0 4px 4px  0;
+}
+
+.pagination li {
+  font-size: 0.9rem;
+  width: 130px;
 }
