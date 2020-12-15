@@ -61,7 +61,7 @@ export default function App() {
   }
 
   return (
-    <main>
+    <div>
       { error && (
         <div>{error}</div>
       )}
@@ -82,14 +82,16 @@ export default function App() {
         />
       )}
       { loggedIn && (
-        <AppWrapper
-          logout={logout}
-          pub={pub}
-          sub={sub}
-          setLoadingText={setLoadingText}
-        />
+        <main>
+          <AppWrapper
+            logout={logout}
+            pub={pub}
+            sub={sub}
+            setLoadingText={setLoadingText}
+          />
+        </main>
       )}
-    </main>
+    </div>
   );
 }
 

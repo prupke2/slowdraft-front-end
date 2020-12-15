@@ -1,3 +1,8 @@
+.login-container {
+  width: 100vw;
+  padding: 0;
+}
+
 .connect-to-yahoo a {
   border: 2px solid black;
   border-radius: 4px;
