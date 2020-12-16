@@ -1,0 +1,27 @@
+.ReactModal__Content ReactModal__Content--after-open {
+  width: 50vw;
+  min-width: 500px;
+  height: 80vh;
+  min-height: 400px;
+  /* margin-left: 25vw; */
+}
+
+.modal-draft-text {
+  margin: 150px auto 20px;
+  font-size: 1.2rem;
+}
+
+.modal-player-info {
+  margin: 20px auto;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.button-group {
+  width: 500px;
+  display: flex;
+  justify-content: space-around;
+  margin: 80px auto;
+}
+
+
