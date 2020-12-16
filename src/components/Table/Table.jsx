@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState} from "react";
 import ReactHtmlParser from 'react-html-parser';
 import { useTable, useFilters, useSortBy, usePagination } from 'react-table';
 import { matchSorter } from 'match-sorter';
 import './Table.css';
 import Pagination from "./Pagination/Pagination";
+import ModalWrapper from "../AppWrapper/ModalWrapper/ModalWrapper";
 
-export default function Table({ columns, data, defaultColumnFilter, tableState }) {
+export default function Table({ columns, data, defaultColumnFilter, tableState, tableType }) {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [playerDrafted, setPlayerDrafted] = useState("");
+
+  function draft(player) {
+    setIsOpen(true);
+    setPlayerDrafted(player); 
+  }
 
   const filterTypes = React.useMemo(
     () => ({
@@ -37,40 +45,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState }
     bodyId.classList.toggle('hidden');
   }
 
-  // This is a custom filter UI for selecting
-  // a unique option from a list
-  function SelectColumnFilter({
-    column: { filterValue, setFilter, preFilteredRows, id },
-  }) {
-    // Calculate the options for filtering
-    // using the preFilteredRows
-    const options = React.useMemo(() => {
-      const options = new Set()
-      preFilteredRows.forEach(row => {
-        options.add(row.values[id])
-      })
-      return [...options.values()]
-    }, [id, preFilteredRows])
-
-    // Render a multi-select box
-    return (
-      <select
-        value={filterValue}
-        onChange={e => {
-          setFilter(e.target.value || undefined)
-        }}
-      >
-        <option value="">All</option>
-        {options.map((option, i) => (
-          <option key={i} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    )
-  }
-
-  tableState = {...tableState, pageIndex: 0, pageSize: 10}
+  tableState = {...tableState, pageIndex: 0, pageSize: 25}
   const {
       getTableProps,
       getTableBodyProps,
@@ -102,6 +77,8 @@ export default function Table({ columns, data, defaultColumnFilter, tableState }
       usePagination,
   )
 
+  let player = {}
+
   return (
     <div>
       {/* <pre>
@@ -123,8 +100,12 @@ export default function Table({ columns, data, defaultColumnFilter, tableState }
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
+              {/* Add an extra column for the draft button */}
+              { tableType=="draft" && (
+                <th className="blank-cell" width="30px"></th>
+              )}
               {headerGroup.headers.map(column => (
-                <th>
+                <th width={column.width}>
                   <span {...column.getHeaderProps(column.getSortByToggleProps())} >
                     {column.render('Header')}
                     <span>
@@ -136,7 +117,6 @@ export default function Table({ columns, data, defaultColumnFilter, tableState }
                     </span>
                   </span>
                   <div>{column.canFilter ? column.render('Filter') : null}</div>
-                  
                 </th>
               ))}
             </tr>
@@ -147,7 +127,8 @@ export default function Table({ columns, data, defaultColumnFilter, tableState }
             prepareRow(row)
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
+                {row.cells.map(
+                  cell => {
                   if (cell.column.Header === 'Position') {
                     return (
                       <td className={cell.column.Header}
@@ -158,6 +139,20 @@ export default function Table({ columns, data, defaultColumnFilter, tableState }
                     )
                   } else if (cell.column.Header === 'Name') {
                     return (
+                      <>
+                      {/* {
+                        tableType === "draft" && ( */}
+                        <td className="draft-button-cell">
+                          <div>
+                            <button onClick={() => draft(cell.row.original)}>Draft</button>
+                            <ModalWrapper 
+                              modalIsOpen={modalIsOpen}
+                              setIsOpen={setIsOpen}
+                              player={playerDrafted}
+                            />
+                          </div>
+                        </td>
+                      {/* )} */}
                       <td className="player-name"
                       {...cell.getCellProps()}
                       >
@@ -169,7 +164,8 @@ export default function Table({ columns, data, defaultColumnFilter, tableState }
                         >
                           {cell.render('Cell')}
                         </a>
-                      </td>                    
+                      </td> 
+                      </>
                     )
                   } else if (cell.column.Header === 'Post Title') {
                     return (
