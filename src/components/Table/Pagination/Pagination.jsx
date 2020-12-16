@@ -26,7 +26,7 @@ export default function Pagination(
 
       <li className="pagination-goto-page">
         <span className="page-link">
-          Page&nbsp;
+          Page
           <div className="page-of-page">
             <strong>
                 {pageIndex + 1} of {pageOptions.length}
@@ -45,7 +45,7 @@ export default function Pagination(
             style={{ width: '40px', height: '22px' }}
           />
         </span>
-      </li>{' '}
+      </li>
       {/* <select
           className="form-control"
           value={pageSize}

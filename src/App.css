@@ -9,6 +9,7 @@
   --gradient3: rgba(56, 100, 141, 0.3);
   --gradient4: rgba(56, 100, 141, 0);
   --main-dark: rgba(38, 38, 114, 0.8);
+  --table-bg: white;
 
   --alt-bg: #637282;
   --h1-color: var(--alt-text);
@@ -108,7 +109,12 @@ button {
   background: var(--gradient1);
 }
 
-.button:hover {
+.button-large {
+  font-size: 1.4rem;
+  padding: 7px 15px;
+}
+
+button:hover {
   background: var(--gradient3);
 }
 
