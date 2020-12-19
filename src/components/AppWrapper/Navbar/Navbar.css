@@ -16,7 +16,20 @@ li.react-tabs__tab {
 
 .react-tabs__tab-panel {
   transition: background 0.2s ease;
-  padding: 20px;
+  padding: 0 20px;
+  margin-top: 0;
+}
+
+#react-tabs-1 > div {
+  padding-top: 20px;
+}
+
+#react-tabs-3 > div {
+  padding-top: 18px;
+}
+
+#react-tabs-5 > div {
+  padding-top: 16px;
 }
 
 .react-tabs__tab:hover {

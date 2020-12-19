@@ -6,6 +6,17 @@
   /* margin-left: 25vw; */
 }
 
+.ReactModal__Overlay--after-open {
+  background-color: rgba(75, 75, 75, 0.75) !important
+}
+
+.ReactModal__Content {
+  width: 70vw;
+  margin-left: 15vw;
+  height: 500px;
+  margin-top: 50px;
+}
+
 .modal-draft-text {
   margin: 150px auto 20px;
   font-size: 1.2rem;

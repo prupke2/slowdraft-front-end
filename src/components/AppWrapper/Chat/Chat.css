@@ -34,7 +34,8 @@
 
 #chat-title {
   position: relative;
-  bottom: 45px;
+  bottom: 40px;
+  font-size: 1.1rem;
 }
 
 .user {

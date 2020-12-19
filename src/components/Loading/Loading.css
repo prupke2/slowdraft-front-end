@@ -6,9 +6,10 @@
   background: transparent;
   transition: background 0.15s ease;
   height: 100vh;
-  width: 100vw;
+  width: calc(100vw - 250px);
   color: whitesmoke;
   padding-bottom: 20vh;
+  z-index: 99;
 }
 
 .loading-gif {
