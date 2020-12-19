@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { SearchColumnFilter, DefaultColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
+import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectPositionColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
+import Loading from '../../../Loading/Loading';
 
 
 export default function PlayersTab() {
@@ -11,88 +12,100 @@ export default function PlayersTab() {
       Header: 'Name',
       accessor: 'name',
       Filter: SearchColumnFilter,
-      width: '100px'
+      sortType: 'alphanumeric',
+      width: '100px',
+    },
+    {
+      Header: 'Player Type',
+      accessor: 'prospect',
+      Filter: SelectPlayerTypeColumnFilter,
+      width: '0px',
     },
     {
       Header: 'Team',
       accessor: 'team',
+      sort: false,
       Filter: SearchColumnFilter,
-      width: '50px'
+      width: '50px',
     },
     {
       Header: 'Pos',
       accessor: 'position',
-      Filter: SearchColumnFilter,
+      Filter: SelectPositionColumnFilter,
       width: '30px',
-      sortDescFirst: true
-    },
-    {
-      Header: 'Career GP',
-      accessor: 'careerGP',
-      Filter: SearchColumnFilter,
-      width: '30px'
     },
     {
       Header: 'G',
       accessor: '1',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'A',
       accessor: '2',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'P',
       accessor: '3',
-      Filter: SearchColumnFilter,
-      isSorted: true,
-      isSortedDesc: true,
+      disableFilters: true,
+      sortDescFirst: true,
       width: '30px'
     },
     {
       Header: 'PIM',
       accessor: '5',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'PPP',
       accessor: '8',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'SOG',
       accessor: '14',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'S%',
       accessor: '15',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'FW',
       accessor: '16',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'HIT',
       accessor: '31',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'BLK',
       accessor: '32',
-      Filter: SearchColumnFilter,
-      width: '30px'
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
+    },
+    {
+      accessor: 'careerGP',
     },
     {
       accessor: 'player_id',
@@ -102,7 +115,13 @@ export default function PlayersTab() {
     },
   ]
   const tableState = { 
-    hiddenColumns: ['player_id', 'player_key']
+    hiddenColumns: ['player_id', 'player_key', 'careerGP'],
+    sortBy: [
+      {
+        id: '3',
+        desc: true
+      }
+    ]
   }
   const [isLoading, setIsLoading] = useState(true);
 
@@ -111,21 +130,26 @@ export default function PlayersTab() {
     fetch('/get_db_players')
     .then(res => res.json())
     .then(data => {
-      console.log("data: " + JSON.stringify(data.players, null, 4));
+      // console.log("data: " + JSON.stringify(data.players, null, 4));
       setPlayers(data.players);
     })
     .then(setIsLoading(false));
   }, [])
 
   return (
-    <React.Fragment>
-      <Table
-        data={players}
-        columns={columns}
-        tableState={tableState}
-        defaultColumn='name'
-        tableType="draft"
-      />
-    </React.Fragment>
+    <>
+      { isLoading &&
+        <Loading />
+      }
+      { !isLoading &&
+        <Table
+          data={players}
+          columns={columns}
+          tableState={tableState}
+          defaultColumn='name'
+          tableType="draft"
+        />
+      }
+    </>
   );
 }
