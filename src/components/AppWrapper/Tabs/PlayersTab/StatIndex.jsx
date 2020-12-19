@@ -14,3 +14,16 @@ SKATER_STAT_INDEX = {
 	'31' : 'HIT',
 	'32' : 'BLK'
 }
+
+GOALIE_STAT_INDEX = {
+	'careerGP' : 'career GP',
+	'18' : 'GS',
+	'19' : 'W',
+	'20' : '',
+	'21' : '',
+	'22' : 'GA',
+	'23' : 'GAA',
+	'24' : 'SA',
+	'25' : 'SV',
+	'26' : 'SV%'
+}
