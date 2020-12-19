@@ -7,7 +7,6 @@ import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 
 
 export default function TeamTab() {
-  const empty = {"": ""};
   const columns = [
     {
       Header: 'Name',
@@ -32,23 +31,22 @@ export default function TeamTab() {
     },
   ]
   const tableState = { 
-    pageIndex: 1,
-    pageSize: 10,
-    pageCount: 10000,
-    canNextPage: true,
-    canPreviousPage: true,
-    hiddenColumns: ["player_id"]
+    hiddenColumns: ["player_id"],
+    sortBy: [
+      {
+        id: 'name',
+        desc: false
+      }
+    ]
   }
-  const [players, setPlayers] = useState([empty]);
+  const [players, setPlayers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     setIsLoading(true);
     fetch(`/get_players`)
     .then(res => res.json())
     .then(data => {
-      // console.log("data: " + JSON.stringify(data.players, null, 4));
       setPlayers(data.players);
     })
     .then(setIsLoading(false));
@@ -59,16 +57,12 @@ export default function TeamTab() {
   }
   if (!isLoading) {
     return (
-      <React.Fragment>
-      { players !== empty && (
-        <Table
-          data={players}
-          columns={columns}
-          tableState={tableState}
-          defaultColumn='player_id'
-        />
-      )}        
-    </React.Fragment>
+      <Table
+        data={players}
+        columns={columns}
+        tableState={tableState}
+        defaultColumn='player_id'
+      />
     )
   }
 }
