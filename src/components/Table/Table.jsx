@@ -77,8 +77,6 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
       usePagination,
   )
 
-  let player = {}
-
   return (
     <div>
       {/* <pre>
@@ -101,24 +99,42 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {/* Add an extra column for the draft button */}
-              { tableType=="draft" && (
+              { tableType==="draft" &&
                 <th className="blank-cell" width="30px"></th>
-              )}
-              {headerGroup.headers.map(column => (
-                <th width={column.width}>
-                  <span {...column.getHeaderProps(column.getSortByToggleProps())} >
-                    {column.render('Header')}
-                    <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                        ? ' ▼'
-                        : ' ▲'
-                      : ''}
+              }
+              {headerGroup.headers.map(column => {
+                return column.Header === 'Player Type' ?
+                  <th id='prospect-column'>
+                    <span {...column.getHeaderProps(column.getSortByToggleProps())} >
+                      {column.render('Header')}
+                      {/* <span>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                          ? ' ▼'
+                          : ' ▲'
+                        : ''}
+                      </span> */}
                     </span>
-                  </span>
-                  <div>{column.canFilter ? column.render('Filter') : null}</div>
-                </th>
-              ))}
+                    <div>{column.canFilter ? column.render('Filter') : null}</div>
+                  </th>
+                :
+                
+                  <th width={column.width}>
+                    <span {...column.getHeaderProps(column.getSortByToggleProps())} >
+                      {column.render('Header')}
+                      <span>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                          ? ' ▼'
+                          : ' ▲'
+                        : ''}
+                      </span>
+                    </span>
+                    <div>{column.canFilter ? column.render('Filter') : null}</div>
+                  </th>
+                
+              }
+            )}
             </tr>
           ))}
         </thead>
@@ -140,8 +156,8 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                   } else if (cell.column.Header === 'Name') {
                     return (
                       <>
-                      {/* {
-                        tableType === "draft" && ( */}
+                      {
+                        tableType === "draft" &&
                         <td className="draft-button-cell">
                           <div>
                             <button onClick={() => draft(cell.row.original)}>Draft</button>
@@ -152,16 +168,21 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                             />
                           </div>
                         </td>
-                      {/* )} */}
+                      } 
                       <td className="player-name"
                       {...cell.getCellProps()}
                       >
-                        {/* {console.log(cell)} */}
                         <a 
                           href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
+                          {cell.row.original.prospect === "1" && 
+                            <span>
+                              <span className='prospect'>P</span>
+                              &nbsp;
+                            </span>
+                          }
                           {cell.render('Cell')}
                         </a>
                       </td> 
@@ -180,8 +201,11 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                         </div>
                       </td>                    
                     )
-                  } 
-                  else {
+                  } else if (cell.column.Header === 'Player Type') {
+                    return (
+                      <td className="prospect-column-hidden" />
+                    )
+                  } else {
                     return (
                       <td className={cell.column.Header}
                       {...cell.getCellProps()}
