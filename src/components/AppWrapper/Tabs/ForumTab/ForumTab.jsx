@@ -3,10 +3,10 @@ import React, {useEffect, useState} from 'react';
 import Table from '../../../Table/Table';
 // import { getLeague } from '../../../../api/yahooApi';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
+import Loading from '../../../Loading/Loading';
 
 export default function ForumTab() {
-  const empty = {"": ""};
-  const [posts, setPosts] = useState([empty]);
+  const [posts, setPosts] = useState([]);
   const columns = [
     {
       Header: 'Post Title',
@@ -26,11 +26,17 @@ export default function ForumTab() {
     {
       Header: 'Date Posted',
       accessor: 'create_date',
-      Filter: SearchColumnFilter,
+      disableFilters: true,
     },
   ]
   const tableState = { 
-    hiddenColumns: ["body"]
+    hiddenColumns: ["body"],
+    sortBy: [
+      {
+        id: 'create_date',
+        desc: false
+      }
+    ]
   }
   const [isLoading, setIsLoading] = useState(true);
 
@@ -46,14 +52,19 @@ export default function ForumTab() {
   }, [])
 
   return (
-    <React.Fragment>
-      <Table
-        data={posts}
-        columns={columns}
-        tableState={tableState}
-        defaultColumn='create_date'
-      />
-      {/* <button onClick={}>test</button> */}
-    </React.Fragment>
+    <>
+      { isLoading &&
+        <Loading />
+      }
+      { !isLoading &&
+        <Table
+          data={posts}
+          columns={columns}
+          tableState={tableState}
+          defaultColumn='create_date'
+          tableType='forum'
+        />
+      }
+    </>
   );
 }
