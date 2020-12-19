@@ -13,6 +13,12 @@ table {
   /* max-width: calc(100vw - 250px); */
 }
 
+.table thead th {
+  vertical-align: top;
+  font-size: 1.1rem;
+  padding: 4px;
+}
+
 thead, tbody {
   max-width: 100%;
 }
@@ -63,4 +69,25 @@ table tr:last-child td {
 .draft-button-cell div {
   display: flex;
   justify-content: center;
+}
+
+.prospect {
+  background: lightcyan;
+  border: 1px solid lightgreen;
+  border-radius: 100%;
+  padding: 4px 7px;
+}
+
+#prospect-column {
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 270px;
+  border: none;
+}
+
+.prospect-column-hidden {
+  width: 0;
+  padding: 0 !important;
+  border: none;
 }
