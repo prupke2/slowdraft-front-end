@@ -9,20 +9,6 @@ export default function Pagination(
   return (
 
     <ul className="pagination">
-      <li className="pagination-arrows">
-        <div className="page-item" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            <span className="page-link">First</span>
-        </div>
-        <div className="page-item" onClick={() => previousPage()} disabled={!canPreviousPage}>
-            <span className="page-link">{'<'}</span>
-        </div>
-        <div className="page-item" onClick={() => nextPage()} disabled={!canNextPage}>
-            <span className="page-link">{'>'}</span>
-        </div>
-        <div className="page-item" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-            <span className="page-link">Last</span>
-        </div>
-      </li>
 
       <li className="pagination-goto-page">
         <span className="page-link">
@@ -45,6 +31,21 @@ export default function Pagination(
             style={{ width: '40px', height: '22px' }}
           />
         </span>
+      </li>
+
+      <li className="pagination-arrows">
+        <div className="page-item" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            <span className="page-link">First</span>
+        </div>
+        <div className="page-item" onClick={() => previousPage()} disabled={!canPreviousPage}>
+            <span className="page-link">{'<'}</span>
+        </div>
+        <div className="page-item" onClick={() => nextPage()} disabled={!canNextPage}>
+            <span className="page-link">{'>'}</span>
+        </div>
+        <div className="page-item" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+            <span className="page-link">Last</span>
+        </div>
       </li>
       {/* <select
           className="form-control"
