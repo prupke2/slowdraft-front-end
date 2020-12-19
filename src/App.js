@@ -4,6 +4,7 @@ import qs from 'query-string';
 import AppWrapper from './components/AppWrapper/AppWrapper';
 import Loading from './components/Loading/Loading';
 import './App.css';
+import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toasts';
 
 export default function App() {
 
@@ -62,6 +63,10 @@ export default function App() {
 
   return (
     <div>
+      <ToastsContainer 
+        store={ToastsStore}
+        position={ToastsContainerPosition.TOP_CENTER}
+      />
       { error && (
         <div>{error}</div>
       )}
