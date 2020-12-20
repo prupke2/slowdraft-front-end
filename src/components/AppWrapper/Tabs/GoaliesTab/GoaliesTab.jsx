@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectPositionColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
+import { SearchColumnFilter, SelectPlayerTypeColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
 
@@ -78,6 +78,9 @@ export default function PlayersTab() {
       width: '30px',
     },
     {
+      accessor: 'position'
+    },
+    {
       accessor: 'careerGP',
     },
     {
@@ -89,7 +92,7 @@ export default function PlayersTab() {
   ]
 
   const tableState = { 
-    hiddenColumns: ['player_id', 'player_key', 'careerGP'],
+    hiddenColumns: ['position', 'player_id', 'player_key', 'careerGP'],
     sortBy: [
       {
         id: '19',
