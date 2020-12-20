@@ -20,11 +20,6 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
     }
   }
 
-  function closeModal(){
-    console.log("closeModal ");
-    setIsOpen(false);
-  }
-
   function draftPlayer(data) {
     setIsOpen(false);
     ToastsStore.success(`You have drafted ${data.name}`);
@@ -34,13 +29,13 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
     return (
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        onRequestClose={() => setIsOpen(false)}
         contentLabel='Player Draft'
         parentSelector={() => document.querySelector('main')}
         id='draft-player-modal'
       >
         <CloseModalButton 
-          closeModal={closeModal}
+          setIsOpen={setIsOpen}
         />
         <div className='modal-title'>You are about to draft:</div>
         <div className='modal-player-info'>
@@ -52,7 +47,7 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
         </div>
         <div className='button-group'>
           <button className="button-large" onClick={() => draftPlayer(data)}>Draft</button>
-          <button className="button-large" onClick={closeModal}>Cancel</button>
+          <button className="button-large" onClick={() => setIsOpen(false)}>Cancel</button>
         </div>
       </Modal>
     );
@@ -63,13 +58,13 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={() => getReplies(data.id)}
-        onRequestClose={closeModal}
+        onRequestClose={() => setIsOpen(false)}
         contentLabel='Forum Post'
         parentSelector={() => document.querySelector('main')}
         id='forum-post-modal'
       >
         <CloseModalButton 
-          closeModal={closeModal}
+          setIsOpen={setIsOpen}
         />
 
         <div className='modal-title'>{ReactHtmlParser(data.title)}</div>
@@ -104,13 +99,13 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
     return (
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        onRequestClose={() => setIsOpen(false)}
         contentLabel='Player Draft'
         parentSelector={() => document.querySelector('main')}
         id='new-forum-post-modal'
       >
         <CloseModalButton 
-          closeModal={closeModal}
+          setIsOpen={setIsOpen}
         />
         <div className='modal-title'>New forum post</div>
         <form className='new-forum-post-form'>
@@ -120,7 +115,8 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
           </div>
           <div>
             <label name='body'>Post</label>
-            <textarea label='body' />
+            {/* <textarea label='body' /> */}
+            <div id="editor"></div>
           </div>
           <button className='margin-15'>Save</button>
         </form>
@@ -130,10 +126,6 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
               <strong>{data.name}</strong>, {data.position} - {(data.team).toUpperCase()}
             </>
           }
-        </div>
-        <div className='button-group'>
-          <button className="button-large" onClick={() => draftPlayer(data)}>Draft</button>
-          <button className="button-large" onClick={closeModal}>Cancel</button>
         </div>
       </Modal>
     );
