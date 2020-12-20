@@ -46,16 +46,20 @@ main {
 
   /* font-family: 'Rubik', sans-serif; */
 }
-
+/* 
 @media (max-width: 800px) {
   main {
+    width: 100vw;
+  }
+
+  main > div {
     width: 100vw;
   }
 
   #chatbox {
     display: none;
   }
-}
+} */
 
 ul {
   list-style-type: none;
@@ -120,4 +124,8 @@ button:hover {
 
 .hidden {
   display: none;
+}
+
+.margin-15 {
+  margin: 15px;
 }
