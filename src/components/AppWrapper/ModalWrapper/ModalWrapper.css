@@ -1,38 +1,118 @@
 .ReactModal__Content ReactModal__Content--after-open {
-  width: 50vw;
   min-width: 500px;
   height: 80vh;
-  min-height: 400px;
+  min-height: 400px; 
   /* margin-left: 25vw; */
 }
 
+#draft-player-modal {
+  width: 50vw;
+  height: 350px;
+}
+
+#forum-post-modal, #new-forum-post-modal{
+  background-color: wheat;
+  width: calc(90vw - 250px);
+  margin: 0;
+  height: 85vh;
+}
+
 .ReactModal__Overlay--after-open {
-  background-color: rgba(75, 75, 75, 0.75) !important
+  background-color: #5e8b950a !important
 }
 
 .ReactModal__Content {
   width: 70vw;
+  min-width: 400px;
   margin-left: 15vw;
   height: 500px;
   margin-top: 50px;
 }
 
-.modal-draft-text {
-  margin: 150px auto 20px;
-  font-size: 1.2rem;
+.close-button-wrapper {
+  display: flex;
+  justify-content: right;
+}
+
+.close-modal {
+  display: flex;
+  position: fixed;
+}
+
+.modal-title {
+  font-size: 1.6rem;
+  padding: 15px 35px 35px 35px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.modal-forum-user {
+  display: flex;
+  margin: 10px 10px 0 40px;
+  font-weight: 700;
 }
 
 .modal-player-info {
   margin: 20px auto;
   font-size: 1.4rem;
   font-weight: bold;
+  text-align: center;
 }
 
 .button-group {
-  width: 500px;
+  max-width: 500px;
   display: flex;
   justify-content: space-around;
   margin: 80px auto;
+} 
+
+.modal-forum-text {
+  border: 1px solid gainsboro;
+  border-radius: 4px;
+  background: whitesmoke;
+  text-align: left;
+  font-size: 1.1rem;
+  margin: 10px 25px 25px 25px;
+  padding: 5px;
 }
 
+.modal-forum-text > p {
+  margin: 5px;
+  padding: 5px;
+}
 
+.modal-forum-date {
+  font-style: italic;
+  font-size: 0.7rem;
+  font-weight: 400;
+  padding: 4px 0 0 0;
+}
+
+.forum-reply {
+  padding-left: 50px;
+}
+
+.new-forum-post-modal {
+
+}
+
+.new-forum-post-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-forum-post-form > div {
+  display: flex;
+  padding: 10px 20px;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.new-forum-post-form label {
+  display: flex;
+  font-weight: bold;
+}
+
+.new-forum-post-form input, .new-forum-post-form textarea {
+  width: 90%;
+}

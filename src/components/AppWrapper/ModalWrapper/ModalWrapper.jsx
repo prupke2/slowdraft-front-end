@@ -1,41 +1,142 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-modal';
-import './ModalWrapper.css';
+import ReactHtmlParser from 'react-html-parser';
 import { ToastsStore } from 'react-toasts';
+import './ModalWrapper.css';
+import { timeSince } from '../../../util/time';
+import CloseModalButton from './CloseModalButton/CloseModalButton';
 
 
-export default function ModalWrapper({modalIsOpen, setIsOpen, player}) {
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
+export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) {
+  const [forumPostReplies, setForumPostReplies] = useState('');
+
+  function getReplies(post_id) {
+    if (forumPostReplies === '') {
+      fetch(`/view_post_replies/${post_id}`)
+      .then(res => res.json())
+      .then(data => {
+        setForumPostReplies(data.replies);
+      })
+    }
   }
 
   function closeModal(){
+    console.log("closeModal ");
     setIsOpen(false);
   }
 
-  function draftPlayer(player) {
+  function draftPlayer(data) {
     setIsOpen(false);
-    ToastsStore.success(`You have drafted ${player.name}`);
+    ToastsStore.success(`You have drafted ${data.name}`);
   }
   
-  return (
-    <>
+  if (modalType === 'draftPlayer') {
+    return (
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         contentLabel='Player Draft'
         parentSelector={() => document.querySelector('main')}
+        id='draft-player-modal'
       >
-        <div className='modal-draft-text'>You are about to draft:</div>
+        <CloseModalButton 
+          closeModal={closeModal}
+        />
+        <div className='modal-title'>You are about to draft:</div>
         <div className='modal-player-info'>
-          <strong>{player.name}</strong> - {player.position} {player.team}
+          {typeof(data.team) !== 'undefined' &&
+            <>
+              <strong>{data.name}</strong>, {data.position} - {(data.team).toUpperCase()}
+            </>
+          }
         </div>
         <div className='button-group'>
-          <button className="button-large" onClick={() => draftPlayer(player)}>Draft</button>
+          <button className="button-large" onClick={() => draftPlayer(data)}>Draft</button>
           <button className="button-large" onClick={closeModal}>Cancel</button>
         </div>
       </Modal>
-    </>
-  )
+    );
+  } 
+  
+  if (modalType === 'forumPost') {
+    return (
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={() => getReplies(data.id)}
+        onRequestClose={closeModal}
+        contentLabel='Forum Post'
+        parentSelector={() => document.querySelector('main')}
+        id='forum-post-modal'
+      >
+        <CloseModalButton 
+          closeModal={closeModal}
+        />
+
+        <div className='modal-title'>{ReactHtmlParser(data.title)}</div>
+        <span className='modal-forum-user'>{data.user}</span>
+
+        <div className='modal-forum-text'>{ReactHtmlParser(data.body)}</div>
+
+        { forumPostReplies !== '' &&
+
+          <div className='replies'>
+            {forumPostReplies.map(reply =>
+              <div key={reply.id} className="forum-reply">
+                <span className='modal-forum-user'>
+                  {reply.name} &nbsp;
+                  <div className='modal-forum-date'>{timeSince(reply.create_date)}</div>
+                </span>
+                <div className='modal-forum-text'>
+                  {ReactHtmlParser(reply.body)}
+                </div>
+              </div>
+            )}
+          </div>
+        }
+        <div className='button-group'>
+          <button className="button-large">Reply</button>
+        </div>
+      </Modal>
+    );
+  }
+
+  if (modalType === 'newForumPost') {
+    return (
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel='Player Draft'
+        parentSelector={() => document.querySelector('main')}
+        id='new-forum-post-modal'
+      >
+        <CloseModalButton 
+          closeModal={closeModal}
+        />
+        <div className='modal-title'>New forum post</div>
+        <form className='new-forum-post-form'>
+          <div>
+            <label name='title'>Title</label>
+            <input type='text' label='title' />
+          </div>
+          <div>
+            <label name='body'>Post</label>
+            <textarea label='body' />
+          </div>
+          <button className='margin-15'>Save</button>
+        </form>
+        <div className='modal-player-info'>
+          {typeof(data.team) !== 'undefined' &&
+            <>
+              <strong>{data.name}</strong>, {data.position} - {(data.team).toUpperCase()}
+            </>
+          }
+        </div>
+        <div className='button-group'>
+          <button className="button-large" onClick={() => draftPlayer(data)}>Draft</button>
+          <button className="button-large" onClick={closeModal}>Cancel</button>
+        </div>
+      </Modal>
+    );
+  } 
+  return null;
 }
