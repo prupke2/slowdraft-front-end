@@ -1,5 +1,4 @@
 import React, { useState} from "react";
-import ReactHtmlParser from 'react-html-parser';
 import { useTable, useFilters, useSortBy, usePagination } from 'react-table';
 import { matchSorter } from 'match-sorter';
 import './Table.css';
@@ -7,12 +6,19 @@ import Pagination from "./Pagination/Pagination";
 import ModalWrapper from "../AppWrapper/ModalWrapper/ModalWrapper";
 
 export default function Table({ columns, data, defaultColumnFilter, tableState, tableType }) {
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
+  // const [forumModalOpen, setForumModalOpen] = useState(false);
+  const [forumPostId, setForumPostId] = useState("");
 
-  function draft(player) {
-    setIsOpen(true);
+  function draftModal(player) {
+    setModalOpen(true);
     setPlayerDrafted(player); 
+  }
+
+  function forumModal(id) {
+    setModalOpen(true);
+    setForumPostId(id); 
   }
 
   const filterTypes = React.useMemo(
@@ -38,11 +44,6 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
 
   function fuzzyTextFilterFn(rows, id, filterValue) {
     return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
-  }
-
-  function expandPost(id) {
-    const bodyId = document.getElementById('body-' + id);
-    bodyId.classList.toggle('hidden');
   }
 
   tableState = {...tableState, pageIndex: 0, pageSize: 25}
@@ -84,16 +85,18 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
           {JSON.stringify({ pageIndex, pageSize, pageCount, canNextPage, canPreviousPage}, null, 2)}
         </code>
       </pre> */}
-      <Pagination 
-        gotoPage={gotoPage}
-        previousPage={previousPage}
-        canPreviousPage={canPreviousPage}
-        nextPage={nextPage}
-        canNextPage={canNextPage}
-        pageCount={pageCount}
-        pageIndex={pageIndex}
-        pageOptions={pageOptions}
-      />
+      { tableType != 'forum' && 
+        <Pagination 
+          gotoPage={gotoPage}
+          previousPage={previousPage}
+          canPreviousPage={canPreviousPage}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageCount={pageCount}
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
+        />
+      }
       <table className="table" {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
@@ -119,7 +122,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                   </th>
                 :
                 
-                  <th width={column.width}>
+                  <th key={column.id} width={column.width}>
                     <span {...column.getHeaderProps(column.getSortByToggleProps())} >
                       {column.render('Header')}
                       <span>
@@ -160,11 +163,12 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                         tableType === "draft" &&
                         <td className="draft-button-cell">
                           <div>
-                            <button onClick={() => draft(cell.row.original)}>Draft</button>
+                            <button onClick={() => draftModal(cell.row.original)}>Draft</button>
                             <ModalWrapper 
-                              modalIsOpen={modalIsOpen}
-                              setIsOpen={setIsOpen}
-                              player={playerDrafted}
+                              modalIsOpen={modalOpen}
+                              setIsOpen={setModalOpen}
+                              data={playerDrafted}
+                              modalType="draftPlayer"
                             />
                           </div>
                         </td>
@@ -188,17 +192,23 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                       </td> 
                       </>
                     )
-                  } else if (cell.column.Header === 'Post Title') {
+                  } else if (cell.column.Header === 'Title') {
                     return (
-                      <td width="50vw" className="post-title" onClick={() => expandPost(cell.row.id)}
+                      <td width='50vw' className='post-title'
                       {...cell.getCellProps()}
                       >
-                        <strong>
-                          {cell.render('Cell')} a
-                        </strong>
-                        <div id={`body-${cell.row.id}`} className='hidden'>
-                          {ReactHtmlParser(cell.row.original.body)}
+                        <div onClick={() => forumModal(cell.row.original)}>
+                          {cell.render('Cell')}
                         </div>
+                        <ModalWrapper 
+                          modalIsOpen={modalOpen}
+                          setIsOpen={setModalOpen}
+                          data={forumPostId}
+                          modalType="forumPost"
+                        />
+                        {/* <div id={`body-${cell.row.id}`} className='hidden'>
+                          {ReactHtmlParser(cell.row.original.body)}
+                        </div> */}
                       </td>                    
                     )
                   } else if (cell.column.Header === 'Player Type') {
