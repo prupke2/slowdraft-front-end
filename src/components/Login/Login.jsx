@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Errors from '../Errors/Errors';
 import './Login.css';
+import { ToastsStore } from 'react-toasts';
 
 export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading }) {
   const client_id = "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
@@ -9,34 +10,39 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading 
       "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
       // "&redirect_uri=oob&response_type=code&language=en-us" // for testing login locally
 
+  let loginAttempted = false;
   useEffect(() => {
-    console.log("in Login useEffect");
     function loginUser() {
       setIsLoading(true);
-      console.log("fetching /login/code");
-      fetch(`/login/${code}`)
-        .then(res => res.json())
+      fetch(`/login/${code}`).then( response => {
+        if (!response.ok) throw response
+          return response.json()
+        })
         .then(data => {
           window.history.replaceState({}, document.title, "/");
           if (data.access_token && data.refresh_token) {
-            console.log("setting loggedIn to true");
             setPub(data.pub);
             setSub(data.sub);
             setLoggedIn(true);
           } else {
             setLoggedIn(false);
+            setIsLoading(false)
+            ToastsStore.error("There was an error connecting to Yahoo. Please try again later.")
           }
         })
-        .then(
-          setIsLoading(false)
-        );
+        .catch( err => {
+          ToastsStore.error(`There was an error connecting to the server. Please try again later.`);
+          console.log(`Error: ${err.text}`);
+        })
     }
     if (typeof(code) !== "undefined") {
-      console.log("Code is " + code + ", setting loading to true");
-      setIsLoading(true);
-      loginUser();
+      if (loginAttempted === false) {
+        setIsLoading(true);
+        loginAttempted = true;
+        loginUser();
+      }
     }
-  });
+  }, []);
 
   return (
     <div className="App">
