@@ -4,8 +4,9 @@ import { matchSorter } from 'match-sorter';
 import './Table.css';
 import Pagination from "./Pagination/Pagination";
 import ModalWrapper from "../AppWrapper/ModalWrapper/ModalWrapper";
+import Loading from "../Loading/Loading";
 
-export default function Table({ columns, data, defaultColumnFilter, tableState, tableType }) {
+export default function Table({ columns, data, defaultColumnFilter, tableState, tableType, loading }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
   // const [forumModalOpen, setForumModalOpen] = useState(false);
@@ -97,140 +98,143 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
           pageOptions={pageOptions}
         />
       }
-      <table className="table" {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {/* Add an extra column for the draft button */}
-              { tableType==="draft" &&
-                <th className="blank-cell" width="30px"></th>
-              }
-              {headerGroup.headers.map(column => {
-                return column.Header === 'Player Type' ?
-                  <th id='prospect-column'>
-                    <span {...column.getHeaderProps(column.getSortByToggleProps())} >
-                      {column.render('Header')}
-                      {/* <span>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                          ? ' ▼'
-                          : ' ▲'
-                        : ''}
-                      </span> */}
-                    </span>
-                    <div>{column.canFilter ? column.render('Filter') : null}</div>
-                  </th>
-                :
-                
-                  <th key={column.id} width={column.width}>
-                    <span {...column.getHeaderProps(column.getSortByToggleProps())} >
-                      {column.render('Header')}
-                      <span>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                          ? ' ▼'
-                          : ' ▲'
-                        : ''}
+      { loading && <Loading />}
+      { !loading &&
+        <table className="table" {...getTableProps()}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {/* Add an extra column for the draft button */}
+                { tableType==="draft" &&
+                  <th className="blank-cell" width="30px"></th>
+                }
+                {headerGroup.headers.map(column => {
+                  return column.Header === 'Player Type' ?
+                    <th key={column.accessor} id='prospect-column'>
+                      <span {...column.getHeaderProps(column.getSortByToggleProps())} >
+                        {column.render('Header')}
+                        {/* <span>
+                          {column.isSorted
+                            ? column.isSortedDesc
+                            ? ' ▼'
+                            : ' ▲'
+                          : ''}
+                        </span> */}
                       </span>
-                    </span>
-                    <div>{column.canFilter ? column.render('Filter') : null}</div>
-                  </th>
-                
-              }
-            )}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(
-                  cell => {
-                  if (cell.column.Header === 'Position') {
-                    return (
-                      <td className={cell.column.Header}
-                      {...cell.getCellProps()}
-                      >
-                        {cell.render(({ value }) => String(value + ',').substring(0, (String(value).length)))}
-                      </td>                    
-                    )
-                  } else if (cell.column.Header === 'Name') {
-                    return (
-                      <>
-                      {
-                        tableType === "draft" &&
-                        <td className="draft-button-cell">
-                          <div>
-                            <button onClick={() => draftModal(cell.row.original)}>Draft</button>
-                            <ModalWrapper 
-                              modalIsOpen={modalOpen}
-                              setIsOpen={setModalOpen}
-                              data={playerDrafted}
-                              modalType="draftPlayer"
-                            />
-                          </div>
-                        </td>
-                      } 
-                      <td className="player-name"
-                      {...cell.getCellProps()}
-                      >
-                        <a 
-                          href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {cell.row.original.prospect === "1" && 
-                            <span>
-                              <span className='prospect'>P</span>
-                              &nbsp;
-                            </span>
-                          }
-                          {cell.render('Cell')}
-                        </a>
-                      </td> 
-                      </>
-                    )
-                  } else if (cell.column.Header === 'Title') {
-                    return (
-                      <td width='50vw' className='post-title'
-                      {...cell.getCellProps()}
-                      >
-                        <div onClick={() => forumModal(cell.row.original)}>
-                          {cell.render('Cell')}
-                        </div>
-                        <ModalWrapper 
-                          modalIsOpen={modalOpen}
-                          setIsOpen={setModalOpen}
-                          data={forumPostId}
-                          modalType="forumPost"
-                        />
-                        {/* <div id={`body-${cell.row.id}`} className='hidden'>
-                          {ReactHtmlParser(cell.row.original.body)}
-                        </div> */}
-                      </td>                    
-                    )
-                  } else if (cell.column.Header === 'Player Type') {
-                    return (
-                      <td className="prospect-column-hidden" />
-                    )
-                  } else {
-                    return (
-                      <td className={cell.column.Header}
-                      {...cell.getCellProps()}
-                      >
-                        {cell.render('Cell')}
-                      </td>
-                    )
-                  }
-                  // return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
+                      <div>{column.canFilter ? column.render('Filter') : null}</div>
+                    </th>
+                  :
+                  
+                    <th key={column.id} width={column.width}>
+                      <span {...column.getHeaderProps(column.getSortByToggleProps())} >
+                        {column.render('Header')}
+                        <span>
+                          {column.isSorted
+                            ? column.isSortedDesc
+                            ? ' ▼'
+                            : ' ▲'
+                          : ''}
+                        </span>
+                      </span>
+                      <div>{column.canFilter ? column.render('Filter') : null}</div>
+                    </th>
+                  
+                }
+              )}
               </tr>
-            )
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.map((row, i) => {
+              prepareRow(row)
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(
+                    cell => {
+                    if (cell.column.Header === 'Position') {
+                      return (
+                        <td className={cell.column.Header}
+                        {...cell.getCellProps()}
+                        >
+                          {cell.render(({ value }) => String(value + ',').substring(0, (String(value).length)))}
+                        </td>                    
+                      )
+                    } else if (cell.column.Header === 'Name') {
+                      return (
+                        <>
+                        {
+                          tableType === "draft" &&
+                          <td className="draft-button-cell">
+                            <div>
+                              <button onClick={() => draftModal(cell.row.original)}>Draft</button>
+                              <ModalWrapper 
+                                modalIsOpen={modalOpen}
+                                setIsOpen={setModalOpen}
+                                data={playerDrafted}
+                                modalType="draftPlayer"
+                              />
+                            </div>
+                          </td>
+                        } 
+                        <td className="player-name"
+                        {...cell.getCellProps()}
+                        >
+                          <a 
+                            href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {cell.row.original.prospect === "1" && 
+                              <span>
+                                <span className='prospect'>P</span>
+                                &nbsp;
+                              </span>
+                            }
+                            {cell.render('Cell')}
+                          </a>
+                        </td> 
+                        </>
+                      )
+                    } else if (cell.column.Header === 'Title') {
+                      return (
+                        <td width='50vw' className='post-title'
+                        {...cell.getCellProps()}
+                        >
+                          <div onClick={() => forumModal(cell.row.original)}>
+                            {cell.render('Cell')}
+                          </div>
+                          <ModalWrapper 
+                            modalIsOpen={modalOpen}
+                            setIsOpen={setModalOpen}
+                            data={forumPostId}
+                            modalType="forumPost"
+                          />
+                          {/* <div id={`body-${cell.row.id}`} className='hidden'>
+                            {ReactHtmlParser(cell.row.original.body)}
+                          </div> */}
+                        </td>                    
+                      )
+                    } else if (cell.column.Header === 'Player Type') {
+                      return (
+                        <td className="prospect-column-hidden" />
+                      )
+                    } else {
+                      return (
+                        <td className={cell.column.Header}
+                        {...cell.getCellProps()}
+                        >
+                          {cell.render('Cell')}
+                        </td>
+                      )
+                    }
+                    // return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      }
       <Pagination 
         gotoPage={gotoPage}
         previousPage={previousPage}
