@@ -3,15 +3,15 @@ import useInput from './useInput.js';
 import PubNub from 'pubnub'; // backend for chat component
 import MessageLog from './MessageLog/MessageLog';
 import './Chat.css';
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary.jsx';
 
 export default function Chat({pub, sub}) {
 
-  console.log("pub: " + pub + ", sub: " + sub);
-
   const [messages, setMessages] = useState([]);
   const tempMessage = useInput();
-  const channel = "Global2" // To reset messages, update the channel name to something new
-  const [username, setUsername] = useState(['anon', new Date().getTime()].join('-'));
+  const channel = "test" // To reset messages, update the channel name to something new
+  const [username, setUsername] = useState(['anon']);
+  // const [username, setUsername] = useState(['anon', new Date().getTime()].join('-'));
 
   useEffect(()=>{
     console.log("setting up chat");
@@ -97,7 +97,7 @@ export default function Chat({pub, sub}) {
   }
 
   return (
-    <React.Fragment>
+    <ErrorBoundary>
       { (pub !== '' && sub !== '') && (
         <aside id="chatbox">
           <h3 id="chat-title">League Chat</h3>
@@ -114,6 +114,6 @@ export default function Chat({pub, sub}) {
         </aside>
         )
       }
-    </React.Fragment>
+    </ErrorBoundary>
   )
 }
