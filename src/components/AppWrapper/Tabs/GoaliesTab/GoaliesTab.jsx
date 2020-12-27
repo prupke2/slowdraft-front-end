@@ -6,6 +6,7 @@ import Loading from '../../../Loading/Loading';
 
 export default function PlayersTab() {
   const [players, setPlayers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
     {
@@ -100,7 +101,6 @@ export default function PlayersTab() {
       }
     ]
   }
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);

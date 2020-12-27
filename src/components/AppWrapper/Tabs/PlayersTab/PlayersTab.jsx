@@ -7,6 +7,7 @@ import Errors from '../../../Errors/Errors';
 
 export default function PlayersTab() {
   const [players, setPlayers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
     {
@@ -127,18 +128,21 @@ export default function PlayersTab() {
 
   const { data, loading, error } = useRequest('/get_db_players');
 
-  function getPlayers() {
-    setPlayers(data.players)
-  }
-
   useEffect(() => {
-    getPlayers();
-  }, [data])
+    setIsLoading(true);
+    fetch('/get_db_players')
+    .then(res => res.json())
+    .then(data => {
+      // console.log("data: " + JSON.stringify(data.players, null, 4));
+      setPlayers(data.players);
+    })
+    .then(setIsLoading(false));
+  }, [])
 
   return (
     <>
       { error && <Errors />}
-      { !loading &&
+      { !isLoading &&
         <Table
           data={players}
           columns={columns}
