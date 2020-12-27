@@ -1,19 +1,19 @@
 import React from 'react';
 import './Errors.css';
+import { ToastsStore } from 'react-toasts';
 
-export default function Errors(props) {
+export default function Errors({error, errorInfo}) {
+  if (error) {
+    ToastsStore.error(`Oops an error occured. Please try again later.`);
+  }
   return(
     <div>
-      <p className="errorRow">Error code: 
-        <span className="errorText">
-          &nbsp;{props.code}
-        </span>
-      </p>
-      <p className="errorRow">
-        <span className="errorText">
-          &nbsp;{props.message}
-        </span>      
-      </p>
+      { error &&
+        <p className="errorRow">{error}</p>
+      }
+      { errorInfo &&
+        <p className="errorRow">{errorInfo.toString()}</p>
+      }
     </div>
   )
 }

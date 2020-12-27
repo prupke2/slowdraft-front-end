@@ -1,10 +1,10 @@
-.errorRow {
+.error-row {
   margin: 15px;
   text-align: center;
   color: var(--error);
   font-weight: 800;
 }
 
-.errorText {
+.error-text {
   color: var(--error);
 }
