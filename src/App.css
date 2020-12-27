@@ -68,6 +68,7 @@ ul {
 }
 
 h1 {
+  text-align: center;
   margin: 50px auto;
   padding: 5px;
   background: var(--alt-bg-opaque);
