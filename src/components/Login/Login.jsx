@@ -27,7 +27,6 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading 
           } else {
             setLoggedIn(false);
             setIsLoading(false)
-            ToastsStore.error("There was an error connecting to Yahoo. Please try again later.")
           }
         })
         .catch( err => {
