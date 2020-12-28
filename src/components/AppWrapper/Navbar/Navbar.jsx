@@ -8,9 +8,13 @@ import ForumTab from '../Tabs/ForumTab/ForumTab';
 
 export default function Navbar({logout}) {
 
+  // function test() {
+  //   fetch('/test')
+  // }
+
   return (
     <>
-      <Tabs defaultIndex={1} className="navbar-tabs">
+      <Tabs defaultIndex={3} className="navbar-tabs">
         <TabList>
           <Tab>Skaters</Tab>
           <Tab>Goalies</Tab>
@@ -29,6 +33,9 @@ export default function Navbar({logout}) {
         <TabPanel>
           <ForumTab />
         </TabPanel>
+        {/* <TabPanel>
+          <button onClick={test}>test</button>
+        </TabPanel> */}
       </Tabs>
       <button id='logout' onClick={logout}>Logout</button>
     </>
