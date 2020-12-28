@@ -3,6 +3,7 @@ export function timeSince(ts) {
   const now = new Date(),
     secondsPast = (now.getTime() - timeStamp) / 1000;
   if (secondsPast < 60) {
+    if (secondsPast < 0) return 'just now';
     return parseInt(secondsPast) + 's ago';
   }
   if (secondsPast < 3600) {
