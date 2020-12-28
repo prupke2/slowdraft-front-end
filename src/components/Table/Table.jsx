@@ -151,15 +151,16 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                 <tr {...row.getRowProps()}>
                   {row.cells.map(
                     cell => {
-                    if (cell.column.Header === 'Position') {
-                      return (
-                        <td className={cell.column.Header}
-                        {...cell.getCellProps()}
-                        >
-                          {cell.render(({ value }) => String(value + ',').substring(0, (String(value).length)))}
-                        </td>                    
-                      )
-                    } else if (cell.column.Header === 'Name') {
+                    // if (cell.column.Header === 'Position') {
+                    //   return (
+                    //     <td className={cell.column.Header}
+                    //     {...cell.getCellProps()}
+                    //     >
+                    //       {cell.render(({ value }) => String(value + ',').substring(0, (String(value).length)))}
+                    //     </td>                    
+                    //   )
+                    // } else 
+                    if (cell.column.Header === 'Name') {
                       return (
                         <>
                         {
