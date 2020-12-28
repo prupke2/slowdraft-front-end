@@ -114,6 +114,11 @@ button {
   background: var(--gradient1);
 }
 
+.save-button {
+  max-width: 100px;
+  margin: 15px auto;
+}
+
 .button-large {
   font-size: 1.4rem;
   padding: 7px 15px;
@@ -129,4 +134,8 @@ button:hover {
 
 .margin-15 {
   margin: 15px;
+}
+
+textarea {
+  width: 90%;
 }
