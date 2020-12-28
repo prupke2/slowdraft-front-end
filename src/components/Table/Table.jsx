@@ -18,8 +18,8 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
   }
 
   function forumModal(id) {
-    setModalOpen(true);
     setForumPostId(id); 
+    setModalOpen(true);
   }
 
   const filterTypes = React.useMemo(

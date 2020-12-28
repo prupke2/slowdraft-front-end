@@ -11,13 +11,11 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
   const [forumPostReplies, setForumPostReplies] = useState('');
 
   function getReplies(post_id) {
-    if (forumPostReplies === '') {
-      fetch(`/view_post_replies/${post_id}`)
-      .then(res => res.json())
-      .then(data => {
-        setForumPostReplies(data.replies);
-      })
-    }
+    fetch(`/view_post_replies/${post_id}`)
+    .then(res => res.json())
+    .then(data => {
+      setForumPostReplies(data.replies);
+    })
   }
 
   function draftPlayer(data) {
