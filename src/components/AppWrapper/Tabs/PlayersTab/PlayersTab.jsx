@@ -26,7 +26,6 @@ export default function PlayersTab() {
     {
       Header: 'Team',
       accessor: 'team',
-      sort: false,
       Filter: SearchColumnFilter,
       width: '50px',
     },

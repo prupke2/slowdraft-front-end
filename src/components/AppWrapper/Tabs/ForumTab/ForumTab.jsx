@@ -56,7 +56,7 @@ export default function ForumTab() {
   }, [])
 
   function newForumPost() {
-
+    setModalOpen(true);
   }
 
   return (
@@ -66,7 +66,7 @@ export default function ForumTab() {
       }
       { !isLoading &&
         <>
-          <button className='margin-15' onClick = {() => setModalOpen(true)}>New post</button>
+          <button className='margin-15' onClick = {() => newForumPost()}>New post</button>
           <ModalWrapper 
             modalIsOpen={modalOpen}
             setIsOpen={setModalOpen}
