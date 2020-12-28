@@ -7,7 +7,7 @@
 
 #draft-player-modal {
   width: 50vw;
-  height: 350px;
+  height: 380px;
 }
 
 #forum-post-modal, #new-forum-post-modal{
@@ -90,10 +90,6 @@
 
 .forum-reply {
   padding-left: 50px;
-}
-
-.new-forum-post-modal {
-
 }
 
 .new-forum-post-form {

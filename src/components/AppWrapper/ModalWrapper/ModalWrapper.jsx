@@ -5,6 +5,7 @@ import { ToastsStore } from 'react-toasts';
 import './ModalWrapper.css';
 import { timeSince } from '../../../util/time';
 import CloseModalButton from './CloseModalButton/CloseModalButton';
+import NewForumPost from './NewForumPost/NewForumPost';
 
 
 export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) {
@@ -71,7 +72,6 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
         <div className='modal-forum-text'>{ReactHtmlParser(data.body)}</div>
 
         { forumPostReplies !== '' &&
-
           <div className='replies'>
             {forumPostReplies.map(reply =>
               <div key={reply.id} className="forum-reply">
@@ -86,9 +86,10 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
             )}
           </div>
         }
-        <div className='button-group'>
-          <button className="button-large">Reply</button>
-        </div>
+        <NewForumPost 
+          parentPostId={data.id}
+          setIsOpen={setIsOpen}
+        />
       </Modal>
     );
   }
@@ -98,7 +99,7 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setIsOpen(false)}
-        contentLabel='Player Draft'
+        contentLabel='New Forum Post'
         parentSelector={() => document.querySelector('main')}
         id='new-forum-post-modal'
       >
@@ -106,18 +107,9 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
           setIsOpen={setIsOpen}
         />
         <div className='modal-title'>New forum post</div>
-        <form className='new-forum-post-form'>
-          <div>
-            <label name='title'>Title</label>
-            <input type='text' label='title' />
-          </div>
-          <div>
-            <label name='body'>Post</label>
-            {/* <textarea label='body' /> */}
-            <div id="editor"></div>
-          </div>
-          <button className='margin-15'>Save</button>
-        </form>
+        <NewForumPost 
+          setIsOpen={setIsOpen}
+        />
         <div className='modal-player-info'>
           {typeof(data.team) !== 'undefined' &&
             <>
