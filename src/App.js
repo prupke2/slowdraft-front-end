@@ -21,7 +21,7 @@ export default function App() {
   const { data, loading, requestError } = useRequest('/check_login');
   
   function checkLogin() {
-    if (typeof(code) === "undefined") {
+    if (typeof(code) !== "undefined") {
       if (data.success === true) {
         setPub(data.pub);
         setSub(data.sub);
@@ -36,8 +36,8 @@ export default function App() {
 
   useEffect(() => {
     if (!loggedIn) {
+      console.log("Not logged in.")
       checkLogin();
-      
     }
   }, [data]);
 
