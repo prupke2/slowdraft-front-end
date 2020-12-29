@@ -6,7 +6,6 @@ import Loading from './components/Loading/Loading';
 import './App.css';
 import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toasts';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
-import useRequest from './util/useRequest';
 
 export default function App() {
 
@@ -14,32 +13,41 @@ export default function App() {
   // pub and sub (publish/subscribe) states are used for the chat backend
   const [pub, setPub] = useState(""); 
   const [sub, setSub] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
 
-  const { data, loading, requestError } = useRequest('/check_login');
+  // const { data, loading, requestError } = useRequest('/check_login');
   
   function checkLogin() {
-    if (typeof(code) !== "undefined") {
-      if (data.success === true) {
-        setPub(data.pub);
-        setSub(data.sub);
-        window.history.replaceState({}, document.title, "/");
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-      }
-      setIsLoading(false)
-    }
+    // if (typeof(code) !== "undefined") {
+    fetch('/check_login')
+      .then(async response => {
+        const data = await response.json();
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          ToastsStore.reject('There was an error connecting to Yahoo. Please try again later');
+          return Promise.reject(error);
+        }
+        if (data.success === true) {
+          setPub(data.pub);
+          setSub(data.sub);
+          window.history.replaceState({}, document.title, "/");
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+        setIsLoading(false)
+      });
+    // }
   }
 
   useEffect(() => {
-    if (!loggedIn) {
+    if (!loggedIn && typeof(code) !== "undefined") {
       console.log("Not logged in.")
       checkLogin();
     }
-  }, [data]);
+  }, [code]);
 
   function logout() {
     fetch('/logout').then(res => res.json()).then(data => {
@@ -56,10 +64,10 @@ export default function App() {
           store={ToastsStore}
           position={ToastsContainerPosition.TOP_CENTER}
         />
-        { loading &&
+        { isLoading &&
           <Loading />
         }
-        { (!loading && !loggedIn) &&
+        { (!isLoading && !loggedIn) &&
           <ErrorBoundary>          
             <Login 
               code={code}
