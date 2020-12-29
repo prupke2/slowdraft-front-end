@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Errors from '../Errors/Errors';
 import './Login.css';
 import { ToastsStore } from 'react-toasts';
+// import { getCookie } from '../../assets/Cookies';
 
 export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading }) {
   const client_id = "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
@@ -10,7 +11,6 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading 
       "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
       // "&redirect_uri=oob&response_type=code&language=en-us" // for testing login locally
 
-  let loginAttempted = false;
   useEffect(() => {
     function loginUser() {
       setIsLoading(true);
@@ -24,8 +24,9 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading 
             setPub(data.pub);
             setSub(data.sub);
             setLoggedIn(true);
+            setIsLoading(false);
           } else {
-            setLoggedIn(false);
+            // setLoggedIn(false);
             setIsLoading(false)
           }
         })
@@ -34,12 +35,9 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading 
           console.log(`Error: ${err.text}`);
         })
     }
-    if (typeof(code) !== "undefined") {
-      if (loginAttempted === false) {
-        setIsLoading(true);
-        loginAttempted = true;
-        loginUser();
-      }
+    if (typeof(code) !== 'undefined') {
+      setIsLoading(true);
+      loginUser();
     }
   }, []);
 

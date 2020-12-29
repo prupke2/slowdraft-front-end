@@ -6,6 +6,7 @@ import Loading from './components/Loading/Loading';
 import './App.css';
 import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toasts';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+// import { getCookie } from './assets/Cookies';
 
 export default function App() {
 
@@ -18,7 +19,6 @@ export default function App() {
   const code = queryParams["code"];
   
   function checkLogin() {
-    // if (typeof(code) !== "undefined") {
     fetch('/check_login')
       .then(async response => {
         const data = await response.json();
@@ -32,16 +32,20 @@ export default function App() {
           setSub(data.sub);
           window.history.replaceState({}, document.title, "/");
           setLoggedIn(true);
-        } else {
-          setLoggedIn(false);
-        }
+        } 
         setIsLoading(false)
       });
-    // }
   }
 
   useEffect(() => {
     if (!loggedIn && typeof(code) !== "undefined") {
+    // let session = getCookie('access_token');
+    // console.log("session: " + session);
+    // console.log("type: " + typeof(session));
+    // if (typeof(session) === 'undefined') {
+    //   console.log("Setting logged in true")
+    //   setLoggedIn(true);
+    // } else if (!loggedIn && typeof(code) !== "undefined") {
       console.log("Not logged in.")
       checkLogin();
     }
