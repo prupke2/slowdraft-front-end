@@ -16,8 +16,6 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
-
-  // const { data, loading, requestError } = useRequest('/check_login');
   
   function checkLogin() {
     // if (typeof(code) !== "undefined") {
