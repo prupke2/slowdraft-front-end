@@ -20,6 +20,7 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
   }
 
   function draftPlayer(data) {
+    // fetch(`/draft/${data.player_id}`)
     setIsOpen(false);
     ToastsStore.success(`You have drafted ${data.name}`);
   }
@@ -67,7 +68,10 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
         />
 
         <div className='modal-title'>{ReactHtmlParser(data.title)}</div>
-        <span className='modal-forum-user'>{data.user}</span>
+        <span className='modal-forum-user'>
+          {data.user} &nbsp;
+          <div className='modal-forum-date'>{timeSince(data.create_date)}</div>
+        </span>
 
         <div className='modal-forum-text'>{ReactHtmlParser(data.body)}</div>
 
