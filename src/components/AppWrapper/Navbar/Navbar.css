@@ -73,3 +73,15 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
   z-index: 99;
 }
 
+.logo-wrapper {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  top: 5px;
+  right: 90px;
+}
+
+.logo {
+  width: 40px;
+  height: auto;
+}
