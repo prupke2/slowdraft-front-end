@@ -86,7 +86,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
           {JSON.stringify({ pageIndex, pageSize, pageCount, canNextPage, canPreviousPage}, null, 2)}
         </code>
       </pre> */}
-      { tableType != 'forum' && 
+      { tableType !== 'forum' && 
         <Pagination 
           gotoPage={gotoPage}
           previousPage={previousPage}
