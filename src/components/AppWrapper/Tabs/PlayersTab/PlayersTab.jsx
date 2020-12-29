@@ -123,9 +123,7 @@ export default function PlayersTab() {
       }
     ]
   }
-
-  // const { data, loading, error } = useRequest('/get_db_players');
-
+  
   useEffect(() => {
     setIsLoading(true);
     fetch('/get_db_players')
