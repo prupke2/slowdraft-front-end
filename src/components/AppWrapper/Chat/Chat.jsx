@@ -5,12 +5,11 @@ import MessageLog from './MessageLog/MessageLog';
 import './Chat.css';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary.jsx';
 
-export default function Chat({pub, sub}) {
+export default function Chat({pub, sub, teamName}) {
 
   const [messages, setMessages] = useState([]);
   const tempMessage = useInput();
   const channel = "test" // To reset messages, update the channel name to something new
-  const [username, setUsername] = useState(['anon']);
   // const [username, setUsername] = useState(['anon', new Date().getTime()].join('-'));
 
   useEffect(()=>{
@@ -18,8 +17,8 @@ export default function Chat({pub, sub}) {
     const pubnub = new PubNub({
       publishKey: pub,
       subscribeKey: sub,
-      uuid: username
-    });
+      uuid: teamName
+    }, [teamName]);
 
     pubnub.addListener({
       status: function(statusEvent) {
@@ -65,7 +64,7 @@ export default function Chat({pub, sub}) {
       pubnub.unsubscribeAll();
       setMessages([]);
     }
-  },[channel, username, pub, sub]);
+  },[channel, teamName, pub, sub]);
 
   function handleKeyDown(event){
     if(event.target.id === "messageInput"){
@@ -80,13 +79,13 @@ export default function Chat({pub, sub}) {
     if (tempMessage.value) {
       let messageObject = {
         text: tempMessage.value,
-        uuid: username
+        uuid: teamName
       };
   
       const pubnub = new PubNub({
           publishKey: pub,
           subscribeKey: sub,
-          uuid: username
+          uuid: teamName
         });
       pubnub.publish({
         message: messageObject,
