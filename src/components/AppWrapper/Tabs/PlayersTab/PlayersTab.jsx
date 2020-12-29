@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectPositionColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
-import useRequest from '../../../../util/useRequest';
-import Errors from '../../../Errors/Errors';
+// import Errors from '../../../Errors/Errors';
 
 
 export default function PlayersTab() {
@@ -125,14 +124,17 @@ export default function PlayersTab() {
     ]
   }
 
-  const { data, loading, error } = useRequest('/get_db_players');
+  // const { data, loading, error } = useRequest('/get_db_players');
 
   useEffect(() => {
     setIsLoading(true);
     fetch('/get_db_players')
-    .then(res => res.json())
-    .then(data => {
-      // console.log("data: " + JSON.stringify(data.players, null, 4));
+    .then(async response => {
+      const data = await response.json();
+      if (!response.ok) {
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
       setPlayers(data.players);
     })
     .then(setIsLoading(false));
@@ -140,7 +142,7 @@ export default function PlayersTab() {
 
   return (
     <>
-      { error && <Errors />}
+      {/* { error && <Errors />} */}
       { !isLoading &&
         <Table
           data={players}
@@ -148,7 +150,7 @@ export default function PlayersTab() {
           tableState={tableState}
           defaultColumn='name'
           tableType="draft"
-          loading={loading}
+          // loading={loading}
         />
       }
     </>
