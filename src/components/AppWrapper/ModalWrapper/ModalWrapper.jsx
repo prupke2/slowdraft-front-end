@@ -80,7 +80,7 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
             {forumPostReplies.map(reply =>
               <div key={reply.id} className="forum-reply">
                 <span className='modal-forum-user'>
-                  {reply.name} &nbsp;
+                  {reply.username} &nbsp;
                   <div className='modal-forum-date'>{timeSince(reply.create_date)}</div>
                 </span>
                 <div className='modal-forum-text'>
