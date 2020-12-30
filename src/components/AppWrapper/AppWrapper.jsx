@@ -52,11 +52,11 @@ export default function AppWrapper({logout, pub, sub}) {
         userPickingNow={userPickingNow}
         pickExpiry={pickExpiry}
       />
-      {/* <Chat 
+      <Chat 
         pub={pub}
         sub={sub}
         teamName={teamName}
-      /> */}
+      />
     </>
   );
 }
