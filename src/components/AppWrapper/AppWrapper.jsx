@@ -3,11 +3,14 @@ import Navbar from './Navbar/Navbar';
 import Chat from './Chat/Chat';
 import dummyIcon from '../../assets/dummy_icon.png';
 import Logo from './Navbar/Logo';
+import NextPick from './NextPick/NextPick';
 
 export default function AppWrapper({logout, pub, sub}) {
   const [yahooTeamId, setYahooTeamId] = useState(null);
   const [teamLogo, setTeamLogo] = useState(dummyIcon);
   const [teamName, setTeamName] = useState('');
+  const [userPickingNow, setUserPickingNow] = useState('');
+  const [pickExpiry, setPickExpiry] = useState(null);
 
   function getYahooTeam() {
     fetch('/get_team_session')
@@ -36,16 +39,24 @@ export default function AppWrapper({logout, pub, sub}) {
     <>      
       <Navbar 
         logout={logout}
+        userPickingNow={userPickingNow}
+        setUserPickingNow={setUserPickingNow}
+        pickExpiry={pickExpiry}
+        setPickExpiry={setPickExpiry}
       />
       <Logo 
         teamLogo={teamLogo}
         teamName={teamName}
       />
-      <Chat 
+      <NextPick 
+        userPickingNow={userPickingNow}
+        pickExpiry={pickExpiry}
+      />
+      {/* <Chat 
         pub={pub}
         sub={sub}
         teamName={teamName}
-      />
+      /> */}
     </>
   );
 }
