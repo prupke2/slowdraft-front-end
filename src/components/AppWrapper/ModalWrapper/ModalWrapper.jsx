@@ -20,9 +20,17 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
   }
 
   function draftPlayer(data) {
-    // fetch(`/draft/${data.player_id}`)
-    setIsOpen(false);
-    ToastsStore.success(`You have drafted ${data.name}`);
+    fetch(`/draft/${data.player_id}`)
+    .then(async response => {
+      const data = await response.json();
+      if (!response.ok) {
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+      setIsOpen(false);
+    })
+    .then(ToastsStore.success(`You have drafted ${data.name}`));
+    ;
   }
   
   if (modalType === 'draftPlayer') {
