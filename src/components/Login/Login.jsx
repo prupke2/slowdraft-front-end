@@ -25,6 +25,7 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading 
             setSub(data.sub);
             localStorage.setItem( 'pub', data.pub );
             localStorage.setItem( 'sub', data.sub );
+            localStorage.setItem( 'yahooSession', true );
             setLoggedIn(true);
             setIsLoading(false);
           } else {

@@ -30,7 +30,9 @@ export default function App() {
         if (data.success === true) {
           setPub(data.pub);
           setSub(data.sub);
-          localStorage.setItem( 'session', true );
+          localStorage.setItem( 'pub', data.pub );
+          localStorage.setItem( 'sub', data.sub );
+          localStorage.setItem( 'yahooSession', true );
           window.history.replaceState({}, document.title, "/");
           setLoggedIn(true);
         } 
@@ -39,10 +41,10 @@ export default function App() {
   }
 
   useEffect(() => {
-    let session = localStorage.getItem( 'session' ) || false;
+    let yahooSession = localStorage.getItem( 'yahooSession' ) || false;
     let pub = localStorage.getItem( 'pub' ) || '';
 
-    if (session === null && typeof(code) !== "undefined") {
+    if (yahooSession === null && typeof(code) !== "undefined") {
     // let session = getCookie('access_token');
     // console.log("session: " + session);
     // console.log("type: " + typeof(session));
@@ -64,7 +66,7 @@ export default function App() {
   function logout() {
     fetch('/logout').then(res => res.json()).then(data => {
       console.log("Logging out: " + data.success);
-      localStorage.setItem( 'session', false );
+      localStorage.setItem( 'yahooSession', false );
       setLoggedIn(false);
       setIsLoading(false);
     });

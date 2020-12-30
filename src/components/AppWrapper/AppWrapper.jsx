@@ -24,9 +24,11 @@ export default function AppWrapper({logout, pub, sub}) {
   }
   
   useEffect(() => {
-    if (!yahooTeamId) {
-      console.log("Getting yahooTeamId")
-      getYahooTeam();
+    if (localStorage.getItem( 'yahooSession' ) !== true) {
+      if (!yahooTeamId) {
+        console.log("Getting yahooTeamId")
+        getYahooTeam();
+      }
     }
   }, []);
 
