@@ -7,10 +7,10 @@ import ModalWrapper from "../AppWrapper/ModalWrapper/ModalWrapper";
 import Loading from "../Loading/Loading";
 import { ToastsStore } from "react-toasts";
 
-export default function Table({ columns, data, defaultColumnFilter, tableState, tableType, loading, role }) {
+export default function Table({ columns, data, defaultColumnFilter, tableState, tableType, loading, role, draftingNow }) {
+  console.log("draftingNow: " + draftingNow);
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
-  // const [forumModalOpen, setForumModalOpen] = useState(false);
   const [forumPostId, setForumPostId] = useState("");
 
   function draftModal(player) {
@@ -135,7 +135,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {/* Add an extra column for the draft button */}
-                { (tableType === 'draft' || (tableType === 'draftPicks' && role === 'admin')) &&
+                { ((tableType === 'draft' && draftingNow) || (tableType === 'draftPicks' && role === 'admin')) &&
                   <th className="blank-cell" width="30px"></th>
                 }
                 {headerGroup.headers.map(column => {
@@ -241,7 +241,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                       return (
                         <>
                         {
-                          tableType === 'draft' &&
+                          (tableType === 'draft' && draftingNow) &&
                           <td className="draft-button-cell">
                             <div>
                               <button onClick={() => draftModal(cell.row.original)}>Draft</button>

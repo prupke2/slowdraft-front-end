@@ -3,7 +3,7 @@ import Table from '../../../Table/Table';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 
-export default function DraftTab({userPickingNow, setUserPickingNow, pickExpiry, setPickExpiry}) {
+export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow}) {
   const [picks, setPicks] = useState([]);
   const [role, setRole] = useState('user');
 
@@ -62,7 +62,7 @@ export default function DraftTab({userPickingNow, setUserPickingNow, pickExpiry,
     fetch('/get_draft')
     .then(res => res.json())
     .then(data => {
-      console.log("data: " + JSON.stringify(data, null, 4))
+      // console.log("data: " + JSON.stringify(data, null, 4))
       setPicks(data.picks);
       setRole(data.role);
       setUserPickingNow(data.current_pick);
@@ -77,16 +77,15 @@ export default function DraftTab({userPickingNow, setUserPickingNow, pickExpiry,
         <Loading />
       }
       { !isLoading &&
-        <>
-          <Table
-            data={picks}
-            columns={columns}
-            tableState={tableState}
-            defaultColumn='overall_pick'
-            tableType='draftPicks'
-            role={role}
-          />
-        </>
+        <Table
+          data={picks}
+          columns={columns}
+          tableState={tableState}
+          defaultColumn='overall_pick'
+          tableType='draftPicks'
+          role={role}
+          draftingNow={draftingNow}
+        />
       }
     </>
   );
