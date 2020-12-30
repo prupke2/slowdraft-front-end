@@ -4,7 +4,7 @@ import Chat from './Chat/Chat';
 import dummyIcon from '../../assets/dummy_icon.png';
 import Logo from './Navbar/Logo';
 
-export default function AppWrapper({logout, pub, sub, setLoadingText}) {
+export default function AppWrapper({logout, pub, sub}) {
   const [yahooTeamId, setYahooTeamId] = useState(null);
   const [teamLogo, setTeamLogo] = useState(dummyIcon);
   const [teamName, setTeamName] = useState('');
