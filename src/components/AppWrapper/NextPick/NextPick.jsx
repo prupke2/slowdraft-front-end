@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import './NextPick.css';
 import { useEffect } from 'react';
 
-export default function NextPick({userPickingNow, pickExpiry}) {
-  console.log("userPickingNow: " + JSON.stringify(userPickingNow, null, 4))
+export default function NextPick({userPickingNow, pickExpiry, draftingNow}) {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const expiry = Date.parse(pickExpiry);
   const timeLeft = expiry - currentTime;
@@ -25,19 +24,24 @@ export default function NextPick({userPickingNow, pickExpiry}) {
 
   return (
     <>
-    <div className="current-pick-timer">
+    <div className='current-pick-timer'>
       { userPickingNow && 
-        <>
-        <p className="drafting-now">
-          <p>Drafting:&nbsp;</p>
-          <div class>
-            <span role='img' aria-label='icon' style={{ 'background': userPickingNow.color}}>👤</span>
-            <span className="user">{userPickingNow.username}</span>
-          </div>
+        <p className='drafting-now'>
+          { draftingNow && 
+            <p>You're up!</p>
+          }
+          { !draftingNow && 
+          <>
+            <p>Drafting:&nbsp;</p>
+            <p>
+              <span role='img' aria-label='icon' style={{ 'background': userPickingNow.color}}>👤</span>
+              <span className="user">{userPickingNow.username}</span>
+            </p>
+          </>
+          }
         </p>
-        <p className="countdown-timer" id="countdown">{countdownClock}</p>
-        </>
       }
+        <p className='countdown-timer' id='countdown'>{countdownClock}</p>
       {/* { !userPickingNow &&
         <p className="drafting-now">
           Draft has not started yet
