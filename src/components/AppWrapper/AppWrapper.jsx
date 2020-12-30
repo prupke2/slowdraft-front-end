@@ -6,11 +6,13 @@ import Logo from './Navbar/Logo';
 import NextPick from './NextPick/NextPick';
 
 export default function AppWrapper({logout, pub, sub}) {
-  const [yahooTeamId, setYahooTeamId] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [teamLogo, setTeamLogo] = useState(dummyIcon);
   const [teamName, setTeamName] = useState('');
   const [userPickingNow, setUserPickingNow] = useState('');
   const [pickExpiry, setPickExpiry] = useState(null);
+
+  const draftingNow = (userPickingNow === userId) && (typeof(userPickingNow) !== 'undefined');
 
   function getYahooTeam() {
     fetch('/get_team_session')
@@ -20,7 +22,7 @@ export default function AppWrapper({logout, pub, sub}) {
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
-        setYahooTeamId(data.user_id);
+        setUserId(data.user_id);
         setTeamLogo(data.logo);
         setTeamName(data.team_name);
       });
@@ -28,8 +30,8 @@ export default function AppWrapper({logout, pub, sub}) {
   
   useEffect(() => {
     if (localStorage.getItem( 'yahooSession' ) !== true) {
-      if (!yahooTeamId) {
-        console.log("Getting yahooTeamId")
+      if (!userId) {
+        console.log("Getting userId")
         getYahooTeam();
       }
     }
@@ -39,10 +41,9 @@ export default function AppWrapper({logout, pub, sub}) {
     <>      
       <Navbar 
         logout={logout}
-        userPickingNow={userPickingNow}
         setUserPickingNow={setUserPickingNow}
-        pickExpiry={pickExpiry}
         setPickExpiry={setPickExpiry}
+        draftingNow={draftingNow}
       />
       <Logo 
         teamLogo={teamLogo}
@@ -51,6 +52,7 @@ export default function AppWrapper({logout, pub, sub}) {
       <NextPick 
         userPickingNow={userPickingNow}
         pickExpiry={pickExpiry}
+        draftingNow={draftingNow}
       />
       <Chat 
         pub={pub}
