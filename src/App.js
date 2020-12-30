@@ -12,8 +12,8 @@ export default function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
   // pub and sub (publish/subscribe) states are used for the chat backend
-  const [pub, setPub] = useState(""); 
-  const [sub, setSub] = useState("");
+  const [pub, setPub] = useState(localStorage.getItem( 'pub' ) || ''); 
+  const [sub, setSub] = useState(localStorage.getItem( 'sub' ) || '');
   const [isLoading, setIsLoading] = useState(false);
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
@@ -30,6 +30,7 @@ export default function App() {
         if (data.success === true) {
           setPub(data.pub);
           setSub(data.sub);
+          localStorage.setItem( 'session', true );
           window.history.replaceState({}, document.title, "/");
           setLoggedIn(true);
         } 
@@ -38,7 +39,9 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (!loggedIn && typeof(code) !== "undefined") {
+    let session = localStorage.getItem( 'session' ) || false;
+
+    if (session === null && typeof(code) !== "undefined") {
     // let session = getCookie('access_token');
     // console.log("session: " + session);
     // console.log("type: " + typeof(session));
@@ -48,6 +51,8 @@ export default function App() {
     // } else if (!loggedIn && typeof(code) !== "undefined") {
       console.log("Not logged in.")
       checkLogin();
+    } else {
+      setLoggedIn(true);
     }
   }, [code]);
 
