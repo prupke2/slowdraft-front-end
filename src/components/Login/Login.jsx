@@ -23,6 +23,8 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading 
           if (data.access_token && data.refresh_token) {
             setPub(data.pub);
             setSub(data.sub);
+            localStorage.setItem( 'pub', data.pub );
+            localStorage.setItem( 'sub', data.sub );
             setLoggedIn(true);
             setIsLoading(false);
           } else {
