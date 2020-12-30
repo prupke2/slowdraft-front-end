@@ -5,6 +5,7 @@ import Loading from '../../../Loading/Loading';
 
 export default function DraftTab() {
   const [picks, setPicks] = useState([]);
+  const [role, setRole] = useState('user');
 
   const columns = [
     {
@@ -27,7 +28,7 @@ export default function DraftTab() {
     {
       Header: 'Team',
       accessor: 'team',
-      width: '30px',
+      width: '50px',
       disableFilters: true,
     },
     {
@@ -61,8 +62,8 @@ export default function DraftTab() {
     fetch('/get_draft')
     .then(res => res.json())
     .then(data => {
-      // console.log("data: " + JSON.stringify(data.posts, null, 4));
       setPicks(data.picks);
+      setRole(data.role);
     })
     .then(setIsLoading(false));
   }, [])
@@ -80,6 +81,7 @@ export default function DraftTab() {
             tableState={tableState}
             defaultColumn='overall_pick'
             tableType='draftPicks'
+            role={role}
           />
         </>
       }
