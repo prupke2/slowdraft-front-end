@@ -191,7 +191,6 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                     //   )
                     // } else 
                     if (cell.column.Header === 'Pick') {
-                      console.log("cell.row.original: " + JSON.stringify(cell.row.original, null, 4))
                       return (
                         <>
                           { role === 'admin' && 
@@ -230,7 +229,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                           {...cell.getCellProps()}
                           >
                             
-                          <span style={{ 'background': cell.row.original.color}}>👤</span>
+                          <span role='img' aria-label='icon' style={{ 'background': cell.row.original.color}}>👤</span>
                           <span 
                             className="user" 
                           >
