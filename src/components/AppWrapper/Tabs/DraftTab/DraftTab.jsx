@@ -3,7 +3,7 @@ import Table from '../../../Table/Table';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 
-export default function DraftTab() {
+export default function DraftTab({userPickingNow, setUserPickingNow, pickExpiry, setPickExpiry}) {
   const [picks, setPicks] = useState([]);
   const [role, setRole] = useState('user');
 
@@ -62,8 +62,11 @@ export default function DraftTab() {
     fetch('/get_draft')
     .then(res => res.json())
     .then(data => {
+      console.log("data: " + JSON.stringify(data, null, 4))
       setPicks(data.picks);
       setRole(data.role);
+      setUserPickingNow(data.current_pick);
+      setPickExpiry(data.current_pick.pick_expires);
     })
     .then(setIsLoading(false));
   }, [])

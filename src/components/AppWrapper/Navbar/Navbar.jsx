@@ -8,7 +8,7 @@ import ForumTab from '../Tabs/ForumTab/ForumTab';
 import DraftTab from '../Tabs/DraftTab/DraftTab';
 
 
-export default function Navbar({logout}) {
+export default function Navbar({logout, userPickingNow, setUserPickingNow, pickExpiry, setPickExpiry}) {
 
   function test() {
     fetch('/test')
@@ -26,7 +26,12 @@ export default function Navbar({logout}) {
           {/* <Tab>Test</Tab> */}
         </TabList>
         <TabPanel>
-          <DraftTab />
+          <DraftTab 
+            userPickingNow={userPickingNow}
+            setUserPickingNow={setUserPickingNow}
+            pickExpiry={pickExpiry}
+            setPickExpiry={setPickExpiry}
+          />
         </TabPanel>
         <TabPanel>
           <PlayersTab />
