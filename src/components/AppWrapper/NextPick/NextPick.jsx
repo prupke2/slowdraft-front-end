@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import moment from 'moment';
 import './NextPick.css';
 import { useEffect } from 'react';
 
