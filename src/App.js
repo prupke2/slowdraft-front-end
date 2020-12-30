@@ -40,6 +40,7 @@ export default function App() {
 
   useEffect(() => {
     let session = localStorage.getItem( 'session' ) || false;
+    let pub = localStorage.getItem( 'pub' ) || '';
 
     if (session === null && typeof(code) !== "undefined") {
     // let session = getCookie('access_token');
@@ -52,7 +53,11 @@ export default function App() {
       console.log("Not logged in.")
       checkLogin();
     } else {
-      setLoggedIn(true);
+      if (pub !== '') {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
     }
   }, [code]);
 
