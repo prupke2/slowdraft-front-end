@@ -24,9 +24,6 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
   }
 
   function updatePick(event, overall_pick) {
-    // event.preventDefault();
-    console.log("data: " + JSON.stringify(overall_pick, null, 4));
-    console.log("event.target.value,: " + event.target.value);
     const requestParams = {
       method: 'POST',
       headers: { 
@@ -194,6 +191,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                     //   )
                     // } else 
                     if (cell.column.Header === 'Pick') {
+                      console.log("cell.row.original: " + JSON.stringify(cell.row.original, null, 4))
                       return (
                         <>
                           { role === 'admin' && 
@@ -225,6 +223,20 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                             {cell.render('Cell')}
                           </td>
                         </>
+                      )
+                    } else if (cell.column.Header === 'User') {
+                      return (
+                        <td className={cell.column.Header}
+                          {...cell.getCellProps()}
+                          >
+                            
+                          <span style={{ 'background': cell.row.original.color}}>👤</span>
+                          <span 
+                            className="user" 
+                          >
+                            {cell.render('Cell')}
+                          </span>
+                        </td>
                       )
                     } else if (cell.column.Header === 'Name') {
                       return (
