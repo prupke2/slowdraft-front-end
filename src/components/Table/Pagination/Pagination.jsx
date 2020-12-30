@@ -3,7 +3,7 @@ import './Pagination.css';
 
 export default function Pagination(
     { 
-      gotoPage, canPreviousPage, previousPage, nextPage,
+      tableType, gotoPage, canPreviousPage, previousPage, nextPage,
       canNextPage, pageCount, pageIndex, pageOptions
     }) {
   return (
@@ -12,7 +12,8 @@ export default function Pagination(
 
       <li className="pagination-goto-page">
         <span className="page-link">
-          Page
+          { tableType === 'draftPicks' && 'Round' }
+          { tableType !== 'draftPicks' && 'Page' }
           <div className="page-of-page">
             <strong>
                 {pageIndex + 1} of {pageOptions.length}
@@ -32,6 +33,10 @@ export default function Pagination(
           />
         </span>
       </li>
+
+      { tableType == 'draftPicks' &&
+        <li className='round'>Round {pageIndex + 1}</li>
+      }
 
       <li className="pagination-arrows">
         <div className="page-item" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>

@@ -47,7 +47,11 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
     return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
   }
 
-  tableState = {...tableState, pageIndex: 0, pageSize: 25}
+  if (tableType == 'draftPicks') {
+    tableState = {...tableState, pageIndex: 0, pageSize: 12}
+  } else {
+    tableState = {...tableState, pageIndex: 0, pageSize: 25}
+  }
   const {
       getTableProps,
       getTableBodyProps,
@@ -88,6 +92,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
       </pre> */}
       { tableType !== 'forum' && 
         <Pagination 
+          tableType={tableType}
           gotoPage={gotoPage}
           previousPage={previousPage}
           canPreviousPage={canPreviousPage}
@@ -237,6 +242,7 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
         </table>
       }
       <Pagination 
+        tableType={tableType}
         gotoPage={gotoPage}
         previousPage={previousPage}
         canPreviousPage={canPreviousPage}

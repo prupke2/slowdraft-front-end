@@ -8,6 +8,12 @@
   margin: 0 0 20px 0;
 }
 
+.round {
+  font-weight: bold;
+  font-size: 1.7rem !important;
+  color: white;
+}
+
 .pagination-arrows {
   display: flex;
   color: black !important;
