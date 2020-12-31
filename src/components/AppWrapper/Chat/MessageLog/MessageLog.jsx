@@ -6,11 +6,10 @@ export default function MessageLog({messages}) {
 
   // Scroll to bottom of chatbox on load and when a new message comes in
   useEffect(() => {
-    console.log("typeof(chatbox): " + typeof(chatbox));
     if (chatbox) { 
       chatbox.scrollTop = chatbox.scrollHeight;
     }
-  }, [messages]);
+  }, [chatbox]);
 
   return(
     <ul id="chat-messages">

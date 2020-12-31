@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import useInput from './useInput.js';
 import PubNub from 'pubnub'; // backend for chat component
 import MessageLog from './MessageLog/MessageLog';
@@ -8,8 +8,7 @@ import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary.jsx';
 export default function Chat({messages, setMessages, pub, sub, teamName, channel}) {
 
   const tempMessage = useInput();
-  // const channel = "test" // To reset messages, update the channel name to something new
-
+  
   useEffect(()=>{
     console.log("setting up chat");
     const pubnub = new PubNub({
