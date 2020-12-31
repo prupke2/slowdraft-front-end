@@ -7,7 +7,18 @@ import ModalWrapper from "../AppWrapper/ModalWrapper/ModalWrapper";
 import Loading from "../Loading/Loading";
 import { ToastsStore } from "react-toasts";
 
-export default function Table({ columns, data, defaultColumnFilter, tableState, tableType, loading, role, draftingNow }) {
+export default function Table(
+    { columns, 
+      data, 
+      defaultColumnFilter, 
+      tableState, 
+      tableType, 
+      loading, 
+      role, 
+      draftingNow, 
+      teamName, 
+      sendChatAnnouncement }
+  ) {
   console.log("draftingNow: " + draftingNow);
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
@@ -250,6 +261,8 @@ export default function Table({ columns, data, defaultColumnFilter, tableState, 
                                 setIsOpen={setModalOpen}
                                 data={playerDrafted}
                                 modalType="draftPlayer"
+                                teamName={teamName}
+                                sendChatAnnouncement={sendChatAnnouncement}
                               />
                             </div>
                           </td>

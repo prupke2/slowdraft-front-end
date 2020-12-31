@@ -7,13 +7,12 @@ import TeamTab from '../Tabs/TeamTab/TeamTab';
 import ForumTab from '../Tabs/ForumTab/ForumTab';
 import DraftTab from '../Tabs/DraftTab/DraftTab';
 
-
-export default function Navbar({logout, setUserPickingNow, setPickExpiry, draftingNow}) {
+export default function Navbar({logout, setUserPickingNow, setPickExpiry, draftingNow, teamName, sendChatAnnouncement}) {
 
   // function test() {
   //   fetch('/test')
   // }
-
+  
   return (
     <>
       <Tabs defaultIndex={0} className="navbar-tabs">
@@ -35,11 +34,15 @@ export default function Navbar({logout, setUserPickingNow, setPickExpiry, drafti
         <TabPanel>
           <PlayersTab 
             draftingNow={draftingNow}
+            teamName={teamName}
+            sendChatAnnouncement={sendChatAnnouncement}
           />
         </TabPanel>
         <TabPanel>
           <GoaliesTab 
             draftingNow={draftingNow}
+            teamName={teamName}
+            sendChatAnnouncement={sendChatAnnouncement}
           />
         </TabPanel>
         <TabPanel>

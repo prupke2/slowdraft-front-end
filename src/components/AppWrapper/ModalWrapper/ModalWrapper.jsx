@@ -8,10 +8,13 @@ import CloseModalButton from './CloseModalButton/CloseModalButton';
 import NewForumPost from './NewForumPost/NewForumPost';
 
 
-export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) {
+export default function ModalWrapper(
+    { modalIsOpen, setIsOpen, data, modalType, teamName, sendChatAnnouncement }
+  ) {
   const [forumPostReplies, setForumPostReplies] = useState('');
 
   function getReplies(post_id) {
+
     fetch(`/view_post_replies/${post_id}`)
     .then(res => res.json())
     .then(data => {
@@ -20,6 +23,8 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
   }
 
   function draftPlayer(data) {
+    let message = "The " + teamName + " have drafted " + data.name + ", " + data.position + " - " + data.team
+
     const draftTab = document.getElementById('react-tabs-0');
     fetch(`/draft/${data.player_id}`)
     .then(async response => {
@@ -29,6 +34,7 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
         return Promise.reject(error);
       }
       setIsOpen(false);
+      sendChatAnnouncement(message);
       draftTab.click();
     })
     .then(ToastsStore.success(`You have drafted ${data.name}`));

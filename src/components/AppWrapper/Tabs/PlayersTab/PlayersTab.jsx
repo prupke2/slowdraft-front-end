@@ -4,7 +4,7 @@ import Table from '../../../Table/Table';
 // import Errors from '../../../Errors/Errors';
 
 
-export default function PlayersTab({draftingNow, setUserPickingNow}) {
+export default function PlayersTab({draftingNow, setUserPickingNow, teamName, sendChatAnnouncement}) {
   const [players, setPlayers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -150,6 +150,8 @@ export default function PlayersTab({draftingNow, setUserPickingNow}) {
           tableType="draft"
           draftingNow={draftingNow}
           setUserPickingNow={setUserPickingNow}
+          teamName={teamName}
+          sendChatAnnouncement={sendChatAnnouncement}
         />
       }
     </>
