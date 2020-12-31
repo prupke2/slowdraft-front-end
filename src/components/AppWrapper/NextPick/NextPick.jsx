@@ -28,17 +28,15 @@ export default function NextPick({userPickingNow, pickExpiry, draftingNow}) {
       { userPickingNow && 
         <p className='drafting-now'>
           { draftingNow && 
-            <p>You're up!</p>
+            <p>You're up!&nbsp;</p>
           }
           { !draftingNow && 
-          <>
             <p>Drafting:&nbsp;</p>
-            <p>
-              <span role='img' aria-label='icon' style={{ 'background': userPickingNow.color}}>👤</span>
-              <span className="user">{userPickingNow.username}</span>
-            </p>
-          </>
           }
+          <p>
+            <span role='img' aria-label='icon' style={{ 'background': userPickingNow.color}}>👤</span>
+            <span className="user">{userPickingNow.username}</span>
+          </p>
         </p>
       }
         <p className='countdown-timer' id='countdown'>{countdownClock}</p>

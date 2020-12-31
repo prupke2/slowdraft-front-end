@@ -1,7 +1,6 @@
 #countdown {
   background: var(--gradient3);
-  border: 2px solid black;
-  border-top: none;
+  border-left: 2px solid black;
 	padding: 0;
 	margin: 0 auto 10px;
 	width: 260px;
@@ -13,7 +12,8 @@
 	position: fixed;
 	z-index: 15;
 	top: 0;
-	right: 90px;
+	right: 6vw;
+	width: 14vw;
 }
 
 .drafting-now {
@@ -22,15 +22,15 @@
 	flex-direction: row;
 	justify-content: center;
 	width: 260px;
-  border: 2px solid black;
+  border-left: 2px solid black;
   border-bottom: none;
 	margin: 0 auto;
-	padding: 5px 0 0;
+	padding: 5px 0 0 5px;
 }
 
 .drafting-now :first-child {
   font-weight: bold;
   color: black;
-  padding: 0 5px;
+  padding: 0 5px 0 0;
   margin: 0;
 }
