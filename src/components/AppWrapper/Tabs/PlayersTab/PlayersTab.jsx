@@ -4,7 +4,7 @@ import Table from '../../../Table/Table';
 // import Errors from '../../../Errors/Errors';
 
 
-export default function PlayersTab() {
+export default function PlayersTab({draftingNow, setUserPickingNow}) {
   const [players, setPlayers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -148,7 +148,8 @@ export default function PlayersTab() {
           tableState={tableState}
           defaultColumn='name'
           tableType="draft"
-          // loading={loading}
+          draftingNow={draftingNow}
+          setUserPickingNow={setUserPickingNow}
         />
       }
     </>
