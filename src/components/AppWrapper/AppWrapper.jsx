@@ -10,7 +10,7 @@ export default function AppWrapper({logout, pub, sub}) {
   const [userId, setUserId] = useState(null);
   const [teamLogo, setTeamLogo] = useState(dummyIcon);
   const [teamName, setTeamName] = useState('');
-  const [userPickingNow, setUserPickingNow] = useState('');
+  const [userPickingNow, setUserPickingNow] = useState({user_id: null});
   const [pickExpiry, setPickExpiry] = useState(null);
   const draftingNow = (userPickingNow.user_id === userId) && (typeof(userPickingNow) !== 'undefined');
   const channel = "test" // To reset messages, update the channel name to something new
