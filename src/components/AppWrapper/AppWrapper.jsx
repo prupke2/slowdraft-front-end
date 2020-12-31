@@ -11,8 +11,7 @@ export default function AppWrapper({logout, pub, sub}) {
   const [teamName, setTeamName] = useState('');
   const [userPickingNow, setUserPickingNow] = useState('');
   const [pickExpiry, setPickExpiry] = useState(null);
-
-  const draftingNow = (userPickingNow === userId) && (typeof(userPickingNow) !== 'undefined');
+  const draftingNow = (userPickingNow.user_id === userId) && (typeof(userPickingNow) !== 'undefined');
 
   function getYahooTeam() {
     fetch('/get_team_session')
