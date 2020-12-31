@@ -20,6 +20,7 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
   }
 
   function draftPlayer(data) {
+    const draftTab = document.getElementById('react-tabs-0');
     fetch(`/draft/${data.player_id}`)
     .then(async response => {
       const data = await response.json();
@@ -28,6 +29,7 @@ export default function ModalWrapper({modalIsOpen, setIsOpen, data, modalType}) 
         return Promise.reject(error);
       }
       setIsOpen(false);
+      draftTab.click();
     })
     .then(ToastsStore.success(`You have drafted ${data.name}`));
     ;
