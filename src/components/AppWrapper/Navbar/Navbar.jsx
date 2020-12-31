@@ -10,9 +10,9 @@ import DraftTab from '../Tabs/DraftTab/DraftTab';
 
 export default function Navbar({logout, setUserPickingNow, setPickExpiry, draftingNow}) {
 
-  function test() {
-    fetch('/test')
-  }
+  // function test() {
+  //   fetch('/test')
+  // }
 
   return (
     <>
@@ -33,10 +33,14 @@ export default function Navbar({logout, setUserPickingNow, setPickExpiry, drafti
           />
         </TabPanel>
         <TabPanel>
-          <PlayersTab />
+          <PlayersTab 
+            draftingNow={draftingNow}
+          />
         </TabPanel>
         <TabPanel>
-          <GoaliesTab />
+          <GoaliesTab 
+            draftingNow={draftingNow}
+          />
         </TabPanel>
         <TabPanel>
           <TeamTab />

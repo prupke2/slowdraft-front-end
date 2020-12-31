@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Table from '../../../Table/Table';
-import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
+// import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 
 export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow}) {
@@ -65,11 +65,13 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow}
       // console.log("data: " + JSON.stringify(data, null, 4))
       setPicks(data.picks);
       setRole(data.role);
-      setUserPickingNow(data.current_pick);
-      setPickExpiry(data.current_pick.pick_expires);
+      if (typeof(data.current_pick) !== 'undefined') {
+        setUserPickingNow(data.current_pick);
+        setPickExpiry(data.current_pick.pick_expires);
+      }
     })
     .then(setIsLoading(false));
-  }, [])
+  }, [setUserPickingNow, setPickExpiry])
 
   return (
     <>

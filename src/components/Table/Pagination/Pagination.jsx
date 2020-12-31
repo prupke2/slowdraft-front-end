@@ -34,7 +34,7 @@ export default function Pagination(
         </span>
       </li>
 
-      { tableType == 'draftPicks' &&
+      { tableType === 'draftPicks' &&
         <li className='round'>Round {pageIndex + 1}</li>
       }
 
