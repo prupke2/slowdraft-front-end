@@ -54,6 +54,11 @@
   font-size: 0.8rem;
 }
 
+.chat-announcement {
+  font-weight: bold;
+  font-style: italic;
+}
+
 #messageInput {
   position: fixed;
   bottom: 10px;
