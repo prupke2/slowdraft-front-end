@@ -5,12 +5,10 @@ import MessageLog from './MessageLog/MessageLog';
 import './Chat.css';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary.jsx';
 
-export default function Chat({pub, sub, teamName}) {
+export default function Chat({messages, setMessages, pub, sub, teamName, channel}) {
 
-  const [messages, setMessages] = useState([]);
   const tempMessage = useInput();
-  const channel = "test" // To reset messages, update the channel name to something new
-  // const [username, setUsername] = useState(['anon', new Date().getTime()].join('-'));
+  // const channel = "test" // To reset messages, update the channel name to something new
 
   useEffect(()=>{
     console.log("setting up chat");
@@ -81,7 +79,6 @@ export default function Chat({pub, sub, teamName}) {
         text: tempMessage.value,
         uuid: teamName
       };
-  
       const pubnub = new PubNub({
           publishKey: pub,
           subscribeKey: sub,
