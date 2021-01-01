@@ -8,16 +8,17 @@ import Loading from "../Loading/Loading";
 import { ToastsStore } from "react-toasts";
 
 export default function Table(
-    { columns, 
-      data, 
-      defaultColumnFilter, 
-      tableState, 
-      tableType, 
-      loading, 
-      role, 
-      draftingNow, 
-      teamName, 
-      sendChatAnnouncement }
+    { columns,
+      data,
+      defaultColumnFilter,
+      tableState,
+      tableType,
+      loading,
+      role,
+      draftingNow,
+      teamName,
+      sendChatAnnouncement 
+    }
   ) {
   console.log("draftingNow: " + draftingNow);
   const [modalOpen, setModalOpen] = useState(false);
@@ -77,7 +78,6 @@ export default function Table(
     }),
     []
   )
-
 
   function fuzzyTextFilterFn(rows, id, filterValue) {
     return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })

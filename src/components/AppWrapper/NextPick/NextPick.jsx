@@ -26,7 +26,7 @@ export default function NextPick({userPickingNow, pickExpiry, draftingNow}) {
     <>
     <div className='current-pick-timer'>
       { userPickingNow && 
-        <p className='drafting-now'>
+        <div className='drafting-now'>
           { draftingNow && 
             <p>You're up!&nbsp;</p>
           }
@@ -37,7 +37,7 @@ export default function NextPick({userPickingNow, pickExpiry, draftingNow}) {
             <span role='img' aria-label='icon' style={{ 'background': userPickingNow.color}}>👤</span>
             <span className="user">{userPickingNow.username}</span>
           </p>
-        </p>
+        </div>
       }
         <p className='countdown-timer' id='countdown'>{countdownClock}</p>
       {/* { !userPickingNow &&
