@@ -6,6 +6,7 @@ import Pagination from "./Pagination/Pagination";
 import ModalWrapper from "../AppWrapper/ModalWrapper/ModalWrapper";
 import Loading from "../Loading/Loading";
 import { ToastsStore } from "react-toasts";
+import UsernameStyled from "../AppWrapper/UsernameStyled/UsernameStyled";
 
 export default function Table(
     { columns,
@@ -206,10 +207,14 @@ export default function Table(
                     if (cell.column.Header === 'Pick') {
                       return (
                         <>
-                          { role === 'admin' && 
+                          { (role === 'admin' && cell.row.original.draft_pick_timestamp !== null) &&
+                            <td width='50px' />
+                          }
+                          { (role === 'admin' && cell.row.original.draft_pick_timestamp === null) &&
                           <td width='50px'>
                             <select 
                               value={cell.row.original.user_id} 
+                              className='change-user-dropdown'
                               onChange={(event) => updatePick(event, cell.row.original.overall_pick)}
                             >
                               <option value={351}>American Gladiators</option>
@@ -241,16 +246,13 @@ export default function Table(
                         <td className={cell.column.Header}
                           {...cell.getCellProps()}
                           >
-                            
-                          <span role='img' aria-label='icon' style={{ 'background': cell.row.original.color}}>👤</span>
-                          <span 
-                            className="user" 
-                          >
-                            {cell.render('Cell')}
-                          </span>
+                          <UsernameStyled
+                            username={cell.render('Cell')}
+                            color={cell.row.original.color}
+                          />
                         </td>
                       )
-                    } else if (cell.column.Header === 'Name') {
+                    } else if (cell.column.Header === 'Player') {
                       return (
                         <>
                         {
@@ -288,7 +290,7 @@ export default function Table(
                         </td> 
                         </>
                       )
-                    } else if (cell.column.Header === 'Title') {
+                    } else if (cell.column.Header === 'Title' || cell.column.Header === 'Rule') {
                       return (
                         <td width='50vw' className='post-title'
                         {...cell.getCellProps()}
@@ -300,7 +302,8 @@ export default function Table(
                             modalIsOpen={modalOpen}
                             setIsOpen={setModalOpen}
                             data={forumPostId}
-                            modalType="forumPost"
+                            modalType="post"
+                            tableType={tableType}
                           />
                           {/* <div id={`body-${cell.row.id}`} className='hidden'>
                             {ReactHtmlParser(cell.row.original.body)}

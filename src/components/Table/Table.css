@@ -1,5 +1,6 @@
 table {
   background: var(--table-bg);
+  box-shadow: -3px -3px gray;
   border-spacing: 0;
   text-align: left;
   border-radius: 4px;
@@ -60,6 +61,10 @@ table tr:last-child td {
 
 .blank-cell {
   background-color: transparent;
+}
+
+.change-user-dropdown {
+  width: 100px;
 }
 
 .draft-button-cell {
