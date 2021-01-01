@@ -42,7 +42,7 @@ export function SelectFilter({
   // Calculate the options for filtering
   // using the preFilteredRows
 
-  console.log("filterValue: " + filterValue);
+  // console.log("filterValue: " + filterValue);
   
   const options = React.useMemo(() => {
     const options = new Set()

@@ -21,7 +21,7 @@ export default function Table(
       round
     }
   ) {
-  console.log("draftingNow: " + draftingNow);
+  // console.log("draftingNow: " + draftingNow);
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
   const [forumPostId, setForumPostId] = useState("");
@@ -89,7 +89,7 @@ export default function Table(
   } else {
     tableState = {...tableState, pageIndex: 0, pageSize: 25}
   }
-  console.log("tableState: " + JSON.stringify(tableState, null, 4))
+  // console.log("tableState: " + JSON.stringify(tableState, null, 4))
   const {
       getTableProps,
       getTableBodyProps,

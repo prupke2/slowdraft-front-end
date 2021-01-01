@@ -7,7 +7,6 @@ import { SelectFilter } from '../../../Table/FilterTypes/FilterTypes';
 
 
 export default function TeamTab({draftingNow, teamName}) {
-  console.log("teamName: " + teamName);
   const columns = [
     {
       Header: 'User',
