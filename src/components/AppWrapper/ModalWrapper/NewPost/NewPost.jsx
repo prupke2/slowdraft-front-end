@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { ToastsStore } from 'react-toasts';
 
-export default function NewForumPost({parentPostId, setIsOpen}){
+export default function NewPost({parentPostId, setIsOpen, postType}){
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   
@@ -13,7 +13,7 @@ export default function NewForumPost({parentPostId, setIsOpen}){
     setBody(event.target.value)
   };
   
-  function saveForumPost(event) {
+  function savePost(event, postType) {
     event.preventDefault()
     const requestParams = {
       method: 'POST',
@@ -27,7 +27,7 @@ export default function NewForumPost({parentPostId, setIsOpen}){
         body: body
       })
     };
-    fetch('/new_forum_post', requestParams)
+    fetch(`/${postType}`, requestParams)
       .then(async response => {
         const data = await response.json();
         if (!response.ok) {
@@ -40,7 +40,7 @@ export default function NewForumPost({parentPostId, setIsOpen}){
   }
 
   return (
-    <form className='new-forum-post-form'>
+    <form className='new-post-form'>
       { typeof(parentPostId) === 'undefined' && 
       <div>
         <label name='title'>Title</label>
@@ -52,7 +52,7 @@ export default function NewForumPost({parentPostId, setIsOpen}){
         <textarea label='body' onChange={handleBodyChange} value={body} />
         {/* <div id="editor"></div> */}
       </div>
-      <button className='save-button button-large' onClick={saveForumPost}>
+      <button className='save-button button-large' onClick={(event) => savePost(event, postType)}>
         { typeof(parentPostId) === 'undefined' ? 'Save' : 'Reply' }
       </button>
     </form>
