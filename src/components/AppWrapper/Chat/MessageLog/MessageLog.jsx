@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
+import UsernameStyled from '../../UsernameStyled/UsernameStyled';
 
 export default function MessageLog({messages}) {
   const chatbox = document.querySelector("ul#chat-messages");
@@ -19,6 +20,7 @@ export default function MessageLog({messages}) {
             <div key={index}>
               { item.uuid !== '***' &&
                 <>
+                  <span role='img' aria-label='icon' style={{ 'background': item.color}}>👤</span>
                   <span className="user">{item.uuid} </span>
                   <span className="message">{item.text}</span>
                 </>

@@ -5,7 +5,7 @@ import MessageLog from './MessageLog/MessageLog';
 import './Chat.css';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary.jsx';
 
-export default function Chat({messages, setMessages, pub, sub, teamName, channel}) {
+export default function Chat({messages, setMessages, pub, sub, teamName, channel, color}) {
 
   const tempMessage = useInput();
   
@@ -28,8 +28,9 @@ export default function Chat({messages, setMessages, pub, sub, teamName, channel
           console.log(msg.message.text)
           let newMessages = [];
           newMessages.push({
-            uuid:msg.message.uuid,
-            text: msg.message.text
+            uuid: msg.message.uuid,
+            text: msg.message.text,
+            color: {color}
           });
           setMessages(messages=>messages.concat(newMessages))
         }

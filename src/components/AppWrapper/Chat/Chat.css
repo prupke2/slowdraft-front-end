@@ -3,16 +3,14 @@
   position: fixed;
   display: flex;
   justify-content: left;
-  top: 75px;
+  top: 95px;
   right: 0;
   margin: 0 0 0 10px;
   padding: 10px;
   border-left: 2px solid black;
-  border-top: 2px solid black;
-  border-radius: 4px 0 0 0;
+  border-top: 2px solid black;  
   height: calc(100vh - 45px);
-  width: 20vw;
-  min-width: 250px;
+  width: 270px;
   background-color: whitesmoke;
 }
 
@@ -21,11 +19,10 @@
   display: flex;
   justify-content: left;
   text-align: left;
-  top: 110px;
+  top: 130px;
   right: 0;
-  width: 19vw;
-  min-width: 245px;
-  height: calc(100vh - 170px);
+  width: 270px;
+  height: calc(100vh - 190px);
   padding: 5px;
   margin: 2px;
   word-wrap: break-word;
@@ -63,8 +60,7 @@
   position: fixed;
   bottom: 10px;
   right: 10px;
-  width: 18.5vw;
-  min-width: 230px;
+  width: 250px;
   padding: 5px;
 }
 
