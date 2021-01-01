@@ -10,7 +10,7 @@ export default function GoaliesTab({draftingNow, setUserPickingNow, teamName, se
 
   const columns = [
     {
-      Header: 'Name',
+      Header: 'Player',
       accessor: 'name',
       Filter: SearchColumnFilter,
       sortType: 'alphanumeric',

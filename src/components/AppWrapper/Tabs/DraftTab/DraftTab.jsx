@@ -3,9 +3,8 @@ import Table from '../../../Table/Table';
 // import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 
-export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow, round}) {
+export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow, round, role}) {
   const [picks, setPicks] = useState([]);
-  const [role, setRole] = useState('user');
 
   const columns = [
     {
@@ -64,7 +63,6 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow,
     .then(data => {
       // console.log("data: " + JSON.stringify(data, null, 4))
       setPicks(data.picks);
-      setRole(data.role);
       if (typeof(data.current_pick) !== 'undefined') {
         setUserPickingNow(data.current_pick);
         setPickExpiry(data.current_pick.pick_expires);
