@@ -10,7 +10,7 @@
   height: 380px;
 }
 
-#forum-post-modal, #new-forum-post-modal{
+#forum-post-modal, #new-forum-post-modal, #rule-modal, #new-rule-modal {
   background-color: wheat;
   width: calc(90vw - 250px);
   margin: 0;
@@ -92,23 +92,23 @@
   padding-left: 50px;
 }
 
-.new-forum-post-form {
+.new-post-form {
   display: flex;
   flex-direction: column;
 }
 
-.new-forum-post-form > div {
+.new-post-form > div {
   display: flex;
   padding: 10px 20px;
   justify-content: space-around;
   flex-direction: column;
 }
 
-.new-forum-post-form label {
+.new-post-form label {
   display: flex;
   font-weight: bold;
 }
 
-.new-forum-post-form input, .new-forum-post-form textarea {
+.new-post-form input, .new-post-form textarea {
   width: 90%;
 }

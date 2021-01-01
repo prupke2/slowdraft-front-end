@@ -5,11 +5,10 @@ import { ToastsStore } from 'react-toasts';
 import './ModalWrapper.css';
 import { timeSince } from '../../../util/time';
 import CloseModalButton from './CloseModalButton/CloseModalButton';
-import NewForumPost from './NewForumPost/NewForumPost';
-
+import NewPost from './NewPost/NewPost';
 
 export default function ModalWrapper(
-    { modalIsOpen, setIsOpen, data, modalType, teamName, sendChatAnnouncement }
+    { modalIsOpen, setIsOpen, data, modalType, teamName, sendChatAnnouncement, tableType }
   ) {
   const [forumPostReplies, setForumPostReplies] = useState('');
 
@@ -68,8 +67,26 @@ export default function ModalWrapper(
       </Modal>
     );
   } 
+
+  if (modalType === 'post' && tableType === 'rules') {
+    return (
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setIsOpen(false)}
+        contentLabel='Rule'
+        parentSelector={() => document.querySelector('main')}
+        id='rule-modal'
+      >
+        <CloseModalButton 
+          setIsOpen={setIsOpen}
+        />
+        <div className='modal-title'>{ReactHtmlParser(data.title)}</div>
+        <div className='modal-forum-text'>{ReactHtmlParser(data.body)}</div>
+      </Modal>
+    );
+  }
   
-  if (modalType === 'forumPost') {
+  if (modalType === 'post' && tableType === 'forum') {
     return (
       <Modal
         isOpen={modalIsOpen}
@@ -82,7 +99,6 @@ export default function ModalWrapper(
         <CloseModalButton 
           setIsOpen={setIsOpen}
         />
-
         <div className='modal-title'>{ReactHtmlParser(data.title)}</div>
         <span className='modal-forum-user'>
           {data.user} &nbsp;
@@ -106,9 +122,10 @@ export default function ModalWrapper(
             )}
           </div>
         }
-        <NewForumPost 
+        <NewPost 
           parentPostId={data.id}
           setIsOpen={setIsOpen}
+          postType='new_forum_post'
         />
       </Modal>
     );
@@ -127,8 +144,9 @@ export default function ModalWrapper(
           setIsOpen={setIsOpen}
         />
         <div className='modal-title'>New forum post</div>
-        <NewForumPost 
+        <NewPost 
           setIsOpen={setIsOpen}
+          postType='new_forum_post'
         />
         <div className='modal-player-info'>
           {typeof(data.team) !== 'undefined' &&
@@ -140,5 +158,26 @@ export default function ModalWrapper(
       </Modal>
     );
   } 
+
+  if (modalType === 'newRule') {
+    return (
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setIsOpen(false)}
+        contentLabel='New Rule'
+        parentSelector={() => document.querySelector('main')}
+        id='new-rule-modal'
+      >
+        <CloseModalButton 
+          setIsOpen={setIsOpen}
+        />
+        <div className='modal-title'>New Rule</div>
+        <NewPost
+          setIsOpen={setIsOpen}
+          postType='create_rule'
+        />
+      </Modal>
+    );
+  }
   return null;
 }
