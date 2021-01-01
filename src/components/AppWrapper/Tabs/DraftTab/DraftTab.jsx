@@ -3,7 +3,7 @@ import Table from '../../../Table/Table';
 // import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 
-export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow}) {
+export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow, round}) {
   const [picks, setPicks] = useState([]);
   const [role, setRole] = useState('user');
 
@@ -87,6 +87,7 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow}
           tableType='draftPicks'
           role={role}
           draftingNow={draftingNow}
+          round={round}
         />
       }
     </>

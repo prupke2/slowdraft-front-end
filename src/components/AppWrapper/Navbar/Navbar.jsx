@@ -7,7 +7,7 @@ import TeamsTab from '../Tabs/TeamsTab/TeamsTab';
 import ForumTab from '../Tabs/ForumTab/ForumTab';
 import DraftTab from '../Tabs/DraftTab/DraftTab';
 
-export default function Navbar({logout, setUserPickingNow, setPickExpiry, draftingNow, teamName, sendChatAnnouncement}) {
+export default function Navbar({logout, setUserPickingNow, setPickExpiry, draftingNow, teamName, sendChatAnnouncement, round}) {
 
   // function test() {
   //   fetch('/test')
@@ -29,6 +29,7 @@ export default function Navbar({logout, setUserPickingNow, setPickExpiry, drafti
             setUserPickingNow={setUserPickingNow}
             setPickExpiry={setPickExpiry}
             draftingNow={draftingNow}
+            round={round}
           />
         </TabPanel>
         <TabPanel>

@@ -17,7 +17,8 @@ export default function Table(
       role,
       draftingNow,
       teamName,
-      sendChatAnnouncement 
+      sendChatAnnouncement,
+      round
     }
   ) {
   console.log("draftingNow: " + draftingNow);
@@ -84,10 +85,11 @@ export default function Table(
   }
 
   if (tableType === 'draftPicks') {
-    tableState = {...tableState, pageIndex: 0, pageSize: 12}
+    tableState = {...tableState, pageIndex: round - 1, pageSize: 12}
   } else {
     tableState = {...tableState, pageIndex: 0, pageSize: 25}
   }
+  console.log("tableState: " + JSON.stringify(tableState, null, 4))
   const {
       getTableProps,
       getTableBodyProps,

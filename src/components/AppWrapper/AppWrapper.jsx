@@ -15,6 +15,7 @@ export default function AppWrapper({logout, pub, sub}) {
   const draftingNow = (userPickingNow.user_id === userId) && (typeof(userPickingNow) !== 'undefined');
   const channel = "test" // To reset messages, update the channel name to something new
   const [messages, setMessages] = useState([]);
+  const [round, setRound] = useState(1);
 
   function getYahooTeam() {
     fetch('/get_team_session')
@@ -53,6 +54,9 @@ export default function AppWrapper({logout, pub, sub}) {
         getYahooTeam();
       }
     }
+    if (userPickingNow.user_id != null) {
+      setRound(userPickingNow.round);
+    }
   }, []);
 
   return (
@@ -64,6 +68,7 @@ export default function AppWrapper({logout, pub, sub}) {
         draftingNow={draftingNow}
         teamName={teamName}
         sendChatAnnouncement={sendChatAnnouncement}
+        round={round}
       />
       <Logo 
         teamLogo={teamLogo}
