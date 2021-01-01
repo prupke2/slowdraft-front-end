@@ -56,6 +56,13 @@ export default function PlayersTab({draftingNow, setUserPickingNow, teamName, se
       width: '30px'
     },
     {
+      Header: '+/-',
+      accessor: '4',
+      disableFilters: true,
+      sortDescFirst: true,
+      width: '30px'
+    },
+    {
       Header: 'PIM',
       accessor: '5',
       disableFilters: true,
