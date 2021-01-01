@@ -2,14 +2,15 @@ import React, {useState, useEffect} from 'react';
 import Navbar from './Navbar/Navbar';
 import Chat from './Chat/Chat';
 import dummyIcon from '../../assets/dummy_icon.png';
-import Logo from './Navbar/Logo';
-import NextPick from './NextPick/NextPick';
 import PubNub from 'pubnub'; // backend for chat component
+import Widget from './Widget/Widget';
 
 export default function AppWrapper({logout, pub, sub}) {
   const [userId, setUserId] = useState(null);
   const [teamLogo, setTeamLogo] = useState(dummyIcon);
   const [teamName, setTeamName] = useState('');
+  const [role, setRole] = useState('user');
+  const [color, setColor] = useState('#ffffff');
   const [userPickingNow, setUserPickingNow] = useState({user_id: null});
   const [pickExpiry, setPickExpiry] = useState(null);
   const draftingNow = (userPickingNow.user_id === userId) && (typeof(userPickingNow) !== 'undefined');
@@ -28,6 +29,8 @@ export default function AppWrapper({logout, pub, sub}) {
         setUserId(data.user_id);
         setTeamLogo(data.logo);
         setTeamName(data.team_name);
+        setRole(data.role);
+        setColor(data.color);
       });
   }
 
@@ -65,19 +68,19 @@ export default function AppWrapper({logout, pub, sub}) {
         logout={logout}
         setUserPickingNow={setUserPickingNow}
         setPickExpiry={setPickExpiry}
+        role={role}
         draftingNow={draftingNow}
         teamName={teamName}
         sendChatAnnouncement={sendChatAnnouncement}
         round={round}
       />
-      <Logo 
+      <Widget 
         teamLogo={teamLogo}
         teamName={teamName}
-      />
-      <NextPick 
         userPickingNow={userPickingNow}
         pickExpiry={pickExpiry}
         draftingNow={draftingNow}
+        logout={logout}
       />
       <Chat 
         messages={messages}
@@ -86,6 +89,7 @@ export default function AppWrapper({logout, pub, sub}) {
         sub={sub}
         teamName={teamName}
         channel={channel}
+        color={color}
       />
     </>
   );

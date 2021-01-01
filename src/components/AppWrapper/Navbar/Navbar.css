@@ -4,9 +4,10 @@ ul {
 }
 
 li.react-tabs__tab {
-  padding: 10px 3vw 5px;
+  padding: 5px 10px 5px;
   position: relative;
   border: 1px solid var(--gradient1);
+  box-shadow: -2px -1px grey;
   border-radius: 8px 8px 0 0;
   border-bottom: none;
   bottom: 10px;
@@ -32,6 +33,10 @@ li.react-tabs__tab {
   padding-top: 16px;
 }
 
+#react-tabs-7 > div {
+  padding-top: 14px;
+}
+
 .react-tabs__tab:hover {
   background: var(--gradient1);
   transition: background 0.2s ease;
@@ -44,13 +49,15 @@ li.react-tabs__tab--selected:hover {
 li.react-tabs__tab--selected, .react-tabs__tab-panel {
   border: 1px solid transparent;
   background: var(--gradient1);
+  color: whitesmoke;
   transition: background 0.2s ease;
 }
 
 .navbar-tabs {
   padding: 20px 0 10px 0;
-  font-size: 2rem;
+  font-size: 1.4rem;
   width: calc(100vw - 250px);
+  min-width: 550px;
 }
 
 .react-tabs__tab--selected {
@@ -64,24 +71,4 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
   width: 100%;
   top: -10px;
   /* overflow-y: scroll; */
-}
-
-#logout {
-  position: fixed;
-  top: 5px;
-  right: 12px;
-  z-index: 99;
-}
-
-.logo-wrapper {
-  position: fixed;
-  display: flex;
-  align-items: center;
-  top: 35px;
-  right: 28px;
-}
-
-.logo {
-  width: 30px;
-  height: auto;
 }

@@ -38,9 +38,9 @@ main {
   font-family: 'Karla', 'Rubik', sans-serif;
   /* position: relative; */
   margin: 0;
-  width: 80vw;
+  width: calc(100vw - 270px);
   /* padding-right: 22vw; */
-  min-width: 500px;
+  min-width: 600px;
   /* margin: 0 auto; */
   padding: 0;
 
@@ -109,8 +109,9 @@ h3 {
 
 button {
   border-radius: 4px;
+  box-shadow: -1px 2px grey;
   border: 1px solid var(--button);
-  color: white;
+  color: whitesmoke;
   background: var(--gradient1);
 }
 
