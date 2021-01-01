@@ -1,0 +1,26 @@
+#countdown {
+	color: red;
+}
+
+.drafting-now {
+	background: var(--gradient2);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-right: 2px solid grey;
+  border-left: 2px solid black;
+	width: 65%;
+	min-width: 140px;
+  border-bottom: none;
+	/* margin: 0 auto; */
+	padding: 5px 0 0 5px;
+	text-align: left;
+}
+
+.drafting-now :first-child {
+  font-weight: bold;
+  color: black;
+  padding: 0 5px 0 0;
+  margin: 0;
+}

@@ -1,0 +1,38 @@
+.widget-wrapper {
+  background-color: var(--gradient3);
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  right: 0;
+  width: 270px;
+}
+
+#logout {
+  /* position: fixed; */
+  top: 5px;
+  right: 12px;
+  z-index: 99;
+}
+
+.logo-and-logout-wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  height: 90px;
+  width: 35%;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  top: 35px;
+  right: 28px;
+}
+
+.logo {
+  width: 30px;
+  height: auto;
+}
