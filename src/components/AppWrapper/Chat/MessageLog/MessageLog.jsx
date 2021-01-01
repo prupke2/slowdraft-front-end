@@ -9,7 +9,7 @@ export default function MessageLog({messages}) {
     if (chatbox) { 
       chatbox.scrollTop = chatbox.scrollHeight;
     }
-  }, [chatbox]);
+  });
 
   return(
     <ul id="chat-messages">
