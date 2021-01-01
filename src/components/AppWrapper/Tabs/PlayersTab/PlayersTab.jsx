@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectPositionColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
+import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectPositionColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
 // import Errors from '../../../Errors/Errors';
 
@@ -25,7 +25,7 @@ export default function PlayersTab({draftingNow, setUserPickingNow, teamName, se
     {
       Header: 'Team',
       accessor: 'team',
-      Filter: SearchColumnFilter,
+      Filter: SelectTeamFilter,
       width: '50px',
     },
     {

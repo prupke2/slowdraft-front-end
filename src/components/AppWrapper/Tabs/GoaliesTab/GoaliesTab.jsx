@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SearchColumnFilter, SelectPlayerTypeColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
+import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
 
@@ -25,7 +25,7 @@ export default function GoaliesTab({draftingNow, setUserPickingNow, teamName, se
     {
       Header: 'Team',
       accessor: 'team',
-      Filter: SearchColumnFilter,
+      Filter: SelectTeamFilter,
       sortType: 'alphanumeric',
       width: '100px',
     },
