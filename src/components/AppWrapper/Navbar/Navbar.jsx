@@ -6,8 +6,9 @@ import GoaliesTab from '../Tabs/GoaliesTab/GoaliesTab';
 import TeamsTab from '../Tabs/TeamsTab/TeamsTab';
 import ForumTab from '../Tabs/ForumTab/ForumTab';
 import DraftTab from '../Tabs/DraftTab/DraftTab';
+import RulesTab from '../Tabs/RulesTab/RulesTab';
 
-export default function Navbar({logout, setUserPickingNow, setPickExpiry, draftingNow, teamName, sendChatAnnouncement, round}) {
+export default function Navbar({setUserPickingNow, setPickExpiry, draftingNow, teamName, sendChatAnnouncement, round, role}) {
 
   // function test() {
   //   fetch('/test')
@@ -22,6 +23,7 @@ export default function Navbar({logout, setUserPickingNow, setPickExpiry, drafti
           <Tab>Goalies</Tab>
           <Tab>Teams</Tab>
           <Tab>Forum</Tab>
+          <Tab>Rules</Tab>
           {/* <Tab>Test</Tab> */}
         </TabList>
         <TabPanel>
@@ -30,6 +32,7 @@ export default function Navbar({logout, setUserPickingNow, setPickExpiry, drafti
             setPickExpiry={setPickExpiry}
             draftingNow={draftingNow}
             round={round}
+            role={role}
           />
         </TabPanel>
         <TabPanel>
@@ -54,11 +57,15 @@ export default function Navbar({logout, setUserPickingNow, setPickExpiry, drafti
         <TabPanel>
           <ForumTab />
         </TabPanel>
+        <TabPanel>
+          <RulesTab
+            role={role}
+          />
+        </TabPanel>
         {/* <TabPanel>
           <button onClick={test}>test</button>
         </TabPanel> */}
       </Tabs>
-      <button id='logout' onClick={logout}>Logout</button>
     </>
   );
 }
