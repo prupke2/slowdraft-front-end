@@ -19,7 +19,7 @@ export default function Table(
       draftingNow,
       teamName,
       sendChatAnnouncement,
-      round
+      currentPick
     }
   ) {
   // console.log("draftingNow: " + draftingNow);
@@ -86,7 +86,7 @@ export default function Table(
   }
 
   if (tableType === 'draftPicks') {
-    tableState = {...tableState, pageIndex: round - 1, pageSize: 12}
+    tableState = {...tableState, pageIndex: currentPick.round - 1, pageSize: 12}
   } else {
     tableState = {...tableState, pageIndex: 0, pageSize: 25}
   }
