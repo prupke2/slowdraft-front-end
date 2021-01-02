@@ -11,12 +11,11 @@ export default function AppWrapper({logout, pub, sub}) {
   const [teamName, setTeamName] = useState('');
   const [role, setRole] = useState('user');
   const [color, setColor] = useState('#ffffff');
-  const [userPickingNow, setUserPickingNow] = useState({user_id: null});
-  const [pickExpiry, setPickExpiry] = useState(null);
-  const draftingNow = (userPickingNow.user_id === userId) && (typeof(userPickingNow) !== 'undefined');
+  const [currentPick, setCurrentPick] = useState({user_id: null});
+  const [picks, setPicks] = useState([]);
+  const draftingNow = (currentPick.user_id === userId) && (typeof(currentPick) !== 'undefined');
   const channel = "test" // To reset messages, update the channel name to something new
   const [messages, setMessages] = useState([]);
-  const [round, setRound] = useState(1);
 
   function getYahooTeam() {
     fetch('/get_team_session')
@@ -57,28 +56,25 @@ export default function AppWrapper({logout, pub, sub}) {
         getYahooTeam();
       }
     }
-    if (userPickingNow.user_id != null) {
-      setRound(userPickingNow.round);
-    }
   }, []);
 
   return (
     <>      
       <Navbar 
         logout={logout}
-        setUserPickingNow={setUserPickingNow}
-        setPickExpiry={setPickExpiry}
+        currentPick={currentPick}
+        setCurrentPick={setCurrentPick}
+        picks={picks}
+        setPicks={setPicks}
         role={role}
         draftingNow={draftingNow}
         teamName={teamName}
         sendChatAnnouncement={sendChatAnnouncement}
-        round={round}
       />
       <Widget 
         teamLogo={teamLogo}
         teamName={teamName}
-        userPickingNow={userPickingNow}
-        pickExpiry={pickExpiry}
+        currentPick={currentPick}
         draftingNow={draftingNow}
         logout={logout}
       />

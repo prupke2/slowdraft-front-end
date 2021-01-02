@@ -8,7 +8,7 @@ import ForumTab from '../Tabs/ForumTab/ForumTab';
 import DraftTab from '../Tabs/DraftTab/DraftTab';
 import RulesTab from '../Tabs/RulesTab/RulesTab';
 
-export default function Navbar({setUserPickingNow, setPickExpiry, draftingNow, teamName, sendChatAnnouncement, round, role}) {
+export default function Navbar({currentPick, setCurrentPick, picks, setPicks, draftingNow, teamName, sendChatAnnouncement, role}) {
 
   // function test() {
   //   fetch('/test')
@@ -28,10 +28,11 @@ export default function Navbar({setUserPickingNow, setPickExpiry, draftingNow, t
         </TabList>
         <TabPanel>
           <DraftTab 
-            setUserPickingNow={setUserPickingNow}
-            setPickExpiry={setPickExpiry}
+            currentPick={currentPick}
+            setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
-            round={round}
+            picks={picks}
+            setPicks={setPicks}
             role={role}
           />
         </TabPanel>
