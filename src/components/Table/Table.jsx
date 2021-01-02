@@ -22,7 +22,7 @@ export default function Table(
       currentPick
     }
   ) {
-  // console.log("draftingNow: " + draftingNow);
+  console.log("draftingNow: " + draftingNow);
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
   const [forumPostId, setForumPostId] = useState("");
