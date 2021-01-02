@@ -1,5 +1,10 @@
 #countdown {
 	color: red;
+	position: relative;
+	right: 2px;
+	bottom: 10px;
+	font-weight: bold;
+	font-size: 1.4rem;
 }
 
 .drafting-now {
