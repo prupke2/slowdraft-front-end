@@ -292,16 +292,15 @@ export default function Table(
                           { !cell.row.original.player_id && 
                             <>
                               <span>
-                              <span className='prospect'>P</span>
-                              &nbsp;
-                              </span>
                               {cell.render('Cell')}
+                              </span>
                             </>
                           }
                         </td> 
                         </>
                       )
-                    } else if (cell.column.Header === 'Title' || cell.column.Header === 'Rule') {
+                    } 
+                    else if (cell.column.Header === 'Title' || cell.column.Header === 'Rule') {
                       return (
                         <td width='50vw' className='post-title'
                         {...cell.getCellProps()}
