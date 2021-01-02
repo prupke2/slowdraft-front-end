@@ -9,9 +9,9 @@ export default function Widget({teamLogo, teamName, userPickingNow, pickExpiry, 
     <div className="widget-wrapper">
       { currentPick && 
         <NextPick 
-          userPickingNow={userPickingNow}
+          currentPick={currentPick}
           pickExpiry={currentPick.pick_expires}
-          draftingNow={currentPick.drafting_now}
+          draftingNow={currentPick.draftingNow}
         />
       }
       <div className="logo-and-logout-wrapper">

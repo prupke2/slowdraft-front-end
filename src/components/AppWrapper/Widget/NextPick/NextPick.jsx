@@ -3,7 +3,7 @@ import './NextPick.css';
 import { useEffect } from 'react';
 import UsernameStyled from '../../UsernameStyled/UsernameStyled';
 
-export default function NextPick({userPickingNow, pickExpiry, draftingNow}) {
+export default function NextPick({currentPick, pickExpiry, draftingNow}) {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const expiry = Date.parse(pickExpiry);
   const timeLeft = expiry - currentTime;
@@ -23,22 +23,23 @@ export default function NextPick({userPickingNow, pickExpiry, draftingNow}) {
       clearInterval(interval);
     }
   }, []);
-
   return (
     <>
     {/* <div className='current-pick-timer'> */}
-      { userPickingNow && 
+      { currentPick && 
         <div className='drafting-now'>
           { draftingNow && 
-            <p>You're up!&nbsp;</p>
+            <p className="you-are-up">You're up!&nbsp;</p>
           }
           { !draftingNow && 
-            <p>Drafting:&nbsp;</p>
+            <>
+              <p>Drafting:&nbsp;</p>
+              <UsernameStyled 
+                username={currentPick.username}
+                color={currentPick.color}
+              />
+            </>
           }
-          <UsernameStyled 
-            username={userPickingNow.username}
-            color={userPickingNow.color}
-          />
           <p className='countdown-timer' id='countdown'>{countdownClock || ''}</p>
         </div>
       }
