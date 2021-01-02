@@ -87,6 +87,7 @@ export function SelectTeamFilter({
   return (
     <select
       value={filterValue}
+      className='team-filter'
       onChange={e => {
         setFilter(e.target.value || undefined)
       }}
