@@ -40,6 +40,7 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow,
       Header: 'Timestamp',
       accessor: 'draft_pick_timestamp',
       disableFilters: true,
+      Cell: row => <div>{Date(row.value).toLocaleString()}</div>,
     },
     {
       accessor: 'player_id'
@@ -66,6 +67,7 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, draftingNow,
       if (typeof(data.current_pick) !== 'undefined') {
         setUserPickingNow(data.current_pick);
         setPickExpiry(data.current_pick.pick_expires);
+
       }
     })
     .then(setIsLoading(false));

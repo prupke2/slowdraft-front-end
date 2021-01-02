@@ -31,6 +31,7 @@ export default function ForumTab() {
       Header: 'Date Posted',
       accessor: 'create_date',
       disableFilters: true,
+      Cell: row => <div>{Date(row.value).toLocaleString()}</div>,
     },
   ]
   const tableState = { 
