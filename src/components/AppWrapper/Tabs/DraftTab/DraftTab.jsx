@@ -39,7 +39,12 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
       Header: 'Timestamp',
       accessor: 'draft_pick_timestamp',
       disableFilters: true,
-      Cell: row => <div>{Date(row.value).toLocaleString()}</div>,
+      Cell: row => <div>{
+        (row.cell.row.values.draft_pick_timestamp) &&
+          <span>
+            {(new Date(row.cell.row.values.draft_pick_timestamp).toString()).toLocaleString()}
+          </span>
+       }</div>,
     },
     {
       accessor: 'player_id'
@@ -80,11 +85,13 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
       .then(data => {
         // console.log("data: " + JSON.stringify(data, null, 4))
         localStorage.setItem('draftData', JSON.stringify(data))
+        localStorage.setItem('draftDataUpdate', new Date())
+
         setPicks(data.picks);
         if (typeof(data.current_pick) !== 'undefined') {
           // setUserPickingNow(data.current_pick);
           // setPickExpiry(data.current_pick.pick_expires);
-          setCurrentPick(data.current_pick.round);
+          setCurrentPick(data.current_pick);
         }
       })
       .then(setIsLoading(false));
