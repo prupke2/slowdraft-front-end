@@ -274,6 +274,7 @@ export default function Table(
                         <td className="player-name"
                         {...cell.getCellProps()}
                         >
+                          {cell.row.original.player_id && 
                           <a 
                             href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
                             target="_blank"
@@ -287,6 +288,16 @@ export default function Table(
                             }
                             {cell.render('Cell')}
                           </a>
+                          }
+                          { !cell.row.original.player_id && 
+                            <>
+                              <span>
+                              <span className='prospect'>P</span>
+                              &nbsp;
+                              </span>
+                              {cell.render('Cell')}
+                            </>
+                          }
                         </td> 
                         </>
                       )
