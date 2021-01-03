@@ -4,8 +4,8 @@
   --main-bg: #ffffff;
   --main-text:  #1b2733;
   --alt-text:  #e0e0e0;
-  --gradient1: rgba(38, 38, 114, 0.3);
-  --gradient2: rgba(56, 56, 141, 0);
+  --gradient1: rgba(7, 37, 75, 0.3);
+  --gradient2: rgba(157, 157, 182, 0.4);
   --gradient3: rgba(56, 100, 141, 0.3);
   --gradient4: rgba(56, 100, 141, 0);
   --main-dark: rgba(38, 38, 114, 0.8);
@@ -30,9 +30,7 @@ main {
   overflow-y: scroll;
   max-height: 95%;
   background: var(--main-bg);
-  background:          
-            linear-gradient(336deg, var(--gradient1), var(--gradient2) 70.71%),
-            linear-gradient(127deg, var(--gradient3), var(--gradient4) 70.71%);         
+  background: whitesmoke;      
   grid-template-columns: minmax(100%, 10%);
   text-align: center;
   font-family: 'Karla', 'Rubik', sans-serif;
@@ -46,20 +44,6 @@ main {
 
   /* font-family: 'Rubik', sans-serif; */
 }
-/* 
-@media (max-width: 800px) {
-  main {
-    width: 100vw;
-  }
-
-  main > div {
-    width: 100vw;
-  }
-
-  #chatbox {
-    display: none;
-  }
-} */
 
 ul {
   list-style-type: none;
@@ -139,4 +123,18 @@ button:hover {
 
 textarea {
   width: 90%;
+}
+
+@media (max-width: 800px) {
+  body {
+    overflow-x: scroll;
+  }
+  main {
+    margin-top: 55px;
+    width: 100vw;
+  }
+
+  main > div {
+    width: 100%;
+  }
 }
