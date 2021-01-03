@@ -142,7 +142,9 @@ export default function Table(
         />
       }
       { tableType === 'teams' && 
-        <br />
+        <>
+          <br /><br />
+        </>
       }
 
       { loading && <Loading />}
@@ -160,7 +162,7 @@ export default function Table(
                   <th className="blank-cell" width="30px" />
                 }
                 {headerGroup.headers.map(column => {
-                  return column.Header === 'Player Type' ?
+                  return (column.Header === 'Player Type' || column.Header === 'Yahoo Team') ?
                     <th key={column.accessor} id='prospect-column'>
                       <span {...column.getHeaderProps(column.getSortByToggleProps())} >
                         {column.render('Header')}
@@ -333,7 +335,7 @@ export default function Table(
                           </div> */}
                         </td>                    
                       )
-                    } else if (cell.column.Header === 'Player Type') {
+                    } else if (cell.column.Header === 'Player Type' || cell.column.Header === 'Yahoo Team') {
                       return (
                         <td className="prospect-column-hidden" />
                       )

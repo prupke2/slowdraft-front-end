@@ -92,7 +92,7 @@ table tr:last-child td {
   padding: 3px 6px;
 }
 
-#prospect-column {
+#prospect-column, #team-dropdown-column {
   background: transparent;
   position: absolute;
   top: 0;

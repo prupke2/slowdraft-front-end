@@ -121,6 +121,10 @@ button:hover {
   margin: 15px;
 }
 
+.margin-50 {
+  margin: 50px;
+}
+
 textarea {
   width: 90%;
 }

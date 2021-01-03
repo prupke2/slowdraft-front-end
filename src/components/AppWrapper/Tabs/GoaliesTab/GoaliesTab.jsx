@@ -34,6 +34,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
       disableFilters: true,
       sortType: 'alphanumeric',
       width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'W',
@@ -41,14 +42,16 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
       disableFilters: true,
       sortType: 'alphanumeric',
       width: '30px',
+      sortDescFirst: true
     },
-    {
-      Header: 'GA',
-      accessor: '22',
-      disableFilters: true,
-      sortType: 'alphanumeric',
-      width: '30px',
-    },
+    // {
+    //   Header: 'GA',
+    //   accessor: '22',
+    //   disableFilters: true,
+    //   sortType: 'alphanumeric',
+    //   width: '30px',
+    //   sortDescFirst: true
+    // },
     {
       Header: 'GAA',
       accessor: '23',      
@@ -56,19 +59,21 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
       sortType: 'alphanumeric',
       width: '30px',
     },
-    {
-      Header: 'SA',
-      accessor: '24',
-      disableFilters: true,
-      sortType: 'alphanumeric',
-      width: '30px',
-    },
+    // {
+    //   Header: 'SA',
+    //   accessor: '24',
+    //   disableFilters: true,
+    //   sortType: 'alphanumeric',
+    //   width: '30px',
+    //   sortDescFirst: true
+    // },
     {
       Header: 'SV',
       accessor: '25',
       disableFilters: true,
       sortType: 'alphanumeric',
       width: '30px',
+      sortDescFirst: true
     },
     {
       Header: 'SV%',
@@ -76,6 +81,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
       disableFilters: true,
       sortType: 'alphanumeric',
       width: '30px',
+      sortDescFirst: true
     },
     {
       accessor: 'position'

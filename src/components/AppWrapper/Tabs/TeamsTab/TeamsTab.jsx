@@ -9,7 +9,7 @@ import { SelectFilter } from '../../../Table/FilterTypes/FilterTypes';
 export default function TeamTab({draftingNow, teamName}) {
   const columns = [
     {
-      Header: 'User',
+      Header: 'Yahoo Team',
       accessor: 'username',
       Filter: SelectFilter,
       filter: teamName,
