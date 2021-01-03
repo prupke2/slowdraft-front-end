@@ -72,8 +72,6 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
       let data = JSON.parse(localDraftData);
       setPicks(data.picks);
       if (typeof(data.current_pick) !== 'undefined') {
-        // setUserPickingNow(data.current_pick);
-        // setPickExpiry(data.current_pick.pick_expires);
         setCurrentPick(data.current_pick);
       }
       setIsLoading(false);
@@ -83,14 +81,11 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
       fetch('/get_draft')
       .then(res => res.json())
       .then(data => {
-        // console.log("data: " + JSON.stringify(data, null, 4))
         localStorage.setItem('draftData', JSON.stringify(data))
         localStorage.setItem('draftDataUpdate', new Date())
 
         setPicks(data.picks);
         if (typeof(data.current_pick) !== 'undefined') {
-          // setUserPickingNow(data.current_pick);
-          // setPickExpiry(data.current_pick.pick_expires);
           setCurrentPick(data.current_pick);
         }
       })
