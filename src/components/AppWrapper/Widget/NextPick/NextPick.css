@@ -8,7 +8,7 @@
 }
 
 .drafting-now {
-	background: var(--gradient2);
+	background: whitesmoke;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -37,4 +37,23 @@
 	color: red;
 	position: relative;
 	top: 8px;
+}
+
+@media (max-width: 800px) {
+  .drafting-now {
+		background-color: var(--gradient2);
+		position: absolute;
+		left: -70vw;
+		flex-direction: row;
+    width: 130vw;
+    display: flex;
+	}
+
+	.drafting-now :first-child {
+		margin-bottom: 12px;
+	}
+	
+	#countdown {
+		position: static;
+	}
 }
