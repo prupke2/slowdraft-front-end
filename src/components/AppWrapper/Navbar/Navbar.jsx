@@ -8,7 +8,10 @@ import ForumTab from '../Tabs/ForumTab/ForumTab';
 import DraftTab from '../Tabs/DraftTab/DraftTab';
 import RulesTab from '../Tabs/RulesTab/RulesTab';
 
-export default function Navbar({currentPick, setCurrentPick, picks, setPicks, draftingNow, teamName, sendChatAnnouncement, role}) {
+export default function Navbar({
+  currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
+  teamName, sendChatAnnouncement, role, players, setPlayers, goalies, setGoalies
+}) {
 
   // function test() {
   //   fetch('/test')
@@ -31,6 +34,8 @@ export default function Navbar({currentPick, setCurrentPick, picks, setPicks, dr
             currentPick={currentPick}
             setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
+            setDraftingNow={setDraftingNow}
+            userId={userId}
             picks={picks}
             setPicks={setPicks}
             role={role}
@@ -41,6 +46,8 @@ export default function Navbar({currentPick, setCurrentPick, picks, setPicks, dr
             draftingNow={draftingNow}
             teamName={teamName}
             sendChatAnnouncement={sendChatAnnouncement}
+            players={players}
+            setPlayers={setPlayers}
           />
         </TabPanel>
         <TabPanel>
@@ -48,6 +55,8 @@ export default function Navbar({currentPick, setCurrentPick, picks, setPicks, dr
             draftingNow={draftingNow}
             teamName={teamName}
             sendChatAnnouncement={sendChatAnnouncement}
+            goalies={goalies}
+            setGoalies={setGoalies}
           />
         </TabPanel>
         <TabPanel>
