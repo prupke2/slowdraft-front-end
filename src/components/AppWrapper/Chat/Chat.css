@@ -69,3 +69,10 @@
   right: -200px;
   /* display: none; */
 }
+
+
+@media (max-width: 800px) {
+  #chatbox {
+    display: none;
+  }
+}

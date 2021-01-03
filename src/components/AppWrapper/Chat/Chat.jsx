@@ -110,6 +110,9 @@ export default function Chat({messages, setMessages, pub, sub, teamName, channel
         </aside>
         )
       }
+      { !pub || !sub &&
+        <div>Error loading chat.</div>
+      }
     </ErrorBoundary>
   )
 }
