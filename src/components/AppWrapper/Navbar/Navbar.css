@@ -55,7 +55,7 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
 
 .navbar-tabs {
   padding: 20px 0 10px 0;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   width: calc(100vw - 250px);
   min-width: 550px;
 }
@@ -63,12 +63,10 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
 .react-tabs__tab--selected {
   font-weight: bold;
   position: fixed;
-  /* top: 75px; */
 }
 
 .navbar-tabs > div {
   position: relative;
   width: 100%;
   top: -10px;
-  /* overflow-y: scroll; */
 }

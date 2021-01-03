@@ -1,11 +1,10 @@
 import React from 'react';
 import { useEffect } from 'react';
-import UsernameStyled from '../../UsernameStyled/UsernameStyled';
 
 export default function MessageLog({messages}) {
   const chatbox = document.querySelector("ul#chat-messages");
 
-  // Scroll to bottom of chatbox on load and when a new message comes in
+  // Scroll to bottom of chatbox on initial load and when a new message comes in
   useEffect(() => {
     if (chatbox) { 
       chatbox.scrollTop = chatbox.scrollHeight;
