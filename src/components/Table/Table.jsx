@@ -282,7 +282,13 @@ export default function Table(
                           >
                             {cell.row.original.prospect === "1" && 
                               <span>
-                                <span className='prospect'>P</span>
+                                <span className='prospect' title='Prospect'>P</span>
+                                &nbsp;
+                              </span>
+                            }
+                            {cell.row.original.is_keeper === 1 && 
+                              <span>
+                                <span className='keeper' title='Keeper'>K</span>
                                 &nbsp;
                               </span>
                             }

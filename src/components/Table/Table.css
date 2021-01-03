@@ -77,10 +77,19 @@ table tr:last-child td {
 }
 
 .prospect {
+  font-size: 0.8rem;
   background: lightcyan;
-  border: 1px solid lightgreen;
+  border: 1px solid black;
   border-radius: 100%;
   padding: 4px 7px;
+}
+
+.keeper {
+  font-size: 0.8rem;
+  background: black;
+  color: white;
+  border-radius: 2px;
+  padding: 3px 6px;
 }
 
 #prospect-column {
