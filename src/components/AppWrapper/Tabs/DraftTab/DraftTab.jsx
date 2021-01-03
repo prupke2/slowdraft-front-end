@@ -3,7 +3,7 @@ import Table from '../../../Table/Table';
 // import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 
-export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick, setCurrentPick, picks, setPicks, draftingNow, role}) {
+export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, role}) {
 
   const columns = [
     {
@@ -68,11 +68,13 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
     
     if (localDraftData) {
       console.log("Using cached data");
-      console.log("localDraftData: " + JSON.stringify(localDraftData, null, 4));
       let data = JSON.parse(localDraftData);
       setPicks(data.picks);
       if (typeof(data.current_pick) !== 'undefined') {
         setCurrentPick(data.current_pick);
+        if (currentPick.user_id === userId) {
+          setDraftingNow(true);
+        }
       }
       setIsLoading(false);
     }
@@ -87,6 +89,9 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
         setPicks(data.picks);
         if (typeof(data.current_pick) !== 'undefined') {
           setCurrentPick(data.current_pick);
+          if (currentPick.user_id === userId) {
+            setDraftingNow(true);
+          }
         }
       })
       .then(setIsLoading(false));
