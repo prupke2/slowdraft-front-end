@@ -93,6 +93,7 @@ export default function TeamTab({draftingNow, teamName}) {
         defaultColumn='player_id'
         draftingNow={draftingNow} 
         teamName={teamName}
+        tableType='teams'
       />
       </>
     )

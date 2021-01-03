@@ -129,7 +129,7 @@ export default function Table(
           {JSON.stringify({ pageIndex, pageSize, pageCount, canNextPage, canPreviousPage}, null, 2)}
         </code>
       </pre> */}
-      { tableType !== 'forum' && 
+      { tableType !== 'forum' && tableType !== 'teams' && 
         <Pagination 
           tableType={tableType}
           gotoPage={gotoPage}
@@ -142,6 +142,10 @@ export default function Table(
           pageOptions={pageOptions}
         />
       }
+      { tableType === 'teams' && 
+        <br />
+      }
+
       { loading && <Loading />}
       { !loading &&
         <table className="table" {...getTableProps()}>
@@ -347,6 +351,7 @@ export default function Table(
           </tbody>
         </table>
       }
+      { tableType !== 'teams' && 
       <Pagination 
         tableType={tableType}
         gotoPage={gotoPage}
@@ -357,7 +362,8 @@ export default function Table(
         pageCount={pageCount}
         pageIndex={pageIndex}
         pageOptions={pageOptions}
-      />
+        />
+      }
     </div >
   )
 }
