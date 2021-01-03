@@ -118,3 +118,9 @@ table tr:last-child td {
   height: 100%;
   padding: 20px;
 }
+
+@media screen and (max-width: 800px) { 
+  th.blank-cell, .admin-column, select.change-user-dropdown {
+    display: none;
+  }
+}

@@ -63,7 +63,7 @@
 }
 
 @media (max-width: 800px) {
-  .pagination-arrows {
+  .pagination li.pagination-goto-page {
     display: none;
   }
 }

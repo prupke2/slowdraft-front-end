@@ -22,7 +22,6 @@ export default function Table(
       currentPick
     }
   ) {
-  console.log("draftingNow: " + draftingNow);
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
   const [forumPostId, setForumPostId] = useState("");
@@ -153,8 +152,12 @@ export default function Table(
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {/* Add an extra column for the draft button */}
-                { ((tableType === 'draft' && draftingNow) || (tableType === 'draftPicks' && role === 'admin')) &&
-                  <th className="blank-cell" width="30px"></th>
+                { (tableType === 'draft' && draftingNow) &&
+                  <th width="30px"></th>
+                }
+                
+                { (tableType === 'draftPicks' && role === 'admin') &&
+                  <th className="blank-cell" width="30px" />
                 }
                 {headerGroup.headers.map(column => {
                   return column.Header === 'Player Type' ?
@@ -212,10 +215,10 @@ export default function Table(
                       return (
                         <>
                           { (role === 'admin' && cell.row.original.draft_pick_timestamp !== null) &&
-                            <td width='50px' />
+                            <td className="admin-column" width='50px' />
                           }
                           { (role === 'admin' && cell.row.original.draft_pick_timestamp === null) &&
-                          <td width='50px'>
+                          <td className="admin-column" width='50px'>
                             <select 
                               value={cell.row.original.user_id} 
                               className='change-user-dropdown'

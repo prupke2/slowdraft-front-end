@@ -41,9 +41,8 @@
 
 @media (max-width: 800px) {
   .drafting-now {
-		background-color: var(--gradient2);
 		position: absolute;
-		left: -70vw;
+		left: -75vw;
 		flex-direction: row;
     width: 130vw;
     display: flex;
