@@ -61,3 +61,9 @@
   font-size: 0.9rem;
   width: 130px;
 }
+
+@media (max-width: 800px) {
+  .pagination-arrows {
+    display: none;
+  }
+}

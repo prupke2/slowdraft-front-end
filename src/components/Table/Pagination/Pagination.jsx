@@ -12,8 +12,7 @@ export default function Pagination(
 
       <li className="pagination-goto-page">
         <span className="page-link">
-          { tableType === 'draftPicks' && 'Round' }
-          { tableType !== 'draftPicks' && 'Page' }
+          Page
           <div className="page-of-page">
             <strong>
                 {pageIndex + 1} of {pageOptions.length}
@@ -33,10 +32,6 @@ export default function Pagination(
           />
         </span>
       </li>
-
-      { tableType === 'draftPicks' &&
-        <li className='round'>Round {pageIndex + 1}</li>
-      }
 
       <li className="pagination-arrows">
         <div className="page-item" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
