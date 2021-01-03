@@ -4,8 +4,7 @@ import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
 
 
-export default function GoaliesTab({draftingNow, setUserPickingNow, teamName, sendChatAnnouncement}) {
-  const [players, setPlayers] = useState([]);
+export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPickingNow, teamName, sendChatAnnouncement}) {
   const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
@@ -104,14 +103,43 @@ export default function GoaliesTab({draftingNow, setUserPickingNow, teamName, se
 
   useEffect(() => {
     setIsLoading(true);
-    fetch('/get_db_players?position=G')
-    .then(res => res.json())
-    .then(data => {
-      // console.log("data: " + JSON.stringify(data.players, null, 4));
-      setPlayers(data.players);
-    })
-    .then(setIsLoading(false));
-  }, [])
+
+    const goalieDBData = localStorage.getItem('goalieDBData');
+    
+    if (goalieDBData) {
+      console.log("Using cached data");
+      let data = JSON.parse(goalieDBData);
+      setGoalies(data.players);
+      setIsLoading(false);
+    }
+    else {
+      console.log("Getting new goalie DB data");
+      fetch('/get_db_players?position=G')
+      .then(async response => {
+        const data = await response.json();
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+        localStorage.setItem('goalieDBData', JSON.stringify(data))
+        localStorage.setItem('goalieDBUpdate', new Date())
+        setGoalies(data.players);
+      })
+      .then(setIsLoading(false));
+    }
+  }, [setGoalies])
+
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   fetch('/get_db_players?position=G')
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     // console.log("data: " + JSON.stringify(data.players, null, 4));
+  //     setGoalies(data.players);
+  //   })
+  //   .then(setIsLoading(false));
+  // }, [])
 
   return (
     <>
@@ -120,7 +148,7 @@ export default function GoaliesTab({draftingNow, setUserPickingNow, teamName, se
       }
       { !isLoading &&
         <Table
-          data={players}
+          data={goalies}
           columns={columns}
           tableState={tableState}
           defaultColumn='name'

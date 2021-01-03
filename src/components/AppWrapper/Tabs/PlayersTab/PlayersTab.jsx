@@ -4,8 +4,7 @@ import Table from '../../../Table/Table';
 // import Errors from '../../../Errors/Errors';
 
 
-export default function PlayersTab({draftingNow, setUserPickingNow, teamName, sendChatAnnouncement}) {
-  const [players, setPlayers] = useState([]);
+export default function PlayersTab({players, setPlayers, draftingNow, setUserPickingNow, teamName, sendChatAnnouncement}) {
   const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
@@ -130,20 +129,35 @@ export default function PlayersTab({draftingNow, setUserPickingNow, teamName, se
       }
     ]
   }
-  
+
+
   useEffect(() => {
     setIsLoading(true);
-    fetch('/get_db_players')
-    .then(async response => {
-      const data = await response.json();
-      if (!response.ok) {
-        const error = (data && data.message) || response.status;
-        return Promise.reject(error);
-      }
+
+    const playerDBData = localStorage.getItem('playerDBData');
+    
+    if (playerDBData) {
+      console.log("Using cached data");
+      let data = JSON.parse(playerDBData);
       setPlayers(data.players);
-    })
-    .then(setIsLoading(false));
-  }, [])
+      setIsLoading(false);
+    }
+    else {
+      console.log("Getting new player DB data");
+      fetch('/get_db_players')
+      .then(async response => {
+        const data = await response.json();
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+        localStorage.setItem('playerDBData', JSON.stringify(data))
+        localStorage.setItem('playerDBUpdate', new Date())
+        setPlayers(data.players);
+      })
+      .then(setIsLoading(false));
+    }
+  }, [setPlayers])
 
   return (
     <>

@@ -13,10 +13,13 @@ export default function AppWrapper({logout, pub, sub}) {
   const [color, setColor] = useState('#ffffff');
   const [currentPick, setCurrentPick] = useState({user_id: null});
   const [picks, setPicks] = useState([]);
-  const draftingNow = (currentPick.user_id === userId) && (typeof(currentPick) !== 'undefined');
+  const [draftingNow, setDraftingNow] = useState([]);
+  // const draftingNow = (currentPick.user_id === userId) && (typeof(currentPick) !== 'undefined');
   const channel = "slowdraftChat" // To reset messages, update the channel name to something new
   const [messages, setMessages] = useState([]);
   const teamSessionData = localStorage.getItem('teamSessionData');
+  const [players, setPlayers] = useState([]);
+  const [goalies, setGoalies] = useState([]);
 
   function sendChatAnnouncement(message) {
     let messageObject = {
@@ -35,18 +38,17 @@ export default function AppWrapper({logout, pub, sub}) {
   }
   
   useEffect(() => {
-    if (teamName == '') {
-      if (teamSessionData) {
-        let data = JSON.parse(teamSessionData);
-        setUserId(data.user_id);
-        setTeamLogo(data.logo);
-        setTeamName(data.team_name);
-        setRole(data.role);
-        setColor(data.color);
-      }
-    }
-    if (!teamSessionData) {
-      console.log("Getting userId");
+    // if (teamSessionData && (teamName === '' || !userId)) {
+    //     console.log('setting userID')
+    //     let data = JSON.parse(teamSessionData);
+    //     setUserId(data.user_id);
+    //     setTeamLogo(data.logo);
+    //     setTeamName(data.team_name);
+    //     setRole(data.role);
+    //     setColor(data.color);
+    //   }
+    
+    if ((teamName === '' || !userId || !teamLogo)) {
       fetch('/get_team_session')
       .then(async response => {
         const data = await response.json();
@@ -54,15 +56,19 @@ export default function AppWrapper({logout, pub, sub}) {
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
-        console.log("data: " + JSON.stringify(data, null, 4));
-        localStorage.setItem('teamSessionData', JSON.stringify(data))
-        setUserId(data.user_id);
-        setTeamLogo(data.logo);
-        setTeamName(data.team_name);
-        setRole(data.role);
-        setColor(data.color);
+        if (data) {       
+          localStorage.setItem('teamSessionData', JSON.stringify(data))
+          setUserId(data.user_id);
+          setTeamLogo(data.logo);
+          setTeamName(data.team_name);
+          setRole(data.role);
+          setColor(data.color);
+        } else {
+          setTeamLogo(dummyIcon);
+        }
       });
     }
+
   }, []);
 
   useEffect(() => {
@@ -75,6 +81,8 @@ export default function AppWrapper({logout, pub, sub}) {
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
+        setDraftingNow(data.drafting_now);
+        
         if (Date.parse(data.updates.latest_draft_update) > Date.parse(localStorage.getItem('draftDataUpdate'))) {
           console.log("Update draft data...");
           fetch('/get_draft')
@@ -86,7 +94,34 @@ export default function AppWrapper({logout, pub, sub}) {
             setPicks(data.picks);
             if (typeof(data.current_pick) !== 'undefined') {
               setCurrentPick(data.current_pick);
+              if (currentPick.user_id === userId) {
+                setDraftingNow(true);
+              }
             }
+          })
+        }
+        if (Date.parse(data.updates.latest_player_db_update) > Date.parse(localStorage.getItem('playerDBUpdate'))) {
+          console.log("Update player DB data...");
+          fetch('/get_db_players')
+          .then(async response => {
+            const data = await response.json();
+            if (!response.ok) {
+              const error = (data && data.message) || response.status;
+              return Promise.reject(error);
+            }
+            localStorage.setItem('playerDBData', JSON.stringify(data))
+            localStorage.setItem('playerDBUpdate', new Date())
+            setPlayers(data.players);
+          })
+        } 
+        if (Date.parse(data.updates.latest_goalie_db_update) > Date.parse(localStorage.getItem('goalieDBUpdate'))) {
+          console.log("Update goalie DB data...");
+          fetch('/get_db_players?position=G')
+          .then(res => res.json())
+          .then(data => {
+            localStorage.setItem('goalieDBData', JSON.stringify(data))
+            localStorage.setItem('goalieDBUpdate', new Date())
+            setGoalies(data.players);
           })
         } 
       })
@@ -107,8 +142,14 @@ export default function AppWrapper({logout, pub, sub}) {
         setPicks={setPicks}
         role={role}
         draftingNow={draftingNow}
+        setDraftingNow={setDraftingNow}
+        userId={userId}
         teamName={teamName}
         sendChatAnnouncement={sendChatAnnouncement}
+        players={players}
+        setPlayers={setPlayers}
+        goalies={goalies}
+        setGoalies={setGoalies}
       />
       <Widget 
         teamLogo={teamLogo}
