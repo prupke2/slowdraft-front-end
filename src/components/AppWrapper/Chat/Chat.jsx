@@ -44,7 +44,7 @@ export default function Chat({messages, setMessages, pub, sub, teamName, channel
     pubnub.history(
     {
         channel: channel,
-        count: 10, // 100 is the default
+        count: 500, // 100 is the default
         stringifiedTimeToken: true // false is the default
     }, function (status, response){
       let newMessages = [];
