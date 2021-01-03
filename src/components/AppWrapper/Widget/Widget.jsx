@@ -2,9 +2,8 @@ import React from 'react';
 import NextPick from './NextPick/NextPick';
 import './Widget.css';
 
-export default function Widget({teamLogo, teamName, userPickingNow, pickExpiry, currentPick, draftingNow, logout}) {
+export default function Widget({teamLogo, currentPick, logout}) {
 
-  
   return (
     <div className="widget-wrapper">
       { currentPick && 

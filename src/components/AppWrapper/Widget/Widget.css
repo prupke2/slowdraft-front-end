@@ -1,5 +1,5 @@
 .widget-wrapper {
-  background-color: var(--gradient3);
+  background-color: transparent;
   position: fixed;
   display: flex;
   flex-direction: row;
@@ -16,6 +16,7 @@
 }
 
 .logo-and-logout-wrapper {
+  background-color: whitesmoke;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
@@ -35,4 +36,17 @@
 .logo {
   width: 30px;
   height: auto;
+}
+
+@media (max-width: 800px) {
+  .logo-and-logout-wrapper {
+    display: none;
+  }
+
+  #logout {
+    position: fixed !important;
+    top: 5px;
+    right: 5px;
+    display: block;
+  }
 }
