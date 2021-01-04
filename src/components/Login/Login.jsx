@@ -11,8 +11,8 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading,
   const client_id = "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
   let errors = null;
   let yahooLoginUrl = "https://api.login.yahoo.com/oauth2/request_auth?client_id=" + client_id + 
-      // "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
-      "&redirect_uri=oob&response_type=code&language=en-us" // for testing login locally
+      "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
+      // "&redirect_uri=oob&response_type=code&language=en-us" // for testing login locally
 
   useEffect(() => {
     function loginUser() {
