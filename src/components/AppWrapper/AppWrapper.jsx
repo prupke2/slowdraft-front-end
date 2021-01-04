@@ -4,22 +4,25 @@ import Chat from './Chat/Chat';
 import dummyIcon from '../../assets/dummy_icon.png';
 import PubNub from 'pubnub'; // backend for chat component
 import Widget from './Widget/Widget';
+import { getTeamSession } from '../../util/requests';
 
 export default function AppWrapper({logout, pub, sub}) {
-  const [userId, setUserId] = useState(null);
-  const [teamLogo, setTeamLogo] = useState(dummyIcon);
-  const [teamName, setTeamName] = useState('');
-  const [role, setRole] = useState('user');
-  const [color, setColor] = useState('#ffffff');
   const [currentPick, setCurrentPick] = useState({user_id: null});
   const [picks, setPicks] = useState([]);
   const [draftingNow, setDraftingNow] = useState([]);
   // const draftingNow = (currentPick.user_id === userId) && (typeof(currentPick) !== 'undefined');
   const channel = "slowdraftChat" // To reset messages, update the channel name to something new
   const [messages, setMessages] = useState([]);
-  const teamSessionData = localStorage.getItem('teamSessionData');
   const [players, setPlayers] = useState([]);
   const [goalies, setGoalies] = useState([]);
+
+  const teamSessionData = localStorage.getItem('teamSessionData');
+  const teamJson = teamSessionData ? JSON.parse(teamSessionData) : null;
+  const userId = teamJson ? teamJson.user_id : null;
+  const teamLogo = teamJson ? teamJson.logo : dummyIcon;
+  const teamName = teamJson ? teamJson.team_name : '';
+  const role = teamJson ? teamJson.role : 'user';
+  const color = teamJson ? teamJson.team_name : '#ffffff';
 
   function sendChatAnnouncement(message) {
     let messageObject = {
@@ -47,33 +50,28 @@ export default function AppWrapper({logout, pub, sub}) {
     //     setRole(data.role);
     //     setColor(data.color);
     //   }
+    const teamSessionData = localStorage.getItem('teamSessionData');
+
     
     if ((teamName === '' || !userId || !teamLogo)) {
-      fetch('/get_team_session')
-      .then(async response => {
-        const data = await response.json();
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-        if (data) {       
-          localStorage.setItem('teamSessionData', JSON.stringify(data))
-          setUserId(data.user_id);
-          setTeamLogo(data.logo);
-          setTeamName(data.team_name);
-          setRole(data.role);
-          setColor(data.color);
-        } else {
-          setTeamLogo(dummyIcon);
-        }
-      });
+      console.log("no userId: " + userId);
+      if (localStorage.getItem('teamSessionData')) {
+        console.log("using teamSessionData: ");
+        let data = JSON.parse(teamSessionData)
+        console.log("data.user_id: " + data.user_id);
+      } else {
+        console.log("no teamSessionData" + teamSessionData);
+        getTeamSession();
+      }
     }
 
   }, []);
 
   useEffect(() => {
+    console.log("userId getting updates: " + userId);
+    let checkEndpoint = `/check_for_updates/${userId}`
     const interval = setInterval(() =>
-      fetch('/check_for_updates')
+      fetch(checkEndpoint)
       .then(async response => {
         const now = new Date()
         const data = await response.json();
@@ -130,6 +128,7 @@ export default function AppWrapper({logout, pub, sub}) {
     return () => {
       clearInterval(interval);
     }
+  
   }, []);
 
   return (
