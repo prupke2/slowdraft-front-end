@@ -10,7 +10,8 @@ import RulesTab from '../Tabs/RulesTab/RulesTab';
 
 export default function Navbar({
   currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
-  teamName, sendChatAnnouncement, role, players, setPlayers, goalies, setGoalies
+  teamName, sendChatAnnouncement, role, players, setPlayers, goalies, setGoalies,
+  teams, setTeams, posts, setPosts, rules, setRules, user, setUser
 }) {
 
   // function test() {
@@ -39,6 +40,8 @@ export default function Navbar({
             picks={picks}
             setPicks={setPicks}
             role={role}
+            user={user}
+            setUser={setUser}
           />
         </TabPanel>
         <TabPanel>
@@ -48,6 +51,7 @@ export default function Navbar({
             sendChatAnnouncement={sendChatAnnouncement}
             players={players}
             setPlayers={setPlayers}
+            user={user}
           />
         </TabPanel>
         <TabPanel>
@@ -57,19 +61,28 @@ export default function Navbar({
             sendChatAnnouncement={sendChatAnnouncement}
             goalies={goalies}
             setGoalies={setGoalies}
+            user={user}
           />
         </TabPanel>
         <TabPanel>
           <TeamsTab 
-            teamName={teamName}
+            teams={teams}
+            setTeams={setTeams}
+            user={user}
           />
         </TabPanel>
         <TabPanel>
-          <ForumTab />
+          <ForumTab 
+            user={user}
+            posts={posts}
+            setPosts={setPosts}
+          />
         </TabPanel>
         <TabPanel>
           <RulesTab
-            role={role}
+            user={user}
+            rules={rules}
+            setRules={setRules}
           />
         </TabPanel>
         {/* <TabPanel>

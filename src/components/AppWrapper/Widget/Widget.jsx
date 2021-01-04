@@ -2,7 +2,7 @@ import React from 'react';
 import NextPick from './NextPick/NextPick';
 import './Widget.css';
 
-export default function Widget({teamLogo, currentPick, logout}) {
+export default function Widget({currentPick, logout, user}) {
 
   return (
     <div className="widget-wrapper">
@@ -15,7 +15,7 @@ export default function Widget({teamLogo, currentPick, logout}) {
       }
       <div className="logo-and-logout-wrapper">
         <div className="logo-wrapper">
-          <img className="logo" src={teamLogo} alt="icon"/>
+          <img className="logo" src={user.logo} alt="icon"/>
         </div>
         <button id='logout' onClick={logout}>Logout</button>
       </div>

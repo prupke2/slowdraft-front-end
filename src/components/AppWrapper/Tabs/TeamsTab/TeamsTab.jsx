@@ -4,15 +4,16 @@ import { useEffect } from 'react';
 import Loading from '../../../Loading/Loading';
 import Table from '../../../Table/Table';
 import { SelectFilter } from '../../../Table/FilterTypes/FilterTypes';
+import { getTeams } from '../../../../util/requests';
 
 
-export default function TeamTab({draftingNow, teamName}) {
+export default function TeamTab({draftingNow, user, teams, setTeams}) {
   const columns = [
     {
       Header: 'Yahoo Team',
       accessor: 'username',
       Filter: SelectFilter,
-      filter: teamName,
+      filter: user.team_name,
       width: '200px',
     },
     {
@@ -42,14 +43,6 @@ export default function TeamTab({draftingNow, teamName}) {
       accessor: 'prospect'
     },
   ]
-  // const initialFilter = {[
-  //   {id: 'username', value: teamName}
-  // ]}
-
-  // filtered={[
-  //   {id: 'columnID', value: 'myFilterValue'},
-  //   {id: 'otherColumnID', value: 'myOtherFilterValue'}
-  // ]}
 
   const tableState = { 
     hiddenColumns: ['player_id', 'is_keeper', 'prospect'],
@@ -62,21 +55,28 @@ export default function TeamTab({draftingNow, teamName}) {
     filters: [
       { 
         id: 'username', 
-        value: teamName
+        value: user.team_name
       }
     ]
   }
-  const [teams, setTeams] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`/get_teams`)
-    .then(res => res.json())
-    .then(data => {
+
+    const teamData = localStorage.getItem('teamData');
+    if (teamData && user) {
+      console.log("Using cached data");
+      let data = JSON.parse(teamData);
       setTeams(data.teams);
-    })
-    .then(setIsLoading(false));
+    }
+    else {
+      console.log("Getting new team data");
+      if (user) {
+        getTeams(user, setTeams);    
+      }
+    }
+    setIsLoading(false);
   }, [])
 
   if (isLoading) {
@@ -87,12 +87,13 @@ export default function TeamTab({draftingNow, teamName}) {
       <>
       {/* <div>{teams}</div> */}
       <Table
+        user={user}
         data={teams}
         columns={columns}
         tableState={tableState}
         defaultColumn='player_id'
         draftingNow={draftingNow} 
-        teamName={teamName}
+        user={user}
         tableType='teams'
       />
       </>

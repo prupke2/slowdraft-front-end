@@ -5,6 +5,7 @@ import AppWrapper from './components/AppWrapper/AppWrapper';
 import Loading from './components/Loading/Loading';
 import './App.css';
 import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toasts';
+import dummyIcon from './assets/dummy_icon.png';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 // import { getCookie } from './assets/Cookies';
 
@@ -14,9 +15,19 @@ export default function App() {
   // pub and sub (publish/subscribe) states are used for the chat backend
   const [pub, setPub] = useState(localStorage.getItem( 'pub' ) || ''); 
   const [sub, setSub] = useState(localStorage.getItem( 'sub' ) || '');
+
   const [isLoading, setIsLoading] = useState(false);
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
+  const [user, setUser] = useState({
+    user_id: null,
+    logo: dummyIcon,
+    team_name: null, 
+    league_id: null, 
+    draft_id: null,
+    role: null, 
+    color: null
+  });
   
   function checkLogin() {
     fetch('/check_login')
@@ -32,6 +43,7 @@ export default function App() {
           setSub(data.sub);
           localStorage.setItem( 'pub', data.pub );
           localStorage.setItem( 'sub', data.sub );
+          localStorage.setItem( 'user', data.user );
           localStorage.setItem( 'yahooSession', true );
           window.history.replaceState({}, document.title, "/");
           setLoggedIn(true);
@@ -66,7 +78,7 @@ export default function App() {
   function logout() {
     fetch('/logout').then(res => res.json()).then(data => {
       console.log("Logging out: " + data.success);
-      localStorage.setItem( 'yahooSession', false );
+      localStorage.clear();
       setLoggedIn(false);
       setIsLoading(false);
     });
@@ -90,6 +102,20 @@ export default function App() {
               setPub={setPub}
               setSub={setSub}
               setIsLoading={setIsLoading}
+              // userId={userId}
+              // teamLogo={teamLogo}
+              // teamName={teamName}
+              // role={role}
+              // color={color}
+              // leagueId={leagueId} 
+              // setUserId={setUserId}
+              // setTeamLogo={setTeamLogo}
+              // setTeamName={setTeamName}
+              // setRole={setRole}
+              // setColor={setColor}
+              // setLeagueId={setLeagueId} 
+              user={user}
+              setUser={setUser}
             />
           </ErrorBoundary>
         }
@@ -97,9 +123,12 @@ export default function App() {
           <main>
             <ErrorBoundary >
               <AppWrapper
+                setLoggedIn={setLoggedIn}
                 logout={logout}
                 pub={pub}
                 sub={sub}
+                user={user}
+                setUser={setUser}
               />
             </ErrorBoundary>
           </main>

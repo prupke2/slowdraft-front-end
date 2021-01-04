@@ -3,9 +3,9 @@ import Table from '../../../Table/Table';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 import ModalWrapper from '../../ModalWrapper/ModalWrapper';
+import { getRules } from '../../../../util/requests';
 
-export default function RulesTab({role}) {
-  const [rules, setRules] = useState([]);
+export default function RulesTab({user, rules, setRules}) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const columns = [
@@ -40,14 +40,21 @@ export default function RulesTab({role}) {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch('/get_all_rules')
-    .then(res => res.json())
-    .then(data => {
-      console.log("data: " + JSON.stringify(data.rules, null, 4));
+
+    const rulesData = localStorage.getItem('rulesData');
+    if (rulesData && user) {
+      console.log("Using cached data");
+      let data = JSON.parse(rulesData);
       setRules(data.rules);
-    })
-    .then(setIsLoading(false));
-  }, [])
+    }
+    else {
+      console.log("Getting new forum data");
+      if (user) {
+        getRules(user, setRules);    
+      }
+    }
+    setIsLoading(false);
+  }, [user, setRules])
 
   function newRule() {
     setModalOpen(true);
@@ -60,7 +67,7 @@ export default function RulesTab({role}) {
       }
       { !isLoading &&
         <>
-          { role === 'admin' && 
+          { user.role === 'admin' && 
             <>
               <button className='margin-15' onClick = {() => newRule()}>New rule</button>
               <ModalWrapper 
@@ -72,6 +79,7 @@ export default function RulesTab({role}) {
             </>
           }
           <Table
+            user={user}
             data={rules}
             columns={columns}
             tableState={tableState}

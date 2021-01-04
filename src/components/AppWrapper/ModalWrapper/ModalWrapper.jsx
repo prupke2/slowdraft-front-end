@@ -8,7 +8,7 @@ import CloseModalButton from './CloseModalButton/CloseModalButton';
 import NewPost from './NewPost/NewPost';
 
 export default function ModalWrapper(
-    { modalIsOpen, setIsOpen, data, modalType, teamName, sendChatAnnouncement, tableType }
+    { modalIsOpen, setIsOpen, data, modalType, user, sendChatAnnouncement, tableType }
   ) {
   const [forumPostReplies, setForumPostReplies] = useState('');
 
@@ -22,10 +22,10 @@ export default function ModalWrapper(
   }
 
   function draftPlayer(data) {
-    let message = "The " + teamName + " have drafted " + data.name + ", " + data.position + " - " + data.team
+    let message = "The " + user.team_name + " have drafted " + data.name + ", " + data.position + " - " + data.team
 
     const draftTab = document.getElementById('react-tabs-0');
-    fetch(`/draft/${data.player_id}`)
+    fetch(`/draft/${user.draft_id}/${user.user_id}/${data.player_id}`)
     .then(async response => {
       const data = await response.json();
       if (!response.ok) {

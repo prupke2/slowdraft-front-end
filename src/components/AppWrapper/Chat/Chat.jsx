@@ -5,7 +5,7 @@ import MessageLog from './MessageLog/MessageLog';
 import './Chat.css';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary.jsx';
 
-export default function Chat({messages, setMessages, pub, sub, teamName, channel, color}) {
+export default function Chat({messages, setMessages, pub, sub, user, channel}) {
 
   const tempMessage = useInput();
   
@@ -14,8 +14,8 @@ export default function Chat({messages, setMessages, pub, sub, teamName, channel
     const pubnub = new PubNub({
       publishKey: pub,
       subscribeKey: sub,
-      uuid: teamName
-    }, [teamName]);
+      uuid: user.team_name
+    }, [user]);
 
     pubnub.addListener({
       status: function(statusEvent) {
@@ -30,7 +30,7 @@ export default function Chat({messages, setMessages, pub, sub, teamName, channel
           newMessages.push({
             uuid: msg.message.uuid,
             text: msg.message.text,
-            color: {color}
+            color: user.color
           });
           setMessages(messages=>messages.concat(newMessages))
         }
@@ -46,7 +46,9 @@ export default function Chat({messages, setMessages, pub, sub, teamName, channel
         channel: channel,
         count: 500, // 100 is the default
         stringifiedTimeToken: true // false is the default
-    }, function (status, response){
+    }, function (status, response) {
+      console.log("status: " + JSON.stringify(status, null, 4));
+     
       let newMessages = [];
         for (let i  = 0; i < response.messages.length;i++){
           newMessages.push({
@@ -62,7 +64,7 @@ export default function Chat({messages, setMessages, pub, sub, teamName, channel
       pubnub.unsubscribeAll();
       setMessages([]);
     }
-  },[channel, teamName, pub, sub]);
+  },[channel, user, pub, sub]);
 
   function handleKeyDown(event){
     if(event.target.id === "messageInput"){
@@ -77,12 +79,12 @@ export default function Chat({messages, setMessages, pub, sub, teamName, channel
     if (tempMessage.value) {
       let messageObject = {
         text: tempMessage.value,
-        uuid: teamName
+        uuid: user.team_name
       };
       const pubnub = new PubNub({
           publishKey: pub,
           subscribeKey: sub,
-          uuid: teamName
+          uuid: user.team_name
         });
       pubnub.publish({
         message: messageObject,

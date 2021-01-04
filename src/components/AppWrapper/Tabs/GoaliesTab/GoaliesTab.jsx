@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
+import { getDBGoalies } from '../../../../util/requests';
 
 
-export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPickingNow, teamName, sendChatAnnouncement}) {
+export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPickingNow, teamName, sendChatAnnouncement, user}) {
   const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
@@ -109,7 +110,6 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
 
   useEffect(() => {
     setIsLoading(true);
-
     const goalieDBData = localStorage.getItem('goalieDBData');
     
     if (goalieDBData) {
@@ -120,32 +120,11 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
     }
     else {
       console.log("Getting new goalie DB data");
-      fetch('/get_db_players?position=G')
-      .then(async response => {
-        const data = await response.json();
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-        localStorage.setItem('goalieDBData', JSON.stringify(data))
-        localStorage.setItem('goalieDBUpdate', new Date())
-        setGoalies(data.players);
-      })
-      .then(setIsLoading(false));
+      getDBGoalies(user, setGoalies);
     }
-  }, [setGoalies])
 
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   fetch('/get_db_players?position=G')
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     // console.log("data: " + JSON.stringify(data.players, null, 4));
-  //     setGoalies(data.players);
-  //   })
-  //   .then(setIsLoading(false));
-  // }, [])
+    setIsLoading(false)
+  }, [user, setGoalies])
 
   return (
     <>
@@ -154,6 +133,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
       }
       { !isLoading &&
         <Table
+          user={user}
           data={goalies}
           columns={columns}
           tableState={tableState}

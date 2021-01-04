@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectPositionColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
+import { getDBPlayers } from '../../../../util/requests';
 // import Errors from '../../../Errors/Errors';
 
 
-export default function PlayersTab({players, setPlayers, draftingNow, setUserPickingNow, teamName, sendChatAnnouncement}) {
+export default function PlayersTab({players, setPlayers, draftingNow, setUserPickingNow, teamName, sendChatAnnouncement, user}) {
   const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
@@ -133,9 +134,8 @@ export default function PlayersTab({players, setPlayers, draftingNow, setUserPic
 
   useEffect(() => {
     setIsLoading(true);
-
     const playerDBData = localStorage.getItem('playerDBData');
-    
+
     if (playerDBData) {
       console.log("Using cached data");
       let data = JSON.parse(playerDBData);
@@ -144,26 +144,18 @@ export default function PlayersTab({players, setPlayers, draftingNow, setUserPic
     }
     else {
       console.log("Getting new player DB data");
-      fetch('/get_db_players')
-      .then(async response => {
-        const data = await response.json();
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-        localStorage.setItem('playerDBData', JSON.stringify(data))
-        localStorage.setItem('playerDBUpdate', new Date())
-        setPlayers(data.players);
-      })
-      .then(setIsLoading(false));
+      getDBPlayers(user, setPlayers);
     }
-  }, [setPlayers])
+    
+    setIsLoading(false);
+  }, [user, setPlayers])
 
   return (
     <>
       {/* { error && <Errors />} */}
       { !isLoading &&
         <Table
+          user={user}
           data={players}
           columns={columns}
           tableState={tableState}

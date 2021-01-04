@@ -5,9 +5,9 @@ import Table from '../../../Table/Table';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 import ModalWrapper from '../../ModalWrapper/ModalWrapper';
+import { getForumPosts } from '../../../../util/requests';
 
-export default function ForumTab() {
-  const [posts, setPosts] = useState([]);
+export default function ForumTab({user, posts, setPosts}) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const columns = [
@@ -47,14 +47,21 @@ export default function ForumTab() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch('/get_forum_posts')
-    .then(res => res.json())
-    .then(data => {
-      // console.log("data: " + JSON.stringify(data.posts, null, 4));
+
+    const forumData = localStorage.getItem('forumData');
+    if (forumData && user) {
+      console.log("Using cached data");
+      let data = JSON.parse(forumData);
       setPosts(data.posts);
-    })
-    .then(setIsLoading(false));
-  }, [])
+    }
+    else {
+      console.log("Getting new forum data");
+      if (user) {
+        getForumPosts(user, setPosts);    
+      }
+    }
+    setIsLoading(false);
+  }, [user, setPosts])
 
   function newForumPost() {
     setModalOpen(true);
@@ -75,6 +82,7 @@ export default function ForumTab() {
             modalType='newForumPost'
           />
           <Table
+            user={user}
             data={posts}
             columns={columns}
             tableState={tableState}

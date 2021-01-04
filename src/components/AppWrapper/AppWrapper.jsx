@@ -1,28 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import Navbar from './Navbar/Navbar';
 import Chat from './Chat/Chat';
-import dummyIcon from '../../assets/dummy_icon.png';
 import PubNub from 'pubnub'; // backend for chat component
 import Widget from './Widget/Widget';
-import { getTeamSession } from '../../util/requests';
+import { getDraft, getDBPlayers, getDBGoalies, getTeams } from '../../util/requests';
+// import { getTeamSession } from '../../util/requests';
 
-export default function AppWrapper({logout, pub, sub}) {
+export default function AppWrapper({setLoggedIn, logout, pub, sub,
+  user, setUser, teamName, role, color, userId 
+}) {
+
   const [currentPick, setCurrentPick] = useState({user_id: null});
   const [picks, setPicks] = useState([]);
   const [draftingNow, setDraftingNow] = useState([]);
   // const draftingNow = (currentPick.user_id === userId) && (typeof(currentPick) !== 'undefined');
-  const channel = "slowdraftChat" // To reset messages, update the channel name to something new
+  // const channel = "slowdraftChat" // To reset messages, update the channel name to something new
+  const channel = "test" // To reset messages, update the channel name to something new
   const [messages, setMessages] = useState([]);
   const [players, setPlayers] = useState([]);
   const [goalies, setGoalies] = useState([]);
+  const [teams, setTeams] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [rules, setRules] = useState([]);
 
-  const teamSessionData = localStorage.getItem('teamSessionData');
-  const teamJson = teamSessionData ? JSON.parse(teamSessionData) : null;
-  const userId = teamJson ? teamJson.user_id : null;
-  const teamLogo = teamJson ? teamJson.logo : dummyIcon;
-  const teamName = teamJson ? teamJson.team_name : '';
-  const role = teamJson ? teamJson.role : 'user';
-  const color = teamJson ? teamJson.team_name : '#ffffff';
+  // const teamSessionData = localStorage.getItem('teamSessionData');
+  // const teamJson = teamSessionData ? JSON.parse(teamSessionData) : null;
 
   function sendChatAnnouncement(message) {
     let messageObject = {
@@ -50,84 +52,80 @@ export default function AppWrapper({logout, pub, sub}) {
     //     setRole(data.role);
     //     setColor(data.color);
     //   }
-    const teamSessionData = localStorage.getItem('teamSessionData');
+    let user = localStorage.getItem('user');
 
-    
-    if ((teamName === '' || !userId || !teamLogo)) {
-      console.log("no userId: " + userId);
-      if (localStorage.getItem('teamSessionData')) {
-        console.log("using teamSessionData: ");
-        let data = JSON.parse(teamSessionData)
-        console.log("data.user_id: " + data.user_id);
-      } else {
-        console.log("no teamSessionData" + teamSessionData);
-        getTeamSession();
-      }
+    if (!user) {
+      setLoggedIn(false);
+    } else {
+      setUser(JSON.parse(user));
     }
+    
+    // if (user) {
+    //   console.log("user: " + user);
+    //   console.log("user: " + JSON.stringify(user, null, 4))
+    //   // let data = JSON.parse(user);
+    //   console.log("Setting user with localStorage: " + JSON.stringify(data, null, 4))
+
+    //   // setUserId(data.user_id);	
+    //   // setTeamLogo(data.logo);	
+    //   // setTeamName(data.team_name);	
+    //   // setRole(data.role);	
+    //   // setColor(data.color);
+    //   // setLeagueId(data.league_id);
+    // }
 
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() =>
-      fetch('/check_for_updates')
-      .then(async response => {
-        const now = new Date()
-        const data = await response.json();
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-        setDraftingNow(data.drafting_now);
-        
-        if (Date.parse(data.updates.latest_draft_update) > Date.parse(localStorage.getItem('draftDataUpdate'))) {
-          console.log("Update draft data...");
-          fetch('/get_draft')
-          .then(res => res.json())
-          .then(data => {
-            localStorage.setItem('draftData', JSON.stringify(data))
-            localStorage.setItem('draftDataUpdate', new Date())
-    
-            setPicks(data.picks);
-            if (typeof(data.current_pick) !== 'undefined') {
-              setCurrentPick(data.current_pick);
-              if (currentPick.user_id === userId) {
-                setDraftingNow(true);
-              }
-            }
-          })
-        }
-        if (Date.parse(data.updates.latest_player_db_update) > Date.parse(localStorage.getItem('playerDBUpdate'))) {
-          console.log("Update player DB data...");
-          fetch('/get_db_players')
-          .then(async response => {
-            const data = await response.json();
-            if (!response.ok) {
-              const error = (data && data.message) || response.status;
-              return Promise.reject(error);
-            }
-            localStorage.setItem('playerDBData', JSON.stringify(data))
-            localStorage.setItem('playerDBUpdate', new Date())
-            setPlayers(data.players);
-          })
-        } 
-        if (Date.parse(data.updates.latest_goalie_db_update) > Date.parse(localStorage.getItem('goalieDBUpdate'))) {
-          console.log("Update goalie DB data...");
-          fetch('/get_db_players?position=G')
-          .then(res => res.json())
-          .then(data => {
-            localStorage.setItem('goalieDBData', JSON.stringify(data))
-            localStorage.setItem('goalieDBUpdate', new Date())
-            setGoalies(data.players);
-          })
-        } 
-      })
-      , 30000
-    );
-    return () => {
-      clearInterval(interval);
+    // const localUser = localStorage.getItem('user');
+    // const user = localUser ? JSON.parse(localUser) : null;
+
+    if (user) {
+      const interval = setInterval(() =>
+        fetch(`/check_for_updates/${user.user_id}/${user.league_id}`)
+        .then(async response => {
+          const now = new Date()
+          const data = await response.json();
+          if (!response.ok) {
+            const error = (data && data.message) || response.status;
+            return Promise.reject(error);
+          }
+          setDraftingNow(data.drafting_now);
+          
+          if (Date.parse(data.updates.latest_draft_update) > Date.parse(localStorage.getItem('draftDataUpdate'))) {
+            console.log("Update draft data...");
+            getDraft(user, setPicks, currentPick, setCurrentPick, setDraftingNow);
+          }
+          if (Date.parse(data.updates.latest_player_db_update) > Date.parse(localStorage.getItem('playerDBUpdate'))) {
+            console.log("Update player DB data...");
+            getDBPlayers(user, setPlayers);
+          } 
+          if (Date.parse(data.updates.latest_goalie_db_update) > Date.parse(localStorage.getItem('goalieDBUpdate'))) {
+            console.log("Update goalie DB data...");
+            getDBGoalies(user, setGoalies);
+          }
+          if (Date.parse(data.updates.latest_team_update) > Date.parse(localStorage.getItem('teamDataUpdate'))) {
+            console.log("Update team data...");
+            getTeams(user, setTeams)
+          }
+          if (Date.parse(data.updates.latest_rules_update) > Date.parse(localStorage.getItem('rulesUpdate'))) {
+            console.log("Update rules data...");
+            getTeams(user, setRules)
+          }
+          if (Date.parse(data.updates.latest_forum_update) > Date.parse(localStorage.getItem('forumUpdate'))) {
+            console.log("Update forum data...");
+            getTeams(user, setPosts);
+          }
+
+        })
+        , 30000
+      );
+      return () => {
+        clearInterval(interval);
+      }
     }
   
-  }, []);
+  }, [user]);
 
   return (
     <>      
@@ -137,29 +135,36 @@ export default function AppWrapper({logout, pub, sub}) {
         setCurrentPick={setCurrentPick}
         picks={picks}
         setPicks={setPicks}
-        role={role}
+        // role={role}
         draftingNow={draftingNow}
         setDraftingNow={setDraftingNow}
-        userId={userId}
-        teamName={teamName}
+        // userId={userId}
+        // teamName={teamName}
         sendChatAnnouncement={sendChatAnnouncement}
         players={players}
         setPlayers={setPlayers}
         goalies={goalies}
         setGoalies={setGoalies}
+        teams={teams}
+        setTeams={setTeams}
+        posts={posts}
+        setPosts={setPosts}
+        rules={rules}
+        setRules={setRules}
+        user={user}
+        setUser={setUser}
       />
       <Widget 
-        teamLogo={teamLogo}
-        teamName={teamName}
         currentPick={currentPick}
-        draftingNow={draftingNow}
         logout={logout}
+        user={user}
       />
       <Chat 
         messages={messages}
         setMessages={setMessages}
         pub={pub}
         sub={sub}
+        user={user}
         teamName={teamName}
         channel={channel}
         color={color}

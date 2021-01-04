@@ -15,9 +15,8 @@ export default function Table(
       tableState,
       tableType,
       loading,
-      role,
       draftingNow,
-      teamName,
+      user,
       sendChatAnnouncement,
       currentPick
     }
@@ -158,7 +157,7 @@ export default function Table(
                   <th width="30px"></th>
                 }
                 
-                { (tableType === 'draftPicks' && role === 'admin') &&
+                { (tableType === 'draftPicks' && user.role === 'admin') &&
                   <th className="blank-cell" width="30px" />
                 }
                 {headerGroup.headers.map(column => {
@@ -216,10 +215,10 @@ export default function Table(
                     if (cell.column.Header === 'Pick') {
                       return (
                         <>
-                          { (role === 'admin' && cell.row.original.draft_pick_timestamp !== null) &&
+                          { (user.role === 'admin' && cell.row.original.draft_pick_timestamp !== null) &&
                             <td className="admin-column" width='50px' />
                           }
-                          { (role === 'admin' && cell.row.original.draft_pick_timestamp === null) &&
+                          { (user.role === 'admin' && cell.row.original.draft_pick_timestamp === null) &&
                           <td className="admin-column" width='50px'>
                             <select 
                               value={cell.row.original.user_id} 
@@ -274,7 +273,7 @@ export default function Table(
                                 setIsOpen={setModalOpen}
                                 data={playerDrafted}
                                 modalType="draftPlayer"
-                                teamName={teamName}
+                                user={user}
                                 sendChatAnnouncement={sendChatAnnouncement}
                               />
                             </div>

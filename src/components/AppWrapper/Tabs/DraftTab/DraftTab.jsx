@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import Table from '../../../Table/Table';
 // import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
+import { getDraft } from '../../../../util/requests';
 
-export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, role}) {
-
+export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick, setCurrentPick, 
+  picks, setPicks, draftingNow, setDraftingNow, user
+}) {
   const columns = [
     {
       Header: 'Pick',
@@ -65,38 +67,25 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
     setIsLoading(true);
 
     const localDraftData = localStorage.getItem('draftData');
-    
-    if (localDraftData) {
+    if (localDraftData && user) {
       console.log("Using cached data");
       let data = JSON.parse(localDraftData);
       setPicks(data.picks);
       if (typeof(data.current_pick) !== 'undefined') {
         setCurrentPick(data.current_pick);
-        if (currentPick.user_id === userId) {
+        if (currentPick.user_id === user.user_id) {
           setDraftingNow(true);
         }
       }
-      setIsLoading(false);
     }
     else {
       console.log("Getting new draft data");
-      fetch('/get_draft')
-      .then(res => res.json())
-      .then(data => {
-        localStorage.setItem('draftData', JSON.stringify(data))
-        localStorage.setItem('draftDataUpdate', new Date())
-
-        setPicks(data.picks);
-        if (typeof(data.current_pick) !== 'undefined') {
-          setCurrentPick(data.current_pick);
-          if (currentPick.user_id === userId) {
-            setDraftingNow(true);
-          }
-        }
-      })
-      .then(setIsLoading(false));
+      if (user) {
+        getDraft(user, setPicks, currentPick, setCurrentPick, setDraftingNow);      
+      }
     }
-  }, [setUserPickingNow, setPickExpiry])
+    setIsLoading(false);
+  }, [])
 
   return (
     <>
@@ -110,7 +99,7 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
           tableState={tableState}
           defaultColumn='overall_pick'
           tableType='draftPicks'
-          role={role}
+          user={user}
           draftingNow={draftingNow}
           currentPick={currentPick}
         />
