@@ -68,10 +68,8 @@ export default function AppWrapper({logout, pub, sub}) {
   }, []);
 
   useEffect(() => {
-    console.log("userId getting updates: " + userId);
-    let checkEndpoint = `/check_for_updates/${userId}`
     const interval = setInterval(() =>
-      fetch(checkEndpoint)
+      fetch('/check_for_updates')
       .then(async response => {
         const now = new Date()
         const data = await response.json();
