@@ -24,7 +24,6 @@ export default function Login({ code, setLoggedIn, setPub, setSub, setIsLoading,
         .then(data => {
           window.history.replaceState({}, document.title, "/");
           if (data.access_token && data.refresh_token) {
-            console.log("data: " + JSON.stringify(data, null, 4));
             setPub(data.pub);
             setSub(data.sub);
             localStorage.setItem( 'pub', data.pub );

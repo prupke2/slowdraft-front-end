@@ -7,15 +7,15 @@ import { getDraft, getDBPlayers, getDBGoalies, getTeams } from '../../util/reque
 // import { getTeamSession } from '../../util/requests';
 
 export default function AppWrapper({setLoggedIn, logout, pub, sub,
-  user, setUser, teamName, role, color, userId 
+  user, setUser, teamName, color
 }) {
 
   const [currentPick, setCurrentPick] = useState({user_id: null});
   const [picks, setPicks] = useState([]);
   const [draftingNow, setDraftingNow] = useState([]);
   // const draftingNow = (currentPick.user_id === userId) && (typeof(currentPick) !== 'undefined');
-  // const channel = "slowdraftChat" // To reset messages, update the channel name to something new
-  const channel = "test" // To reset messages, update the channel name to something new
+  const channel = "slowdraftChat" // To reset messages, update the channel name to something new
+  // const channel = "test" // To reset messages, update the channel name to something new
   const [messages, setMessages] = useState([]);
   const [players, setPlayers] = useState([]);
   const [goalies, setGoalies] = useState([]);
@@ -167,7 +167,6 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub,
         user={user}
         teamName={teamName}
         channel={channel}
-        color={color}
       />
     </>
   );
