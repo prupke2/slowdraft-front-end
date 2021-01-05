@@ -3,8 +3,7 @@ import Navbar from './Navbar/Navbar';
 import Chat from './Chat/Chat';
 import PubNub from 'pubnub'; // backend for chat component
 import Widget from './Widget/Widget';
-import { getDraft, getDBPlayers, getDBGoalies, getTeams } from '../../util/requests';
-// import { getTeamSession } from '../../util/requests';
+import { getDraft, getDBPlayers, getDBGoalies, getTeams, getForumPosts, getRules } from '../../util/requests';
 
 export default function AppWrapper({setLoggedIn, logout, pub, sub,
   user, setUser, teamName, color
@@ -13,7 +12,6 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub,
   const [currentPick, setCurrentPick] = useState({user_id: null});
   const [picks, setPicks] = useState([]);
   const [draftingNow, setDraftingNow] = useState([]);
-  // const draftingNow = (currentPick.user_id === userId) && (typeof(currentPick) !== 'undefined');
   const channel = "slowdraftChat" // To reset messages, update the channel name to something new
   // const channel = "test" // To reset messages, update the channel name to something new
   const [messages, setMessages] = useState([]);
@@ -22,9 +20,6 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub,
   const [teams, setTeams] = useState([]);
   const [posts, setPosts] = useState([]);
   const [rules, setRules] = useState([]);
-
-  // const teamSessionData = localStorage.getItem('teamSessionData');
-  // const teamJson = teamSessionData ? JSON.parse(teamSessionData) : null;
 
   function sendChatAnnouncement(message) {
     let messageObject = {
@@ -110,11 +105,11 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub,
           }
           if (Date.parse(data.updates.latest_rules_update) > Date.parse(localStorage.getItem('rulesUpdate'))) {
             console.log("Update rules data...");
-            getTeams(user, setRules)
+            getRules(user, setRules)
           }
           if (Date.parse(data.updates.latest_forum_update) > Date.parse(localStorage.getItem('forumUpdate'))) {
             console.log("Update forum data...");
-            getTeams(user, setPosts);
+            getForumPosts(user, setPosts);
           }
 
         })
