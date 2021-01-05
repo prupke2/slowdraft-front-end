@@ -129,7 +129,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
   return (
     <>
       { isLoading &&
-        <Loading />
+        <Loading text="Loading goalies..."  />
       }
       { !isLoading &&
         <Table

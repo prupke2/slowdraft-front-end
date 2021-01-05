@@ -70,7 +70,7 @@ export default function ForumTab({user, posts, setPosts}) {
   return (
     <>
       { isLoading &&
-        <Loading />
+        <Loading text="Loading Forum..." />
       }
       { !isLoading &&
         <>

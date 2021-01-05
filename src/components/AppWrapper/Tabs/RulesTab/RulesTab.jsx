@@ -63,7 +63,7 @@ export default function RulesTab({user, rules, setRules}) {
   return (
     <>
       { isLoading &&
-        <Loading />
+        <Loading text="Loading rules..." />
       }
       { !isLoading &&
         <>

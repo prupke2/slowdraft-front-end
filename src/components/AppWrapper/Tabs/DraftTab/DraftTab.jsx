@@ -90,7 +90,7 @@ export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick,
   return (
     <>
       { isLoading &&
-        <Loading />
+        <Loading text="Loading draft..." />
       }
       { !isLoading &&
         <Table

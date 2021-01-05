@@ -146,7 +146,7 @@ export default function Table(
         </>
       }
 
-      { loading && <Loading />}
+      { loading && <Loading text="Loading..." />}
       { !loading &&
         <table className="table" {...getTableProps()}>
           <thead>
