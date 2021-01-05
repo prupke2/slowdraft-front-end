@@ -47,7 +47,7 @@ export default function Chat({messages, setMessages, pub, sub, user, channel}) {
         count: 500, // 100 is the default
         stringifiedTimeToken: true // false is the default
     }, function (status, response) {
-      console.log("status: " + JSON.stringify(status, null, 4));
+      // console.log("status: " + JSON.stringify(status, null, 4));
      
       let newMessages = [];
         for (let i  = 0; i < response.messages.length;i++){
