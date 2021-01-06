@@ -5,9 +5,7 @@ import PubNub from 'pubnub'; // backend for chat component
 import Widget from './Widget/Widget';
 import { getDraft, getDBPlayers, getDBGoalies, getTeams, getForumPosts, getRules } from '../../util/requests';
 
-export default function AppWrapper({setLoggedIn, logout, pub, sub,
-  user, setUser, teamName, color
-}) {
+export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser }) {
 
   const [currentPick, setCurrentPick] = useState({user_id: null});
   const [picks, setPicks] = useState([]);
@@ -29,7 +27,7 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub,
     const pubnub = new PubNub({
       publishKey: pub,
       subscribeKey: sub,
-      uuid: teamName
+      uuid: user.team_name
     });
     pubnub.publish({
       message: messageObject,
@@ -38,15 +36,6 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub,
   }
   
   useEffect(() => {
-    // if (teamSessionData && (teamName === '' || !userId)) {
-    //     console.log('setting userID')
-    //     let data = JSON.parse(teamSessionData);
-    //     setUserId(data.user_id);
-    //     setTeamLogo(data.logo);
-    //     setTeamName(data.team_name);
-    //     setRole(data.role);
-    //     setColor(data.color);
-    //   }
     let user = localStorage.getItem('user');
 
     if (!user) {
@@ -55,26 +44,9 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub,
       setUser(JSON.parse(user));
     }
     
-    // if (user) {
-    //   console.log("user: " + user);
-    //   console.log("user: " + JSON.stringify(user, null, 4))
-    //   // let data = JSON.parse(user);
-    //   console.log("Setting user with localStorage: " + JSON.stringify(data, null, 4))
-
-    //   // setUserId(data.user_id);	
-    //   // setTeamLogo(data.logo);	
-    //   // setTeamName(data.team_name);	
-    //   // setRole(data.role);	
-    //   // setColor(data.color);
-    //   // setLeagueId(data.league_id);
-    // }
-
   }, []);
 
   useEffect(() => {
-    // const localUser = localStorage.getItem('user');
-    // const user = localUser ? JSON.parse(localUser) : null;
-
     if (user) {
       const interval = setInterval(() =>
         fetch(`/check_for_updates/${user.user_id}/${user.league_id}`)
@@ -160,7 +132,6 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub,
         pub={pub}
         sub={sub}
         user={user}
-        teamName={teamName}
         channel={channel}
       />
     </>
