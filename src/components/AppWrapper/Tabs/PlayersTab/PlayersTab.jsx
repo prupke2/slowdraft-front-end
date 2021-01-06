@@ -5,7 +5,9 @@ import { getDBPlayers } from '../../../../util/requests';
 // import Errors from '../../../Errors/Errors';
 
 
-export default function PlayersTab({players, setPlayers, draftingNow, setUserPickingNow, teamName, sendChatAnnouncement, user}) {
+export default function PlayersTab({players, setPlayers, draftingNow, 
+    setUserPickingNow, sendChatAnnouncement, user
+  }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
@@ -163,7 +165,6 @@ export default function PlayersTab({players, setPlayers, draftingNow, setUserPic
           tableType="draft"
           draftingNow={draftingNow}
           setUserPickingNow={setUserPickingNow}
-          teamName={teamName}
           sendChatAnnouncement={sendChatAnnouncement}
         />
       }
