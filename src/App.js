@@ -102,18 +102,6 @@ export default function App() {
               setPub={setPub}
               setSub={setSub}
               setIsLoading={setIsLoading}
-              // userId={userId}
-              // teamLogo={teamLogo}
-              // teamName={teamName}
-              // role={role}
-              // color={color}
-              // leagueId={leagueId} 
-              // setUserId={setUserId}
-              // setTeamLogo={setTeamLogo}
-              // setTeamName={setTeamName}
-              // setRole={setRole}
-              // setColor={setColor}
-              // setLeagueId={setLeagueId} 
               user={user}
               setUser={setUser}
             />

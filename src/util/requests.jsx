@@ -15,26 +15,28 @@ export function getDraft(user, setPicks, currentPick, setCurrentPick, setDraftin
       setPicks(data.picks);
       if (typeof(data.current_pick) !== 'undefined') {
         setCurrentPick(data.current_pick);
-        if (currentPick.user_id === user.userId) {
+        if (currentPick.user_id === user.user_id) {
           setDraftingNow(true);
         }
       }
-    })
+    }
+  )
 }
 
 export function getDBPlayers(user, setPlayers) {
   fetch(`/get_db_players/${user.draft_id}`)
-  .then(async response => {
-    const data = await response.json();
-    if (!response.ok) {
-        ToastsStore.error("Error getting players.")
-        const error = (data && data.message) || response.status;
-      return Promise.reject(error);
+    .then(async response => {
+      const data = await response.json();
+      if (!response.ok) {
+          ToastsStore.error("Error getting players.")
+          const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+      localStorage.setItem('playerDBData', JSON.stringify(data))
+      localStorage.setItem('playerDBUpdate', new Date())
+      setPlayers(data.players);
     }
-    localStorage.setItem('playerDBData', JSON.stringify(data))
-    localStorage.setItem('playerDBUpdate', new Date())
-    setPlayers(data.players);
-  })
+  )
 }
 
 export function getDBGoalies(user, setGoalies) {
@@ -46,10 +48,11 @@ export function getDBGoalies(user, setGoalies) {
         const error = (data && data.message) || response.status;
         return Promise.reject(error);
       }
-    localStorage.setItem('goalieDBData', JSON.stringify(data))
-    localStorage.setItem('goalieDBUpdate', new Date())
-    setGoalies(data.players);
-  })
+      localStorage.setItem('goalieDBData', JSON.stringify(data))
+      localStorage.setItem('goalieDBUpdate', new Date())
+      setGoalies(data.players);
+    }
+  )
 }
 
 export function getTeams(user, setTeams) {
@@ -61,38 +64,40 @@ export function getTeams(user, setTeams) {
         const error = (data && data.message) || response.status;
         return Promise.reject(error);
       }
-    localStorage.setItem('teamData', JSON.stringify(data))
-    localStorage.setItem('teamDataUpdate', new Date())
-    setTeams(data.teams);
+      localStorage.setItem('teamData', JSON.stringify(data))
+      localStorage.setItem('teamDataUpdate', new Date())
+      setTeams(data.teams);
   })
 }
 
 export function getRules(user, setRules) {
   fetch(`/get_all_rules/${user.league_id}`)
-  .then(async response => {
-    const data = await response.json();
-    if (!response.ok) {
-      ToastsStore.error("Error getting rules.")
-      const error = (data && data.message) || response.status;
-      return Promise.reject(error);
+    .then(async response => {
+      const data = await response.json();
+      if (!response.ok) {
+        ToastsStore.error("Error getting rules.")
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+      localStorage.setItem('rulesData', JSON.stringify(data))
+      localStorage.setItem('rulesUpdate', new Date())
+      setRules(data.rules);
     }
-    localStorage.setItem('rulesData', JSON.stringify(data))
-    localStorage.setItem('rulesUpdate', new Date())
-    setRules(data.rules);
-  })
+  )
 }
 
 export function getForumPosts(user, setPosts) {
   fetch(`/get_forum_posts/${user.league_id}`)
-  .then(async response => {
-    const data = await response.json();
-    if (!response.ok) {
-      ToastsStore.error("Error getting forum posts.")
-      const error = (data && data.message) || response.status;
-      return Promise.reject(error);
+    .then(async response => {
+      const data = await response.json();
+      if (!response.ok) {
+        ToastsStore.error("Error getting forum posts.")
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+      localStorage.setItem('forumData', JSON.stringify(data))
+      localStorage.setItem('forumUpdate', new Date())
+      setPosts(data.posts);
     }
-    localStorage.setItem('forumData', JSON.stringify(data))
-    localStorage.setItem('forumUpdate', new Date())
-    setPosts(data.posts);
-  })
+  )
 }
