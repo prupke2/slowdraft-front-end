@@ -10,7 +10,7 @@ import RulesTab from '../Tabs/RulesTab/RulesTab';
 
 export default function Navbar({
   currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
-  teamName, sendChatAnnouncement, role, players, setPlayers, goalies, setGoalies,
+  sendChatAnnouncement, role, players, setPlayers, goalies, setGoalies,
   teams, setTeams, posts, setPosts, rules, setRules, user, setUser
 }) {
 
@@ -20,7 +20,7 @@ export default function Navbar({
   
   return (
     <>
-      <Tabs defaultIndex={0} className="navbar-tabs">
+      <Tabs defaultIndex={1} className="navbar-tabs">
         <TabList>
           <Tab>Draft</Tab>
           <Tab>Skaters</Tab>
@@ -47,7 +47,6 @@ export default function Navbar({
         <TabPanel>
           <PlayersTab 
             draftingNow={draftingNow}
-            teamName={teamName}
             sendChatAnnouncement={sendChatAnnouncement}
             players={players}
             setPlayers={setPlayers}
@@ -57,7 +56,6 @@ export default function Navbar({
         <TabPanel>
           <GoaliesTab 
             draftingNow={draftingNow}
-            teamName={teamName}
             sendChatAnnouncement={sendChatAnnouncement}
             goalies={goalies}
             setGoalies={setGoalies}
