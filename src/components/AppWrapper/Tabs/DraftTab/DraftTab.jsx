@@ -4,7 +4,7 @@ import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
 import { getDraft } from '../../../../util/requests';
 
-export default function DraftTab({setUserPickingNow, setPickExpiry, currentPick, setCurrentPick, 
+export default function DraftTab({currentPick, setCurrentPick, 
   picks, setPicks, draftingNow, setDraftingNow, user
 }) {
   const columns = [
