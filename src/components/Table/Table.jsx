@@ -9,16 +9,8 @@ import { ToastsStore } from "react-toasts";
 import UsernameStyled from "../AppWrapper/UsernameStyled/UsernameStyled";
 
 export default function Table(
-    { columns,
-      data,
-      defaultColumnFilter,
-      tableState,
-      tableType,
-      loading,
-      draftingNow,
-      user,
-      sendChatAnnouncement,
-      currentPick
+    { columns, data, defaultColumnFilter, tableState, tableType, loading, draftingNow, 
+      sendChatAnnouncement, currentPick, user
     }
   ) {
   const [modalOpen, setModalOpen] = useState(false);
