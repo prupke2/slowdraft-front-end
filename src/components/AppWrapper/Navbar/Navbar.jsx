@@ -20,7 +20,7 @@ export default function Navbar({
   
   return (
     <>
-      <Tabs defaultIndex={1} className="navbar-tabs">
+      <Tabs defaultIndex={0} className="navbar-tabs">
         <TabList>
           <Tab>Draft</Tab>
           <Tab>Skaters</Tab>
