@@ -29,6 +29,10 @@
   overflow: scroll;
 }
 
+#chat-messages > li > div {
+  margin-left: 10px;
+}
+
 #chat-title {
   position: relative;
   bottom: 40px;
