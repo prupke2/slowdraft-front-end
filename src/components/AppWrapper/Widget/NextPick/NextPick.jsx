@@ -27,19 +27,12 @@ export default function NextPick({currentPick, pickExpiry, draftingNow}) {
     <>
     {/* <div className='current-pick-timer'> */}
       { currentPick && 
-        <div className='drafting-now'>
-          { draftingNow && 
-            <p className="you-are-up">You're up!&nbsp;</p>
-          }
-          { !draftingNow && 
-            <>
-              <p>Drafting:&nbsp;</p>
-              <UsernameStyled 
-                username={currentPick.username}
-                color={currentPick.color}
-              />
-            </>
-          }
+        <div className={`drafting-now drafting-${draftingNow}`}>
+          <p>Drafting:&nbsp;</p>
+          <UsernameStyled 
+            username={currentPick.username}
+            color={currentPick.color}
+          />
           <p className='countdown-timer' id='countdown'>{countdownClock || ''}</p>
         </div>
       }
