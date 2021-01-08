@@ -7,10 +7,11 @@ import ModalWrapper from "../AppWrapper/ModalWrapper/ModalWrapper";
 import Loading from "../Loading/Loading";
 import { ToastsStore } from "react-toasts";
 import UsernameStyled from "../AppWrapper/UsernameStyled/UsernameStyled";
+import { getDraft } from "../../util/requests";
 
 export default function Table(
-    { columns, data, defaultColumnFilter, tableState, tableType, loading, draftingNow, 
-      sendChatAnnouncement, currentPick, user
+    { columns, data, defaultColumnFilter, tableState, tableType, loading, draftingNow, setTeams,
+      sendChatAnnouncement, currentPick, setPicks, setCurrentPick, setDraftingNow, user, setPlayers, setGoalies
     }
   ) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,7 +37,9 @@ export default function Table(
       },
       body: JSON.stringify({ 
         user_id: event.target.value,
-        overall_pick: overall_pick
+        overall_pick: overall_pick,
+        league_id: user.league_id,
+        draft_id: user.draft_id
       })
     };
 
@@ -48,7 +51,12 @@ export default function Table(
           return Promise.reject(error);
         }
       })
-      .then(ToastsStore.success("Pick updated."))
+      .then(
+        setTimeout(function () {
+          getDraft(user, setPicks, setCurrentPick, setDraftingNow)
+          ToastsStore.success(`Pick ${overall_pick} updated.`)
+        }, 1000)
+      )
   }
 
   const filterTypes = React.useMemo(
@@ -114,11 +122,6 @@ export default function Table(
 
   return (
     <div>
-      {/* <pre>
-        <code>
-          {JSON.stringify({ pageIndex, pageSize, pageCount, canNextPage, canPreviousPage}, null, 2)}
-        </code>
-      </pre> */}
       { tableType !== 'forum' && tableType !== 'teams' && 
         <Pagination 
           tableType={tableType}
@@ -219,7 +222,7 @@ export default function Table(
                             >
                               <option value={351}>American Gladiators</option>
                               <option value={411}>Bakersfield Condors</option>
-                              <option value={441}>Bowmanville Bisons</option>
+                              <option value={441}>Fort Wayne Komets</option>
                               <option value={301}>GrandRapids Griffins</option>
                               <option value={371}>Nelson Leafs</option>
                               <option value={381}>New Orleans Brass</option>
@@ -267,6 +270,13 @@ export default function Table(
                                 modalType="draftPlayer"
                                 user={user}
                                 sendChatAnnouncement={sendChatAnnouncement}
+                                setPicks={setPicks}
+                                currentPick={currentPick}
+                                setCurrentPick={setCurrentPick}
+                                setDraftingNow={setDraftingNow}
+                                setPlayers={setPlayers}
+                                setGoalies={setGoalies}
+                                setTeams={setTeams}
                               />
                             </div>
                           </td>

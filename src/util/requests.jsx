@@ -1,7 +1,8 @@
 import { ToastsStore } from "react-toasts";
 
-export function getDraft(user, setPicks, currentPick, setCurrentPick, setDraftingNow) {
-  fetch(`/get_draft/${user.draft_id}`)
+export function getDraft(user, setPicks, setCurrentPick, setDraftingNow) {
+
+  fetch(`/get_draft/${user.draft_id}/${user.user_id}`)
     .then(async response => {
       const data = await response.json();
       if (!response.ok) {
@@ -13,11 +14,9 @@ export function getDraft(user, setPicks, currentPick, setCurrentPick, setDraftin
       localStorage.setItem('draftDataUpdate', new Date())
 
       setPicks(data.picks);
+      setDraftingNow(data.drafting_now);
       if (typeof(data.current_pick) !== 'undefined') {
         setCurrentPick(data.current_pick);
-        if (currentPick.user_id === user.user_id) {
-          setDraftingNow(true);
-        }
       }
     }
   )
