@@ -46,53 +46,55 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
     
   }, []);
 
+function checkForUpdates() {
+  fetch(`/check_for_updates/${user.user_id}/${user.league_id}`)
+    .then(async response => {
+      const now = new Date()
+      const data = await response.json();
+      if (!response.ok) {
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+      setDraftingNow(data.drafting_now);
+      
+      if (Date.parse(data.updates.latest_draft_update) > Date.parse(localStorage.getItem('draftDataUpdate'))) {
+        console.log("Update draft data...");
+        getDraft(user, setPicks, setCurrentPick, setDraftingNow)
+      }
+      if (Date.parse(data.updates.latest_player_db_update) > Date.parse(localStorage.getItem('playerDBUpdate'))) {
+        console.log("Update player DB data...");
+        getDBPlayers(user, setPlayers);
+      } 
+      if (Date.parse(data.updates.latest_goalie_db_update) > Date.parse(localStorage.getItem('goalieDBUpdate'))) {
+        console.log("Update goalie DB data...");
+        getDBGoalies(user, setGoalies);
+      }
+      if (Date.parse(data.updates.latest_team_update) > Date.parse(localStorage.getItem('teamDataUpdate'))) {
+        console.log("Update team data...");
+        getTeams(user, setTeams)
+      }
+      if (Date.parse(data.updates.latest_rules_update) > Date.parse(localStorage.getItem('rulesUpdate'))) {
+        console.log("Update rules data...");
+        getRules(user, setRules)
+      }
+      if (Date.parse(data.updates.latest_forum_update) > Date.parse(localStorage.getItem('forumUpdate'))) {
+        console.log("Update forum data...");
+        getForumPosts(user, setPosts);
+      }
+
+    })
+}
+
   useEffect(() => {
     if (user) {
-      const interval = setInterval(() =>
-        fetch(`/check_for_updates/${user.user_id}/${user.league_id}`)
-        .then(async response => {
-          const now = new Date()
-          const data = await response.json();
-          if (!response.ok) {
-            const error = (data && data.message) || response.status;
-            return Promise.reject(error);
-          }
-          setDraftingNow(data.drafting_now);
-          
-          if (Date.parse(data.updates.latest_draft_update) > Date.parse(localStorage.getItem('draftDataUpdate'))) {
-            console.log("Update draft data...");
-            getDraft(user, setPicks, currentPick, setCurrentPick, setDraftingNow);
-          }
-          if (Date.parse(data.updates.latest_player_db_update) > Date.parse(localStorage.getItem('playerDBUpdate'))) {
-            console.log("Update player DB data...");
-            getDBPlayers(user, setPlayers);
-          } 
-          if (Date.parse(data.updates.latest_goalie_db_update) > Date.parse(localStorage.getItem('goalieDBUpdate'))) {
-            console.log("Update goalie DB data...");
-            getDBGoalies(user, setGoalies);
-          }
-          if (Date.parse(data.updates.latest_team_update) > Date.parse(localStorage.getItem('teamDataUpdate'))) {
-            console.log("Update team data...");
-            getTeams(user, setTeams)
-          }
-          if (Date.parse(data.updates.latest_rules_update) > Date.parse(localStorage.getItem('rulesUpdate'))) {
-            console.log("Update rules data...");
-            getRules(user, setRules)
-          }
-          if (Date.parse(data.updates.latest_forum_update) > Date.parse(localStorage.getItem('forumUpdate'))) {
-            console.log("Update forum data...");
-            getForumPosts(user, setPosts);
-          }
-
-        })
-        , 30000
-      );
+      checkForUpdates();
+      const interval = setInterval(() => checkForUpdates(), 30000);
       return () => {
         clearInterval(interval);
       }
     }
   
-  }, [user]);
+  }, [user, setPicks, setGoalies, setTeams, setRules, setPosts]);
 
   return (
     <>      
@@ -102,11 +104,8 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
         setCurrentPick={setCurrentPick}
         picks={picks}
         setPicks={setPicks}
-        // role={role}
         draftingNow={draftingNow}
         setDraftingNow={setDraftingNow}
-        // userId={userId}
-        // teamName={teamName}
         sendChatAnnouncement={sendChatAnnouncement}
         players={players}
         setPlayers={setPlayers}

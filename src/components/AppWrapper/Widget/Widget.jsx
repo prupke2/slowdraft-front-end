@@ -10,7 +10,7 @@ export default function Widget({currentPick, logout, user}) {
         <NextPick 
           currentPick={currentPick}
           pickExpiry={currentPick.pick_expires}
-          draftingNow={currentPick.draftingNow}
+          draftingNow={currentPick.drafting_now}
         />
       }
       <div className="logo-and-logout-wrapper">
