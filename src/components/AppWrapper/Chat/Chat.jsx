@@ -30,7 +30,7 @@ export default function Chat({messages, setMessages, pub, sub, user, channel}) {
           newMessages.push({
             uuid: msg.message.uuid,
             text: msg.message.text,
-            color: user.color
+            color: msg.message.color
           });
           setMessages(messages=>messages.concat(newMessages))
         }
@@ -79,7 +79,8 @@ export default function Chat({messages, setMessages, pub, sub, user, channel}) {
     if (tempMessage.value) {
       let messageObject = {
         text: tempMessage.value,
-        uuid: user.team_name
+        uuid: user.team_name,
+        color: user.color
       };
       const pubnub = new PubNub({
           publishKey: pub,

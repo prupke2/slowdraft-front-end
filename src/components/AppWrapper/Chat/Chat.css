@@ -43,10 +43,13 @@
   color: darkorchid;
   font-weight: bold;
   font-size: 0.7rem;
-  border-radius: 4px;
   margin: 4px;
   padding: 4px;
   background: var(--gradient3);
+}
+
+.user-icon {
+  border-radius: 8px;
 }
 
 .message {
