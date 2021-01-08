@@ -9,7 +9,11 @@ export default function Pagination(
   return (
 
     <ul className="pagination">
-
+      {/* <pre>
+        <code>
+          {JSON.stringify({ pageIndex, pageCount, canNextPage, canPreviousPage}, null, 2)}
+        </code>
+      </pre> */}
       <li className="pagination-goto-page">
         <span className="page-link">
           Page
@@ -47,20 +51,6 @@ export default function Pagination(
             <span className="page-link">Last</span>
         </div>
       </li>
-      {/* <select
-          className="form-control"
-          value={pageSize}
-          onChange={e => {
-              setPageSize(Number(e.target.value))
-          }}
-          style={{ maxWidth: '150px', height: '33px' }}
-      >
-          {[5, 10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                  Show {pageSize}
-              </option>
-          ))}
-      </select> */}
     </ul>
   );
 }
