@@ -5,7 +5,9 @@ import Loading from '../../../Loading/Loading';
 import { getDBGoalies } from '../../../../util/requests';
 
 
-export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPickingNow, teamName, sendChatAnnouncement, user}) {
+export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams,
+  setUserPickingNow, sendChatAnnouncement, user, setPicks, setCurrentPick, setDraftingNow
+}) {
   const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
@@ -141,8 +143,12 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setUserPic
           tableType="draft"
           draftingNow={draftingNow}
           setUserPickingNow={setUserPickingNow}
-          teamName={teamName}
           sendChatAnnouncement={sendChatAnnouncement}
+          setPicks={setPicks}
+          setCurrentPick={setCurrentPick}
+          setDraftingNow={setDraftingNow}
+          setGoalies={setGoalies}
+          setTeams={setTeams}
         />
       }
     </>

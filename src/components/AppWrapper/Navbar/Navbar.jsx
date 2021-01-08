@@ -14,6 +14,7 @@ export default function Navbar({
   teams, setTeams, posts, setPosts, rules, setRules, user, setUser
 }) {
 
+
   // function test() {
   //   fetch('/test')
   // }
@@ -46,19 +47,27 @@ export default function Navbar({
         </TabPanel>
         <TabPanel>
           <PlayersTab 
+            setPicks={setPicks}
+            setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
+            setDraftingNow={setDraftingNow}
             sendChatAnnouncement={sendChatAnnouncement}
             players={players}
             setPlayers={setPlayers}
+            setTeams={setTeams}
             user={user}
           />
         </TabPanel>
         <TabPanel>
           <GoaliesTab 
+            setPicks={setPicks}
+            setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
+            setDraftingNow={setDraftingNow}
             sendChatAnnouncement={sendChatAnnouncement}
             goalies={goalies}
             setGoalies={setGoalies}
+            setTeams={setTeams}
             user={user}
           />
         </TabPanel>

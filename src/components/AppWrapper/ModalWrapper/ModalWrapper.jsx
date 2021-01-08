@@ -6,9 +6,11 @@ import './ModalWrapper.css';
 import { timeSince } from '../../../util/time';
 import CloseModalButton from './CloseModalButton/CloseModalButton';
 import NewPost from './NewPost/NewPost';
+import { getDraft, getDBGoalies, getDBPlayers, getTeams } from '../../../util/requests';
 
 export default function ModalWrapper(
-    { modalIsOpen, setIsOpen, data, modalType, user, sendChatAnnouncement, tableType }
+    { modalIsOpen, setIsOpen, data, modalType, user, sendChatAnnouncement, tableType, setTeams,
+      setPicks, currentPick, setCurrentPick, setDraftingNow, setPlayers, setGoalies }
   ) {
   const [forumPostReplies, setForumPostReplies] = useState('');
 
@@ -22,8 +24,8 @@ export default function ModalWrapper(
   }
 
   function draftPlayer(data) {
+    const isGoalie = data.position === 'G' ? true : false;
     let message = "The " + user.team_name + " have drafted " + data.name + ", " + data.position + " - " + data.team
-
     const draftTab = document.getElementById('react-tabs-0');
     fetch(`/draft/${user.draft_id}/${user.user_id}/${data.player_id}`)
     .then(async response => {
@@ -34,10 +36,20 @@ export default function ModalWrapper(
       }
       setIsOpen(false);
       sendChatAnnouncement(message);
-      draftTab.click();
     })
-    .then(ToastsStore.success(`You have drafted ${data.name}`));
-    ;
+    .then(
+      setTimeout(function () {
+        getDraft(user, setPicks, setCurrentPick, setDraftingNow)
+        getTeams(user, setTeams)
+      }, 2000)
+    )
+    .then(
+      setTimeout(function () {
+        isGoalie && getDBGoalies(user, setGoalies)
+        !isGoalie && getDBPlayers(user, setPlayers)
+        ToastsStore.success(`You have drafted ${data.name}`)
+      }, 1000)
+    )
   }
   
   if (modalType === 'draftPlayer') {
@@ -48,6 +60,12 @@ export default function ModalWrapper(
         contentLabel='Player Draft'
         parentSelector={() => document.querySelector('main')}
         id='draft-player-modal'
+        setPicks={setPicks}
+        currentPick={currentPick}
+        setCurrentPick={setCurrentPick}
+        setDraftingNow={setDraftingNow}
+        setPlayers={setPlayers}
+        setTeams={setTeams}
       >
         <CloseModalButton 
           setIsOpen={setIsOpen}

@@ -4,8 +4,8 @@ import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
 import { getDraft } from '../../../../util/requests';
 
-export default function DraftTab({currentPick, setCurrentPick, 
-  picks, setPicks, draftingNow, setDraftingNow, user
+export default function DraftTab({currentPick, setCurrentPick, picks, setPicks, 
+  draftingNow, setDraftingNow, user
 }) {
   const columns = [
     {
@@ -65,11 +65,11 @@ export default function DraftTab({currentPick, setCurrentPick,
 
   useEffect(() => {
     setIsLoading(true);
-
+    let data = {}
     const localDraftData = localStorage.getItem('draftData');
     if (localDraftData && user) {
       console.log("Using cached data");
-      let data = JSON.parse(localDraftData);
+      data = JSON.parse(localDraftData);
       setPicks(data.picks);
       if (typeof(data.current_pick) !== 'undefined') {
         setCurrentPick(data.current_pick);
@@ -81,7 +81,14 @@ export default function DraftTab({currentPick, setCurrentPick,
     else {
       console.log("Getting new draft data");
       if (user) {
-        getDraft(user, setPicks, currentPick, setCurrentPick, setDraftingNow);      
+        data = getDraft(user, setPicks, setCurrentPick, setDraftingNow);      
+      }
+    }
+    setPicks(data.picks);
+    if (typeof(data.current_pick) !== 'undefined') {
+      setCurrentPick(data.current_pick);
+      if (currentPick.user_id === user.user_id) {
+        setDraftingNow(true);
       }
     }
     setIsLoading(false);
@@ -102,6 +109,9 @@ export default function DraftTab({currentPick, setCurrentPick,
           user={user}
           draftingNow={draftingNow}
           currentPick={currentPick}
+          setPicks={setPicks}
+          setCurrentPick={setCurrentPick}
+          setDraftingNow={setDraftingNow}
         />
       }
     </>
