@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import Errors from '../Errors/Errors';
 import './Login.css';
 import { ToastsStore } from 'react-toasts';
+import { getDraft } from '../../util/requests';
 
 export default function Login({ code, setLoggedIn, setPub, setSub, 
-  setIsLoading, user, setUser
+  setIsLoading, user, setUser, setPicks, setCurrentPick, setDraftingNow
   }) {
   const client_id = "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
   let errors = null;
@@ -28,10 +29,9 @@ export default function Login({ code, setLoggedIn, setPub, setSub,
             localStorage.setItem( 'sub', data.sub );
             setUser(JSON.stringify(data.user));
             localStorage.setItem( 'user', JSON.stringify(data.user) );
+            getDraft(data.user, setPicks, setCurrentPick, setDraftingNow);
             setLoggedIn(true);
             setIsLoading(false);
-            const draftTab = document.getElementById('react-tabs-0');
-            draftTab.click();
           } else {
             setIsLoading(false)
           }

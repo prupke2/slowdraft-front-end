@@ -16,6 +16,10 @@ export default function App() {
   const [pub, setPub] = useState(localStorage.getItem( 'pub' ) || ''); 
   const [sub, setSub] = useState(localStorage.getItem( 'sub' ) || '');
 
+  const [currentPick, setCurrentPick] = useState({user_id: null});
+  const [picks, setPicks] = useState([]);
+  const [draftingNow, setDraftingNow] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
@@ -104,6 +108,11 @@ export default function App() {
               setIsLoading={setIsLoading}
               user={user}
               setUser={setUser}
+              setPicks={setPicks}
+              currentPick={currentPick}
+              setCurrentPick={setCurrentPick}
+              draftingNow={draftingNow}
+              setDraftingNow={setDraftingNow}
             />
           </ErrorBoundary>
         }
@@ -117,6 +126,12 @@ export default function App() {
                 sub={sub}
                 user={user}
                 setUser={setUser}
+                picks={picks}
+                setPicks={setPicks}
+                currentPick={currentPick}
+                setCurrentPick={setCurrentPick}
+                draftingNow={draftingNow}
+                setDraftingNow={setDraftingNow}
               />
             </ErrorBoundary>
           </main>

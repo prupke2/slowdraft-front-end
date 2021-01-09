@@ -28,28 +28,23 @@ export default function ModalWrapper(
     let message = "The " + user.team_name + " have drafted " + data.name + ", " + data.position + " - " + data.team
     const draftTab = document.getElementById('react-tabs-0');
     fetch(`/draft/${user.draft_id}/${user.user_id}/${data.player_id}`)
-    .then(async response => {
-      const data = await response.json();
+    .then(response => {
       if (!response.ok) {
         const error = (data && data.message) || response.status;
         return Promise.reject(error);
       }
-      setIsOpen(false);
-      sendChatAnnouncement(message);
+      return response.json()
     })
-    .then(
-      setTimeout(function () {
-        getDraft(user, setPicks, setCurrentPick, setDraftingNow)
-        getTeams(user, setTeams)
-      }, 2000)
-    )
-    .then(
-      setTimeout(function () {
-        isGoalie && getDBGoalies(user, setGoalies)
-        !isGoalie && getDBPlayers(user, setPlayers)
-        ToastsStore.success(`You have drafted ${data.name}`)
-      }, 1000)
-    )
+    .then(data => {
+      console.log("data: " + JSON.stringify(data, null, 4))
+      sendChatAnnouncement(message);
+      getDraft(user, setPicks, setCurrentPick, setDraftingNow)
+      getTeams(user, setTeams)
+      isGoalie && getDBGoalies(user, setGoalies)
+      !isGoalie && getDBPlayers(user, setPlayers)
+      ToastsStore.success(`You have drafted ${data.player}. ${data.drafting_again}`)
+      setIsOpen(false);
+    })
   }
   
   if (modalType === 'draftPlayer') {

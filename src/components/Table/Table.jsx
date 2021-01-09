@@ -44,19 +44,23 @@ export default function Table(
     };
 
     fetch('/update_pick', requestParams)
-      .then(async response => {
-        const data = await response.json();
+      .then(response => {
         if (!response.ok) {
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
+        return response.json()
       })
-      .then(
-        setTimeout(function () {
+      .then( data => {
+        if (data.success === true) {
           getDraft(user, setPicks, setCurrentPick, setDraftingNow)
-          ToastsStore.success(`Pick ${overall_pick} updated.`)
-        }, 1000)
-      )
+          setTimeout(function () {
+            ToastsStore.success(`Pick ${overall_pick} updated.`)
+          }, 1000)
+        } else {
+          ToastsStore.error(`Error updating pick ${overall_pick}.`)
+        }
+      })
   }
 
   const filterTypes = React.useMemo(

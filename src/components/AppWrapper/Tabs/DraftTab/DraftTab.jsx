@@ -84,13 +84,15 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
         data = getDraft(user, setPicks, setCurrentPick, setDraftingNow);      
       }
     }
-    setPicks(data.picks);
-    if (typeof(data.current_pick) !== 'undefined') {
-      setCurrentPick(data.current_pick);
-      if (currentPick.user_id === user.user_id) {
-        setDraftingNow(true);
+    if (data) {
+      setPicks(data.picks);
+        if (typeof(data.current_pick) !== 'undefined') {
+          setCurrentPick(data.current_pick);
+          if (currentPick.user_id === user.user_id) {
+            setDraftingNow(true);
+          }
+        }
       }
-    }
     setIsLoading(false);
   }, [])
 

@@ -5,11 +5,10 @@ import PubNub from 'pubnub'; // backend for chat component
 import Widget from './Widget/Widget';
 import { getDraft, getDBPlayers, getDBGoalies, getTeams, getForumPosts, getRules } from '../../util/requests';
 
-export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser }) {
+export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser,
+  picks, setPicks, currentPick, setCurrentPick, draftingNow, setDraftingNow
+ }) {
 
-  const [currentPick, setCurrentPick] = useState({user_id: null});
-  const [picks, setPicks] = useState([]);
-  const [draftingNow, setDraftingNow] = useState([]);
   const channel = "slowdraftChat" // To reset messages, update the channel name to something new
   // const channel = "test" // To reset messages, update the channel name to something new
   const [messages, setMessages] = useState([]);
