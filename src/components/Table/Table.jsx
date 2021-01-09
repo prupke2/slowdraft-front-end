@@ -236,7 +236,7 @@ export default function Table(
                               <option value={391}>St Thomas Stars</option>
                               <option value={431}>Syracuse Crunch!</option>
                               <option value={361}>Terrace River Kings</option>
-                              <option value={296}>Ontario Reign</option>
+                              <option value={321}>Ontario Reign</option>
                             </select>
                           </td>
                           }
