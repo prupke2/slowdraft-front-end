@@ -87,7 +87,7 @@ function checkForUpdates() {
   useEffect(() => {
     if (user) {
       checkForUpdates();
-      const interval = setInterval(() => checkForUpdates(), 45000);
+      const interval = setInterval(() => checkForUpdates(), 90000);
       return () => {
         clearInterval(interval);
       }
