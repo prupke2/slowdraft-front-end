@@ -199,9 +199,10 @@ export default function Table(
             {page.map((row, i) => {
               prepareRow(row)
               return (
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()} className={`disabled-${row.cells[0].row.original.disabled}`}>
                   {row.cells.map(
                     cell => {
+                      // cell.row.original.disabled === 1
                     // if (cell.column.Header === 'Position') {
                     //   return (
                     //     <td className={cell.column.Header}
@@ -234,7 +235,7 @@ export default function Table(
                               <option value={341}>Providence Bruins</option>
                               <option value={331}>Seaforth Generals</option>
                               <option value={391}>St Thomas Stars</option>
-                              <option value={431}>Syracuse Crunch!</option>
+                              <option value={292}>Syracuse Crunch!</option>
                               <option value={361}>Terrace River Kings</option>
                               <option value={321}>Ontario Reign</option>
                             </select>

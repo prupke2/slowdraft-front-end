@@ -76,6 +76,10 @@ table tr:last-child td {
   justify-content: center;
 }
 
+.disabled-1 {
+  background-color: #de7d7d !important;
+}
+
 .prospect {
   font-size: 0.8rem;
   background: lightcyan;
