@@ -29,21 +29,46 @@ export default function Table(
   }
 
   function updatePick(event, overall_pick) {
-    const requestParams = {
+    let requestParams = {
       method: 'POST',
       headers: { 
         'Accept': 'application/json', 
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 
+      }
+    };
+    if (event.target.value === '0') {
+      requestParams.body = JSON.stringify({ 
+        overall_pick: overall_pick,
+        league_id: user.league_id,
+        draft_id: user.draft_id
+      })
+      fetch('/update_pick_enablement', requestParams)
+        .then(response => {
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+        return response.json()
+      })
+      .then( data => {
+        if (data.success === true) {
+          getDraft(user, setPicks, setCurrentPick, setDraftingNow)
+          setTimeout(function () {
+            ToastsStore.success(`Pick ${overall_pick} ${data.status}.`)
+          }, 1000)
+        } else {
+          ToastsStore.error(`Error updating pick ${overall_pick}.`)
+        }
+      });
+
+    } else {
+      requestParams.body = JSON.stringify({ 
         user_id: event.target.value,
         overall_pick: overall_pick,
         league_id: user.league_id,
         draft_id: user.draft_id
       })
-    };
-
-    fetch('/update_pick', requestParams)
+      fetch('/update_pick', requestParams)
       .then(response => {
         if (!response.ok) {
           const error = (data && data.message) || response.status;
@@ -61,6 +86,7 @@ export default function Table(
           ToastsStore.error(`Error updating pick ${overall_pick}.`)
         }
       })
+    }
   }
 
   const filterTypes = React.useMemo(
@@ -238,6 +264,12 @@ export default function Table(
                               <option value={431}>Syracuse Crunch!</option>
                               <option value={361}>Terrace River Kings</option>
                               <option value={321}>Ontario Reign</option>
+                              {cell.row.original.disabled === 0 && 
+                                <option value={0}>DISABLE PICK</option>
+                              } 
+                              {cell.row.original.disabled === 1 && 
+                                <option value={0}>ENABLE PICK</option>
+                              } 
                             </select>
                           </td>
                           }
