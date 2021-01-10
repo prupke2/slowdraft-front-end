@@ -22,12 +22,11 @@
 	width: 65%;
 	min-width: 140px;
   border-bottom: none;
-	/* margin: 0 auto; */
 	padding: 5px 0 0 5px;
 	text-align: left;
 }
 
-.drafting-1 {
+.drafting-1, .drafting-true {
 	background-color: #7ef20b7a;
 }
 

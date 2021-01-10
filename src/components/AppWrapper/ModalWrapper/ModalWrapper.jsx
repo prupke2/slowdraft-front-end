@@ -13,6 +13,7 @@ export default function ModalWrapper(
       setPicks, currentPick, setCurrentPick, setDraftingNow, setPlayers, setGoalies }
   ) {
   const [forumPostReplies, setForumPostReplies] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   function getReplies(post_id) {
 
@@ -24,12 +25,13 @@ export default function ModalWrapper(
   }
 
   function draftPlayer(data) {
+    setIsLoading(true);
     const isGoalie = data.position === 'G' ? true : false;
     let message = "The " + user.team_name + " have drafted " + data.name + ", " + data.position + " - " + data.team
-    const draftTab = document.getElementById('react-tabs-0');
     fetch(`/draft/${user.draft_id}/${user.user_id}/${data.player_id}`)
     .then(response => {
       if (!response.ok) {
+        ToastsStore.error(`An error occurred. Please try again later.`)
         const error = (data && data.message) || response.status;
         return Promise.reject(error);
       }
@@ -44,6 +46,7 @@ export default function ModalWrapper(
       !isGoalie && getDBPlayers(user, setPlayers)
       ToastsStore.success(`You have drafted ${data.player}. ${data.drafting_again}`)
       setIsOpen(false);
+      setIsLoading(false);
     })
   }
   
@@ -74,8 +77,15 @@ export default function ModalWrapper(
           }
         </div>
         <div className='button-group'>
-          <button className="button-large" onClick={() => draftPlayer(data)}>Draft</button>
-          <button className="button-large" onClick={() => setIsOpen(false)}>Cancel</button>
+          { isLoading && 
+            <span>Drafting...</span>
+          }
+          { !isLoading &&
+            <>
+              <button className="button-large" onClick={() => draftPlayer(data)}>Draft</button>
+              <button className="button-large" onClick={() => setIsOpen(false)}>Cancel</button>
+            </>
+          }
         </div>
       </Modal>
     );

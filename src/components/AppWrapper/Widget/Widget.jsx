@@ -2,7 +2,7 @@ import React from 'react';
 import NextPick from './NextPick/NextPick';
 import './Widget.css';
 
-export default function Widget({currentPick, logout, user}) {
+export default function Widget({currentPick, draftingNow, logout, user}) {
 
   return (
     <div className="widget-wrapper">
@@ -10,8 +10,8 @@ export default function Widget({currentPick, logout, user}) {
         <NextPick 
           currentPick={currentPick}
           pickExpiry={currentPick.pick_expires}
-          draftingNow={currentPick.drafting_now}
-        />
+          draftingNow={draftingNow}
+      />
       }
       <div className="logo-and-logout-wrapper">
         <div className="logo-wrapper">
