@@ -87,7 +87,7 @@ function checkForUpdates() {
   useEffect(() => {
     if (user) {
       checkForUpdates();
-      const interval = setInterval(() => checkForUpdates(), 90000);
+      const interval = setInterval(() => checkForUpdates(), 45000);
       return () => {
         clearInterval(interval);
       }
@@ -121,6 +121,7 @@ function checkForUpdates() {
       />
       <Widget 
         currentPick={currentPick}
+        draftingNow={draftingNow}
         logout={logout}
         user={user}
       />
