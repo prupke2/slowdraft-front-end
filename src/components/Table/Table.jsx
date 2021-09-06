@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useTable, useFilters, useSortBy, usePagination } from 'react-table';
 import { matchSorter } from 'match-sorter';
 import './Table.css';
@@ -321,25 +321,28 @@ export default function Table(
                         {...cell.getCellProps()}
                         >
                           {cell.row.original.player_id && 
-                          <a 
-                            href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {cell.row.original.prospect === "1" && 
-                              <span>
-                                <span className='prospect' title='Prospect'>P</span>
-                                &nbsp;
-                              </span>
-                            }
-                            {cell.row.original.is_keeper === 1 && 
-                              <span>
-                                <span className='keeper' title='Keeper'>K</span>
-                                &nbsp;
-                              </span>
-                            }
-                            {cell.render('Cell')}
-                          </a>
+                          <>
+                            <img className='headshot' src={cell.row.original.headshot} />
+                            <a 
+                              href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {cell.row.original.prospect === "1" && 
+                                <span>
+                                  <span className='prospect' title='Prospect'>P</span>
+                                  &nbsp;
+                                </span>
+                              }
+                              {cell.row.original.is_keeper === 1 && 
+                                <span>
+                                  <span className='keeper' title='Keeper'>K</span>
+                                  &nbsp;
+                                </span>
+                              }
+                              {cell.render('Cell')}
+                            </a>
+                          </>
                           }
                           { !cell.row.original.player_id && 
                             <>
