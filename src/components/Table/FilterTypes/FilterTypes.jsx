@@ -70,18 +70,18 @@ export function SelectFilter({
 
 
 export function SelectTeamFilter({
-  column: { filterValue, setFilter, preFilteredRows, id },
+  column: { filterValue, setFilter },
 }) {
   // Calculate the options for filtering
   // using the preFilteredRows
   
-  const options = React.useMemo(() => {
-    const options = new Set()
-    preFilteredRows.forEach(row => {
-      options.add(row.values[id])
-    })
-    return [...options.values()]
-  }, [id, preFilteredRows])
+  // const options = React.useMemo(() => {
+  //   const options = new Set()
+  //   preFilteredRows.forEach(row => {
+  //     options.add(row.values[id])
+  //   })
+  //   return [...options.values()]
+  // }, [id, preFilteredRows])
 
   return (
     <select
