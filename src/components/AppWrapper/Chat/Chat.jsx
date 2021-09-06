@@ -113,7 +113,7 @@ export default function Chat({messages, setMessages, pub, sub, user, channel}) {
         </aside>
         )
       }
-      { !pub || !sub &&
+      { (!pub || !sub) &&
         <div>Error loading chat.</div>
       }
     </ErrorBoundary>
