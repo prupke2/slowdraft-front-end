@@ -322,7 +322,7 @@ export default function Table(
                         >
                           {cell.row.original.player_id && 
                           <>
-                            <img className='headshot' src={cell.row.original.headshot} />
+                            <img className='headshot' src={cell.row.original.headshot} alt='' />
                             <a 
                               href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
                               target="_blank"
