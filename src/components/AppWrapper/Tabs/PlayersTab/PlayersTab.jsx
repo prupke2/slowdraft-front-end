@@ -36,6 +36,13 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams,
       width: '30px',
     },
     {
+      Header: 'GP',
+      accessor: '0',
+      disableFilters: true,
+      width: '30px',
+      sortDescFirst: true
+    },   
+    {
       Header: 'G',
       accessor: '1',
       disableFilters: true,
