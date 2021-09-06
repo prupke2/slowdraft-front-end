@@ -80,6 +80,12 @@ table tr:last-child td {
   background-color: #de7d7d !important;
 }
 
+.headshot {
+  height: 30px;
+  width: auto;
+  margin: 0 5px -5px 0;
+}
+
 .prospect {
   font-size: 0.8rem;
   background: lightcyan;
