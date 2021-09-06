@@ -8,6 +8,7 @@ import ForumTab from '../Tabs/ForumTab/ForumTab';
 import DraftTab from '../Tabs/DraftTab/DraftTab';
 import RulesTab from '../Tabs/RulesTab/RulesTab';
 import AdminTab from '../Tabs/AdminTab/AdminTab';
+import PickTrackerTab from '../Tabs/PickTrackerTab/PickTrackerTab';
 
 export default function Navbar({
   currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
@@ -30,6 +31,7 @@ export default function Navbar({
           <Tab>Teams</Tab>
           <Tab>Forum</Tab>
           <Tab>Rules</Tab>
+          <Tab>Pick Tracker</Tab>
           { user.role === 'admin' && (
             <Tab>Admin</Tab>
           )}
@@ -95,6 +97,9 @@ export default function Navbar({
             rules={rules}
             setRules={setRules}
           />
+        </TabPanel>
+        <TabPanel>
+          <PickTrackerTab />
         </TabPanel>
         { user.role === 'admin' && (
           <TabPanel>
