@@ -1,0 +1,34 @@
+.admin-form {
+  margin: 10vw auto;
+}
+
+.admin-form > h2 {
+  margin: 50px;
+}
+
+.admin-form > div {
+  display: flex;
+  margin-left: 10vw;
+}
+
+.admin-form > div > label {
+  text-align: left;
+}
+
+.admin-form > div > input, .admin-form > div > label, .wide-filter {
+  width: 200px;
+}
+
+.positions {
+  margin: 0;
+  flex-direction: row !important;
+  text-align: left;
+}
+
+.positions > input {
+  margin: 0 0 0 15px;
+}
+
+.positions > label {
+  margin: 10px;
+}
