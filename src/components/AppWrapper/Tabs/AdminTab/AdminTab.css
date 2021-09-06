@@ -1,5 +1,5 @@
 .admin-form {
-  margin: 10vw auto;
+  margin: 10px auto 100px;
 }
 
 .admin-form > h2 {
@@ -8,7 +8,7 @@
 
 .admin-form > div {
   display: flex;
-  margin-left: 10vw;
+  margin-left: 15vw;
 }
 
 .admin-form > div > label {
