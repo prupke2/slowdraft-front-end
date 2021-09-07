@@ -25,15 +25,15 @@ export default function Navbar({
     <>
       <Tabs defaultIndex={0} className="navbar-tabs">
         <TabList>
-          <Tab>Draft</Tab>
-          <Tab>Skaters</Tab>
-          <Tab>Goalies</Tab>
-          <Tab>Teams</Tab>
-          <Tab>Forum</Tab>
-          <Tab>Rules</Tab>
-          <Tab>Pick Tracker</Tab>
+          <Tab>⚔️ Draft</Tab>
+          <Tab>⛸ Skaters</Tab>
+          <Tab>🥅 Goalies</Tab>
+          <Tab>🏒 Teams</Tab>
+          <Tab>💬 Forum</Tab>
+          <Tab>📖 Rules</Tab>
+          <Tab>⛏️ Pick Tracker</Tab>
           { user.role === 'admin' && (
-            <Tab>Admin</Tab>
+            <Tab>✨ Admin</Tab>
           )}
           {/* <Tab>Test</Tab> */}
         </TabList>
