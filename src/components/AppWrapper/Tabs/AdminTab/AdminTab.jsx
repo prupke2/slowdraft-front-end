@@ -108,6 +108,7 @@ export default function AdminTab({ user }) {
           <option value="Phi">Philadelphia</option>
           <option value="Pit">Pittsburgh</option>
           <option value="SJ">San Jose</option>
+          <option value="Sea">Seattle</option>
           <option value="StL">St. Louis</option>
           <option value="Tor">Toronto</option>
           <option value="TB">Tampa Bay</option>
