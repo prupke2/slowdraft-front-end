@@ -3,6 +3,11 @@ import './AdminTab.css';
 import { ToastsStore } from "react-toasts";
 
 export default function AdminTab() {
+  // eslint-disable-next-line no-extend-native
+  Object.prototype.isEmpty = function () {
+    return Object.keys(this).length === 0;
+  }
+
   const [name, setName] = useState(null);
   const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState('Anh');
@@ -45,24 +50,28 @@ export default function AdminTab() {
       team: team,
       positions: positions
     })
-    fetch('/insert_player', requestParams)
-      .then(response => {
-        console.log(`response: ${JSON.stringify(response, null, 4)}`);
-      if (!response.ok) {
-        const error = response.status;
-        return Promise.reject(error);
-      }
-      return response.json()
-    })
-    .then( data => {
-      if (data.success === true) {
-        setTimeout(function () {
-          ToastsStore.success(`Player added successfully.`)
-        }, 1000)
-      } else {
-        ToastsStore.error(`Error adding player.`)
-      }
-    });
+    if ( name && playerId && team && !positions.isEmpty() ) {    
+      fetch('/insert_player', requestParams)
+        .then(response => {
+          console.log(`response: ${JSON.stringify(response, null, 4)}`);
+        if (!response.ok) {
+          const error = response.status;
+          return Promise.reject(error);
+        }
+        return response.json()
+      })
+      .then( data => {
+        if (data.success === true) {
+          setTimeout(function () {
+            ToastsStore.success(`Player added successfully.`)
+          }, 1000)
+        } else {
+          ToastsStore.error(`Error adding player.`)
+        }
+      });
+    } else {
+      ToastsStore.error(`Please fill out all the fields.`)
+    }
   }
 
   return (
@@ -70,11 +79,11 @@ export default function AdminTab() {
       <h2>Add a player to the database</h2>
       <div>
         <label name='name'>Player name:</label>
-        <input type='text' name='name' label='name' onChange={handleNameChange}></input>
+        <input required type='text' name='name' label='name' onChange={handleNameChange}></input>
       </div>
       <div>
         <label name='yahooId'>Yahoo player id:</label>
-        <input type='text' name='yahooId' label='yahooId' onChange={handlePlayerIdChange}></input>
+        <input required type='text' pattern='[0-9]' name='yahooId' label='yahooId' onChange={handlePlayerIdChange}></input>
       </div>
       <div>
         <label name='team'>Team:</label>
