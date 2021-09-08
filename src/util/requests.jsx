@@ -100,3 +100,42 @@ export function getForumPosts(user, setPosts) {
     }
   )
 }
+
+export function checkForUpdates(user, setPicks, setCurrentPick, setDraftingNow, setPlayers, setGoalies, 
+  setTeams, setRules, setPosts, getDraft, getDBPlayers, getDBGoalies, getTeams, getRules, getForumPosts) {
+  fetch(`/check_for_updates/${user.user_id}/${user.league_id}`)
+    .then(async response => {
+      const data = await response.json();
+      if (!response.ok) {
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+      setDraftingNow(data.drafting_now);
+      
+      if (Date.parse(data.updates.latest_draft_update) > Date.parse(localStorage.getItem('draftDataUpdate'))) {
+        console.log("Update draft data...");
+        getDraft(user, setPicks, setCurrentPick, setDraftingNow)
+      }
+      if (Date.parse(data.updates.latest_player_db_update) > Date.parse(localStorage.getItem('playerDBUpdate'))) {
+        console.log("Update player DB data...");
+        getDBPlayers(user, setPlayers);
+      } 
+      if (Date.parse(data.updates.latest_goalie_db_update) > Date.parse(localStorage.getItem('goalieDBUpdate'))) {
+        console.log("Update goalie DB data...");
+        getDBGoalies(user, setGoalies);
+      }
+      if (Date.parse(data.updates.latest_team_update) > Date.parse(localStorage.getItem('teamDataUpdate'))) {
+        console.log("Update team data...");
+        getTeams(user, setTeams)
+      }
+      if (Date.parse(data.updates.latest_rules_update) > Date.parse(localStorage.getItem('rulesUpdate'))) {
+        console.log("Update rules data...");
+        getRules(user, setRules)
+      }
+      if (Date.parse(data.updates.latest_forum_update) > Date.parse(localStorage.getItem('forumUpdate'))) {
+        console.log("Update forum data...");
+        getForumPosts(user, setPosts);
+      }
+    }
+  )
+}
