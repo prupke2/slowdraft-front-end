@@ -5,8 +5,8 @@ import Loading from '../../../Loading/Loading';
 import { getDBGoalies } from '../../../../util/requests';
 
 
-export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams,
-  setUserPickingNow, sendChatAnnouncement, user, setPicks, setCurrentPick, setDraftingNow
+export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, setUserPickingNow, 
+  sendChatAnnouncement, user, setPicks, setCurrentPick, setDraftingNow, getLatestData
 }) {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -112,6 +112,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams,
 
   useEffect(() => {
     setIsLoading(true);
+    getLatestData();
     const goalieDBData = localStorage.getItem('goalieDBData');
     
     if (goalieDBData) {
@@ -126,6 +127,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams,
     }
 
     setIsLoading(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, setGoalies])
 
   return (

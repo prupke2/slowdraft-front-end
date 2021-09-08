@@ -5,7 +5,7 @@ import { getDBPlayers } from '../../../../util/requests';
 // import Errors from '../../../Errors/Errors';
 
 
-export default function PlayersTab({players, setPlayers, draftingNow, setTeams,
+export default function PlayersTab({players, setPlayers, draftingNow, setTeams, getLatestData,
     setUserPickingNow, sendChatAnnouncement, user, setPicks, setCurrentPick, setDraftingNow
   }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -142,6 +142,7 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams,
 
   useEffect(() => {
     setIsLoading(true);
+    getLatestData();
     const playerDBData = localStorage.getItem('playerDBData');
 
     if (playerDBData) {
@@ -156,6 +157,7 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams,
     }
     
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, setPlayers])
 
   return (

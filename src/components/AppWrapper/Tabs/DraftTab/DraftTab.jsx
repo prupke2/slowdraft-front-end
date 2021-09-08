@@ -5,7 +5,7 @@ import Loading from '../../../Loading/Loading';
 import { getDraft } from '../../../../util/requests';
 
 export default function DraftTab({currentPick, setCurrentPick, picks, setPicks, 
-  draftingNow, setDraftingNow, user
+  draftingNow, setDraftingNow, user, getLatestData
 }) {
   const columns = [
     {
@@ -65,6 +65,7 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
 
   useEffect(() => {
     setIsLoading(true);
+    getLatestData();
     let data = {}
     const localDraftData = localStorage.getItem('draftData');
     if (localDraftData && user) {
@@ -94,6 +95,7 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
         }
       }
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -7,7 +7,7 @@ import { SelectFilter } from '../../../Table/FilterTypes/FilterTypes';
 import { getTeams } from '../../../../util/requests';
 
 
-export default function TeamTab({draftingNow, user, teams, setTeams}) {
+export default function TeamTab({draftingNow, user, teams, setTeams, getLatestData}) {
   const columns = [
     {
       Header: 'Yahoo Team',
@@ -63,7 +63,7 @@ export default function TeamTab({draftingNow, user, teams, setTeams}) {
 
   useEffect(() => {
     setIsLoading(true);
-
+    getLatestData();
     const teamData = localStorage.getItem('teamData');
     if (teamData && user) {
       console.log("Using cached data");
@@ -77,7 +77,8 @@ export default function TeamTab({draftingNow, user, teams, setTeams}) {
       }
     }
     setIsLoading(false);
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setTeams, user])
 
   if (isLoading) {
     return <Loading text="Loading teams..." />
@@ -93,7 +94,6 @@ export default function TeamTab({draftingNow, user, teams, setTeams}) {
         tableState={tableState}
         defaultColumn='player_id'
         draftingNow={draftingNow} 
-        user={user}
         tableType='teams'
       />
       </>

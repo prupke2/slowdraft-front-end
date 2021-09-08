@@ -5,7 +5,7 @@ import Loading from '../../../Loading/Loading';
 import ModalWrapper from '../../ModalWrapper/ModalWrapper';
 import { getRules } from '../../../../util/requests';
 
-export default function RulesTab({user, rules, setRules}) {
+export default function RulesTab({user, rules, setRules, getLatestData}) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const columns = [
@@ -40,7 +40,7 @@ export default function RulesTab({user, rules, setRules}) {
 
   useEffect(() => {
     setIsLoading(true);
-
+    getLatestData();
     const rulesData = localStorage.getItem('rulesData');
     if (rulesData && user) {
       console.log("Using cached data");
@@ -54,6 +54,7 @@ export default function RulesTab({user, rules, setRules}) {
       }
     }
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, setRules])
 
   function newRule() {

@@ -7,7 +7,7 @@ import Loading from '../../../Loading/Loading';
 import ModalWrapper from '../../ModalWrapper/ModalWrapper';
 import { getForumPosts } from '../../../../util/requests';
 
-export default function ForumTab({user, posts, setPosts}) {
+export default function ForumTab({user, posts, setPosts, getLatestData}) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const columns = [
@@ -47,6 +47,7 @@ export default function ForumTab({user, posts, setPosts}) {
 
   useEffect(() => {
     setIsLoading(true);
+    getLatestData()
 
     const forumData = localStorage.getItem('forumData');
     if (forumData && user) {
@@ -61,6 +62,7 @@ export default function ForumTab({user, posts, setPosts}) {
       }
     }
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, setPosts])
 
   function newForumPost() {
