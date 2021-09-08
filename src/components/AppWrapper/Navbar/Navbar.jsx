@@ -13,9 +13,8 @@ import PickTrackerTab from '../Tabs/PickTrackerTab/PickTrackerTab';
 export default function Navbar({
   currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
   sendChatAnnouncement, role, players, setPlayers, goalies, setGoalies,
-  teams, setTeams, posts, setPosts, rules, setRules, user, setUser
+  teams, setTeams, posts, setPosts, rules, setRules, user, setUser, getLatestData
 }) {
-
 
   // function test() {
   //   fetch('/test')
@@ -25,15 +24,15 @@ export default function Navbar({
     <>
       <Tabs defaultIndex={0} className="navbar-tabs">
         <TabList>
-          <Tab>⚔️ Draft</Tab>
-          <Tab>⛸ Skaters</Tab>
-          <Tab>🥅 Goalies</Tab>
-          <Tab>🏒 Teams</Tab>
-          <Tab>💬 Forum</Tab>
-          <Tab>📖 Rules</Tab>
-          <Tab>⛏️ Pick Tracker</Tab>
+          <Tab><span role='img' aria-label='draft'>⚔️</span> Draft</Tab>
+          <Tab><span role='img' aria-label='skater'>⛸</span> Skaters</Tab>
+          <Tab><span role='img' aria-label='goalie'>🥅</span> Goalies</Tab>
+          <Tab><span role='img' aria-label='teams'>🏒</span> Teams</Tab>
+          <Tab><span role='img' aria-label='forum'>💬</span> Forum</Tab>
+          <Tab><span role='img' aria-label='rules'>📖</span> Rules</Tab>
+          <Tab><span role='img' aria-label='picks'>⛏️</span> Pick Tracker</Tab>
           { user.role === 'admin' && (
-            <Tab>✨ Admin</Tab>
+            <Tab><span role='img' aria-label='admin'>✨</span> Admin</Tab>
           )}
           {/* <Tab>Test</Tab> */}
         </TabList>
@@ -49,6 +48,7 @@ export default function Navbar({
             role={role}
             user={user}
             setUser={setUser}
+            getLatestData={getLatestData}
           />
         </TabPanel>
         <TabPanel>
@@ -62,6 +62,7 @@ export default function Navbar({
             setPlayers={setPlayers}
             setTeams={setTeams}
             user={user}
+            getLatestData={getLatestData}
           />
         </TabPanel>
         <TabPanel>
@@ -75,6 +76,7 @@ export default function Navbar({
             setGoalies={setGoalies}
             setTeams={setTeams}
             user={user}
+            getLatestData={getLatestData}
           />
         </TabPanel>
         <TabPanel>
@@ -82,6 +84,7 @@ export default function Navbar({
             teams={teams}
             setTeams={setTeams}
             user={user}
+            getLatestData={getLatestData}
           />
         </TabPanel>
         <TabPanel>
@@ -89,6 +92,7 @@ export default function Navbar({
             user={user}
             posts={posts}
             setPosts={setPosts}
+            getLatestData={getLatestData}
           />
         </TabPanel>
         <TabPanel>
@@ -96,6 +100,7 @@ export default function Navbar({
             user={user}
             rules={rules}
             setRules={setRules}
+            getLatestData={getLatestData}
           />
         </TabPanel>
         <TabPanel>
@@ -103,9 +108,7 @@ export default function Navbar({
         </TabPanel>
         { user.role === 'admin' && (
           <TabPanel>
-            <AdminTab
-              user={user}
-            />
+            <AdminTab />
           </TabPanel>
           )}
         {/* <TabPanel>
