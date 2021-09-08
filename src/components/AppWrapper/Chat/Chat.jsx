@@ -5,7 +5,9 @@ import MessageLog from './MessageLog/MessageLog';
 import './Chat.css';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary.jsx';
 
-export default function Chat({messages, setMessages, pub, sub, user, channel}) {
+export default function Chat({messages, setMessages, pub, sub, user, channel, getLatestData}) {
+
+  console.log(`user in Chat: ${JSON.stringify(user, null, 4)}`);
 
   const tempMessage = useInput();
   
@@ -24,6 +26,7 @@ export default function Chat({messages, setMessages, pub, sub, user, channel}) {
         }
       },
       message: function(msg) {
+        const userInfo = JSON.parse(localStorage.getItem('user'))
         if(msg.message.text){
           console.log(msg.message.text)
           let newMessages = [];
@@ -33,6 +36,10 @@ export default function Chat({messages, setMessages, pub, sub, user, channel}) {
             color: msg.message.color
           });
           setMessages(messages=>messages.concat(newMessages))
+          console.log(`userInfo: ${JSON.stringify(userInfo, null, 4)}`);
+          setTimeout(function () {
+            getLatestData(true, userInfo);
+          }, 2000)
         }
       }
     });
