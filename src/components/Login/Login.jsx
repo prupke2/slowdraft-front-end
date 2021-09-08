@@ -46,6 +46,7 @@ export default function Login({ code, setLoggedIn, setPub, setSub,
       setIsLoading(true);
       loginUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

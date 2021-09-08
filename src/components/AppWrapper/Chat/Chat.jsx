@@ -64,7 +64,8 @@ export default function Chat({messages, setMessages, pub, sub, user, channel}) {
       pubnub.unsubscribeAll();
       setMessages([]);
     }
-  },[channel, user, pub, sub]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleKeyDown(event){
     if(event.target.id === "messageInput"){

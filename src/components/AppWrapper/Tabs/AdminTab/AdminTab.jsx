@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './AdminTab.css';
 import { ToastsStore } from "react-toasts";
 
-export default function AdminTab({ user }) {
+export default function AdminTab() {
   const [name, setName] = useState(null);
   const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState('Anh');
