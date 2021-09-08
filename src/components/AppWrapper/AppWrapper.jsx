@@ -18,8 +18,9 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
   const [posts, setPosts] = useState([]);
   const [rules, setRules] = useState([]);
 
-  function getLatestData(draftOnly = false) {
-    checkForUpdates(draftOnly, user, setPicks, setCurrentPick, setDraftingNow, setPlayers, setGoalies, 
+  function getLatestData(draftOnly = false, optionalUserParam = null) {
+    const userToCheck = optionalUserParam === null ? user : optionalUserParam;
+    checkForUpdates(draftOnly, userToCheck, setPicks, setCurrentPick, setDraftingNow, setPlayers, setGoalies, 
       setTeams, setRules, setPosts, getDraft, getDBPlayers, getDBGoalies, getTeams, getRules, getForumPosts)
   }
 
@@ -99,6 +100,7 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
         sub={sub}
         user={user}
         channel={channel}
+        getLatestData={getLatestData}
       />
     </>
   );
