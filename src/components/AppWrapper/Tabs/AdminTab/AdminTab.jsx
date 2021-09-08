@@ -79,11 +79,11 @@ export default function AdminTab() {
       <h2>Add a player to the database</h2>
       <div>
         <label name='name'>Player name:</label>
-        <input required type='text' name='name' label='name' onChange={handleNameChange}></input>
+        <input required type='text' name='name' label='name' onChange={handleNameChange} />
       </div>
       <div>
         <label name='yahooId'>Yahoo player id:</label>
-        <input required type='text' pattern='[0-9]' name='yahooId' label='yahooId' onChange={handlePlayerIdChange}></input>
+        <input required type='text' pattern='[0-9]' name='yahooId' label='yahooId' onChange={handlePlayerIdChange} />
       </div>
       <div>
         <label name='team'>Team:</label>

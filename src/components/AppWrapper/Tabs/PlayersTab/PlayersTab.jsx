@@ -139,12 +139,10 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
     ]
   }
 
-
   useEffect(() => {
     setIsLoading(true);
     getLatestData();
     const playerDBData = localStorage.getItem('playerDBData');
-
     if (playerDBData) {
       console.log("Using cached data");
       let data = JSON.parse(playerDBData);
