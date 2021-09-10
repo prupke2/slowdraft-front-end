@@ -28,8 +28,19 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
     {
       Header: 'Team',
       accessor: 'team',
-      width: '50px',
+      width: '30px',
       disableFilters: true,
+      Cell: row => <div className='teamLogoContainer'>
+        {
+          (row.value) &&
+            <img 
+              className='teamLogo' 
+              src={`/teamLogos/${row.value}.png`} 
+              alt={row.value} 
+              title={row.value} 
+            />
+        }
+        </div>
     },
     {
       Header: 'Pos',
@@ -38,13 +49,14 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
       disableFilters: true,
     },
     {
-      Header: 'Timestamp',
+      Header: `Timestamp (${Intl.DateTimeFormat().resolvedOptions().timeZone})`,
       accessor: 'draft_pick_timestamp',
       disableFilters: true,
+      width: '50px',
       Cell: row => <div>{
         (row.cell.row.values.draft_pick_timestamp) &&
           <span>
-            {(new Date(row.cell.row.values.draft_pick_timestamp).toString()).toLocaleString()}
+            {(new Date(row.cell.row.values.draft_pick_timestamp)).toLocaleString()}
           </span>
        }</div>,
     },

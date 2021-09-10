@@ -30,6 +30,17 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, 
       Filter: SelectTeamFilter,
       sortType: 'alphanumeric',
       width: '100px',
+      Cell: row => <div className='teamLogoContainer'>
+      {
+        (row.value) &&
+          <img 
+            className='teamLogo' 
+            src={`/teamLogos/${row.value}.png`} 
+            alt={row.value} 
+            title={row.value} 
+          />
+      }
+      </div>
     },
     {
       Header: 'GS',

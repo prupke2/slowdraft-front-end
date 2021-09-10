@@ -322,7 +322,7 @@ export default function Table(
                         {...cell.getCellProps()}
                         >
                           {cell.row.original.player_id && 
-                          <>
+                          <div className='playerNameAndHeadshot'>
                             <img className='headshot' src={cell.row.original.headshot} alt='' />
                             <a 
                               href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
@@ -343,7 +343,7 @@ export default function Table(
                               }
                               {cell.render('Cell')}
                             </a>
-                          </>
+                          </div>
                           }
                           { !cell.row.original.player_id && 
                             <>

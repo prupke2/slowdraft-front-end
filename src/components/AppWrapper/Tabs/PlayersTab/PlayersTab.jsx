@@ -28,6 +28,17 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
       accessor: 'team',
       Filter: SelectTeamFilter,
       width: '50px',
+      Cell: row => <div className='teamLogoContainer'>
+      {
+        (row.value) &&
+          <img 
+            className='teamLogo' 
+            src={`/teamLogos/${row.value}.png`} 
+            alt={row.value} 
+            title={row.value} 
+          />
+      }
+      </div>
     },
     {
       Header: 'Pos',
