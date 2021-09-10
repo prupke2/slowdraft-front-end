@@ -26,6 +26,17 @@ export default function TeamTab({draftingNow, user, teams, setTeams, getLatestDa
       accessor: 'team',
       width: '50px',
       disableFilters: true,
+      Cell: row => <div className='teamLogoContainer'>
+      {
+        (row.value) &&
+          <img 
+            className='teamLogo' 
+            src={`/teamLogos/${row.value}.png`} 
+            alt={row.value} 
+            title={row.value} 
+          />
+      }
+      </div>
     },
     {
       Header: 'Pos',

@@ -80,10 +80,15 @@ table tr:last-child td {
   background-color: #de7d7d !important;
 }
 
+.playerNameAndHeadshot {
+  display: flex;
+  align-items: center;
+}
+
 .headshot {
-  height: 30px;
+  height: 35px;
   width: auto;
-  margin: 0 5px -5px 0;
+  margin: 0 10px 0 0;
 }
 
 .prospect {
