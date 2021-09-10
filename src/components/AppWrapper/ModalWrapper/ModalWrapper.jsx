@@ -38,7 +38,6 @@ export default function ModalWrapper(
       return response.json()
     })
     .then(data => {
-      console.log("data: " + JSON.stringify(data, null, 4))
       sendChatAnnouncement(message);
       getDraft(user, setPicks, setCurrentPick, setDraftingNow)
       getTeams(user, setTeams)

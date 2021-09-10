@@ -7,8 +7,6 @@ import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary.jsx';
 
 export default function Chat({messages, setMessages, pub, sub, user, channel, getLatestData}) {
 
-  console.log(`user in Chat: ${JSON.stringify(user, null, 4)}`);
-
   const tempMessage = useInput();
   
   useEffect(()=>{
@@ -36,10 +34,9 @@ export default function Chat({messages, setMessages, pub, sub, user, channel, ge
             color: msg.message.color
           });
           setMessages(messages=>messages.concat(newMessages))
-          console.log(`userInfo: ${JSON.stringify(userInfo, null, 4)}`);
           setTimeout(function () {
-            getLatestData(true, userInfo);
-          }, 2000)
+            getLatestData(false, userInfo);
+          }, 5000)
         }
       }
     });
