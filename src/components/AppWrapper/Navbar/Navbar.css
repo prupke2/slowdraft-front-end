@@ -71,11 +71,25 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
   top: -10px;
 }
 
+.teamLogoContainer {
+  margin: 0;
+  display: flex;
+  place-content: center;
+}
+
+.teamLogo {
+  height: 35px;
+  width: auto;
+}
+
 @media screen and (max-width: 800px) { 
   .navbar-tabs > div {
     width: 100vw;
   }
   .navbar-tabs > ul {
     width: 100vw;
+  }
+  ul.react-tabs__tab-list:last-child, li.react-tabs__tab > div {
+    display: none;
   }
 }

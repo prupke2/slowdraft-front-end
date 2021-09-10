@@ -24,15 +24,15 @@ export default function Navbar({
     <>
       <Tabs defaultIndex={0} className="navbar-tabs">
         <TabList>
-          <Tab><span role='img' aria-label='draft'>⚔️</span> Draft</Tab>
-          <Tab><span role='img' aria-label='skater'>⛸</span> Skaters</Tab>
-          <Tab><span role='img' aria-label='goalie'>🥅</span> Goalies</Tab>
-          <Tab><span role='img' aria-label='teams'>🏒</span> Teams</Tab>
-          <Tab><span role='img' aria-label='forum'>💬</span> Forum</Tab>
-          <Tab><span role='img' aria-label='rules'>📖</span> Rules</Tab>
-          <Tab><span role='img' aria-label='picks'>⛏️</span> Pick Tracker</Tab>
+          <Tab><span role='img' aria-label='draft'>⚔️</span><div>Draft</div></Tab>
+          <Tab><span role='img' aria-label='skater'>⛸</span><div>Skaters</div></Tab>
+          <Tab><span role='img' aria-label='goalie'>🥅</span><div>Goalies</div></Tab>
+          <Tab><span role='img' aria-label='teams'>🏒</span><div>Teams</div></Tab>
+          <Tab><span role='img' aria-label='forum'>💬</span><div>Forum</div></Tab>
+          <Tab><span role='img' aria-label='rules'>📖</span><div>Rules</div></Tab>
+          <Tab><span role='img' aria-label='picks'>⛏️</span><div>Pick Tracker</div></Tab>
           { user.role === 'admin' && (
-            <Tab><span role='img' aria-label='admin'>✨</span> Admin</Tab>
+            <Tab><span role='img' aria-label='admin'>✨</span><div>Admin</div></Tab>
           )}
           {/* <Tab>Test</Tab> */}
         </TabList>
