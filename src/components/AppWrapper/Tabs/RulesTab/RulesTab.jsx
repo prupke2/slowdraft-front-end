@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '../../../Table/Table';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
@@ -7,6 +7,7 @@ import { getRules } from '../../../../util/requests';
 
 export default function RulesTab({user, rules, setRules, getLatestData}) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [needToUpdate, setNeedToUpdate] = useState(false);
 
   const columns = [
     {
@@ -50,12 +51,22 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
     else {
       console.log("Getting new forum data");
       if (user) {
-        getRules(user, setRules);    
+        getRules(user, setRules);
       }
     }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, setRules])
+
+  useEffect(() => {
+    if (needToUpdate === true) {
+      getRules(user, setRules);
+    }
+    if (modalOpen === true) {
+      setNeedToUpdate(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalOpen])
 
   function newRule() {
     setModalOpen(true);

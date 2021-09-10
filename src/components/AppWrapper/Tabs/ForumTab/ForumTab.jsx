@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 // import Table from '../../../Table/Table';
 import Table from '../../../Table/Table';
 // import { getLeague } from '../../../../api/yahooApi';
@@ -9,6 +9,7 @@ import { getForumPosts } from '../../../../util/requests';
 
 export default function ForumTab({user, posts, setPosts, getLatestData}) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [needToUpdate, setNeedToUpdate] = useState(false);
 
   const columns = [
     {
@@ -35,15 +36,19 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
     },
   ]
   const tableState = { 
-    hiddenColumns: ["body"],
-    sortBy: [
-      {
-        id: 'create_date',
-        desc: false
-      }
-    ]
+    hiddenColumns: ["body"]
   }
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (needToUpdate === true) {
+      getForumPosts(user, setPosts);
+    }
+    if (modalOpen === true) {
+      setNeedToUpdate(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalOpen])
 
   useEffect(() => {
     setIsLoading(true);
