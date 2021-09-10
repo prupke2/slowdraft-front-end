@@ -264,6 +264,7 @@ export default function Table(
                               <option value={431}>Syracuse Crunch!</option>
                               <option value={361}>Terrace River Kings</option>
                               <option value={321}>Ontario Reign</option>
+                              {/* <option value={292}>LOCAL TESTING ONLY</option> */}
                               {cell.row.original.disabled === 0 && 
                                 <option value={0}>DISABLE PICK</option>
                               } 
