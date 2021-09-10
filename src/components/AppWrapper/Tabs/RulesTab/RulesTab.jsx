@@ -60,7 +60,10 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
 
   useEffect(() => {
     if (needToUpdate === true) {
-      getRules(user, setRules);
+      setTimeout(function () {
+        getRules(user, setRules);
+      }, 1500)
+      setNeedToUpdate(false);
     }
     if (modalOpen === true) {
       setNeedToUpdate(true)

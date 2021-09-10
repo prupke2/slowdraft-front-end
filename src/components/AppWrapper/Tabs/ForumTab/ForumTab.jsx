@@ -42,7 +42,10 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
 
   useEffect(() => {
     if (needToUpdate === true) {
-      getForumPosts(user, setPosts);
+      setTimeout(function () {
+        getForumPosts(user, setPosts);
+      }, 1500)
+      setNeedToUpdate(false);
     }
     if (modalOpen === true) {
       setNeedToUpdate(true)
