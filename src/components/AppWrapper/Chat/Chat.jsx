@@ -35,7 +35,7 @@ export default function Chat({messages, setMessages, pub, sub, user, channel, ge
           });
           setMessages(messages=>messages.concat(newMessages))
           setTimeout(function () {
-            getLatestData(false, userInfo);
+            getLatestData(true, userInfo);
           }, 5000)
         }
       }
