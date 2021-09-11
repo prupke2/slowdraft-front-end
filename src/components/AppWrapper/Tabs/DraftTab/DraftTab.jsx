@@ -5,7 +5,7 @@ import Loading from '../../../Loading/Loading';
 import { getDraft } from '../../../../util/requests';
 
 export default function DraftTab({currentPick, setCurrentPick, picks, setPicks, 
-  draftingNow, setDraftingNow, user, getLatestData
+  draftingNow, setDraftingNow, user, getLatestData, sendChatAnnouncement
 }) {
   const columns = [
     {
@@ -136,6 +136,7 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
           setPicks={setPicks}
           setCurrentPick={setCurrentPick}
           setDraftingNow={setDraftingNow}
+          sendChatAnnouncement={sendChatAnnouncement}
         />
       }
     </>

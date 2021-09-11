@@ -49,6 +49,7 @@ export default function Navbar({
             user={user}
             setUser={setUser}
             getLatestData={getLatestData}
+            sendChatAnnouncement={sendChatAnnouncement}
           />
         </TabPanel>
         <TabPanel>
