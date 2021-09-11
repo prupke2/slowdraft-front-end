@@ -40,8 +40,20 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (needToUpdate === true) {
+      getRules(user, setRules);
+      setNeedToUpdate(false);
+    }
+    if (modalOpen === true) {
+      setNeedToUpdate(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalOpen])
+  
+  useEffect(() => {
     setIsLoading(true);
     getLatestData();
+    setTimeout(function () {}, 1500) // set a delay so that the localStorage is available
     const rulesData = localStorage.getItem('rulesData');
     if (rulesData && user) {
       console.log("Using cached data");
@@ -58,18 +70,6 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, setRules])
 
-  useEffect(() => {
-    if (needToUpdate === true) {
-      setTimeout(function () {
-        getRules(user, setRules);
-      }, 1500)
-      setNeedToUpdate(false);
-    }
-    if (modalOpen === true) {
-      setNeedToUpdate(true)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalOpen])
 
   function newRule() {
     setModalOpen(true);

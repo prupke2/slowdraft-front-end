@@ -42,9 +42,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
 
   useEffect(() => {
     if (needToUpdate === true) {
-      setTimeout(function () {
-        getForumPosts(user, setPosts);
-      }, 1500)
+      getForumPosts(user, setPosts);
       setNeedToUpdate(false);
     }
     if (modalOpen === true) {
@@ -56,7 +54,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
   useEffect(() => {
     setIsLoading(true);
     getLatestData()
-
+    setTimeout(function () {}, 1500) // set a delay so that the localStorage is available
     const forumData = localStorage.getItem('forumData');
     if (forumData && user) {
       console.log("Using cached data");
