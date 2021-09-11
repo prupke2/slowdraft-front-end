@@ -52,6 +52,7 @@ export default function Table(
       })
       .then( data => {
         if (data.success === true) {
+          sendChatAnnouncement(`The ${user.team_name} have updated pick ${overall_pick}.`);
           getDraft(user, setPicks, setCurrentPick, setDraftingNow)
           setTimeout(function () {
             ToastsStore.success(`Pick ${overall_pick} ${data.status}.`)
@@ -78,6 +79,7 @@ export default function Table(
       })
       .then( data => {
         if (data.success === true) {
+          sendChatAnnouncement(`The ${user.team_name} have updated pick ${overall_pick}.`);
           getDraft(user, setPicks, setCurrentPick, setDraftingNow)
           setTimeout(function () {
             ToastsStore.success(`Pick ${overall_pick} updated.`)
