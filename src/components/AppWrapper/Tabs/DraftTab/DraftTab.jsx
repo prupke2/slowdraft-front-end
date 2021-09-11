@@ -49,13 +49,21 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
       disableFilters: true,
     },
     {
-      Header: `Timestamp (${Intl.DateTimeFormat().resolvedOptions().timeZone})`,
+      Header: <div>{
+        <span>
+          Timestamp 
+          <span className='timezoneInWords'>
+            &nbsp;
+            ({(Intl.DateTimeFormat().resolvedOptions().timeZone)})
+          </span>
+        </span>
+      }</div>,
       accessor: 'draft_pick_timestamp',
       disableFilters: true,
       width: '50px',
       Cell: row => <div>{
         (row.cell.row.values.draft_pick_timestamp) &&
-          <span>
+          <span className='draftPickTimestamp'>
             {(new Date(row.cell.row.values.draft_pick_timestamp)).toLocaleString()}
           </span>
        }</div>,
