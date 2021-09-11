@@ -138,7 +138,16 @@ table tr:last-child td {
   th.blank-cell, .admin-column, select.change-user-dropdown {
     display: none;
   }
+  .table thead th {
+    font-size: 0.9rem;
+  }
   .headshot {
+    display: none;
+  }
+  .draftPickTimestamp {
+    font-size: 0.7rem;
+  }
+  .timezoneInWords {
     display: none;
   }
 }
