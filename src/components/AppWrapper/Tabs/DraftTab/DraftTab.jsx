@@ -93,7 +93,7 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
     }
     else {
       console.log("Getting new draft data");
-      if (user) {
+      if (user.user_id !== null) {
         data = getDraft(user, setPicks, setCurrentPick, setDraftingNow);      
       }
     }
@@ -108,7 +108,7 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
       }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [user])
 
   return (
     <>
