@@ -39,7 +39,7 @@
 @media (max-width: 800px) {
   .drafting-now {
 		position: absolute;
-		left: -75vw;
+		left: -65vw;
 		flex-direction: row;
     width: 130vw;
     display: flex;
