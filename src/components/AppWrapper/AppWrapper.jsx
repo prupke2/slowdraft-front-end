@@ -54,7 +54,7 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
   useEffect(() => {
     if (user.user_id !== null) {
       getLatestData(true);
-      const interval = setInterval(() => getLatestData(true), 300000); // ping server every 5 minutes for updates
+      const interval = setInterval(() => getLatestData(true), 60000); // ping server every minute for updates
       return () => {
         clearInterval(interval);
       }

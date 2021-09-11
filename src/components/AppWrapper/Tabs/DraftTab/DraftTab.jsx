@@ -116,7 +116,7 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
       }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+  }, [])
 
   return (
     <>
