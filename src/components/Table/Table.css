@@ -138,4 +138,7 @@ table tr:last-child td {
   th.blank-cell, .admin-column, select.change-user-dropdown {
     display: none;
   }
+  .headshot {
+    display: none;
+  }
 }

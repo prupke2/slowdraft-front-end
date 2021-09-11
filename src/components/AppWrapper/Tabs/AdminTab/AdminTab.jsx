@@ -35,7 +35,6 @@ export default function AdminTab() {
   };
 
   function addPlayerToDb(e) {
-    console.log("positions: " + positions);
     e.preventDefault();
     let requestParams = {
       method: 'POST',
@@ -53,7 +52,6 @@ export default function AdminTab() {
     if ( name && playerId && team && !positions.isEmpty() ) {    
       fetch('/insert_player', requestParams)
         .then(response => {
-          console.log(`response: ${JSON.stringify(response, null, 4)}`);
         if (!response.ok) {
           const error = response.status;
           return Promise.reject(error);

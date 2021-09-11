@@ -105,8 +105,6 @@ export function checkForUpdates(draftOnly, user, setPicks, setCurrentPick, setDr
   setTeams, setRules, setPosts, getDraft, getDBPlayers, getDBGoalies, getTeams, getRules, getForumPosts) {
   const userData = user || JSON.parse(localStorage.getItem('user'));
 
-  console.log(`userData: ${JSON.stringify(userData, null, 4)}`);
-  
   fetch(`/check_for_updates/${userData.user_id}/${userData.league_id}`)
     .then(async response => {
       const data = await response.json();
@@ -114,7 +112,6 @@ export function checkForUpdates(draftOnly, user, setPicks, setCurrentPick, setDr
         const error = (data && data.message) || response.status;
         return Promise.reject(error);
       }
-      console.log(`data: ${JSON.stringify(data, null, 4)}`);
       if (data.updates) {
         setDraftingNow(data.drafting_now);
         
