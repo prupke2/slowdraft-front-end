@@ -25,7 +25,8 @@ export default function Chat({messages, setMessages, pub, sub, user, channel, ge
       },
       message: function(msg) {
         const userInfo = JSON.parse(localStorage.getItem('user'));
-        const newMessage = msg.message.text
+        const newMessage = msg.message.text;
+
         if(msg.message.text){
           console.log(msg.message.text)
           let newMessages = [];
@@ -35,7 +36,7 @@ export default function Chat({messages, setMessages, pub, sub, user, channel, ge
             color: msg.message.color
           });
           setMessages(messages=>messages.concat(newMessages))
-          if (newMessage.indexOf('***') !== -1 && (newMessage.indexOf(' have updated pick ') !== -1 || (newMessage.indexOf(' have drafted ') !== -1))) {
+          if (newMessage.indexOf(' have updated pick ') !== -1 || (newMessage.indexOf(' have drafted ') !== -1)) {
             getLatestData(true, userInfo);
           }
         }
