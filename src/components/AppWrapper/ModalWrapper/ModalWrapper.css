@@ -113,3 +113,14 @@
 .new-post-form input, .new-post-form textarea {
   width: 90%;
 }
+
+@media screen and (max-width: 800px) { 
+  .ReactModal__Content {
+    width: calc(95vw - 150px) !important;
+    min-width: 300px !important;
+    margin-left: 0 !important;
+    height: 95vh;
+    margin-top: 10px;
+  }
+}
+

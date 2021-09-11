@@ -92,4 +92,10 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
   ul.react-tabs__tab-list:last-child, li.react-tabs__tab > div {
     display: none;
   }
+  .react-tabs__tab-panel {
+    padding: 0;
+  }
+  th {
+    width: auto;
+  }
 }
