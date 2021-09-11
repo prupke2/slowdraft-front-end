@@ -39,8 +39,13 @@
   font-size: 1.1rem;
 }
 
+.user-wrapper {
+  display: flex;
+}
+
 .user {
   color: darkorchid;
+  border-radius: 0 8px 8px 0;
   font-weight: bold;
   font-size: 0.7rem;
   margin: 4px;
@@ -49,7 +54,10 @@
 }
 
 .user-icon {
-  border-radius: 8px;
+  font-size: 1.1rem;
+  border-radius: 8px 0 0 8px;
+  padding: 2px !important;
+  height: 30px;
 }
 
 .message {
