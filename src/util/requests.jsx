@@ -116,6 +116,7 @@ export function checkForUpdates(draftOnly, user, setPicks, setCurrentPick, setDr
       if (data.updates) {
         setDraftingNow(data.drafting_now);
         
+        // 5 seconds is added to the update timestamp to prevent it from not updating due to a race condition
         if ((Date.parse(data.updates.latest_draft_update) + 5) > Date.parse(localStorage.getItem('draftDataUpdate'))) {
           console.log("Update draft data...");
           getDraft(user, setPicks, setCurrentPick, setDraftingNow)
