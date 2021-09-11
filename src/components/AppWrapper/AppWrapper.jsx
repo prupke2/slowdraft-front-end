@@ -52,15 +52,14 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
   }, []);
 
   useEffect(() => {
-    if (user) {
-      getLatestData(true);
-      const interval = setInterval(() => getLatestData(true), 30000);
+    if (user.user_id !== null) {
+      const interval = setInterval(() => getLatestData(true), 300000); // ping server every 5 minutes for updates
       return () => {
         clearInterval(interval);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, setPicks, setCurrentPick, setDraftingNow, setGoalies, setTeams, setRules, setPosts]);
+  }, [user]);
 
   return (
     <>      
