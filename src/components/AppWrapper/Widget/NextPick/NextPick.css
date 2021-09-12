@@ -38,11 +38,10 @@
 
 @media (max-width: 800px) {
   .drafting-now {
-		/* position: absolute;
-		left: -65vw; */
 		flex-direction: row;
     width: 100vw;
     display: flex;
+		border: none;
 	}
 
 	.drafting-now :first-child {
@@ -51,5 +50,7 @@
 	
 	#countdown {
 		position: static;
+		min-width: 90px;
+		max-width: 110px;
 	}
 }
