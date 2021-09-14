@@ -130,12 +130,11 @@ textarea {
 }
 
 @media (max-width: 800px) {
-  body {
-    overflow-x: scroll;
-  }
   main {
     margin-top: 55px;
     width: 100vw;
+    min-width: 350px;
+    overflow-x: hidden;
   }
 
   main > div {

@@ -186,6 +186,7 @@ export function SelectPositionColumnFilter({
 
   return (
     <select
+      className="position-filter"
       value={filterValue}
       onChange={e => {
         setFilter(e.target.value || undefined)

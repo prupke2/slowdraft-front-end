@@ -83,18 +83,32 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
 }
 
 @media screen and (max-width: 800px) { 
-  .navbar-tabs > div {
+  .navbar-tabs {
+    width: auto;
+    min-width: 350px;
+  }
+
+  /* Players tab needs to scroll to see all stats */
+  #react-tabs-3 > div {
+    overflow: scroll;
+  }
+
+  #react-tabs-12, #react-tabs-14 {
+    display: none;
+  }
+
+  .navbar-tabs > div, .navbar-tabs > ul {
     width: 100vw;
   }
-  .navbar-tabs > ul {
-    width: 100vw;
-  }
+
   ul.react-tabs__tab-list:last-child, li.react-tabs__tab > div {
     display: none;
   }
+
   .react-tabs__tab-panel {
     padding: 0;
   }
+
   th {
     width: auto;
   }

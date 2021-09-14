@@ -3,6 +3,12 @@
   margin: 0;
 }
 
-.team-filter {
+.team-filter, .position-filter {
   width: 50px;
+}
+
+@media screen and (max-width: 800px) { 
+  .team-filter, .position-filter {
+    width: 30px;
+  }
 }
