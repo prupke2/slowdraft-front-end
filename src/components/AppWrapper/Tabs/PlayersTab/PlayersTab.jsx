@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectPositionColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
 import { getDBPlayers } from '../../../../util/requests';
+import Loading from '../../../Loading/Loading';
 // import Errors from '../../../Errors/Errors';
 
 
@@ -172,7 +173,9 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
 
   return (
     <>
-      {/* { error && <Errors />} */}
+      { isLoading &&
+        <Loading text="Loading players..."  />
+      }
       { !isLoading &&
         <Table
           user={user}
