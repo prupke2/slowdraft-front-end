@@ -13,12 +13,12 @@ export function timeSince(ts) {
     return parseInt(secondsPast / 3600) + 'h ago' ;
   }
   if (secondsPast <= 2629800) {
-    return parseInt(secondsPast / 86400) + 'days ago' ;
+    return parseInt(secondsPast / 86400) + ' days ago' ;
   }
   if (secondsPast > 2629800) {
     const day = timeStamp.getDate();
     const month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
-    const year = timeStamp.getFullYear() === now.getFullYear() ? "" : timeStamp.getFullYear();
-    return month + " " + day + ", " + year;
+    const year = timeStamp.getFullYear() === now.getFullYear() ? "" : ", " + timeStamp.getFullYear();
+    return month + " " + day + year;
   }
 }

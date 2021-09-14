@@ -120,14 +120,34 @@
     min-width: 300px !important;
     margin: 0 auto;
   }
+
+  #new-forum-post-modal, #new-rule-modal {
+    padding: 10px !important;
+    margin: 0;
+  }
+
+  #new-forum-post-modal input, #new-rule-modal input, #new-forum-post-modal div, #new-rule-modal div,
+    #new-forum-post-modal textarea, #new-rule-modal textarea {
+    width: 95%;
+    padding: 0 0 0 20px !important;
+    margin: 0 !important;
+  }
+
+  #new-forum-post-modal textarea, #new-rule-modal textarea {
+    height: 200px;
+    padding: 5px;
+  }
+
   .modal-title, .modal-player-info, .button-group {
     padding: 5px;
     margin: 25px 5px;
     font-size: 1.1rem;
   }
+
   .button-group > button {
     margin: 10px;
     padding: 5px;
   }
+
 }
 
