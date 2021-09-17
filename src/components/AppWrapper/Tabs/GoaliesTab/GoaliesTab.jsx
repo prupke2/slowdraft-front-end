@@ -23,6 +23,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, 
       accessor: 'prospect',
       Filter: SelectPlayerTypeColumnFilter,
       width: '0px',
+      disableSortBy: true,
     },
     {
       Header: 'Team',

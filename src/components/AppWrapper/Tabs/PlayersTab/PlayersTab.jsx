@@ -23,6 +23,7 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
       accessor: 'prospect',
       Filter: SelectPlayerTypeColumnFilter,
       width: '0px',
+      disableSortBy: true,
     },
     {
       Header: 'Team',
