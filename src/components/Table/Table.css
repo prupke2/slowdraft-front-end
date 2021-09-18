@@ -91,6 +91,10 @@ table tr:last-child td {
   margin: 0 10px 0 0;
 }
 
+.timezoneInWords {
+  font-size: 0.8rem;
+}
+
 .prospect {
   font-size: 0.8rem;
   background: lightcyan;
