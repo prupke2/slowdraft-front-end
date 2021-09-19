@@ -43,6 +43,11 @@
   display: flex;
 }
 
+.narrow-user-wrapper {
+  margin: 1px;
+  height: 20px;
+}
+
 .user {
   color: darkorchid;
   border-radius: 0 8px 8px 0;
@@ -53,11 +58,21 @@
   background: var(--gradient3);
 }
 
+.user-in-chat {
+  margin: 0 4px 0 0;
+  padding: 3px 3px 2px;
+}
+
 .user-icon {
   font-size: 1.1rem;
   border-radius: 8px 0 0 8px;
   padding: 2px !important;
   height: 30px;
+}
+
+.narrow-icon {
+  padding: 1px !important;
+  font-size: 0.85rem;
 }
 
 .message {

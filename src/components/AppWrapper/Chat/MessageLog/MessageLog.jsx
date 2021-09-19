@@ -19,8 +19,8 @@ export default function MessageLog({messages}) {
             <div key={index}>
               { item.uuid !== '***' &&
                 <>
-                  <span role='img' aria-label='icon' style={{ 'background': item.color}}>👤</span>
-                  <span className="user">{item.uuid} </span>
+                  <span className="user-icon narrow-icon" role='img' aria-label='icon' style={{ 'background': item.color}}>👤</span>
+                  <span className="user user-in-chat">{item.uuid} </span>
                   <span className="message">{item.text}</span>
                 </>
               }
