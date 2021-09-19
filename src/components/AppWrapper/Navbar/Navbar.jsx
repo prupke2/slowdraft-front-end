@@ -15,10 +15,6 @@ export default function Navbar({
   sendChatAnnouncement, role, players, setPlayers, goalies, setGoalies,
   teams, setTeams, posts, setPosts, rules, setRules, user, setUser, getLatestData
 }) {
-
-  // function test() {
-  //   fetch('/test')
-  // }
   
   return (
     <>
@@ -34,7 +30,6 @@ export default function Navbar({
           { user.role === 'admin' && (
             <Tab><span role='img' aria-label='admin'>✨</span><div>Admin</div></Tab>
           )}
-          {/* <Tab>Test</Tab> */}
         </TabList>
         <TabPanel>
           <DraftTab 
@@ -111,10 +106,8 @@ export default function Navbar({
           <TabPanel>
             <AdminTab />
           </TabPanel>
-          )}
-        {/* <TabPanel>
-          <button onClick={test}>test</button>
-        </TabPanel> */}
+          )
+        }
       </Tabs>
     </>
   );
