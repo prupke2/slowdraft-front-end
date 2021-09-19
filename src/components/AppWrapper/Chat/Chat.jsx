@@ -58,8 +58,9 @@ export default function Chat({messages, setMessages, pub, sub, user, channel, ge
       let newMessages = [];
         for (let i  = 0; i < response.messages.length;i++){
           newMessages.push({
-            uuid:response.messages[i].entry.uuid ,
-            text: response.messages[i].entry.text
+            uuid:response.messages[i].entry.uuid,
+            text: response.messages[i].entry.text,
+            color: response.messages[i].entry.color
           });
         }
         setMessages(messages=>messages.concat(newMessages));
