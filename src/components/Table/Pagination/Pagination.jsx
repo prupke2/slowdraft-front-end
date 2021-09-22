@@ -6,6 +6,8 @@ export default function Pagination(
       tableType, gotoPage, canPreviousPage, previousPage, nextPage,
       canNextPage, pageCount, pageIndex, pageOptions
     }) {
+  
+  const pageOrRound = tableType === 'draftPicks' ? 'Round' : 'Page';
   return (
 
     <ul className="pagination">
@@ -16,7 +18,7 @@ export default function Pagination(
       </pre> */}
       <li className="pagination-goto-page">
         <span className="page-link">
-          Page
+          {pageOrRound}
           <div className="page-of-page">
             <strong>
                 {pageIndex + 1} of {pageOptions.length}

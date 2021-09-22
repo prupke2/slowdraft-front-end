@@ -139,6 +139,12 @@ table tr:last-child td {
   padding: 20px;
 }
 
+.asterisk {
+  color: grey;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
 @media screen and (max-width: 800px) { 
   table {
     width: auto;

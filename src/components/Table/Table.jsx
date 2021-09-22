@@ -136,7 +136,7 @@ export default function Table(
       previousPage,
       // setPageSize,
       state: { 
-        pageIndex, 
+        pageIndex,
         // pageSize 
       },
   } = useTable(
@@ -208,7 +208,7 @@ export default function Table(
                       <span {...column.getHeaderProps(column.getSortByToggleProps())} >
                         {column.render('Header')}
                         <span>
-                          {column.isSorted
+                          {column.isSorted && tableType !== 'draftPicks'
                             ? column.isSortedDesc
                             ? ' ▼'
                             : ' ▲'
@@ -280,6 +280,9 @@ export default function Table(
                           {...cell.getCellProps()}
                           >
                             {cell.render('Cell')}
+                            {(tableType === 'draftPicks' && row.original.overall_pick === 13) &&
+                              <span className="asterisk">* </span>
+                            }
                           </td>
                         </>
                       )
