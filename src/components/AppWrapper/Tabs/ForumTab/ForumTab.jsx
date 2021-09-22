@@ -29,10 +29,18 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
       show: false
     },
     {
-      Header: 'Date Posted',
+      Header: <div>{
+        <span>
+          Date Posted 
+          <span className='timezoneInWords'>
+            &nbsp;
+            ({(Intl.DateTimeFormat().resolvedOptions().timeZone)})
+          </span>
+        </span>
+      }</div>,
       accessor: 'create_date',
       disableFilters: true,
-      Cell: row => <div>{new Date(row.value).toString().toLocaleString()}</div>,
+      Cell: row => <div>{new Date(row.value).toLocaleString()}</div>,
     },
   ]
   const tableState = { 
