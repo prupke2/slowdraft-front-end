@@ -25,7 +25,7 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
   }
 
   function sendChatAnnouncement(message) {
-    let messageObject = {
+    const messageObject = {
       text: message,
       uuid: "***"
     };
@@ -101,6 +101,7 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
         user={user}
         channel={channel}
         getLatestData={getLatestData}
+        sendChatAnnouncement={sendChatAnnouncement}
       />
     </>
   );

@@ -19,10 +19,10 @@
   display: flex;
   justify-content: left;
   text-align: left;
-  top: 130px;
+  top: 160px;
   right: 0;
   width: 270px;
-  height: calc(100vh - 190px);
+  height: calc(100vh - 220px);
   padding: 5px;
   margin: 2px;
   word-wrap: break-word;
@@ -37,6 +37,21 @@
   position: relative;
   bottom: 40px;
   font-size: 1.1rem;
+}
+
+#user-list {
+  left: 10px;
+  max-height: 55px;
+  width: 100%;
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid grey;
+  overflow-y: scroll;
+}
+
+#user-list > span {
+  font-weight: 400;
 }
 
 .user-wrapper {
