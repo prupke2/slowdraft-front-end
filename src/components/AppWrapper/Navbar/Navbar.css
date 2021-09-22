@@ -4,7 +4,7 @@ ul {
 }
 
 li.react-tabs__tab {
-  padding: 5px 10px 5px;
+  padding: 5px 10px 0;
   position: relative;
   border: 1px solid var(--gradient1);
   box-shadow: -2px -1px grey;
