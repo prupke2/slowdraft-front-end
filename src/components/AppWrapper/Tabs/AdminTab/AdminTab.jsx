@@ -204,7 +204,7 @@ export default function AdminTab() {
       <form className='admin-form add-keeper-form'>
         <h2>Add a keeper to a team</h2>
         <div>
-          <label name='admin-user-dropdown'>Team</label>
+          <label name='admin-user-dropdown'>Team:</label>
           <select 
             className='admin-user-dropdown'
             onChange={handleUserIdChange}
@@ -234,20 +234,26 @@ export default function AdminTab() {
             placeholder="Yahoo player id" 
             onChange={handleKeeperPlayerIdChange}>
           </input> */}
-          <label name='player'>Player</label>
+          <label name='player'>Player:</label>
           <input
             type="text"
-            placeholder="Find player"
+            placeholder="Find player..."
             onChange={handleKeeperText}
           />
-          <select disabled value={keeperPlayerId}>
+        </div>
+        <div>
+          <label />
+          <select 
+            disabled 
+            value={keeperPlayerId}
+            className='admin-user-dropdown'
+          >
             {playerData.players.map(player =>
-              <option selected={keeperPlayerId===player.player_id} value={player.player_id}>{player.name}</option> 
+              <option selected={keeperPlayerId===player.player_id} value={player.player_id}>{player.name}, {player.team}</option> 
             )}
           </select>
         </div>
-
-        <button onClick={(e) => addKeeper(e)}>Add keeper</button>
+        <button onClick={(e) => addKeeper(e)} className="add-keeper-button">Add keeper</button>
       </form>
     </>
   );

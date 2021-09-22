@@ -27,6 +27,10 @@
   margin-bottom: 30px;
 }
 
+.add-keeper-button {
+  margin-top: 20px;
+}
+
 .positions {
   margin: 0;
   flex-direction: row !important;
