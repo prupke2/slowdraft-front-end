@@ -19,6 +19,14 @@
   width: 200px;
 }
 
+.admin-user-dropdown {
+  width: 200px;
+}
+
+.admin-player-id {
+  margin-bottom: 30px;
+}
+
 .positions {
   margin: 0;
   flex-direction: row !important;
