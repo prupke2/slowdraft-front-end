@@ -13,23 +13,27 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
       accessor: 'overall_pick',
       disableFilters: true,
       width: '20px',
-      sortDescFirst: false
+      sortDescFirst: false,
+      disableSortBy: true,
     },
     {
       Header: 'User',
       accessor: 'username',
       disableFilters: true,
+      disableSortBy: true,
     },
     {
       Header: 'Player',
       accessor: 'player_name',
       disableFilters: true,
+      disableSortBy: true,
     },
     {
       Header: 'Team',
       accessor: 'team',
       width: '30px',
       disableFilters: true,
+      disableSortBy: true,
       Cell: row => <div className='teamLogoContainer'>
         {
           (row.value) &&
@@ -47,6 +51,7 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
       accessor: 'position',
       width: '30px',
       disableFilters: true,
+      disableSortBy: true,
     },
     {
       Header: <div>{
@@ -61,6 +66,7 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
       accessor: 'draft_pick_timestamp',
       disableFilters: true,
       width: '50px',
+      disableSortBy: true,
       Cell: row => <div>{
         (row.cell.row.values.draft_pick_timestamp) &&
           <span className='draftPickTimestamp'>
