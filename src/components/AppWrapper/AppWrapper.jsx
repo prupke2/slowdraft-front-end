@@ -51,16 +51,16 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   if (user.user_id !== null) {
-  //     getLatestData(true);
-  //     const interval = setInterval(() => getLatestData(true), 60000); // ping server every minute for updates
-  //     return () => {
-  //       clearInterval(interval);
-  //     }
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [user]);
+  useEffect(() => {
+    if (user.user_id !== null) {
+      getLatestData(true);
+      // const interval = setInterval(() => getLatestData(true), 60000); // ping server every minute for updates
+      // return () => {
+      //   clearInterval(interval);
+      // }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <>      
