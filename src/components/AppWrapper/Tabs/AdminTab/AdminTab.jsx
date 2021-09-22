@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './AdminTab.css';
 import { ToastsStore } from "react-toasts";
+import { substringInString } from '../../../../util/util';
 
 export default function AdminTab() {
   // eslint-disable-next-line no-extend-native
@@ -8,6 +9,7 @@ export default function AdminTab() {
     return Object.keys(this).length === 0;
   }
   const userInfo = JSON.parse(localStorage.getItem('user'));
+  const playerData = JSON.parse(localStorage.getItem('playerDBData'));
   const [name, setName] = useState(null);
   const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState('Anh');
@@ -117,11 +119,16 @@ export default function AdminTab() {
     setUserId(event.target.value)
   };
 
-  const handleKeeperPlayerIdChange = event => {
-    setKeeperPlayerId(event.target.value)
-  };
+  function handleKeeperText(e) {
+    const players = playerData.players.filter(player => 
+      substringInString(player.name.toUpperCase(), e.target.value.toUpperCase())
+    );
+    if (!players.isEmpty()) {
+      setKeeperPlayerId(players[0].player_id)
+    }
+    return
+  }
   
-
   return (
     <>
       <form className='admin-form'>
@@ -219,13 +226,25 @@ export default function AdminTab() {
           </select>
         </div>
         <div>
-          <label name='admin-player-id'>Yahoo player id:</label>
-          <input 
+          {/* <label name='admin-player-id'>Yahoo player id:</label> */}
+          {/* <input 
+            data={playerData.players}
             className="admin-player-id"
             type="text" 
             placeholder="Yahoo player id" 
             onChange={handleKeeperPlayerIdChange}>
-          </input>
+          </input> */}
+          <label name='player'>Player</label>
+          <input
+            type="text"
+            placeholder="Find player"
+            onChange={handleKeeperText}
+          />
+          <select disabled value={keeperPlayerId}>
+            {playerData.players.map(player =>
+              <option selected={keeperPlayerId===player.player_id} value={player.player_id}>{player.name}</option> 
+            )}
+          </select>
         </div>
 
         <button onClick={(e) => addKeeper(e)}>Add keeper</button>
