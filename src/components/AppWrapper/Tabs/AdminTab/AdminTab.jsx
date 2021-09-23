@@ -10,6 +10,7 @@ export default function AdminTab() {
   }
   const userInfo = JSON.parse(localStorage.getItem('user'));
   const playerData = JSON.parse(localStorage.getItem('playerDBData'));
+  const goalieData = JSON.parse(localStorage.getItem('goalieDBData'));
   const [name, setName] = useState(null);
   const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState('Anh');
@@ -123,8 +124,13 @@ export default function AdminTab() {
     const players = playerData.players.filter(player => 
       substringInString(player.name.toUpperCase(), e.target.value.toUpperCase())
     );
+    const goalies = goalieData.players.filter(goalie =>
+      substringInString(goalie.name.toUpperCase(), e.target.value.toUpperCase())
+    )
     if (!players.isEmpty()) {
       setKeeperPlayerId(players[0].player_id)
+    } else if (!goalies.isEmpty()) {
+      setKeeperPlayerId(goalies[0].player_id)
     }
     return
   }
@@ -249,6 +255,9 @@ export default function AdminTab() {
             className='admin-user-dropdown'
           >
             {playerData.players.map(player =>
+              <option selected={keeperPlayerId===player.player_id} value={player.player_id}>{player.name}, {player.team}</option> 
+            )}
+            {goalieData.players.map(player =>
               <option selected={keeperPlayerId===player.player_id} value={player.player_id}>{player.name}, {player.team}</option> 
             )}
           </select>
