@@ -254,7 +254,6 @@ export default function Table(
                               onChange={(event) => updatePick(event, cell.row.original.overall_pick)}
                             >
                               <option value={351}>American Gladiators</option>
-                              <option value={411}>Bakersfield Condors</option>
                               <option value={441}>Fort Wayne Komets</option>
                               <option value={301}>GrandRapids Griffins</option>
                               <option value={371}>Nelson Leafs</option>
@@ -262,10 +261,10 @@ export default function Table(
                               <option value={321}>Ontario Reign</option>
                               <option value={341}>Providence Bruins</option>
                               <option value={331}>Seaforth Generals</option>
-                              <option value={391}>St Thomas Stars</option>
+                              <option value={411}>St. Marys Lincolns</option>
+                              <option value={391}>St. Thomas Stars</option>
                               <option value={431}>Syracuse Crunch!</option>
                               <option value={361}>Terrace River Kings</option>
-                              <option value={321}>Ontario Reign</option>
                               {/* <option value={292}>LOCAL TESTING ONLY</option> */}
                               {cell.row.original.disabled === 0 && 
                                 <option value={0}>DISABLE PICK</option>

@@ -93,7 +93,7 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
         logout={logout}
         user={user}
       />
-      <Chat 
+      {/* <Chat 
         messages={messages}
         setMessages={setMessages}
         pub={pub}
@@ -102,7 +102,7 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
         channel={channel}
         getLatestData={getLatestData}
         sendChatAnnouncement={sendChatAnnouncement}
-      />
+      /> */}
     </>
   );
 }
