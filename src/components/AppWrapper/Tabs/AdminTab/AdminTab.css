@@ -1,3 +1,16 @@
+.inner-tab {
+  color: #212529;
+}
+
+.inner-navbar-tabs {
+  width: 100%;
+  min-height: calc(100vh - 109px);
+}
+
+li.react-tabs__tab--selected > div.inner-tab {
+  color: whitesmoke;
+}
+
 .admin-form {
   margin: 10px auto 100px;
 }
@@ -8,7 +21,7 @@
 
 .admin-form > div {
   display: flex;
-  margin-left: 15vw;
+  margin-left: calc(50vw - 400px);
 }
 
 .admin-form > div > label {

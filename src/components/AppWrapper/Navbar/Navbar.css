@@ -60,6 +60,10 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
   min-width: 550px;
 }
 
+.react-tabs__tab-list {
+  max-width: 100%;
+}
+
 .react-tabs__tab--selected {
   font-weight: bold;
   position: fixed;

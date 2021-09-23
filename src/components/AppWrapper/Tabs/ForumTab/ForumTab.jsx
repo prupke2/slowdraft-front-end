@@ -6,6 +6,7 @@ import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 import ModalWrapper from '../../ModalWrapper/ModalWrapper';
 import { getForumPosts } from '../../../../util/requests';
+import { timeSince } from '../../../../util/time';
 
 export default function ForumTab({user, posts, setPosts, getLatestData}) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -40,7 +41,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
       }</div>,
       accessor: 'create_date',
       disableFilters: true,
-      Cell: row => <div>{new Date(row.value).toLocaleString()}</div>,
+      Cell: row => <div>{timeSince(row.value)}</div>,
     },
   ]
   const tableState = { 

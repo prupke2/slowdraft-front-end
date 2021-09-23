@@ -15,6 +15,7 @@ export default function TeamTab({draftingNow, user, teams, setTeams, getLatestDa
       Filter: SelectFilter,
       filter: user.team_name,
       width: '200px',
+      disableSortBy: true,
     },
     {
       Header: 'Player',
