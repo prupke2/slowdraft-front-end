@@ -12,18 +12,18 @@ export default function AddKeeperTab({ userId, setUserId, keeperPlayerId, setKee
 
   function addKeeper(e) {
     e.preventDefault();
-    let requestParams = {
+    const requestParams = {
       method: 'POST',
       headers: { 
         'Accept': 'application/json', 
         'Content-Type': 'application/json'
-      }
-    };
-    requestParams.body = JSON.stringify({ 
-      user_id: userId,
-      player_id: keeperPlayerId,
-      draft_id: userInfo.draft_id
-    })
+      },
+      body: JSON.stringify({ 
+        user_id: userId,
+        player_id: keeperPlayerId,
+        draft_id: userInfo.draft_id
+      })
+    }
     if ( userId && keeperPlayerId ) {    
       fetch('/add_keeper_player', requestParams)
         .then(response => {
@@ -36,45 +36,30 @@ export default function AddKeeperTab({ userId, setUserId, keeperPlayerId, setKee
       .then( data => {
         if (data.success === true) {
           setTimeout(function () {
-            ToastsStore.success(`Keeper added successfully.`)
+            ToastsStore.success('Keeper added successfully.')
           }, 1000)
         } else {
-          ToastsStore.error(`Error adding keeper.`)
+          ToastsStore.error('Error adding keeper.')
         }
       });
     } else {
-      ToastsStore.error(`Please fill out all the fields.`)
+      ToastsStore.error('Please fill out all the fields.')
     }
   }
 
   const handleUserIdChange = event => {
     setUserId(event.target.value)
   };
-
+  
   function handleKeeperText(e) {
     e.preventDefault();
     setText(e.target.value);
-    const players = playerData.players.filter(player => 
-      substringInString(player.name.toUpperCase(), e.target.value.toUpperCase())
-    );
-    const goalies = goalieData.players.filter(goalie =>
-      substringInString(goalie.name.toUpperCase(), e.target.value.toUpperCase())
-    )
-    // if (!players.isEmpty()) {
-    //   setKeeperPlayerId(players[0].player_id)
-    // } else if (!goalies.isEmpty()) {
-    //   setKeeperPlayerId(goalies[0].player_id)
-    // }
-    return
   }
 
   const playerDiv = (player, i) => {
     function handlePlayerSelect() {
-      console.log(`in handlePlayerSelect`);
       setKeeperPlayerId(player.player_id);
       setText(player.name);
-      // console.log(`text: ${text}`);
-      // console.log(`keeperPlayerId: ${keeperPlayerId}`);
     }
     if (text && substringInString(player.name.toUpperCase(), text.toUpperCase())) {
       return (
@@ -124,33 +109,16 @@ export default function AddKeeperTab({ userId, setUserId, keeperPlayerId, setKee
             placeholder="Find player..."
             onChange={handleKeeperText}
           />
+          <button id="clear-field" onClick={e => {
+            e.preventDefault();
+            setText('');
+          }}>x</button>
           <div className="player-list-wrapper">
             {playerData.players.map((player, i) => playerDiv(player, i))}
             {goalieData.players.map((player, i) => playerDiv(player, i))}
           </div>
         </div>
-
-          {/* // { substringInString(player.name, text) && (
-          //   <div value={player.player_id}>{player.name}, {player.team}</div>
-          // )}
-          // <div selected={keeperPlayerId===player.player_id} value={player.player_id}>{player.name}, {player.team}</div> 
-         */}
       </div>
-      {/* <div>
-        <label />
-        <select 
-          disabled 
-          value={keeperPlayerId}
-          className='admin-user-dropdown'
-        >
-          {playerData.players.map(player =>
-            <div selected={keeperPlayerId===player.player_id} value={player.player_id}>{player.name}, {player.team}</div> 
-          )}
-          {goalieData.players.map(player =>
-            <div selected={keeperPlayerId===player.player_id} value={player.player_id}>{player.name}, {player.team}</div> 
-          )}
-        </select>
-      </div> */}
       <button onClick={(e) => addKeeper(e)} className="add-keeper-button">Add keeper</button>
     </form>
   )

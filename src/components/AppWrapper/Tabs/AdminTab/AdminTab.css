@@ -12,6 +12,7 @@ li.react-tabs__tab--selected > div.inner-tab {
 }
 
 .admin-form {
+  height: 500px;
   margin: 10px auto 100px;
 }
 
@@ -37,6 +38,7 @@ li.react-tabs__tab--selected > div.inner-tab {
 }
 
 .player-search {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-self: auto;
@@ -49,14 +51,27 @@ li.react-tabs__tab--selected > div.inner-tab {
   margin: 0;
 }
 
+#clear-field {
+  position: absolute;
+  left: 60%;
+  top: 4px;
+  font-size: 14px;
+  padding: 0 4px;
+  right: 100%;
+}
+
 .player-list-wrapper {
+  position: absolute;
+  max-height: 250px;
+  width: 300px;
+  border-radius: 0 4px 4px 4px;
+  top: 36px;
+  left: -2px;
   background-color: whitesmoke;
   color: black;
   margin: 0 2px 2px;
-  padding: 4px;
-  min-height: 30px;
-  max-height: 400px;
   overflow-y: scroll; 
+  font-size: 1.1rem;
 }
 
 #player-search-input ~ .player-list-wrapper {
@@ -77,6 +92,10 @@ li.react-tabs__tab--selected > div.inner-tab {
 
 .player-search > div {
   text-align: left;
+}
+
+.player-search > div > div {
+  padding: 1px 4px;
 }
 
 .admin-player-id {
