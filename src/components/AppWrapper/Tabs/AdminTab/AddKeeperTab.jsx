@@ -68,7 +68,7 @@ export default function AddKeeperTab({ userInfo }) {
           <option value={391}>St. Thomas Stars</option>
           <option value={431}>Syracuse Crunch!</option>
           <option value={361}>Terrace River Kings</option>
-          <option value={292}>LOCAL TESTING ONLY</option>
+          {/* <option value={292}>LOCAL TESTING ONLY</option> */}
         </select>
       </div>
 
