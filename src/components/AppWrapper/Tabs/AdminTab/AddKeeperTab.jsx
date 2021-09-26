@@ -1,14 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ToastsStore } from 'react-toasts';
-import { substringInString } from '../../../../util/util';
-import { useState } from 'react';
+import SelectPlayerDropdown from './SelectPlayerDropdown';
 
-export default function AddKeeperTab({ userId, setUserId, keeperPlayerId, setKeeperPlayerId }) {
-  const userInfo = JSON.parse(localStorage.getItem('user'));
-  const playerData = JSON.parse(localStorage.getItem('playerDBData'));
-  const goalieData = JSON.parse(localStorage.getItem('goalieDBData'));
-
-  const [text, setText] = useState("");
+export default function AddKeeperTab({ userInfo }) {
+  const [keeperPlayerId, setKeeperPlayerId] = useState(null);
+  const [userId, setUserId] = useState(351);
 
   function addKeeper(e) {
     e.preventDefault();
@@ -51,30 +47,6 @@ export default function AddKeeperTab({ userId, setUserId, keeperPlayerId, setKee
     setUserId(event.target.value)
   };
   
-  function handleKeeperText(e) {
-    e.preventDefault();
-    setText(e.target.value);
-  }
-
-  const playerDiv = (player, i) => {
-    function handlePlayerSelect() {
-      setKeeperPlayerId(player.player_id);
-      setText(player.name);
-    }
-    if (text && substringInString(player.name.toUpperCase(), text.toUpperCase())) {
-      return (
-        <div 
-          key={i}
-          value={player.player_id}
-          onClick={handlePlayerSelect}
-        >
-          {player.name}, {player.position}, {player.team}
-        </div>
-      )
-    }
-    return null;
-  } 
-
   return (
     <form className='admin-form add-keeper-form'>
       <h2>Add a keeper to a team</h2>
@@ -99,27 +71,12 @@ export default function AddKeeperTab({ userId, setUserId, keeperPlayerId, setKee
           <option value={292}>LOCAL TESTING ONLY</option>
         </select>
       </div>
-      <div>
-        <label name='player'>Player:</label>
-        <div className="player-search">
-          <input
-            id="player-search-input"
-            type="text"
-            value={text}
-            placeholder="Find player..."
-            onChange={handleKeeperText}
-          />
-          <button id="clear-field" onClick={e => {
-            e.preventDefault();
-            setText('');
-          }}>x</button>
-          <div className="player-list-wrapper">
-            {playerData.players.map((player, i) => playerDiv(player, i))}
-            {goalieData.players.map((player, i) => playerDiv(player, i))}
-          </div>
-        </div>
-      </div>
-      <button onClick={(e) => addKeeper(e)} className="add-keeper-button">Add keeper</button>
+
+      <SelectPlayerDropdown
+        onClick={addKeeper}
+        setPlayerId={setKeeperPlayerId}
+        buttonName={"Add keeper"}
+      />
     </form>
   )
 }

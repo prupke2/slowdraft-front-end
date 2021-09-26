@@ -45,7 +45,7 @@ li.react-tabs__tab--selected > div.inner-tab {
   width: 300px;
 }
 
-#player-search-input {
+.player-search-input {
   flex-direction: column;
   width: 200px;
   margin: 0;
@@ -55,9 +55,11 @@ li.react-tabs__tab--selected > div.inner-tab {
   position: absolute;
   left: 60%;
   top: 4px;
-  font-size: 14px;
-  padding: 0 4px;
+  font-size: 12px;
+  padding: 0 4px 2px;
   right: 100%;
+  color: darkgrey;
+  background: transparent;
 }
 
 .player-list-wrapper {
@@ -74,11 +76,11 @@ li.react-tabs__tab--selected > div.inner-tab {
   font-size: 1.1rem;
 }
 
-#player-search-input ~ .player-list-wrapper {
+.player-search-input ~ .player-list-wrapper {
   opacity: 0;
 }
 
-#player-search-input:focus ~ .player-list-wrapper {
+.player-search-input:focus ~ .player-list-wrapper {
   opacity: 100;
   display: flex;
   flex-direction: column;
@@ -102,7 +104,7 @@ li.react-tabs__tab--selected > div.inner-tab {
   margin-bottom: 30px;
 }
 
-.add-keeper-button {
+.add-player-button {
   margin-top: 20px;
 }
 
@@ -118,4 +120,12 @@ li.react-tabs__tab--selected > div.inner-tab {
 
 .positions > label {
   margin: 10px;
+}
+
+.instructions {
+  max-width: 500px;
+  margin: -35px auto 15px;
+  background: whitesmoke;
+  border-radius: 8px;
+  color: red;
 }

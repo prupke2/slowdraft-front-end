@@ -3,6 +3,7 @@ import './AdminTab.css';
 import { Tabs, Tab, TabPanel, TabList } from 'react-tabs';
 import AddKeeperTab from './AddKeeperTab';
 import AddPlayerToDBTab from './AddPlayerToDBTab';
+import MakePickTab from './MakePickTab';
 
 export default function AdminTab() {
   // eslint-disable-next-line no-extend-native
@@ -13,8 +14,7 @@ export default function AdminTab() {
   const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState('Anh');
   const [positions, setPositions] = useState([]);
-  const [userId, setUserId] = useState(351);
-  const [keeperPlayerId, setKeeperPlayerId] = useState(null);
+  const userInfo = JSON.parse(localStorage.getItem('user'));
 
   return (
     <Tabs defaultIndex={0} className="navbar-tabs inner-navbar-tabs">
@@ -24,6 +24,9 @@ export default function AdminTab() {
         </Tab>
         <Tab>
           <div className="inner-tab">Add keeper</div>
+        </Tab>
+        <Tab>
+          <div className="inner-tab">Make pick</div>
         </Tab>
       </TabList>
       <TabPanel>
@@ -39,12 +42,14 @@ export default function AdminTab() {
         />      
       </TabPanel>
       <TabPanel>
-        <AddKeeperTab
-          userId={userId} 
-          setUserId={setUserId} 
-          keeperPlayerId={keeperPlayerId} 
-          setKeeperPlayerId={setKeeperPlayerId}
+        <AddKeeperTab 
+          userInfo={userInfo}
         />      
+      </TabPanel>
+      <TabPanel>
+        <MakePickTab
+          userInfo={userInfo}
+        />
       </TabPanel>
     </Tabs>
   );
