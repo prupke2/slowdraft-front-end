@@ -106,12 +106,16 @@ table tr:last-child td {
   padding: 3px 6px;
 }
 
-#prospect-column, #team-dropdown-column {
+#prospect-column, #team-dropdown-column, #show-taken-dropdown {
   background: transparent;
   position: absolute;
   top: 0;
   left: 270px;
   border: none;
+}
+
+#show-taken-dropdown {
+  left: 450px;
 }
 
 .prospect-column-hidden {
@@ -172,9 +176,12 @@ table tr:last-child td {
     min-height: 50px;
     align-items: center;
   }
-  #prospect-column, #team-dropdown-column {
+  #prospect-column, #team-dropdown-column, #show-taken-dropdown {
     top: 12px;
     left: 175px;
+  }
+  #show-taken-dropdown {
+    left: 275px;
   }
   .prospect {
     font-size: 0.6rem;

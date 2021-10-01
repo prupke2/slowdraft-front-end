@@ -188,8 +188,8 @@ export default function Table(
                   <th className="blank-cell" width="30px" />
                 }
                 {headerGroup.headers.map(column => {
-                  return (column.Header === 'Player Type' || column.Header === 'Yahoo Team') ?
-                    <th key={column.accessor} id='prospect-column'>
+                  return (column.Header === 'Player Type' || column.Header === 'Yahoo Team' || column.Header === 'Availability') ?
+                    <th key={column.accessor} id={column.Header === 'Availability' ? 'show-taken-dropdown' : 'prospect-column'}>
                       <span {...column.getHeaderProps(column.getSortByToggleProps())} >
                         {column.render('Header')}
                         {/* <span>
@@ -227,19 +227,9 @@ export default function Table(
             {page.map((row, i) => {
               prepareRow(row)
               return (
-                <tr {...row.getRowProps()} className={`disabled-${row.cells[0].row.original.disabled}`}>
+                <tr key={i} {...row.getRowProps()} className={`disabled-${row.cells[0].row.original.disabled}`}>
                   {row.cells.map(
                     cell => {
-                      // cell.row.original.disabled === 1
-                    // if (cell.column.Header === 'Position') {
-                    //   return (
-                    //     <td className={cell.column.Header}
-                    //     {...cell.getCellProps()}
-                    //     >
-                    //       {cell.render(({ value }) => String(value + ',').substring(0, (String(value).length)))}
-                    //     </td>                    
-                    //   )
-                    // } else 
                     if (cell.column.Header === 'Pick') {
                       return (
                         <>
@@ -384,6 +374,8 @@ export default function Table(
                       return (
                         <td className="prospect-column-hidden" />
                       )
+                    } else if (cell.column.Header === 'Availability') {
+                      return null
                     } else {
                       return (
                         <td className={cell.column.Header}
