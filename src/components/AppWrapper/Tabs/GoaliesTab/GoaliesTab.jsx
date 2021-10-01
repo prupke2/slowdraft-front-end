@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
+import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectTakenPlayerFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
 import { getDBGoalies } from '../../../../util/requests';
@@ -23,6 +23,14 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, 
       accessor: 'prospect',
       Filter: SelectPlayerTypeColumnFilter,
       width: '0px',
+      disableSortBy: true,
+    },
+    {
+      Header: 'Availability',
+      accessor: 'user',
+      id: 'userColumn',
+      Filter: SelectTakenPlayerFilter,
+      width: '0px',     
       disableSortBy: true,
     },
     {
@@ -119,6 +127,12 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, 
         id: '19',
         desc: true
       }
+    ],
+    filters: [
+      {
+          id: 'userColumn',
+          value: 'null',
+      },
     ]
   }
 
