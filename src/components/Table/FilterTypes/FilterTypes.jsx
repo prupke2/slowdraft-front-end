@@ -172,6 +172,21 @@ export function SelectPlayerTypeColumnFilter({
   )
 }
 
+export function SelectTakenPlayerFilter({
+  column: { filterValue, setFilter },
+}) {
+  return (
+    <select
+      value={filterValue}
+      onChange={e => {
+        setFilter(e.target.value || undefined)
+      }}
+    >
+      <option value="null">All available players</option>
+      <option value="">All players</option>
+    </select>
+  )
+}
 
 export function SelectPositionColumnFilter({
   column: { filterValue, setFilter, preFilteredRows, id },
