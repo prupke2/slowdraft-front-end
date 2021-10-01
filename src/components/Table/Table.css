@@ -70,8 +70,16 @@ table tr:last-child td {
   justify-content: center;
 }
 
-.disabled-1 {
+.disabled-pick {
   background-color: #de7d7d !important;
+}
+
+.taken-player {
+  background-color:darkgrey !important;
+}
+
+.small-username {
+  font-size: 0.7rem;
 }
 
 .playerNameAndHeadshot {
