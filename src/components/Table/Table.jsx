@@ -226,8 +226,10 @@ export default function Table(
           <tbody {...getTableBodyProps()}>
             {page.map((row, i) => {
               prepareRow(row)
+              const pickDisabled = row.cells[0].row.original.disabled === 1 ? 'disabled-pick' : null;
+              const takenPlayer = tableType === 'draft' && row.cells[0].row.original.user !== null ? 'taken-player' : null;
               return (
-                <tr key={i} {...row.getRowProps()} className={`disabled-${row.cells[0].row.original.disabled}`}>
+                <tr key={i} {...row.getRowProps()} className={`${pickDisabled} ${takenPlayer}`}>
                   {row.cells.map(
                     cell => {
                     if (cell.column.Header === 'Pick') {
@@ -292,6 +294,15 @@ export default function Table(
                         {
                           (tableType === 'draft' && draftingNow) &&
                           <td className="draft-button-cell">
+                            { takenPlayer &&
+                             <div>
+                              <UsernameStyled
+                                username={cell.row.original.user}
+                                color={cell.row.original.ownerColor}
+                              />
+                             </div>
+                            }
+                            { !takenPlayer &&
                             <div>
                               <button onClick={() => draftModal(cell.row.original)}>Draft</button>
                               <ModalWrapper 
@@ -310,6 +321,7 @@ export default function Table(
                                 setTeams={setTeams}
                               />
                             </div>
+                            }
                           </td>
                         } 
                         <td className="player-name"
@@ -318,25 +330,32 @@ export default function Table(
                           {cell.row.original.player_id && 
                           <div className='playerNameAndHeadshot'>
                             <img className='headshot' src={cell.row.original.headshot} alt='' />
-                            <a 
-                              href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {cell.row.original.prospect === "1" && 
-                                <span>
-                                  <span className='prospect' title='Prospect'>P</span>
-                                  &nbsp;
-                                </span>
+                            <span>
+                              <a
+                                href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {cell.row.original.prospect === "1" && 
+                                  <span>
+                                    <span className='prospect' title='Prospect'>P</span>
+                                    &nbsp;
+                                  </span>
+                                }
+                                {cell.row.original.is_keeper === 1 && 
+                                  <span>
+                                    <span className='keeper' title='Keeper'>K</span>
+                                    &nbsp;
+                                  </span>
+                                }
+                                {cell.render('Cell')}
+                              </a>
+                              { (takenPlayer && !draftingNow) &&
+                                <div className="small-username">
+                                  &nbsp;{cell.row.original.user}
+                                </div>
                               }
-                              {cell.row.original.is_keeper === 1 && 
-                                <span>
-                                  <span className='keeper' title='Keeper'>K</span>
-                                  &nbsp;
-                                </span>
-                              }
-                              {cell.render('Cell')}
-                            </a>
+                            </span>
                           </div>
                           }
                           { !cell.row.original.player_id && 
