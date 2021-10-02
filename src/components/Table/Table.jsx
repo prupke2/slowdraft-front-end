@@ -188,8 +188,8 @@ export default function Table(
                   <th className="blank-cell" width="30px" />
                 }
                 {headerGroup.headers.map(column => {
-                  return (column.Header === 'Player Type' || column.Header === 'Yahoo Team') ?
-                    <th key={column.accessor} id='prospect-column'>
+                  return (column.Header === 'Player Type' || column.Header === 'Yahoo Team' || column.Header === 'Availability') ?
+                    <th key={column.accessor} id={column.Header === 'Availability' ? 'show-taken-dropdown' : 'prospect-column'}>
                       <span {...column.getHeaderProps(column.getSortByToggleProps())} >
                         {column.render('Header')}
                         {/* <span>
@@ -226,20 +226,12 @@ export default function Table(
           <tbody {...getTableBodyProps()}>
             {page.map((row, i) => {
               prepareRow(row)
+              const pickDisabled = row.cells[0].row.original.disabled === 1 ? 'disabled-pick' : null;
+              const takenPlayer = tableType === 'draft' && row.cells[0].row.original.user !== null ? 'taken-player' : null;
               return (
-                <tr {...row.getRowProps()} className={`disabled-${row.cells[0].row.original.disabled}`}>
+                <tr key={i} {...row.getRowProps()} className={`${pickDisabled} ${takenPlayer}`}>
                   {row.cells.map(
                     cell => {
-                      // cell.row.original.disabled === 1
-                    // if (cell.column.Header === 'Position') {
-                    //   return (
-                    //     <td className={cell.column.Header}
-                    //     {...cell.getCellProps()}
-                    //     >
-                    //       {cell.render(({ value }) => String(value + ',').substring(0, (String(value).length)))}
-                    //     </td>                    
-                    //   )
-                    // } else 
                     if (cell.column.Header === 'Pick') {
                       return (
                         <>
@@ -302,6 +294,15 @@ export default function Table(
                         {
                           (tableType === 'draft' && draftingNow) &&
                           <td className="draft-button-cell">
+                            { takenPlayer &&
+                             <div>
+                              <UsernameStyled
+                                username={cell.row.original.user}
+                                color={cell.row.original.ownerColor}
+                              />
+                             </div>
+                            }
+                            { !takenPlayer &&
                             <div>
                               <button onClick={() => draftModal(cell.row.original)}>Draft</button>
                               <ModalWrapper 
@@ -320,6 +321,7 @@ export default function Table(
                                 setTeams={setTeams}
                               />
                             </div>
+                            }
                           </td>
                         } 
                         <td className="player-name"
@@ -328,25 +330,32 @@ export default function Table(
                           {cell.row.original.player_id && 
                           <div className='playerNameAndHeadshot'>
                             <img className='headshot' src={cell.row.original.headshot} alt='' />
-                            <a 
-                              href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {cell.row.original.prospect === "1" && 
-                                <span>
-                                  <span className='prospect' title='Prospect'>P</span>
-                                  &nbsp;
-                                </span>
+                            <span>
+                              <a
+                                href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {cell.row.original.prospect === "1" && 
+                                  <span>
+                                    <span className='prospect' title='Prospect'>P</span>
+                                    &nbsp;
+                                  </span>
+                                }
+                                {cell.row.original.is_keeper === 1 && 
+                                  <span>
+                                    <span className='keeper' title='Keeper'>K</span>
+                                    &nbsp;
+                                  </span>
+                                }
+                                {cell.render('Cell')}
+                              </a>
+                              { (takenPlayer && !draftingNow) &&
+                                <div className="small-username">
+                                  &nbsp;{cell.row.original.user}
+                                </div>
                               }
-                              {cell.row.original.is_keeper === 1 && 
-                                <span>
-                                  <span className='keeper' title='Keeper'>K</span>
-                                  &nbsp;
-                                </span>
-                              }
-                              {cell.render('Cell')}
-                            </a>
+                            </span>
                           </div>
                           }
                           { !cell.row.original.player_id && 
@@ -384,6 +393,8 @@ export default function Table(
                       return (
                         <td className="prospect-column-hidden" />
                       )
+                    } else if (cell.column.Header === 'Availability') {
+                      return null
                     } else {
                       return (
                         <td className={cell.column.Header}

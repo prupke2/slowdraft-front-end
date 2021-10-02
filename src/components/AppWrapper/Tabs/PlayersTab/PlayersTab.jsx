@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectPositionColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
+import { SearchColumnFilter, SelectPlayerTypeColumnFilter, SelectTakenPlayerFilter, SelectPositionColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
 import { getDBPlayers } from '../../../../util/requests';
 import Loading from '../../../Loading/Loading';
@@ -23,6 +23,14 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
       accessor: 'prospect',
       Filter: SelectPlayerTypeColumnFilter,
       width: '0px',
+      disableSortBy: true,
+    },
+    {
+      Header: 'Availability',
+      accessor: 'user',
+      id: 'userColumn',
+      Filter: SelectTakenPlayerFilter,
+      width: '0px',     
       disableSortBy: true,
     },
     {
@@ -149,7 +157,13 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
         id: '3',
         desc: true
       }
-    ]
+    ],
+    filters: [
+      {
+          id: 'userColumn',
+          value: 'null',
+      },
+  ],
   }
 
   useEffect(() => {
