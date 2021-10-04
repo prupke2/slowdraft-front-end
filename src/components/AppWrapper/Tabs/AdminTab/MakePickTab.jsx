@@ -35,7 +35,10 @@ export default function MakePickTab({ userInfo, sendChatAnnouncement }) {
     <form className='admin-form add-keeper-form'>
       <h2>Make a pick for another team</h2>
       <p className='instructions'>
-        <span role='img' aria-label='instructions'>⚠️</span> This will draft a player for another team.<br />
+        <div className='warning'>
+          <span role='img' aria-label='instructions'>⚠️</span>
+          This will draft a player for another team.
+        </div>
         It will also send out the "Next Pick" email.
       </p>
       <div>

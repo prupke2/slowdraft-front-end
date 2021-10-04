@@ -50,6 +50,12 @@ export default function AddKeeperTab({ userInfo }) {
   return (
     <form className='admin-form add-keeper-form'>
       <h2>Add a keeper to a team</h2>
+      <p className='instructions'>
+        <div className='warning'>
+          <span role='img' aria-label='instructions'>⚠️</span>
+          This will add the selected keeper for the selected team.
+        </div>
+      </p>
       <div>
         <label name='admin-user-dropdown'>Team:</label>
         <select 
