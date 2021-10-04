@@ -118,12 +118,12 @@ table tr:last-child td {
   background: transparent;
   position: absolute;
   top: 0;
-  left: 70px;
+  left: 270px;
   border: none;
 }
 
 #show-taken-dropdown {
-  left: 350px;
+  left: 450px;
 }
 
 .prospect-column-hidden {
