@@ -4,6 +4,7 @@ import { Tabs, Tab, TabPanel, TabList } from 'react-tabs';
 import AddKeeperTab from './AddKeeperTab';
 import AddPlayerToDBTab from './AddPlayerToDBTab';
 import MakePickTab from './MakePickTab';
+import AddDraftPickTab from './AddDraftPickTab';
 
 export default function AdminTab() {
   // eslint-disable-next-line no-extend-native
@@ -28,6 +29,9 @@ export default function AdminTab() {
         <Tab>
           <div className="inner-tab">Make pick</div>
         </Tab>
+        <Tab>
+          <div className="inner-tab">Add draft pick</div>
+        </Tab>
       </TabList>
       <TabPanel>
         <AddPlayerToDBTab
@@ -48,6 +52,11 @@ export default function AdminTab() {
       </TabPanel>
       <TabPanel>
         <MakePickTab
+          userInfo={userInfo}
+        />
+      </TabPanel>
+      <TabPanel>
+        <AddDraftPickTab
           userInfo={userInfo}
         />
       </TabPanel>
