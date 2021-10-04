@@ -99,7 +99,7 @@ export function SelectTeamFilter({
       <option value="Cgy">Calgary</option>
       <option value="Car">Carolina</option>
       <option value="Chi">Chicago</option>
-      <option value="Col">Cololardo</option>
+      <option value="Col">Colorado</option>
       <option value="Cls">Columbus</option>
       <option value="Dal">Dallas</option>
       <option value="Det">Detroit</option>

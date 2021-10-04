@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { ToastsStore } from 'react-toasts';
-import SelectPlayerDropdown from './SelectPlayerDropdown';
+// import SelectPlayerDropdown from './SelectPlayerDropdown';
 
-export default function AddKeeperTab({ userInfo }) {
-  const [keeperPlayerId, setKeeperPlayerId] = useState(null);
+export default function AddDraftPickTab({ userInfo }) {
   const [userId, setUserId] = useState(351);
 
-  function addKeeper(e) {
+  function addNewPick(e) {
     e.preventDefault();
     const requestParams = {
       method: 'POST',
@@ -16,12 +15,12 @@ export default function AddKeeperTab({ userInfo }) {
       },
       body: JSON.stringify({ 
         user_id: userId,
-        player_id: keeperPlayerId,
+        league_id: userInfo.league_id,
         draft_id: userInfo.draft_id
       })
     }
-    if ( userId && keeperPlayerId ) {    
-      fetch('/add_keeper_player', requestParams)
+    if ( userId ) {    
+      fetch('/add_new_pick', requestParams)
         .then(response => {
         if (!response.ok) {
           const error = response.status;
@@ -32,10 +31,10 @@ export default function AddKeeperTab({ userInfo }) {
       .then( data => {
         if (data.success === true) {
           setTimeout(function () {
-            ToastsStore.success('Keeper added successfully.')
+            ToastsStore.success('Pick added successfully.')
           }, 1000)
         } else {
-          ToastsStore.error('Error adding keeper.')
+          ToastsStore.error('Error adding pick.')
         }
       });
     } else {
@@ -49,12 +48,9 @@ export default function AddKeeperTab({ userInfo }) {
   
   return (
     <form className='admin-form add-keeper-form'>
-      <h2>Add a keeper to a team</h2>
+      <h2>Add draft pick</h2>
       <p className='instructions'>
-        <div className='warning'>
-          <span role='img' aria-label='instructions'>⚠️</span>
-          This will add the selected keeper for the selected team.
-        </div>
+        <span role='img' aria-label='instructions'>⚠️</span> This will add a pick at the end of the draft for the specified team.
       </p>
       <div>
         <label name='admin-user-dropdown'>Team:</label>
@@ -77,12 +73,12 @@ export default function AddKeeperTab({ userInfo }) {
           {/* <option value={292}>LOCAL TESTING ONLY</option> */}
         </select>
       </div>
-
-      <SelectPlayerDropdown
-        onClick={addKeeper}
-        setPlayerId={setKeeperPlayerId}
-        buttonName={"Add keeper"}
-      />
+      <br />
+      <button
+        onClick={addNewPick}
+      >
+        Add draft pick
+      </button>
     </form>
   )
 }

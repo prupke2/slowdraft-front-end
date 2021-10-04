@@ -66,7 +66,17 @@ export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId,
 
   return (
     <form className='admin-form'>
-      <h2>Add a player to the database</h2>
+      <h2>Add player to the database</h2>
+      <p className='instructions'>
+        <div>
+          <span role='img' aria-label='instructions'>⚠️</span>
+          This will add a player to the database. 
+        </div>
+        <div className='warning'>
+          Before proceeding, make sure this player has a yahoo profile.
+        </div>
+        To make sure the player is not already in the database, search with the "All players" filter.
+      </p>
       <div>
         <label name='name'>Player name:</label>
         <input required type='text' name='name' label='name' onChange={handleNameChange} />
@@ -90,7 +100,7 @@ export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId,
           <option value="Cgy">Calgary</option>
           <option value="Car">Carolina</option>
           <option value="Chi">Chicago</option>
-          <option value="Col">Cololardo</option>
+          <option value="Col">Colorado</option>
           <option value="Cls">Columbus</option>
           <option value="Dal">Dallas</option>
           <option value="Det">Detroit</option>

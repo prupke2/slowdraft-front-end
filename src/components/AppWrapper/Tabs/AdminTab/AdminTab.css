@@ -127,5 +127,9 @@ li.react-tabs__tab--selected > div.inner-tab {
   margin: -35px auto 15px;
   background: whitesmoke;
   border-radius: 8px;
+  color: black;
+}
+
+.warning {
   color: red;
 }
