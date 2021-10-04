@@ -118,12 +118,12 @@ table tr:last-child td {
   background: transparent;
   position: absolute;
   top: 0;
-  left: 270px;
+  left: 70px;
   border: none;
 }
 
 #show-taken-dropdown {
-  left: 450px;
+  left: 350px;
 }
 
 .prospect-column-hidden {
@@ -186,10 +186,10 @@ table tr:last-child td {
   }
   #prospect-column, #team-dropdown-column, #show-taken-dropdown {
     top: 12px;
-    left: 175px;
+    left: 90px;
   }
   #show-taken-dropdown {
-    left: 275px;
+    left: 210px;
   }
   .prospect {
     font-size: 0.6rem;

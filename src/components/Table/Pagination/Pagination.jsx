@@ -41,7 +41,7 @@ export default function Pagination(
 
       <li className="pagination-arrows">
         <div className="page-item" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            <span className="page-link">First</span>
+            <span className="page-link page-first">First</span>
         </div>
         <div className="page-item" onClick={() => previousPage()} disabled={!canPreviousPage}>
             <span className="page-link">{'<'}</span>
@@ -50,7 +50,7 @@ export default function Pagination(
             <span className="page-link">{'>'}</span>
         </div>
         <div className="page-item" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-            <span className="page-link">Last</span>
+            <span className="page-link page-last">Last</span>
         </div>
       </li>
     </ul>
