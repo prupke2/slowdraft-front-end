@@ -17,8 +17,10 @@ table {
   vertical-align: top;
   font-size: 1.1rem;
   padding: 4px;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
+  bottom: 0;
   background-color: skyblue;
 }
 
@@ -122,6 +124,28 @@ table tr:last-child td {
   border: none;
 }
 
+.player-count {
+  display: flex;
+  align-items: left;
+  width: 200px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+}
+
+.player-count > div:first-child {
+  border-right: 1px dotted black;
+}
+
+.player-count > div > span {
+  padding: 1px 6px;
+  border: 1px solid white;
+  border-radius: 4px;
+  background: black;
+  color: white;
+}
+
 #show-taken-dropdown {
   left: 450px;
 }
@@ -187,6 +211,11 @@ table tr:last-child td {
   #prospect-column, #team-dropdown-column, #show-taken-dropdown {
     top: 12px;
     left: 90px;
+  }
+  .player-count {
+    margin-left: 220px;
+    width: 140px;
+    font-size: 0.8rem;
   }
   #show-taken-dropdown {
     left: 210px;

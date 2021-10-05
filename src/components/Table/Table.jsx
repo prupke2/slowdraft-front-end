@@ -168,9 +168,14 @@ export default function Table(
         />
       }
       { tableType === 'teams' && 
-        <>
-          <br /><br />
-        </>
+        <p className="player-count">
+          <div>
+            Total: <span>{page.length}</span>
+          </div>
+          <div>
+            Remaining: <span>{24 - page.length}</span> 
+          </div>
+        </p>
       }
 
       { loading && <Loading text="Loading..." />}
