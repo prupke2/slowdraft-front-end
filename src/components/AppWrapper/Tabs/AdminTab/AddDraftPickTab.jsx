@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ToastsStore } from 'react-toasts';
+import { localEnvironment } from '../../../../util/util';
 // import SelectPlayerDropdown from './SelectPlayerDropdown';
 
 export default function AddDraftPickTab({ userInfo }) {
@@ -70,7 +71,9 @@ export default function AddDraftPickTab({ userInfo }) {
           <option value={391}>St. Thomas Stars</option>
           <option value={431}>Syracuse Crunch!</option>
           <option value={361}>Terrace River Kings</option>
-          {/* <option value={292}>LOCAL TESTING ONLY</option> */}
+          { localEnvironment &&
+            <option value={292}>LOCAL TESTING ONLY</option>
+          }
         </select>
       </div>
       <br />

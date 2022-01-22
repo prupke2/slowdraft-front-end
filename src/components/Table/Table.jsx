@@ -8,6 +8,7 @@ import Loading from "../Loading/Loading";
 import { ToastsStore } from "react-toasts";
 import UsernameStyled from "../AppWrapper/UsernameStyled/UsernameStyled";
 import { getDraft } from "../../util/requests";
+import { localEnvironment } from "../../util/util";
 
 export default function Table(
     { columns, data, defaultColumnFilter, tableState, tableType, loading, draftingNow, setTeams,
@@ -234,7 +235,7 @@ export default function Table(
               const pickDisabled = row.cells[0].row.original.disabled === 1 ? 'disabled-pick' : null;
               const takenPlayer = tableType === 'draft' && row.cells[0].row.original.user !== null ? 'taken-player' : null;
               return (
-                <tr key={i} {...row.getRowProps()} className={`${pickDisabled} ${takenPlayer}`}>
+                <tr key={row.id} {...row.getRowProps()} className={`${pickDisabled} ${takenPlayer}`}>
                   {row.cells.map(
                     cell => {
                     if (cell.column.Header === 'Pick') {
@@ -262,7 +263,9 @@ export default function Table(
                               <option value={391}>St. Thomas Stars</option>
                               <option value={431}>Syracuse Crunch!</option>
                               <option value={361}>Terrace River Kings</option>
-                              {/* <option value={292}>LOCAL TESTING ONLY</option> */}
+                              { localEnvironment &&
+                                <option value={292}>LOCAL TESTING ONLY</option>
+                              }
                               {cell.row.original.disabled === 0 && 
                                 <option value={0}>DISABLE PICK</option>
                               } 

@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import { ToastsStore } from 'react-toasts';
 import SelectPlayerDropdown from './SelectPlayerDropdown';
+import { localEnvironment } from '../../../../util/util';
 
 
 export default function MakePickTab({ userInfo, sendChatAnnouncement }) {
@@ -59,7 +60,9 @@ export default function MakePickTab({ userInfo, sendChatAnnouncement }) {
           <option value={391}>St. Thomas Stars</option>
           <option value={431}>Syracuse Crunch!</option>
           <option value={361}>Terrace River Kings</option>
-          {/* <option value={292}>LOCAL TESTING ONLY</option> */}
+          { localEnvironment &&
+            <option value={292}>LOCAL TESTING ONLY</option>
+          }
         </select>
       </div>
       <SelectPlayerDropdown
