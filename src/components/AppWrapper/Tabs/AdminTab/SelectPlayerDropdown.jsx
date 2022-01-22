@@ -12,7 +12,7 @@ export default function SelectPlayerDropdown({ onClick, setPlayerId, buttonName 
     setText(e.target.value);
   }
 
-  const playerDiv = (player, i) => {
+  const playerDiv = (player) => {
     function handlePlayerSelect() {
       setPlayerId(player.player_id);
       setText(player.name);
@@ -20,7 +20,7 @@ export default function SelectPlayerDropdown({ onClick, setPlayerId, buttonName 
     if (text && substringInString(player.name.toUpperCase(), text.toUpperCase())) {
       return (
         <div 
-          key={i}
+          key={player.player_id}
           value={player.player_id}
           onClick={handlePlayerSelect}
         >
