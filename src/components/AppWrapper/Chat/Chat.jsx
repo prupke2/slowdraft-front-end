@@ -142,27 +142,35 @@ export default function Chat({
   const uniqueUserList = userList.filter((e, i) => userList.indexOf(e) === i);
 
   return (
-    <ErrorBoundary>
-      { (pub !== '' && sub !== '') && (
-        <aside id="chatbox">
-          {/* <h3 id="chat-title">League Chat</h3> */}
-          <div id="user-list">Online: <span>{uniqueUserList.join(", ")}</span> </div>
-          <MessageLog
-            messages={messages}
-          />
-          <input
-            placeholder='Enter a message...'
-            id='messageInput'
-            value={tempMessage.value}
-            onChange={tempMessage.onChange}
-            onKeyDown={handleKeyDown}
-          />
-        </aside>
-        )
-      }
-      { (!pub || !sub) &&
-        <div>Error loading chat.</div>
-      }
-    </ErrorBoundary>
+    <iframe 
+      id="chatbox"
+      src="" 
+      // height="600" width="800" 
+      frameborder="0"
+    />
+    // <ErrorBoundary>
+
+    //   { (pub !== '' && sub !== '') && (
+    //     <aside id="chatbox">
+    //       {/* <h3 id="chat-title">League Chat</h3> */}
+    //       <div id="user-list">Online: <span>{uniqueUserList.join(", ")}</span> </div>
+    //       <MessageLog
+    //         messages={messages}
+    //       />
+    //       <input
+    //         placeholder='Enter a message...'
+    //         id='messageInput'
+    //         value={tempMessage.value}
+    //         onChange={tempMessage.onChange}
+    //         onKeyDown={handleKeyDown}
+    //       />
+    //     </aside>
+    //     )
+    //   }
+    //   { (!pub || !sub) &&
+    //     <div>Error loading chat.</div>
+    //   }
+      
+    // </ErrorBoundary>
   )
 }
