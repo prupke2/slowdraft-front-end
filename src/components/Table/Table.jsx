@@ -157,6 +157,7 @@ export default function Table(
     <div>
       { tableType !== 'forum' && tableType !== 'teams' && 
         <Pagination 
+          currentRound={currentPick ? currentPick.round - 1 : null}
           tableType={tableType}
           gotoPage={gotoPage}
           previousPage={previousPage}
@@ -422,6 +423,7 @@ export default function Table(
       }
       { tableType !== 'teams' && 
       <Pagination 
+        currentRound={currentPick ? currentPick.round - 1 : null}
         tableType={tableType}
         gotoPage={gotoPage}
         previousPage={previousPage}
