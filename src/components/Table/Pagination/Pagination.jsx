@@ -4,7 +4,7 @@ import './Pagination.css';
 export default function Pagination(
     { 
       tableType, gotoPage, canPreviousPage, previousPage, nextPage,
-      canNextPage, pageCount, pageIndex, pageOptions
+      canNextPage, pageCount, pageIndex, pageOptions, currentRound
     }) {
   
   const pageOrRound = tableType === 'draftPicks' ? 'Round' : 'Page';
@@ -16,6 +16,28 @@ export default function Pagination(
           {JSON.stringify({ pageIndex, pageCount, canNextPage, canPreviousPage}, null, 2)}
         </code>
       </pre> */}
+      <li className="pagination-arrows">
+        <div className="page-item" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            <span className="page-link page-first">First</span>
+        </div>
+        <div className="page-item" onClick={() => previousPage()} disabled={!canPreviousPage}>
+            <span className="page-link">{'<'}</span>
+        </div>
+        { currentRound &&
+          <div className="page-item" onClick={() => gotoPage(currentRound)} disabled={!canPreviousPage}>
+            <span className="page-link">
+              {/* <Emoji emoji='➡️ ' /> */}
+              <span className='current-round-button'>current round</span>
+            </span>
+          </div>
+        }
+        <div className="page-item" onClick={() => nextPage()} disabled={!canNextPage}>
+            <span className="page-link">{'>'}</span>
+        </div>
+        <div className="page-item" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+            <span className="page-link page-last">Last</span>
+        </div>
+      </li>
       <li className="pagination-goto-page">
         <span className="page-link">
           {pageOrRound}
@@ -25,7 +47,7 @@ export default function Pagination(
             </strong>{' '}
           </div>
         </span>
-        <span className="page-link">
+        {/* <span className="page-link">
           <div>Go&nbsp;to:</div>
           <input
             type="number"
@@ -36,22 +58,7 @@ export default function Pagination(
             }}
             style={{ width: '40px', height: '22px' }}
           />
-        </span>
-      </li>
-
-      <li className="pagination-arrows">
-        <div className="page-item" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            <span className="page-link page-first">First</span>
-        </div>
-        <div className="page-item" onClick={() => previousPage()} disabled={!canPreviousPage}>
-            <span className="page-link">{'<'}</span>
-        </div>
-        <div className="page-item" onClick={() => nextPage()} disabled={!canNextPage}>
-            <span className="page-link">{'>'}</span>
-        </div>
-        <div className="page-item" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-            <span className="page-link page-last">Last</span>
-        </div>
+        </span> */}
       </li>
     </ul>
   );
