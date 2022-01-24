@@ -28,9 +28,9 @@ class ErrorBoundary extends React.Component {
         <>
           <Errors 
             error={this.state.error}
-            errorInfo={this.state.error}
+            errorInfo={this.state.error ? this.state.error : "Error connecting to server"}
           />
-          {this.state.error.toString()}
+          {/* {this.state.error.toString()} */}
         </>
       );
     }
