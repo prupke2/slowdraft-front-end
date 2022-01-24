@@ -9,6 +9,7 @@ import DraftTab from '../Tabs/DraftTab/DraftTab';
 import RulesTab from '../Tabs/RulesTab/RulesTab';
 import AdminTab from '../Tabs/AdminTab/AdminTab';
 import PickTrackerTab from '../Tabs/PickTrackerTab/PickTrackerTab';
+import Emoji from '../Emoji';
 
 export default function Navbar({
   currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
@@ -20,15 +21,15 @@ export default function Navbar({
     <>
       <Tabs defaultIndex={0} className="navbar-tabs">
         <TabList>
-          <Tab><span role='img' aria-label='draft'>⚔️</span><div>Draft</div></Tab>
-          <Tab><span role='img' aria-label='skater'>⛸</span><div>Skaters</div></Tab>
-          <Tab><span role='img' aria-label='goalie'>🥅</span><div>Goalies</div></Tab>
-          <Tab><span role='img' aria-label='teams'>🏒</span><div>Teams</div></Tab>
-          <Tab><span role='img' aria-label='forum'>💬</span><div>Forum</div></Tab>
-          <Tab><span role='img' aria-label='rules'>📖</span><div>Rules</div></Tab>
-          <Tab><span role='img' aria-label='picks'>⛏️</span><div>Pick Tracker</div></Tab>
+          <Tab><Emoji emoji='⚔️'  /><div>Draft</div></Tab>
+          <Tab><Emoji emoji='⛸' /><div>Skaters</div></Tab>
+          <Tab><Emoji emoji='🥅' /><div>Goalies</div></Tab>
+          <Tab><Emoji emoji='🏒' /><div>Teams</div></Tab>
+          <Tab><Emoji emoji='💬' /><div>Forum</div></Tab>
+          <Tab><Emoji emoji='📖' /><div>Rules</div></Tab>
+          <Tab><Emoji emoji='⛏️' /><div>Pick Tracker</div></Tab>
           { user.role === 'admin' && (
-            <Tab><span role='img' aria-label='admin'>✨</span><div>Admin</div></Tab>
+            <Tab><Emoji emoji='✨' /><div>Admin</div></Tab>
           )}
         </TabList>
         <TabPanel>
