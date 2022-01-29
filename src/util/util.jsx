@@ -2,6 +2,12 @@
 export const user = JSON.parse(localStorage.getItem('user'));
 export const teams = JSON.parse(localStorage.getItem('teams'));
 export const webToken = localStorage.getItem('web_token');
+export const teamIdToKey = (teamId) => {
+  const targetTeam = teams.find(team => (
+    team.team_id === teamId.toString()
+  ));
+  return targetTeam ? targetTeam.team_key : null;
+};
 
 export const getHeaders = () => (
   {
