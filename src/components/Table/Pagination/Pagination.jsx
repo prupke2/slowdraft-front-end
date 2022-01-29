@@ -31,10 +31,10 @@ export default function Pagination(
             </span>
           </div>
         }
-        <div className="page-item" onClick={() => nextPage()} disabled={!canNextPage}>
+        <div className="page-item" onClick={() => canNextPage && nextPage()}>
             <span className="page-link">{'>'}</span>
         </div>
-        <div className="page-item" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+        <div className="page-item" onClick={() => canNextPage && gotoPage(pageCount - 1)}>
             <span className="page-link page-last">Last</span>
         </div>
       </li>
