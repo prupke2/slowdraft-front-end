@@ -8,16 +8,18 @@ import Loading from "../Loading/Loading";
 import { ToastsStore } from "react-toasts";
 import UsernameStyled from "../AppWrapper/UsernameStyled/UsernameStyled";
 import { getDraft } from "../../util/requests";
-import { localEnvironment } from "../../util/util";
+import { getHeaders, teams, teamIdToKey } from "../../util/util";
+import { teams as teamInfo } from "../../util/util";
 
 export default function Table(
-    { columns, data, defaultColumnFilter, tableState, tableType, loading, draftingNow, setTeams,
-      sendChatAnnouncement, currentPick, setPicks, setCurrentPick, setDraftingNow, user, setPlayers, setGoalies
+    { columns, data, user, defaultColumnFilter, tableState, tableType, loading, draftingNow, setTeams,
+      sendChatAnnouncement, currentPick, setPicks, setCurrentPick, setDraftingNow, setPlayers, setGoalies
     }
   ) {
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
   const [forumPostId, setForumPostId] = useState("");
+  const logoId = user.team_id - 1; 
 
   function draftModal(player) {
     setModalOpen(true);
@@ -30,18 +32,13 @@ export default function Table(
   }
 
   function updatePick(event, overall_pick) {
-    let requestParams = {
+    const requestParams = {
       method: 'POST',
-      headers: { 
-        'Accept': 'application/json', 
-        'Content-Type': 'application/json'
-      }
+      headers: getHeaders()
     };
     if (event.target.value === '0') {
       requestParams.body = JSON.stringify({ 
-        overall_pick: overall_pick,
-        league_id: user.league_id,
-        draft_id: user.draft_id
+        overall_pick: overall_pick
       })
       fetch('/update_pick_enablement', requestParams)
         .then(response => {
@@ -54,10 +51,10 @@ export default function Table(
       .then( data => {
         if (data.success === true) {
           sendChatAnnouncement(`The ${user.team_name} have updated pick ${overall_pick}.`);
-          getDraft(user, setPicks, setCurrentPick, setDraftingNow)
+          getDraft(setPicks, setCurrentPick, setDraftingNow)
           setTimeout(function () {
             ToastsStore.success(`Pick ${overall_pick} ${data.status}.`)
-          }, 1000)
+          }, 200)
         } else {
           ToastsStore.error(`Error updating pick ${overall_pick}.`)
         }
@@ -65,10 +62,8 @@ export default function Table(
 
     } else {
       requestParams.body = JSON.stringify({ 
-        user_id: event.target.value,
         overall_pick: overall_pick,
-        league_id: user.league_id,
-        draft_id: user.draft_id
+        team_key: teamIdToKey(event.target.value)
       })
       fetch('/update_pick', requestParams)
       .then(response => {
@@ -81,10 +76,10 @@ export default function Table(
       .then( data => {
         if (data.success === true) {
           sendChatAnnouncement(`The ${user.team_name} have updated pick ${overall_pick}.`);
-          getDraft(user, setPicks, setCurrentPick, setDraftingNow)
+          getDraft(setPicks, setCurrentPick, setDraftingNow)
           setTimeout(function () {
             ToastsStore.success(`Pick ${overall_pick} updated.`)
-          }, 1000)
+          }, 200)
         } else {
           ToastsStore.error(`Error updating pick ${overall_pick}.`)
         }
@@ -117,7 +112,7 @@ export default function Table(
   }
 
   if (tableType === 'draftPicks') {
-    tableState = {...tableState, pageIndex: currentPick.round - 1, pageSize: 12}
+    tableState = {...tableState, pageIndex: currentPick ? currentPick.round - 1 : 0, pageSize: 12}
   } else {
     tableState = {...tableState, pageIndex: 0, pageSize: 25}
   }
@@ -154,7 +149,7 @@ export default function Table(
   )
 
   return (
-    <div>
+    <div className='team-tab-wrapper'>
       { tableType !== 'forum' && tableType !== 'teams' && 
         <Pagination 
           currentRound={currentPick ? currentPick.round - 1 : null}
@@ -170,22 +165,31 @@ export default function Table(
         />
       }
       { tableType === 'teams' && 
-        <p className="player-count">
-          <div>
-            Total: <span>{page.length}</span>
+        <div className='team-header-wrapper'>
+          <div className="player-count">
+            <div>
+              Total: <span>{page.length}</span>
+            </div>
+            <div>
+              Remaining: <span>{24 - page.length}</span> 
+            </div>
           </div>
-          <div>
-            Remaining: <span>{24 - page.length}</span> 
+          <div className='logo-container'>
+            <img 
+              src={teamInfo[logoId].team_logo || null} 
+              alt=''
+              className='team-logo'
+            />
           </div>
-        </p>
+        </div>
       }
 
       { loading && <Loading text="Loading..." />}
       { !loading &&
         <table className="table" {...getTableProps()}>
           <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroups.map((headerGroup, i) => (
+              <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                 {/* Add an extra column for the draft button */}
                 { (tableType === 'draft' && draftingNow) &&
                   <th width="30px"></th>
@@ -248,25 +252,17 @@ export default function Table(
                           { (user.role === 'admin' && cell.row.original.draft_pick_timestamp === null) &&
                           <td className="admin-column" width='50px'>
                             <select 
-                              value={cell.row.original.user_id} 
+                              defaultValue={cell.row.original.yahoo_team_id} 
                               className='change-user-dropdown'
                               onChange={(event) => updatePick(event, cell.row.original.overall_pick)}
                             >
-                              <option value={351}>American Gladiators</option>
-                              <option value={441}>Fort Wayne Komets</option>
-                              <option value={301}>GrandRapids Griffins</option>
-                              <option value={371}>Nelson Leafs</option>
-                              <option value={381}>New Orleans Brass</option>
-                              <option value={321}>Ontario Reign</option>
-                              <option value={341}>Providence Bruins</option>
-                              <option value={331}>Seaforth Generals</option>
-                              <option value={411}>St. Marys Lincolns</option>
-                              <option value={391}>St. Thomas Stars</option>
-                              <option value={431}>Syracuse Crunch!</option>
-                              <option value={361}>Terrace River Kings</option>
-                              { localEnvironment &&
-                                <option value={292}>LOCAL TESTING ONLY</option>
-                              }
+                              { teams.map(
+                                team => {
+                                  return (
+                                    <option value={team.team_id}>{team.team_name}</option>
+                                  )
+                                }
+                              )}
                               {cell.row.original.disabled === 0 && 
                                 <option value={0}>DISABLE PICK</option>
                               } 
@@ -294,6 +290,7 @@ export default function Table(
                           <UsernameStyled
                             username={cell.render('Cell')}
                             color={cell.row.original.color}
+                            teamId={cell.row.original.yahoo_team_id}
                           />
                         </td>
                       )
@@ -307,7 +304,8 @@ export default function Table(
                              <div>
                               <UsernameStyled
                                 username={cell.row.original.user}
-                                color={cell.row.original.ownerColor}
+                                color={cell.row.original.owner_color}
+                                teamId={cell.row.original.yahoo_team_id}
                               />
                              </div>
                             }
@@ -319,7 +317,6 @@ export default function Table(
                                 setIsOpen={setModalOpen}
                                 data={playerDrafted}
                                 modalType="draftPlayer"
-                                user={user}
                                 sendChatAnnouncement={sendChatAnnouncement}
                                 setPicks={setPicks}
                                 currentPick={currentPick}
