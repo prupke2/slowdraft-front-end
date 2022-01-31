@@ -1,13 +1,32 @@
+import React from 'react';
 
-export const user = JSON.parse(localStorage.getItem('user'));
-export const teams = JSON.parse(localStorage.getItem('teams'));
 export const webToken = localStorage.getItem('web_token');
+
 export const teamIdToKey = (teamId) => {
+  const teams = JSON.parse(localStorage.getItem('teams'));
   const targetTeam = teams.find(team => (
     team.team_id === teamId.toString()
   ));
   return targetTeam ? targetTeam.team_key : null;
 };
+
+export const teamsMap = (teams) => {
+  if (!teams || teams.length === 0) {
+    return null;
+  }
+  return teams.map(
+    team => {
+      return (
+        <option 
+          key={team.team_id} 
+          value={team.team_id}
+        >
+          {team.team_name}
+        </option>
+      )
+    }
+  )
+}
 
 export const getHeaders = () => (
   {
