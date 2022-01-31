@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './FilterTypes.css';
 
 export function SearchColumnFilter({
@@ -42,9 +42,7 @@ export function SelectFilter({
   // Calculate the options for filtering
   // using the preFilteredRows
 
-  // console.log("filterValue: " + filterValue);
-  
-  const options = React.useMemo(() => {
+  const options = useMemo(() => {
     const options = new Set()
     preFilteredRows.forEach(row => {
       options.add(row.values[id])
@@ -70,7 +68,7 @@ export function SelectFilter({
 
 
 export function SelectTeamFilter({
-  column: { filterValue, setFilter },
+  column: { filterValue, setFilter }, wideFilter
 }) {
   // Calculate the options for filtering
   // using the preFilteredRows
@@ -83,12 +81,15 @@ export function SelectTeamFilter({
   //   return [...options.values()]
   // }, [id, preFilteredRows])
 
+  const isWideFilter = wideFilter ? 'wide-filter' : null;
   return (
     <select
       value={filterValue}
-      className='team-filter'
+      className={`team-filter ${isWideFilter}`}
       onChange={e => {
-        setFilter(e.target.value || undefined)
+        console.log(`e: ${e.target.value}`);
+
+        setFilter(e.target.value)
       }}
     >
       <option value="">All</option>
@@ -141,7 +142,7 @@ export function SelectPlayerTypeColumnFilter({
 }) {
   // Calculate the options for filtering
   // using the preFilteredRows
-  const options = React.useMemo(() => {
+  const options = useMemo(() => {
     const options = new Set()
     preFilteredRows.forEach(row => {
       options.add(row.values[id])
@@ -191,7 +192,7 @@ export function SelectTakenPlayerFilter({
 export function SelectPositionColumnFilter({
   column: { filterValue, setFilter, preFilteredRows, id },
 }) {
-  const options = React.useMemo(() => {
+  const options = useMemo(() => {
     const options = new Set()
     preFilteredRows.forEach(row => {
       options.add(row.values[id])
