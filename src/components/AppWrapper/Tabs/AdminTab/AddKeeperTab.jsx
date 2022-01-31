@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
 import { ToastsStore } from 'react-toasts';
 import SelectPlayerDropdown from './SelectPlayerDropdown';
-import { localEnvironment } from '../../../../util/util';
+import { getHeaders, teamIdToKey, teamsMap } from '../../../../util/util';
+import Emoji from '../../Emoji';
 
-export default function AddKeeperTab({ userInfo }) {
+export default function AddKeeperTab({ singleTeam }) {
+  const user = JSON.parse(localStorage.getItem('user'));
   const [keeperPlayerId, setKeeperPlayerId] = useState(null);
-  const [userId, setUserId] = useState(351);
+  const [teamId, setTeamId] = useState(user.team_id);
+  const formComplete = keeperPlayerId && teamIdToKey;
+  const [keeperList, setKeeperList] = useState([]); 
+  const teams = JSON.parse(localStorage.getItem('teams'));
 
   function addKeeper(e) {
     e.preventDefault();
     const requestParams = {
       method: 'POST',
-      headers: { 
-        'Accept': 'application/json', 
-        'Content-Type': 'application/json'
-      },
+      headers: getHeaders(),
       body: JSON.stringify({ 
-        user_id: userId,
-        player_id: keeperPlayerId,
-        draft_id: userInfo.draft_id
+        team_key: teamIdToKey(teamId),
+        player_id: keeperPlayerId
       })
     }
-    if ( userId && keeperPlayerId ) {    
+    if ( teamId && keeperPlayerId ) {
+      setKeeperList([...keeperList, [keeperPlayerId]]);
       fetch('/add_keeper_player', requestParams)
         .then(response => {
         if (!response.ok) {
@@ -33,9 +35,11 @@ export default function AddKeeperTab({ userInfo }) {
       .then( data => {
         if (data.success === true) {
           setTimeout(function () {
+            console.log(`keeperList: ${JSON.stringify(keeperList, null, 4)}`);
             ToastsStore.success('Keeper added successfully.')
-          }, 1000)
+          }, 500)
         } else {
+          setKeeperPlayerId([]);
           ToastsStore.error('Error adding keeper.')
         }
       });
@@ -44,47 +48,47 @@ export default function AddKeeperTab({ userInfo }) {
     }
   }
 
-  const handleUserIdChange = event => {
-    setUserId(event.target.value)
+  const handleTeamIdChange = event => {
+    setTeamId(event.target.value)
   };
   
+  const title = singleTeam ? 'Add your keepers' : 'Add a keeper to a team';
   return (
     <form className='admin-form add-keeper-form'>
-      <h2>Add a keeper to a team</h2>
-      <p className='instructions'>
-        <div className='warning'>
-          <span role='img' aria-label='instructions'>⚠️</span>
-          This will add the selected keeper for the selected team.
+      <h2>{title}</h2>
+      { !singleTeam &&
+      <>
+        <div className='instructions'>
+          <div className='warning'>
+            <Emoji emoji='⚠️' /> 
+            This will add the selected keeper for the selected team.
+          </div>
         </div>
-      </p>
-      <div>
-        <label name='admin-user-dropdown'>Team:</label>
-        <select 
-          className='admin-user-dropdown'
-          onChange={handleUserIdChange}
-        >
-          <option value={351}>American Gladiators</option>
-          <option value={441}>Fort Wayne Komets</option>
-          <option value={301}>GrandRapids Griffins</option>
-          <option value={371}>Nelson Leafs</option>
-          <option value={381}>New Orleans Brass</option>
-          <option value={321}>Ontario Reign</option>
-          <option value={341}>Providence Bruins</option>
-          <option value={331}>Seaforth Generals</option>
-          <option value={411}>St. Marys Lincolns</option>
-          <option value={391}>St. Thomas Stars</option>
-          <option value={431}>Syracuse Crunch!</option>
-          <option value={361}>Terrace River Kings</option>
-          { localEnvironment &&
-            <option value={292}>LOCAL TESTING ONLY</option>
-          }
-        </select>
-      </div>
+        <div>
+          <label name='admin-user-dropdown'>Team:</label>
+          { }
+          <select 
+            defaultValue={user.team_id}
+            className='admin-user-dropdown'
+            onChange={handleTeamIdChange}
+          >
+            { teamsMap(teams) }
+          </select>
+        </div>
+      </>
+      }
       <SelectPlayerDropdown
-        onClick={addKeeper}
+        handleClick={addKeeper}
         setPlayerId={setKeeperPlayerId}
         buttonName={"Add keeper"}
+        formComplete={formComplete}
       />
+
+      { singleTeam &&
+        <div>
+          {keeperList}
+        </div>
+      }
     </form>
   )
 }
