@@ -3,42 +3,46 @@ import Errors from '../Errors/Errors';
 import './Login.css';
 import { ToastsStore } from 'react-toasts';
 import { getDraft } from '../../util/requests';
+import { localEnvironment } from '../../util/util';
 
-export default function Login({ code, setLoggedIn, setPub, setSub, 
-  setIsLoading, user, setUser, setPicks, setCurrentPick, setDraftingNow
+export default function Login({ setUser, code, setLoggedIn, setPub, setSub, 
+  setIsLoading, setPicks, setCurrentPick, setDraftingNow
   }) {
   const client_id = "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
   let errors = null;
-  let yahooLoginUrl = "https://api.login.yahoo.com/oauth2/request_auth?client_id=" + client_id + 
-      "&redirect_uri=https://slowdraft.herokuapp.com&response_type=code&language=en-us"
-      // "&redirect_uri=oob&response_type=code&language=en-us" // for testing login locally
+  const redirect_uri = localEnvironment ? "oob" : "https://slowdraft.herokuapp.com";
+  const yahooLoginUrl = `https://api.login.yahoo.com/oauth2/request_auth?client_id=${client_id}` + 
+      `&redirect_uri=${redirect_uri}&response_type=code&language=en-us`
 
   useEffect(() => {
     function loginUser() {
-      setIsLoading(true);
       fetch(`/login/${code}`).then( response => {
         if (!response.ok) throw response
           return response.json()
         })
         .then(data => {
           window.history.replaceState({}, document.title, "/");
-          if (data.access_token && data.refresh_token) {
+          if (data.success === true) {
+            const user = data.user;
+            localStorage.setItem( 'user', JSON.stringify(user));
+            setUser(user);
             setPub(data.pub);
             setSub(data.sub);
             localStorage.setItem( 'pub', data.pub );
             localStorage.setItem( 'sub', data.sub );
-            setUser(JSON.stringify(data.user));
-            localStorage.setItem( 'user', JSON.stringify(data.user) );
-            getDraft(data.user, setPicks, setCurrentPick, setDraftingNow);
+            localStorage.setItem( 'teams', JSON.stringify(data.teams) );
+            localStorage.setItem( 'web_token', data.web_token );
+            getDraft(setPicks, setCurrentPick, setDraftingNow);
             setLoggedIn(true);
-            setIsLoading(false);
           } else {
-            setIsLoading(false)
+            ToastsStore.error('There was an error logging into Yahoo. Please try again.')
           }
+          setIsLoading(false)
+
         })
-        .catch( err => {
+        .catch( error => {
           ToastsStore.error(`There was an error connecting to the server. Please try again later.`);
-          console.log(`Error: ${err.text}`);
+          console.log(`Error: ${error.text}`);
           setLoggedIn(false);
         })
     }
@@ -47,7 +51,7 @@ export default function Login({ code, setLoggedIn, setPub, setSub,
       loginUser();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [code]);
 
   return (
     <div className="App">
