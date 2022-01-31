@@ -7,17 +7,23 @@ import { timeSince } from '../../../util/time';
 import CloseModalButton from './CloseModalButton/CloseModalButton';
 import NewPost from './NewPost/NewPost';
 import { getDraft, getDBGoalies, getDBPlayers, getTeams } from '../../../util/requests';
+import { getHeaders } from '../../../util/util';
+import Loading from '../../Loading/Loading';
 
 export default function ModalWrapper(
-    { modalIsOpen, setIsOpen, data, modalType, user, sendChatAnnouncement, tableType, setTeams,
+    { modalIsOpen, setIsOpen, data, modalType, sendChatAnnouncement, tableType, setTeams,
       setPicks, currentPick, setCurrentPick, setDraftingNow, setPlayers, setGoalies }
   ) {
   const [forumPostReplies, setForumPostReplies] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   function getReplies(post_id) {
 
-    fetch(`/view_post_replies/${post_id}`)
+    fetch(`/view_post_replies/${post_id}`, {
+      method: 'GET',
+      headers: getHeaders()
+    })
     .then(res => res.json())
     .then(data => {
       setForumPostReplies(data.replies);
@@ -27,8 +33,11 @@ export default function ModalWrapper(
   function draftPlayer(data) {
     setIsLoading(true);
     const isGoalie = data.position === 'G' ? true : false;
-    let message = "The " + user.team_name + " have drafted " + data.name + ", " + data.position + " - " + data.team
-    fetch(`/draft/${user.draft_id}/${user.user_id}/${data.player_id}`)
+    const chatMessage = "The " + user.team_name + " have drafted " + data.name + ", " + data.position + " - " + data.team;
+    fetch(`/draft/${data.player_id}`, {
+      method: 'GET',
+      headers: getHeaders()
+    })
     .then(response => {
       if (!response.ok) {
         ToastsStore.error(`An error occurred. Please try again later.`)
@@ -38,12 +47,17 @@ export default function ModalWrapper(
       return response.json()
     })
     .then(data => {
-      sendChatAnnouncement(message);
-      getDraft(user, setPicks, setCurrentPick, setDraftingNow)
-      getTeams(user, setTeams)
-      isGoalie && getDBGoalies(user, setGoalies)
-      !isGoalie && getDBPlayers(user, setPlayers)
-      ToastsStore.success(`You have drafted ${data.player}. ${data.drafting_again}`)
+      console.log(`data: ${JSON.stringify(data, null, 4)}`);
+      sendChatAnnouncement(chatMessage);
+      getDraft(setPicks, setCurrentPick, setDraftingNow)
+      getTeams(setTeams)
+      isGoalie && getDBGoalies(setGoalies)
+      !isGoalie && getDBPlayers(setPlayers)
+      if (data.success !== true) {
+        ToastsStore.error(`Error: ${data.error}`)
+      } else {
+        ToastsStore.success(`You have drafted ${data.player}. ${data.drafting_again}`)
+      }
       setIsOpen(false);
       setIsLoading(false);
     })
@@ -63,6 +77,7 @@ export default function ModalWrapper(
         setDraftingNow={setDraftingNow}
         setPlayers={setPlayers}
         setTeams={setTeams}
+        ariaHideApp={false}
       >
         <CloseModalButton 
           setIsOpen={setIsOpen}
@@ -76,8 +91,8 @@ export default function ModalWrapper(
           }
         </div>
         <div className='button-group'>
-          { isLoading && 
-            <span>Drafting...</span>
+          { isLoading &&
+            <Loading alt={true} text='Drafting...' />
           }
           { !isLoading &&
             <>
@@ -98,6 +113,7 @@ export default function ModalWrapper(
         contentLabel='Rule'
         parentSelector={() => document.querySelector('main')}
         id='rule-modal'
+        ariaHideApp={false}
       >
         <CloseModalButton 
           setIsOpen={setIsOpen}
@@ -117,6 +133,7 @@ export default function ModalWrapper(
         contentLabel='Forum Post'
         parentSelector={() => document.querySelector('main')}
         id='forum-post-modal'
+        ariaHideApp={false}
       >
         <CloseModalButton 
           setIsOpen={setIsOpen}
@@ -148,6 +165,7 @@ export default function ModalWrapper(
           parentPostId={data.id}
           setIsOpen={setIsOpen}
           postType='new_forum_post'
+          user={user}
         />
       </Modal>
     );
@@ -161,6 +179,7 @@ export default function ModalWrapper(
         contentLabel='New Forum Post'
         parentSelector={() => document.querySelector('main')}
         id='new-forum-post-modal'
+        ariaHideApp={false}
       >
         <CloseModalButton 
           setIsOpen={setIsOpen}
@@ -169,6 +188,7 @@ export default function ModalWrapper(
         <NewPost 
           setIsOpen={setIsOpen}
           postType='new_forum_post'
+          user={user}
         />
         <div className='modal-player-info'>
           {typeof(data.team) !== 'undefined' &&
@@ -189,6 +209,7 @@ export default function ModalWrapper(
         contentLabel='New Rule'
         parentSelector={() => document.querySelector('main')}
         id='new-rule-modal'
+        ariaHideApp={false}
       >
         <CloseModalButton 
           setIsOpen={setIsOpen}
@@ -197,6 +218,7 @@ export default function ModalWrapper(
         <NewPost
           setIsOpen={setIsOpen}
           postType='create_rule'
+          user={user}
         />
       </Modal>
     );
