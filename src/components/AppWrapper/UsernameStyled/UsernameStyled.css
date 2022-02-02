@@ -14,3 +14,9 @@
   font-weight: bold;
   background: var(--gradient3);
 }
+
+.user-logo {
+  height: 30px;
+  width: auto;
+  border-radius: 8px 0 0 8px;
+}
