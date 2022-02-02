@@ -120,18 +120,35 @@ table tr:last-child td {
   background: transparent;
   position: absolute;
   top: 0;
-  left: 270px;
+  left: 200px;
   border: none;
+}
+
+.team-tab-wrapper {
+  display: flex;
+  flex-direction: column;
+  color: var(--main-text);
+}
+
+.team-header-wrapper {
+  display: inline-flex;
+}
+
+.logo-container {
+  width: 60px;
+  margin-left: 33%;
 }
 
 .player-count {
   display: flex;
   align-items: left;
-  width: 200px;
+  width: 180px;
   border: 1px solid black;
   border-radius: 4px;
   background-color: white;
   color: black;
+  position: relative;
+  bottom: 10px;
 }
 
 .player-count > div:first-child {
@@ -146,8 +163,13 @@ table tr:last-child td {
   color: white;
 }
 
+.team-logo {
+  height: 50px;
+  width: auto;
+}
+
 #show-taken-dropdown {
-  left: 450px;
+  left: 360px;
 }
 
 .prospect-column-hidden {

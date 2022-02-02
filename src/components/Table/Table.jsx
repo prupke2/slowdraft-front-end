@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useTable, useFilters, useSortBy, usePagination } from 'react-table';
 import { matchSorter } from 'match-sorter';
 import './Table.css';
-import Pagination from "./Pagination/Pagination";
-import ModalWrapper from "../AppWrapper/ModalWrapper/ModalWrapper";
-import Loading from "../Loading/Loading";
-import { ToastsStore } from "react-toasts";
-import UsernameStyled from "../AppWrapper/UsernameStyled/UsernameStyled";
-import { getDraft } from "../../util/requests";
-import { getHeaders, teams, teamIdToKey } from "../../util/util";
-import { teams as teamInfo } from "../../util/util";
+import Pagination from './Pagination/Pagination';
+import ModalWrapper from '../AppWrapper/ModalWrapper/ModalWrapper';
+import Loading from '../Loading/Loading';
+import { ToastsStore } from 'react-toasts';
+import UsernameStyled from '../AppWrapper/UsernameStyled/UsernameStyled';
+import { getDraft } from '../../util/requests';
+import { getHeaders, teamIdToKey, teamsMap } from '../../util/util';
 
 export default function Table(
     { columns, data, user, defaultColumnFilter, tableState, tableType, loading, draftingNow, setTeams,
@@ -17,9 +16,12 @@ export default function Table(
     }
   ) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [playerDrafted, setPlayerDrafted] = useState("");
-  const [forumPostId, setForumPostId] = useState("");
-  const logoId = user.team_id - 1; 
+  const [playerDrafted, setPlayerDrafted] = useState('');
+  const [forumPostId, setForumPostId] = useState('');
+  const isAdmin = user.role === 'admin';
+  const teams = JSON.parse(localStorage.getItem('teams'));
+  const teamIndex = user.team_id - 1; 
+  const teamLogoUrl = teams ? teams[teamIndex].team_logo : null;
 
   function draftModal(player) {
     setModalOpen(true);
@@ -176,7 +178,7 @@ export default function Table(
           </div>
           <div className='logo-container'>
             <img 
-              src={teamInfo[logoId].team_logo || null} 
+              src={teamLogoUrl} 
               alt=''
               className='team-logo'
             />
@@ -189,13 +191,13 @@ export default function Table(
         <table className="table" {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup, i) => (
-              <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
+              <tr {...headerGroup.getHeaderGroupProps()}>
                 {/* Add an extra column for the draft button */}
                 { (tableType === 'draft' && draftingNow) &&
                   <th width="30px"></th>
                 }
                 
-                { (tableType === 'draftPicks' && user.role === 'admin') &&
+                { (tableType === 'draftPicks' && isAdmin) &&
                   <th className="blank-cell" width="30px" />
                 }
                 {headerGroup.headers.map(column => {
@@ -246,23 +248,18 @@ export default function Table(
                     if (cell.column.Header === 'Pick') {
                       return (
                         <>
-                          { (user.role === 'admin' && cell.row.original.draft_pick_timestamp !== null) &&
+                          { (isAdmin && cell.row.original.draft_pick_timestamp !== null) &&
                             <td className="admin-column" width='50px' />
                           }
-                          { (user.role === 'admin' && cell.row.original.draft_pick_timestamp === null) &&
+                          { (isAdmin && cell.row.original.draft_pick_timestamp === null) &&
                           <td className="admin-column" width='50px'>
                             <select 
                               defaultValue={cell.row.original.yahoo_team_id} 
                               className='change-user-dropdown'
                               onChange={(event) => updatePick(event, cell.row.original.overall_pick)}
                             >
-                              { teams.map(
-                                team => {
-                                  return (
-                                    <option value={team.team_id}>{team.team_name}</option>
-                                  )
-                                }
-                              )}
+                              { teamsMap(teams) }
+
                               {cell.row.original.disabled === 0 && 
                                 <option value={0}>DISABLE PICK</option>
                               } 
