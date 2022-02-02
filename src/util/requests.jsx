@@ -1,5 +1,5 @@
 import { ToastsStore } from "react-toasts";
-import { getHeaders, user } from "./util";
+import { getHeaders } from "./util";
 
 export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
   fetch(`/get_draft`, {
@@ -165,7 +165,7 @@ export function checkForUpdates(draftOnly, setPicks, setCurrentPick, setDrafting
           }
         }
       } else {
-          console.log(`Data is empty, not fetching. team_key: ${user.team_key}, yahoo_league_id: ${user.yahoo_league_id}`);
+        console.log(`No updates.`);
       }
     }
   )
