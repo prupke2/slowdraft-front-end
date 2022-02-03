@@ -51,7 +51,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
 
   useEffect(() => {
     if (needToUpdate === true) {
-      getForumPosts(user, setPosts);
+      getForumPosts(setPosts);
       setNeedToUpdate(false);
     }
     if (modalOpen === true) {
@@ -73,12 +73,12 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
     else {
       console.log("Getting new forum data");
       if (user) {
-        getForumPosts(user, setPosts);    
+        getForumPosts(setPosts);    
       }
     }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, setPosts])
+  }, [setPosts])
 
   function newForumPost() {
     setModalOpen(true);

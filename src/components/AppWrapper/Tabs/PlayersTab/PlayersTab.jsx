@@ -179,12 +179,12 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
     }
     else {
       console.log("Getting new player DB data");
-      getDBPlayers(user, setPlayers);
+      getDBPlayers(setPlayers);
     }
     
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, setPlayers])
+  }, [setPlayers])
 
   return (
     <>

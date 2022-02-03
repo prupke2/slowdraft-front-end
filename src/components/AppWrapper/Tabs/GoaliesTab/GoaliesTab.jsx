@@ -149,7 +149,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, 
     }
     else {
       console.log("Getting new goalie DB data");
-      getDBGoalies(user, setGoalies);
+      getDBGoalies(setGoalies);
     }
 
     setIsLoading(false)

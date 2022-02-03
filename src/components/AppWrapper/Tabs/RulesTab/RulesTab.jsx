@@ -8,7 +8,6 @@ import { getRules } from '../../../../util/requests';
 export default function RulesTab({user, rules, setRules, getLatestData}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
-
   const columns = [
     {
       Header: '',
@@ -41,7 +40,7 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
 
   useEffect(() => {
     if (needToUpdate === true) {
-      getRules(user, setRules);
+      getRules(setRules);
       setNeedToUpdate(false);
     }
     if (modalOpen === true) {
@@ -63,12 +62,12 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
     else {
       console.log("Getting new forum data");
       if (user) {
-        getRules(user, setRules);
+        getRules(setRules);
       }
     }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, setRules])
+  }, [setRules])
 
 
   function newRule() {
