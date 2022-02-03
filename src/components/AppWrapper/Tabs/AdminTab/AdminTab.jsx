@@ -7,10 +7,6 @@ import MakePickTab from './MakePickTab';
 import AddDraftPickTab from './AddDraftPickTab';
 
 export default function AdminTab() {
-  // eslint-disable-next-line no-extend-native
-  Object.prototype.isEmpty = function () {
-    return Object.keys(this).length === 0;
-  }
   const [name, setName] = useState(null);
   const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState('Anh');
