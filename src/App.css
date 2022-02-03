@@ -1,25 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla&family=Rubik&display=swap');
 
 :root {
-  --main-bg: #ffffff;
+  --main-bg: #4484CE;
   --main-text:  #1b2733;
-  --alt-text:  #e0e0e0;
-  --gradient1: rgba(7, 37, 75, 0.3);
-  --gradient2: rgba(157, 157, 182, 0.4);
-  --gradient3: rgba(56, 100, 141, 0.3);
-  --gradient4: rgba(56, 100, 141, 0);
-  --main-dark: rgba(38, 38, 114, 0.8);
-  --table-bg: white;
+  --gradient1: #D9D9D9;
+  --orange: #F19F4D;
+  --yellow: #F9CF00;
 
-  --alt-bg: #637282;
+  --main-dark: #4484CE;
+  --main-even: #84acda;
+  --main-light: #D9D9D9;
+  --alt-text: var(--yellow);
+
+
+  /* --table-bg: white; */
+
+  /* --alt-bg: #637282;
   --h1-color: var(--alt-text);
   --header-bg: var(--main-dark);
-  --alt-bg-opaque: rgba(38, 38, 114, 0.5);
+  --alt-bg-opaque: rgba(38, 38, 114, 0.5); */
 
   --header-text: #ffffff;
-  --button: var(--main-dark);
-  --eligible: #00ff99;
+  --button-bg: var(--main-dark);
+  --disabled:rgba(87, 87, 128, 0.5);
+  --success: #00ff99;
+  --success-hover: #1cba7b;
   --error: rgba(238, 11, 11, 0.651);
+  --error-hover: rgba(197, 31, 78, 0.651);
 }
 
 /* 🎨 colors: #ffffff | #1b2733 | #637282 | #AB24A1 */
@@ -29,9 +36,8 @@ main {
   height: 100vh;
   overflow-y: scroll;
   max-height: 95%;
-  background: var(--main-bg);
-  background: whitesmoke;      
-  grid-template-columns: minmax(100%, 10%);
+  background: var(--main-light);;    
+  /* grid-template-columns: minmax(100%, 10%); */
   text-align: center;
   font-family: 'Karla', 'Rubik', sans-serif;
   /* position: relative; */
@@ -55,9 +61,9 @@ h1 {
   text-align: center;
   margin: 50px auto;
   padding: 5px;
-  background: var(--alt-bg-opaque);
+  background: var(--main-dark);
   max-width: 100%;
-  color: var(--h1-color);
+  color: var(--main-light);;
   font-size: 2rem;
 }
 
@@ -93,15 +99,27 @@ h3 {
 
 button {
   border-radius: 4px;
-  box-shadow: -1px 2px grey;
-  border: 1px solid var(--button);
-  color: whitesmoke;
-  background: var(--gradient1);
+  padding: 4px;
+  border: 1px solid var(--main-light);
+  color: var(--main-light);
+  font-weight: 800;
+  background: var(--button-bg);
+}
+
+button:disabled {
+  background-color: var(--main-light);
+  color: var(--disabled);
 }
 
 .save-button {
   max-width: 100px;
   margin: 15px auto;
+  color: var(--main-text);
+}
+
+.save-button:not(:disabled) {
+  color: var(--main-light);
+  background:var(--main-dark);
 }
 
 .button-large {
@@ -109,8 +127,9 @@ button {
   padding: 7px 15px;
 }
 
-button:hover {
-  background: var(--gradient3);
+button:not(:disabled):hover {
+  background: var(--main-even);
+  color: white;
 }
 
 .hidden {
