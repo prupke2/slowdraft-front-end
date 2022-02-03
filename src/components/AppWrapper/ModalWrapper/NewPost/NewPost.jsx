@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { ToastsStore } from 'react-toasts';
+import { getHeaders, capitalizeFirstLetter } from '../../../../util/util';
 
-export default function NewPost({parentPostId, setIsOpen, postType}){
+export default function NewPost({parentPostId, user, setIsOpen, postType}){
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const isReply = typeof(parentPostId) !== 'undefined';
+  const saveButtonDisabled = isReply ? !body : !title || !body;
   
   const handleTitleChange = event => {
     setTitle(event.target.value)
@@ -17,12 +20,10 @@ export default function NewPost({parentPostId, setIsOpen, postType}){
     event.preventDefault()
     const requestParams = {
       method: 'POST',
-      headers: { 
-        'Accept': 'application/json', 
-        'Content-Type': 'application/json'
-      },
+      headers: getHeaders(),
       body: JSON.stringify({ 
         parentId: parentPostId || null,
+        user: user,
         title: title,
         body: body
       })
@@ -34,8 +35,14 @@ export default function NewPost({parentPostId, setIsOpen, postType}){
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
+        if (data.success === true) {
+          const post = postType === 'create_rule' ? 'rule' : 'post';
+          ToastsStore.success(`${capitalizeFirstLetter(post)} saved.`)
+        } else {
+          ToastsStore.error(`Error saving ${postType}.`)
+        }
       })
-      .then(ToastsStore.success("Post saved."))
+      // .then(ToastsStore.success("Post saved."))
       .then(setIsOpen(false));
   }
 
@@ -43,17 +50,34 @@ export default function NewPost({parentPostId, setIsOpen, postType}){
     <form className='new-post-form'>
       { typeof(parentPostId) === 'undefined' && 
       <div>
-        <label name='title'>Title</label>
-        <input type='text' label='title' onChange={handleTitleChange} value={title} />
+        <label name='title'></label>
+        <input 
+          type='text' 
+          label='title' 
+          onChange={handleTitleChange} 
+          value={title} 
+          placeholder='Title (required)'
+          required
+        />
       </div>
       }
       <div>
         <label name='body'></label>
-        <textarea label='body' onChange={handleBodyChange} value={body} />
+        <textarea 
+          label='body' 
+          onChange={handleBodyChange} 
+          value={body} 
+          placeholder='Message (required)'
+          required
+         />
         {/* <div id="editor"></div> */}
       </div>
-      <button className='save-button button-large' onClick={(event) => savePost(event, postType)}>
-        { typeof(parentPostId) === 'undefined' ? 'Save' : 'Reply' }
+      <button 
+        className='save-button button-large' 
+        onClick={(event) => savePost(event, postType)}
+        disabled={saveButtonDisabled}
+      >
+        { isReply ? 'Reply' : 'Save' }
       </button>
     </form>
   )
