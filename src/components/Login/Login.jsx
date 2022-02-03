@@ -56,9 +56,14 @@ export default function Login({ setUser, code, setLoggedIn, setPub, setSub,
   return (
     <div className="App">
       <div className="login-container">
-        <h1>Slow<span>Draft</span></h1>
-        <p>Fantasy hockey drafting at your own pace</p>
-        <p>Currently by invitation only</p>
+        <h1>
+          <span>
+            <img className='logo-login' src="hockey_icon_large.png" alt=""/>
+          </span>
+          Slow<span>Draft</span>
+        </h1>
+        <div className='info'>Fantasy hockey drafting at your own pace</div>
+        <div className='info'>Currently by invitation only</div>
           { errors != null && (
             <Errors
               code={errors.code}
@@ -72,6 +77,9 @@ export default function Login({ setUser, code, setLoggedIn, setPub, setSub,
           </a>
         </div>
       </div>	
+      <footer>
+        Photo by <a href="https://unsplash.com/@k1n1m0de?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Dominik Dombrowski</a> on <a href="https://unsplash.com/s/photos/frozen-pond?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      </footer>
     </div>
   );
 }
