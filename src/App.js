@@ -7,7 +7,6 @@ import './App.css';
 import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toasts';
 import dummyIcon from './assets/dummy_icon.png';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
-// import { getCookie } from './assets/Cookies';
 
 export default function App() {
 
@@ -24,6 +23,7 @@ export default function App() {
   const queryParams = qs.parse(window.location.search);
   const code = queryParams["code"];
   const [user, setUser] = useState({
+    team_key: null,
     user_id: null,
     logo: dummyIcon,
     team_name: null, 
@@ -32,50 +32,14 @@ export default function App() {
     role: null, 
     color: null
   });
-  
-  function checkLogin() {
-    fetch('/check_login')
-      .then(async response => {
-        const data = await response.json();
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          ToastsStore.reject('There was an error connecting to Yahoo. Please try again later');
-          return Promise.reject(error);
-        }
-        if (data.success === true) {
-          setPub(data.pub);
-          setSub(data.sub);
-          localStorage.setItem( 'pub', data.pub );
-          localStorage.setItem( 'sub', data.sub );
-          localStorage.setItem( 'user', data.user );
-          localStorage.setItem( 'yahooSession', true );
-          window.history.replaceState({}, document.title, "/");
-          setLoggedIn(true);
-        } 
-        setIsLoading(false)
-      });
-  }
 
   useEffect(() => {
-    let yahooSession = localStorage.getItem( 'yahooSession' ) || false;
-    let pub = localStorage.getItem( 'pub' ) || '';
+    const webToken = localStorage.getItem( 'web_token' ) || '';
+    const user = JSON.parse(localStorage.getItem('user'));
 
-    if (yahooSession === null && typeof(code) !== "undefined") {
-    // let session = getCookie('access_token');
-    // console.log("session: " + session);
-    // console.log("type: " + typeof(session));
-    // if (typeof(session) === 'undefined') {
-    //   console.log("Setting logged in true")
-    //   setLoggedIn(true);
-    // } else if (!loggedIn && typeof(code) !== "undefined") {
-      console.log("Not logged in.")
-      checkLogin();
-    } else {
-      if (pub !== '') {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-      }
+    if (webToken) {
+      setUser(user);
+      setLoggedIn(true);
     }
   }, [code]);
 
@@ -116,7 +80,7 @@ export default function App() {
             />
           </ErrorBoundary>
         }
-        { loggedIn &&
+        { (loggedIn && user) &&
           <main>
             <ErrorBoundary >
               <AppWrapper
@@ -125,7 +89,6 @@ export default function App() {
                 pub={pub}
                 sub={sub}
                 user={user}
-                setUser={setUser}
                 picks={picks}
                 setPicks={setPicks}
                 currentPick={currentPick}
