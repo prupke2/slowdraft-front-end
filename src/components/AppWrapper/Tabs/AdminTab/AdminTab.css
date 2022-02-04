@@ -1,5 +1,9 @@
 .inner-tab {
-  color: #212529;
+  color: var(--main-dark);
+}
+
+.inner-tab:hover {
+  color: white;
 }
 
 .inner-navbar-tabs {
@@ -7,17 +11,21 @@
   min-height: calc(100vh - 109px);
 }
 
+.navbar-tabs .inner-navbar-tabs {
+  background: var(--main-even);;
+}
+
 li.react-tabs__tab--selected > div.inner-tab {
   color: whitesmoke;
 }
 
 .admin-form {
+  background: var(--main-dark);
   height: 500px;
-  margin: 10px auto 100px;
-}
-
-.admin-form > h2 {
-  margin: 50px;
+  margin: -2px auto 100px;
+  padding: 60px 0;
+  position: relative;
+  z-index: 1;
 }
 
 .admin-form > div {
@@ -25,16 +33,26 @@ li.react-tabs__tab--selected > div.inner-tab {
   margin-left: calc(50vw - 400px);
 }
 
+.make-pick-instructions {
+  width: 100%;
+  text-align: center;
+  flex-direction: column;
+}
+
 .admin-form > div > label {
   text-align: left;
 }
 
 .admin-form > div > input, .admin-form > div > label, .wide-filter {
-  width: 200px;
+  width: 160px;
 }
 
 .admin-user-dropdown {
   width: 200px;
+}
+
+.player-label {
+  width: 100px;
 }
 
 .player-search {
@@ -46,14 +64,15 @@ li.react-tabs__tab--selected > div.inner-tab {
 }
 
 .player-search-input {
+  z-index: 1;
   flex-direction: column;
-  width: 200px;
-  margin: 0;
+  width: 300px;
+  margin: 5px 0;
 }
 
 #clear-field {
   position: absolute;
-  left: 60%;
+  left: 75%;
   top: 4px;
   font-size: 12px;
   padding: 0 4px 2px;
@@ -63,12 +82,10 @@ li.react-tabs__tab--selected > div.inner-tab {
 }
 
 .player-list-wrapper {
-  position: absolute;
+  position: relative;
   max-height: 250px;
   width: 300px;
-  border-radius: 0 4px 4px 4px;
-  top: 36px;
-  left: -2px;
+  border-radius: 0 10px 4px 4px;
   background-color: whitesmoke;
   color: black;
   margin: 0 2px 2px;
@@ -78,10 +95,37 @@ li.react-tabs__tab--selected > div.inner-tab {
 
 .player-search-input ~ .player-list-wrapper {
   opacity: 0;
+  bottom: 1000px;
+  transition: bottom 0.1s ease, opacity 0.4s ease;
+  transition-delay: 200ms;
+}
+
+.player-search-input ~ .player-list-wrapper > div {
+  position: relative;
+  /* transition: bottom 0.1s ease; */
+}
+
+.closed {
+  display: none;
 }
 
 .player-search-input:focus ~ .player-list-wrapper {
-  opacity: 100;
+  display: flex;
+  position: relative;
+  opacity: 1;
+  bottom: 0;
+  transition: opacity 0.4s ease;
+  transition-delay: 0;
+}
+
+.player-search-input:focus ~ .player-list-wrapper > div {
+  display: inline-flex;
+  bottom: 0;
+  transition: bottom 0.8s ease;
+}
+
+.player-search-input:focus ~ .player-list-wrapper {
+  opacity: 1;
   display: flex;
   flex-direction: column;
 }
@@ -125,9 +169,14 @@ li.react-tabs__tab--selected > div.inner-tab {
 .instructions {
   max-width: 500px;
   margin: -35px auto 15px;
+  padding: 10px 5px;
   background: whitesmoke;
   border-radius: 8px;
   color: black;
+}
+
+.flex-direction-column {
+  flex-direction: column;
 }
 
 .warning {
