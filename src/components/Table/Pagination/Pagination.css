@@ -16,7 +16,7 @@
 
 .pagination-arrows {
   display: flex;
-  color: black !important;
+  color: var(--main-very-dark) !important;
   cursor: pointer;
 }
 
@@ -38,7 +38,7 @@
 
 .page-link {
   display: flex;
-  color: black;
+  color: var(--main-very-dark);
 }
 
 .page-of-page {

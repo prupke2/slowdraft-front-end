@@ -1,6 +1,5 @@
 table {
-  background: var(--table-bg);
-  box-shadow: -3px -3px gray;
+  box-shadow: -3px -3px 5px var(--main-even);;
   border-spacing: 0;
   text-align: left;
   border-radius: 4px;
@@ -21,7 +20,7 @@ table {
   position: sticky;
   top: 0;
   bottom: 0;
-  background-color: skyblue;
+  background-color: var(--main-even);
 }
 
 thead, tbody {
@@ -30,10 +29,12 @@ thead, tbody {
 
 tr:nth-child(odd) {
   background-color: rgba(164, 189, 205, 0.7);
+  background-color: var(--main-even);
 }
 
 tr:nth-child(even) {
   background-color: rgba(200, 233, 255, 0.7);
+  background-color: var(--main-even2);
 }
 
 tr:hover {
@@ -43,8 +44,8 @@ tr:hover {
 th, td {
   margin: 0;
   padding: 2px;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  border-bottom: 1px solid var(--main-very-dark);
+  border-right: 1px solid var(--main-very-dark);
 }
 
 td:last-child, th:last-child {
@@ -87,6 +88,7 @@ table tr:last-child td {
 .playerNameAndHeadshot {
   display: flex;
   align-items: center;
+  line-height: 1.3;
 }
 
 .headshot {
@@ -103,14 +105,14 @@ table tr:last-child td {
 .prospect {
   font-size: 0.8rem;
   background: lightcyan;
-  border: 1px solid black;
+  border: 1px solid var(--main-very-dark);
   border-radius: 100%;
   padding: 4px 7px;
 }
 
 .keeper {
   font-size: 0.8rem;
-  background: black;
+  background: var(--main-very-dark);
   color: white;
   border-radius: 2px;
   padding: 3px 6px;
@@ -119,9 +121,11 @@ table tr:last-child td {
 #prospect-column, #team-dropdown-column, #show-taken-dropdown {
   background: transparent;
   position: absolute;
+  height: 50px;
   top: 0;
   left: 200px;
   border: none;
+  color: var(--main-light);
 }
 
 .team-tab-wrapper {
@@ -143,23 +147,23 @@ table tr:last-child td {
   display: flex;
   align-items: left;
   width: 180px;
-  border: 1px solid black;
+  border: 1px solid var(--main-very-dark);
   border-radius: 4px;
   background-color: white;
-  color: black;
+  color: var(--main-very-dark);
   position: relative;
   bottom: 10px;
 }
 
 .player-count > div:first-child {
-  border-right: 1px dotted black;
+  border-right: 1px dotted var(--main-very-dark);
 }
 
 .player-count > div > span {
   padding: 1px 6px;
   border: 1px solid white;
   border-radius: 4px;
-  background: black;
+  background: var(--main-very-dark);
   color: white;
 }
 
@@ -235,9 +239,9 @@ table tr:last-child td {
     left: 90px;
   }
   .player-count {
-    margin-left: 220px;
+    margin: 5px 0 0 220px;
     width: 140px;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
   }
   #show-taken-dropdown {
     left: 210px;

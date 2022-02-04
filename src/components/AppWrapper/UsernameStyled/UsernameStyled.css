@@ -3,20 +3,27 @@
   height: 30px;
 }
 
-.userInDraft {
+.user-in-draft {
   display: flex;
   align-items: center;
   font-size: 0.7rem;
   border-radius: 0 8px 8px 0;
   padding: 0 4px;
   text-align: center;
-  color: darkorchid;
+  color: var(--main-very-dark);
   font-weight: bold;
-  background: var(--gradient3);
+  background: var(--main-even2);
+  border: 1px solid var(--main-light);
 }
 
 .user-logo {
   height: 30px;
   width: auto;
   border-radius: 8px 0 0 8px;
+  border: 1px solid var(--main-light);
+}
+
+.user-in-draft:hover, .user-logo:hover {
+  background: var(--main-light);
+  cursor: pointer;
 }

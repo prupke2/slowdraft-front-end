@@ -1,9 +1,5 @@
 .inner-tab {
-  color: var(--main-dark);
-}
-
-.inner-tab:hover {
-  color: white;
+  color: var(--main-very-dark);
 }
 
 .inner-navbar-tabs {
@@ -16,7 +12,7 @@
 }
 
 li.react-tabs__tab--selected > div.inner-tab {
-  color: whitesmoke;
+  color: var(--main-light);
 }
 
 .admin-form {
@@ -86,8 +82,8 @@ li.react-tabs__tab--selected > div.inner-tab {
   max-height: 250px;
   width: 300px;
   border-radius: 0 10px 4px 4px;
-  background-color: whitesmoke;
-  color: black;
+  background-color: var(--main-light);
+  color: var(--main-very-dark);
   margin: 0 2px 2px;
   overflow-y: scroll; 
   font-size: 1.1rem;
@@ -133,7 +129,7 @@ li.react-tabs__tab--selected > div.inner-tab {
 .player-list-wrapper > div:hover {
   cursor: pointer;
   color: white;
-  background-color: black;
+  background-color: var(--main-very-dark);
 }
 
 .player-search > div {
@@ -167,12 +163,12 @@ li.react-tabs__tab--selected > div.inner-tab {
 }
 
 .instructions {
+  background: white;
   max-width: 500px;
   margin: -35px auto 15px;
   padding: 10px 5px;
-  background: whitesmoke;
   border-radius: 8px;
-  color: black;
+  color: var(--main-very-dark);
 }
 
 .flex-direction-column {

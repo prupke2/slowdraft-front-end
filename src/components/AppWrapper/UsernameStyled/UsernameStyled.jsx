@@ -11,7 +11,7 @@ export default function UsernameStyled({username, color, teamId}) {
       { !teamId &&
         <span role='img' aria-label='icon' className="user-icon" style={{ 'background': color}}>👤</span>
       }
-      <span className="userInDraft">{username}</span>
+      <span className="user-in-draft">{username}</span>
     </p>
   );
 }
