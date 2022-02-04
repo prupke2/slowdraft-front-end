@@ -39,26 +39,10 @@ export default function Pagination(
         </div>
       </li>
       <li className="pagination-goto-page">
-        <span className="page-link">
+        <span className="page-link page-or-round">
           {pageOrRound}
-          <div className="page-of-page">
-            <strong>
-                {pageIndex + 1} of {pageOptions.length}
-            </strong>{' '}
-          </div>
+          <div className="page-of-page"><strong>{pageIndex + 1} of {pageOptions.length}</strong>{' '}</div>
         </span>
-        {/* <span className="page-link">
-          <div>Go&nbsp;to:</div>
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                gotoPage(page)
-            }}
-            style={{ width: '40px', height: '22px' }}
-          />
-        </span> */}
       </li>
     </ul>
   );
