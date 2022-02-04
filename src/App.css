@@ -7,13 +7,15 @@
   --orange: #F19F4D;
   --yellow: #F9CF00;
 
+  --main-very-dark: rgb(9, 1, 56);
   --main-dark: #4484CE;
-  --main-even: #84acda;
+  --main-even: #a1c1e6;
+  --main-even2: #7da5d3;
   --main-light: #D9D9D9;
   --alt-text: var(--yellow);
 
+  --link: var(--main-very-dark);
 
-  /* --table-bg: white; */
 
   /* --alt-bg: #637282;
   --h1-color: var(--alt-text);
@@ -51,6 +53,15 @@ main {
   /* font-family: 'Rubik', sans-serif; */
 }
 
+a {
+  color: var(--link);
+}
+
+a:hover {
+  color: var(--main-dark);
+  text-decoration: none;
+}
+
 ul {
   list-style-type: none;
   margin: 0;
@@ -78,7 +89,7 @@ h2 {
 }
 
 h3 {
-  color: var(--alt-bg);
+  color: var(--main-dark);
   font-size: 1.6rem;
   margin: 30px 0 0;
   padding: 5px;
@@ -129,7 +140,8 @@ button:disabled {
 
 button:not(:disabled):hover {
   background: var(--main-even);
-  color: white;
+  border: 1px solid var(--main-even);
+  color: var(--main-very-dark);
 }
 
 .hidden {
@@ -146,6 +158,10 @@ button:not(:disabled):hover {
 
 textarea {
   width: 90%;
+}
+
+.new-rules-button {
+  margin-bottom: -25px;
 }
 
 @media (max-width: 800px) {
