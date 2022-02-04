@@ -78,7 +78,7 @@ export default function Login({ setUser, code, setLoggedIn, setPub, setSub,
         </div>
       </div>	
       <footer>
-        Photo by <a href="https://unsplash.com/@k1n1m0de?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Dominik Dombrowski</a> on <a href="https://unsplash.com/s/photos/frozen-pond?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+        Photo credit: <a href="https://unsplash.com/@k1n1m0de?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Dominik Dombrowski</a> on <a href="https://unsplash.com/s/photos/frozen-pond?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
       </footer>
     </div>
   );
