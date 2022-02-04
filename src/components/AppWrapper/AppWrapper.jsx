@@ -3,14 +3,15 @@ import Navbar from './Navbar/Navbar';
 import Chat from './Chat/Chat';
 import PubNub from 'pubnub'; // backend for chat component
 import Widget from './Widget/Widget';
-import { getDraft, getDBPlayers, getDBGoalies, getTeams, getForumPosts, getRules, checkForUpdates } from '../../util/requests';
+import { checkForUpdates } from '../../util/requests';
+import { localEnvironment } from '../../util/util';
 
-export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser,
+export default function AppWrapper({logout, pub, sub, user,
   picks, setPicks, currentPick, setCurrentPick, draftingNow, setDraftingNow
  }) {
 
-  const channel = "slowdraftChat" // To reset messages, update the channel name to something new
-  // const channel = "test" // To reset messages, update the channel name to something new
+  // You can reset the chat by updating the channel name to something new
+  const channel = localEnvironment ? "test" : "slowdraftChat" 
   const [messages, setMessages] = useState([]);
   const [players, setPlayers] = useState([]);
   const [goalies, setGoalies] = useState([]);
@@ -18,10 +19,9 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
   const [posts, setPosts] = useState([]);
   const [rules, setRules] = useState([]);
 
-  function getLatestData(draftOnly = false, optionalUserParam = null) {
-    const userToCheck = optionalUserParam === null ? user : optionalUserParam;
-    checkForUpdates(draftOnly, userToCheck, setPicks, setCurrentPick, setDraftingNow, setPlayers, setGoalies, 
-      setTeams, setRules, setPosts, getDraft, getDBPlayers, getDBGoalies, getTeams, getRules, getForumPosts)
+  function getLatestData(draftOnly = false) {
+    checkForUpdates(draftOnly, setPicks, setCurrentPick, setDraftingNow, 
+      setPlayers, setGoalies, setTeams, setRules, setPosts)
   }
 
   function sendChatAnnouncement(message) {
@@ -39,25 +39,10 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
       channel: channel
     });
   }
-  
-  useEffect(() => {
-    let user = localStorage.getItem('user');
-
-    if (!user) {
-      setLoggedIn(false);
-    } else {
-      setUser(JSON.parse(user));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
-    if (user.user_id !== null) {
-      getLatestData(true);
-      // const interval = setInterval(() => getLatestData(true), 60000); // ping server every minute for updates
-      // return () => {
-      //   clearInterval(interval);
-      // }
+    if (user !== null) {
+      getLatestData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -84,25 +69,26 @@ export default function AppWrapper({setLoggedIn, logout, pub, sub, user, setUser
         rules={rules}
         setRules={setRules}
         user={user}
-        setUser={setUser}
         getLatestData={getLatestData}
       />
       <Widget 
+        user={user}
         currentPick={currentPick}
         draftingNow={draftingNow}
         logout={logout}
-        user={user}
       />
-      <Chat 
-        messages={messages}
-        setMessages={setMessages}
-        pub={pub}
-        sub={sub}
-        user={user}
-        channel={channel}
-        getLatestData={getLatestData}
-        sendChatAnnouncement={sendChatAnnouncement}
-      />
-    </>
+      {!localEnvironment &&      
+        <Chat 
+          messages={messages}
+          setMessages={setMessages}
+          pub={pub}
+          sub={sub}
+          user={user}
+          channel={channel}
+          getLatestData={getLatestData}
+          sendChatAnnouncement={sendChatAnnouncement}
+        />
+      }
+      </>
   );
 }
