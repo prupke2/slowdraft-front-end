@@ -17,6 +17,7 @@ export default function ModalWrapper(
   const [forumPostReplies, setForumPostReplies] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
+  const teams = JSON.parse(localStorage.getItem('teams'));
 
   function getReplies(post_id) {
 
@@ -48,6 +49,7 @@ export default function ModalWrapper(
     })
     .then(data => {
       console.log(`data: ${JSON.stringify(data, null, 4)}`);
+      const draftingAgain = data.drafting_again === true ? "You're up again!" : '';
       sendChatAnnouncement(chatMessage);
       getDraft(setPicks, setCurrentPick, setDraftingNow)
       getTeams(setTeams)
@@ -56,7 +58,7 @@ export default function ModalWrapper(
       if (data.success !== true) {
         ToastsStore.error(`Error: ${data.error}`)
       } else {
-        ToastsStore.success(`You have drafted ${data.player}. ${data.drafting_again}`)
+        ToastsStore.success(`You have drafted ${data.player}. ${draftingAgain}`)
       }
       setIsOpen(false);
       setIsLoading(false);
@@ -140,6 +142,11 @@ export default function ModalWrapper(
         />
         <div className='modal-title'>{ReactHtmlParser(data.title)}</div>
         <span className='modal-forum-user'>
+          <div className="logo-wrapper">
+            {/* <img className="logo" src={data && teams[data.yahoo_team_id - 1].team_logo} alt=''/> */}
+
+            { console.log(`data: ${JSON.stringify(data, null, 4)}`) }
+          </div>
           {data.user} &nbsp;
           <div className='modal-forum-date'>{timeSince(data.create_date)}</div>
         </span>
@@ -151,6 +158,9 @@ export default function ModalWrapper(
             {forumPostReplies.map(reply =>
               <div key={reply.id} className="forum-reply">
                 <span className='modal-forum-user'>
+                  <div className="logo-wrapper">
+                    <img className="logo" src={teams[reply.yahoo_team_id - 1].team_logo} alt=''/>
+                  </div>
                   {reply.username} &nbsp;
                   <div className='modal-forum-date'>{timeSince(reply.create_date)}</div>
                 </span>

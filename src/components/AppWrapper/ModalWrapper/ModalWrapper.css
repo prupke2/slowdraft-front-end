@@ -121,6 +121,10 @@
     margin: 0 auto;
   }
 
+  .ReactModalPortal {
+    width: 0;
+  }
+
   #new-forum-post-modal, #new-rule-modal {
     padding: 10px !important;
     margin: 0;
