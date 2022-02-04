@@ -4,15 +4,17 @@ ul {
 }
 
 li.react-tabs__tab {
-  padding: 5px 10px 0;
+  padding: 8px 10px;
   position: relative;
   border: 1px solid var(--gradient1);
-  box-shadow: -2px -1px grey;
   border-radius: 8px 8px 0 0;
   border-bottom: none;
   bottom: 10px;
   cursor: pointer;
-  background: whitesmoke;
+  background: rgb(215, 235, 245);
+  background: var(--main-light);
+  font-variant: small-caps;
+  font-weight: 900;
 }
 
 .react-tabs__tab-panel {
@@ -37,20 +39,45 @@ li.react-tabs__tab {
   padding-top: 14px;
 }
 
+/* Admin tabs */
+
+#react-tabs-15 {
+  background: var(--main-light);
+  padding: 0;
+}
+
+#react-tabs-17 > div {
+  padding-top: 20px;
+}
+
+#react-tabs-19 > div {
+  padding-top: 18px;
+}
+
+#react-tabs-21 > div {
+  padding-top: 16px;
+}
+
+#react-tabs-23 > div {
+  padding-top: 14px;
+}
+
 .react-tabs__tab:hover {
-  background: var(--gradient1);
-  transition: background 0.2s ease;
+  background: var(--main-even);
+  transition: background 0.1s ease;
 }
 
 li.react-tabs__tab--selected:hover {
   cursor: auto;
+  background: var(--main-dark);
 }
 
 li.react-tabs__tab--selected, .react-tabs__tab-panel {
   border: 1px solid transparent;
-  background: var(--gradient1);
-  color: whitesmoke;
-  transition: background 0.2s ease;
+  background: var(--main-dark);
+  color: rgb(245, 245, 245);
+  transition: background 0.1s ease;
+  font-weight: 900;
 }
 
 .navbar-tabs {

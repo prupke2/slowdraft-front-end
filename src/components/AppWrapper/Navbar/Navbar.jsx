@@ -13,27 +13,28 @@ import Emoji from '../Emoji';
 
 export default function Navbar({
   currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
-  sendChatAnnouncement, role, players, setPlayers, goalies, setGoalies,
-  teams, setTeams, posts, setPosts, rules, setRules, user, setUser, getLatestData
+  sendChatAnnouncement, players, setPlayers, goalies, setGoalies,
+  teams, setTeams, posts, setPosts, rules, setRules, user, getLatestData
 }) {
   
   return (
     <>
       <Tabs defaultIndex={0} className="navbar-tabs">
         <TabList>
-          <Tab><Emoji emoji='⚔️'  /><div>Draft</div></Tab>
-          <Tab><Emoji emoji='⛸' /><div>Skaters</div></Tab>
-          <Tab><Emoji emoji='🥅' /><div>Goalies</div></Tab>
-          <Tab><Emoji emoji='🏒' /><div>Teams</div></Tab>
-          <Tab><Emoji emoji='💬' /><div>Forum</div></Tab>
-          <Tab><Emoji emoji='📖' /><div>Rules</div></Tab>
-          <Tab><Emoji emoji='⛏️' /><div>Pick Tracker</div></Tab>
+          <Tab><Emoji navbar={true} emoji='⚔️'  /><div>Draft</div></Tab>
+          <Tab><Emoji navbar={true} emoji='⛸' /><div>Skaters</div></Tab>
+          <Tab><Emoji navbar={true} emoji='🥅' /><div>Goalies</div></Tab>
+          <Tab><Emoji navbar={true} emoji='🏒' /><div>Teams</div></Tab>
+          <Tab><Emoji navbar={true} emoji='💬' /><div>Forum</div></Tab>
+          <Tab><Emoji navbar={true} emoji='📖' /><div>Rules</div></Tab>
+          <Tab><Emoji navbar={true} emoji='⛏️' /><div>Pick Tracker</div></Tab>
           { user.role === 'admin' && (
-            <Tab><Emoji emoji='✨' /><div>Admin</div></Tab>
+            <Tab><Emoji navbar={true} emoji='✨' /><div>Admin</div></Tab>
           )}
         </TabList>
         <TabPanel>
           <DraftTab 
+            user={user}
             currentPick={currentPick}
             setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
@@ -41,15 +42,15 @@ export default function Navbar({
             userId={userId}
             picks={picks}
             setPicks={setPicks}
-            role={role}
-            user={user}
-            setUser={setUser}
+            setPlayers={setPlayers}
+            setGoalies={setGoalies}
             getLatestData={getLatestData}
             sendChatAnnouncement={sendChatAnnouncement}
           />
         </TabPanel>
         <TabPanel>
           <PlayersTab 
+            user={user}
             setPicks={setPicks}
             setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
@@ -58,12 +59,12 @@ export default function Navbar({
             players={players}
             setPlayers={setPlayers}
             setTeams={setTeams}
-            user={user}
             getLatestData={getLatestData}
           />
         </TabPanel>
         <TabPanel>
           <GoaliesTab 
+            user={user}
             setPicks={setPicks}
             setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
@@ -72,15 +73,14 @@ export default function Navbar({
             goalies={goalies}
             setGoalies={setGoalies}
             setTeams={setTeams}
-            user={user}
             getLatestData={getLatestData}
           />
         </TabPanel>
         <TabPanel>
           <TeamsTab 
+            user={user}
             teams={teams}
             setTeams={setTeams}
-            user={user}
             getLatestData={getLatestData}
           />
         </TabPanel>
