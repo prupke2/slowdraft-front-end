@@ -1,24 +1,31 @@
 import React, { useState} from 'react';
 import { ToastsStore } from 'react-toasts';
 import SelectPlayerDropdown from './SelectPlayerDropdown';
-import { localEnvironment } from '../../../../util/util';
+import { getHeaders, teamIdToKey, teamsMap } from '../../../../util/util';
+import Emoji from '../../Emoji';
 
-
-export default function MakePickTab({ userInfo, sendChatAnnouncement }) {
-  const [userId, setUserId] = useState(351);
+export default function MakePickTab() {
+  const [teamId, setTeamId] = useState(1);
   const [playerId, setPlayerId] = useState(null);
-
-  const handleUserIdChange = event => {
-    setUserId(event.target.value)
-  };
+  const teams = JSON.parse(localStorage.getItem('teams'));
+  const teamKey = teamIdToKey(teamId);
+  const formComplete = teamId && playerId;
 
   function draftPlayer(e) {
     e.preventDefault();
     if (!playerId) {
       ToastsStore.error(`You forgot to select a player.`);
       return
-    } 
-    fetch(`/draft/${userInfo.draft_id}/${userId}/${playerId}`)
+    }
+    const requestParams = {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ 
+        team_key: teamKey,
+        player_id: playerId
+      })
+    }
+    fetch(`/make_pick`, requestParams)
     .then(response => {
       if (!response.ok) {
         ToastsStore.error(`An error occurred. Please try again later.`)
@@ -28,47 +35,36 @@ export default function MakePickTab({ userInfo, sendChatAnnouncement }) {
       return response.json()
     })
     .then(data => {
-      // sendChatAnnouncement(message);
-      ToastsStore.success(`👍 Success! Check the draft and teams page to make sure everything looks good.`)
+      if (data.success === true) {
+        ToastsStore.success(`👍 Success!`)
+      } else {
+        ToastsStore.error(`There was an error making this pick. ${data.error ? data.error : null}`)
+      }
     })
   }
   return (
     <form className='admin-form add-keeper-form'>
-      <h2>Make a pick for another team</h2>
-      <p className='instructions'>
+      <div className='instructions make-pick-instructions '>
         <div className='warning'>
-          <span role='img' aria-label='instructions'>⚠️</span>
+          <Emoji emoji='⚠️' /> 
           This will draft a player for another team.
         </div>
-        It will also send out the "Next Pick" email.
-      </p>
+        <div>It will also send out the "Next Pick" email.</div>
+      </div>
       <div>
         <label name='admin-user-dropdown'>Team:</label>
         <select 
           className='admin-user-dropdown'
-          onChange={handleUserIdChange}
+          onChange={e => setTeamId(e.target.value)}
         >
-          <option value={351}>American Gladiators</option>
-          <option value={441}>Fort Wayne Komets</option>
-          <option value={301}>GrandRapids Griffins</option>
-          <option value={371}>Nelson Leafs</option>
-          <option value={381}>New Orleans Brass</option>
-          <option value={321}>Ontario Reign</option>
-          <option value={341}>Providence Bruins</option>
-          <option value={331}>Seaforth Generals</option>
-          <option value={411}>St. Marys Lincolns</option>
-          <option value={391}>St. Thomas Stars</option>
-          <option value={431}>Syracuse Crunch!</option>
-          <option value={361}>Terrace River Kings</option>
-          { localEnvironment &&
-            <option value={292}>LOCAL TESTING ONLY</option>
-          }
+          { teamsMap(teams) }
         </select>
       </div>
       <SelectPlayerDropdown
-        onClick={e => draftPlayer(e)}
+        handleClick={e => draftPlayer(e)}
         setPlayerId={setPlayerId}
         buttonName={"Draft player"}
+        formComplete={formComplete}
       />
     </form>
   )
