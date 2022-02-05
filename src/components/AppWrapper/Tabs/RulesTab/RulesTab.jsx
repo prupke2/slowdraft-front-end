@@ -83,7 +83,7 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
         <>
           { user.role === 'admin' && 
             <>
-              <button className='margin-15' onClick = {() => newRule()}>New rule</button>
+              <button className='new-rules-button margin-15' onClick = {() => newRule()}>New rule</button>
               <ModalWrapper 
                 modalIsOpen={modalOpen}
                 setIsOpen={setModalOpen}
