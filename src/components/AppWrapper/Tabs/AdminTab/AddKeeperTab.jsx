@@ -52,10 +52,8 @@ export default function AddKeeperTab({ singleTeam }) {
     setTeamId(event.target.value)
   };
   
-  const title = singleTeam ? 'Add your keepers' : 'Add a keeper to a team';
   return (
     <form className='admin-form add-keeper-form'>
-      <h2>{title}</h2>
       { !singleTeam &&
       <>
         <div className='instructions'>

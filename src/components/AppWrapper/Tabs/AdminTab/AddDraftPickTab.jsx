@@ -46,7 +46,6 @@ export default function AddDraftPickTab() {
   
   return (
     <form className='admin-form add-keeper-form'>
-      <h2>Add draft pick</h2>
       <div className='instructions'>
         <div>
           <Emoji emoji='⚠️' />
