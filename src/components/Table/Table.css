@@ -229,7 +229,7 @@ table tr:last-child td {
     height: 25px;
     width: auto;
   }
-  .teamLogoContainer {
+  .team-logo-container {
     height: 100%;
     min-height: 50px;
     align-items: center;

@@ -102,7 +102,7 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
   top: -10px;
 }
 
-.teamLogoContainer {
+.team-logo-container {
   margin: 0;
   display: flex;
   place-content: center;

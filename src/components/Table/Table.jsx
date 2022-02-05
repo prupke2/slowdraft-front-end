@@ -144,6 +144,7 @@ export default function Table(
         defaultColumnFilter,
         filterTypes,
         initialState: tableState,
+        disableSortRemove: true,
       },
       useFilters,
       useSortBy,
