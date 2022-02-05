@@ -1,19 +1,13 @@
 import React from 'react';
 import { ToastsStore } from 'react-toasts';
+import { getHeaders } from '../../../../util/util';
+import Emoji from '../../Emoji';
+import { SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 
 export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId, 
     team, setTeam, positions, setPositions }
   ) {
 
-  const handleNameChange = event => {
-    setName(event.target.value)
-  };
-  const handlePlayerIdChange = event => {
-    setPlayerId(event.target.value)
-  };
-  const handleTeamChange = event => {
-    setTeam(event.target.value)
-  };
   const handlePositionChange = event => {
     const newPosition = event.target.value;
     let newPositionsArray = positions
@@ -25,15 +19,13 @@ export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId,
     }
     setPositions(newPositionsArray)
   };
+  const formComplete = name && playerId && !positions.isEmpty();
 
   function addPlayerToDb(e) {
     e.preventDefault();
     let requestParams = {
       method: 'POST',
-      headers: { 
-        'Accept': 'application/json', 
-        'Content-Type': 'application/json'
-      }
+      headers: getHeaders()
     };
     requestParams.body = JSON.stringify({ 
       name: name,
@@ -41,7 +33,7 @@ export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId,
       team: team,
       positions: positions
     })
-    if ( name && playerId && team && !positions.isEmpty() ) {    
+    if ( formComplete ) {    
       fetch('/insert_player', requestParams)
         .then(response => {
         if (!response.ok) {
@@ -65,67 +57,46 @@ export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId,
   }
 
   return (
-    <form className='admin-form'>
-      <h2>Add player to the database</h2>
-      <p className='instructions'>
+    <form className='admin-form add-player-to-db'>
+      <div className='instructions flex-direction-column'>
         <div>
-          <span role='img' aria-label='instructions'>⚠️</span>
+          <Emoji emoji='⚠️' /> 
           This will add a player to the database. 
         </div>
         <div className='warning'>
           Before proceeding, make sure this player has a yahoo profile.
         </div>
         To make sure the player is not already in the database, search with the "All players" filter.
-      </p>
+      </div>
       <div>
         <label name='name'>Player name:</label>
-        <input required type='text' name='name' label='name' onChange={handleNameChange} />
+        <input 
+          type='text' 
+          name='name' 
+          label='name' 
+          onChange={e => setName(e.target.value)} 
+          required 
+        />
       </div>
       <div>
         <label name='yahooId'>Yahoo player id:</label>
-        <input required type='text' pattern='[0-9]' name='yahooId' label='yahooId' onChange={handlePlayerIdChange} />
+        <input 
+          type='text' 
+          pattern='[0-9]' 
+          name='yahooId' 
+          label='yahooId' 
+          onChange={e => setPlayerId(e.target.value)} 
+          required 
+        />
       </div>
       <div>
         <label name='team'>Team:</label>
-        <select
+        <SelectTeamFilter
           name='team'
           label='team'
-          className='team-filter wide-filter'
-          onChange={handleTeamChange}
-        >
-          <option value="Anh">Anaheim</option>
-          <option value="Ari">Arizona</option>
-          <option value="Bos">Boston</option>
-          <option value="Buf">Buffalo</option>
-          <option value="Cgy">Calgary</option>
-          <option value="Car">Carolina</option>
-          <option value="Chi">Chicago</option>
-          <option value="Col">Colorado</option>
-          <option value="Cls">Columbus</option>
-          <option value="Dal">Dallas</option>
-          <option value="Det">Detroit</option>
-          <option value="Edm">Edmonton</option>
-          <option value="Fla">Florida</option>
-          <option value="LA">L.A.</option>
-          <option value="Min">Minnesota</option>
-          <option value="Mon">Montreal</option>
-          <option value="Nsh">Nashville</option>
-          <option value="NJ">New Jersey</option>
-          <option value="NYI">NY Islanders</option>
-          <option value="NYR">NY Rangers</option>
-          <option value="Ott">Ottawa</option>
-          <option value="Phi">Philadelphia</option>
-          <option value="Pit">Pittsburgh</option>
-          <option value="SJ">San Jose</option>
-          <option value="Sea">Seattle</option>
-          <option value="StL">St. Louis</option>
-          <option value="Tor">Toronto</option>
-          <option value="TB">Tampa Bay</option>
-          <option value="Van">Vancouver</option>
-          <option value="VGK">Vegas</option>
-          <option value="Was">Washington</option>
-          <option value="Wpg">Winnipeg</option>
-        </select>
+          column={{filterValue: team, setFilter: (e => setTeam(e))}}
+          wideFilter={true}
+        />
       </div>
       
       <div>
@@ -143,7 +114,12 @@ export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId,
           <label htmlFor='G'>G</label>
         </div>
       </div>
-      <button onClick={(e) => addPlayerToDb(e)}>Add player</button>
+      <button 
+        onClick={(e) => addPlayerToDb(e)}
+        disabled={!formComplete}
+      >
+        Add player
+      </button>
     </form>
   );
 
