@@ -116,7 +116,7 @@
 
 @media screen and (max-width: 800px) { 
   .ReactModal__Content {
-    width: calc(95vw - 150px) !important;
+    width: calc(100vw - 90px) !important;
     min-width: 300px !important;
     margin: 0 auto;
   }
