@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import Table from '../../../Table/Table';
-// import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
-import { getDraft } from '../../../../util/requests';
+import { getDraft, getDBGoalies, getDBPlayers } from '../../../../util/requests';
 
-export default function DraftTab({currentPick, setCurrentPick, picks, setPicks, 
-  draftingNow, setDraftingNow, user, getLatestData, sendChatAnnouncement
+export default function DraftTab({user, currentPick, setCurrentPick, picks, setPicks, 
+  setPlayers, setGoalies, draftingNow, setDraftingNow, getLatestData, sendChatAnnouncement
 }) {
   const columns = [
     {
       Header: 'Pick',
       accessor: 'overall_pick',
       disableFilters: true,
-      width: '20px',
+      width: 10,
       sortDescFirst: false,
       disableSortBy: true,
     },
@@ -100,27 +99,34 @@ export default function DraftTab({currentPick, setCurrentPick, picks, setPicks,
       setPicks(data.picks);
       if (typeof(data.current_pick) !== 'undefined') {
         setCurrentPick(data.current_pick);
-        if (currentPick.user_id === user.user_id) {
+        if (currentPick && currentPick.team_key === user.team_key) {
           setDraftingNow(true);
         }
       }
     }
     else {
       console.log("Getting new draft data");
-      if (user.user_id !== null) {
-        data = getDraft(user, setPicks, setCurrentPick, setDraftingNow);      
-      }
+      data = getDraft(setPicks, setCurrentPick, setDraftingNow);
     }
     if (data) {
       setPicks(data.picks);
         if (typeof(data.current_pick) !== 'undefined') {
           setCurrentPick(data.current_pick);
-          if (currentPick.user_id === user.user_id) {
+          if (currentPick && currentPick.team_key === user.team_key) {
             setDraftingNow(true);
           }
         }
       }
     setIsLoading(false);
+
+    const localGoalieData = localStorage.getItem('goalieDBData');
+    const localPlayerData = localStorage.getItem('playerDBData');
+    if (!localGoalieData) {
+      getDBGoalies(setGoalies);
+    } 
+    if (!localPlayerData) {
+      getDBPlayers(setPlayers);
+    } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
