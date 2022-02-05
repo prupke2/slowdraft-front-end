@@ -38,7 +38,7 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
       accessor: 'team',
       Filter: SelectTeamFilter,
       width: '50px',
-      Cell: row => <div className='teamLogoContainer'>
+      Cell: row => <div className='team-logo-container'>
       {
         (row.value) &&
           <img 

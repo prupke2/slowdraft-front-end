@@ -33,7 +33,7 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
       width: '30px',
       disableFilters: true,
       disableSortBy: true,
-      Cell: row => <div className='teamLogoContainer'>
+      Cell: row => <div className='team-logo-container'>
         {
           (row.value) &&
             <img 

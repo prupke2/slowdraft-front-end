@@ -39,7 +39,7 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, 
       Filter: SelectTeamFilter,
       sortType: 'alphanumeric',
       width: '100px',
-      Cell: row => <div className='teamLogoContainer'>
+      Cell: row => <div className='team-logo-container'>
       {
         (row.value) &&
           <img 

@@ -6,8 +6,7 @@ import Table from '../../../Table/Table';
 import { SelectFilter } from '../../../Table/FilterTypes/FilterTypes';
 import { getTeams } from '../../../../util/requests';
 
-
-export default function TeamTab({draftingNow, user, teams, setTeams, getLatestData}) {
+export default function TeamTab({user, draftingNow, teams, setTeams, getLatestData}) {
   const columns = [
     {
       Header: 'Yahoo Team',
@@ -27,14 +26,14 @@ export default function TeamTab({draftingNow, user, teams, setTeams, getLatestDa
       accessor: 'team',
       width: '50px',
       disableFilters: true,
-      Cell: row => <div className='teamLogoContainer'>
+      Cell: cell => <div className='team-logo-container'>
       {
-        (row.value) &&
+        (cell.value) &&
           <img 
             className='teamLogo' 
-            src={`/teamLogos/${row.value}.png`} 
-            alt={row.value} 
-            title={row.value} 
+            src={`/teamLogos/${cell.value}.png`} 
+            alt={cell.value} 
+            title={cell.value} 
           />
       }
       </div>
@@ -85,7 +84,7 @@ export default function TeamTab({draftingNow, user, teams, setTeams, getLatestDa
     else {
       console.log("Getting new team data");
       if (user) {
-        getTeams(user, setTeams);    
+        getTeams(setTeams);    
       }
     }
     setIsLoading(false);
@@ -98,17 +97,18 @@ export default function TeamTab({draftingNow, user, teams, setTeams, getLatestDa
   if (!isLoading) {
     return (
       <>
-      {/* <div>{teams}</div> */}
-      <Table
-        user={user}
-        data={teams}
-        columns={columns}
-        tableState={tableState}
-        defaultColumn='player_id'
-        draftingNow={draftingNow} 
-        tableType='teams'
-      />
-      </>
+        {(teams && teams.length > 0) && 
+          <Table
+            user={user}
+            data={teams}
+            columns={columns}
+            tableState={tableState}
+            defaultColumn='player_id'
+            draftingNow={draftingNow} 
+            tableType='teams'
+          />
+        }
+        </>
     )
   }
 }
