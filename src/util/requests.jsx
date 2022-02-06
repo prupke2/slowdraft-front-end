@@ -75,8 +75,8 @@ export function getTeams(setTeams) {
         const error = (data && data.message) || response.status;
         return Promise.reject(error);
       }
-      localStorage.setItem('teamData', JSON.stringify(data))
-      localStorage.setItem('teamDataUpdate', new Date())
+      localStorage.setItem('playerTeamData', JSON.stringify(data))
+      localStorage.setItem('playerTeamDataUpdate', new Date())
       setTeams(data.teams);
   })
 }
@@ -151,7 +151,7 @@ export function checkForUpdates(draftOnly, setPicks, setCurrentPick, setDrafting
             console.log("Update goalie DB data...");
             getDBGoalies(setGoalies);
           }
-          if ((Date.parse(data.updates.latest_team_update) + 5) > Date.parse(localStorage.getItem('teamDataUpdate'))) {
+          if ((Date.parse(data.updates.latest_team_update) + 5) > Date.parse(localStorage.getItem('playerTeamDataUpdate'))) {
             console.log("Update team data...");
             getTeams(setTeams)
           }

@@ -75,10 +75,10 @@ export default function TeamTab({user, draftingNow, teams, setTeams, getLatestDa
   useEffect(() => {
     setIsLoading(true);
     getLatestData();
-    const teamData = localStorage.getItem('teamData');
-    if (teamData && user) {
+    const playerTeamData = localStorage.getItem('playerTeamData');
+    if (playerTeamData && user) {
       console.log("Using cached data");
-      let data = JSON.parse(teamData);
+      let data = JSON.parse(playerTeamData);
       setTeams(data.teams);
     }
     else {
