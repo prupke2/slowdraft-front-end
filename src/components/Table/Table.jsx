@@ -20,8 +20,6 @@ export default function Table(
   const [forumPostId, setForumPostId] = useState('');
   const isAdmin = user.role === 'admin';
   const teams = JSON.parse(localStorage.getItem('teams'));
-  const teamIndex = user.team_id - 1; 
-  const teamLogoUrl = teams ? teams[teamIndex].team_logo : null;
 
   function draftModal(player) {
     setModalOpen(true);

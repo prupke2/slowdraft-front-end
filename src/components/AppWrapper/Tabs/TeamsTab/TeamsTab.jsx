@@ -18,7 +18,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   useEffect(() => {
     const teamPlayerCount = teams.filter(team => team.username === teamFilter).length;
     setTeamPlayerCount(parseInt(teamPlayerCount, 10));
-  }, [teamFilter]);
+  }, [teamFilter, teams]);
 
   const playerColumns = [
     {
@@ -326,7 +326,8 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
             <div className='team-and-logo-wrapper'>
               <img 
                 className='logo-teams-page'
-                src={teamIdToLogo(teamId)} 
+                src={teamIdToLogo(teamId)}
+                alt='logo'
               />
               <div className='team-filter-wrapper'>
                 <select
