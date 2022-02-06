@@ -75,8 +75,8 @@ export function getTeams(setTeams) {
         const error = (data && data.message) || response.status;
         return Promise.reject(error);
       }
-      localStorage.setItem('playerTeamData', JSON.stringify(data))
-      localStorage.setItem('playerTeamDataUpdate', new Date())
+      localStorage.setItem('playerTeamData', JSON.stringify(data.teams));
+      localStorage.setItem('playerTeamDataUpdate', new Date());
       setTeams(data.teams);
   })
 }

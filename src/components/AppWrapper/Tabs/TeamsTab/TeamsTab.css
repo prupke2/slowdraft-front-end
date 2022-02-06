@@ -1,0 +1,16 @@
+.team-and-logo-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 300px;
+}
+
+.logo-teams-page {
+  height: 50px;
+  width: auto;
+}
+
+.team-filter-wrapper > select {
+  width: 200px;
+}
