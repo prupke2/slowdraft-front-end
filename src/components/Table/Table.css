@@ -135,7 +135,9 @@ table tr:last-child td {
 }
 
 .team-header-wrapper {
-  display: inline-flex;
+  position: absolute;
+  right: 20px;
+  top: 10px;
 }
 
 .logo-container {
@@ -147,6 +149,7 @@ table tr:last-child td {
   display: flex;
   align-items: left;
   width: 180px;
+  height: 50px;
   border: 1px solid var(--main-very-dark);
   border-radius: 4px;
   background-color: white;
@@ -165,11 +168,6 @@ table tr:last-child td {
   border-radius: 4px;
   background: var(--main-very-dark);
   color: white;
-}
-
-.team-logo {
-  height: 50px;
-  width: auto;
 }
 
 #show-taken-dropdown {

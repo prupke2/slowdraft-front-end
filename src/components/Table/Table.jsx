@@ -167,25 +167,6 @@ export default function Table(
           pageOptions={pageOptions}
         />
       }
-      { tableType === 'teams' && 
-        <div className='team-header-wrapper'>
-          <div className="player-count">
-            <div>
-              Total: <span>{page.length}</span>
-            </div>
-            <div>
-              Remaining: <span>{24 - page.length}</span> 
-            </div>
-          </div>
-          <div className='logo-container'>
-            <img 
-              src={teamLogoUrl} 
-              alt=''
-              className='team-logo'
-            />
-          </div>
-        </div>
-      }
 
       { loading && <Loading text="Loading..." />}
       { !loading &&
