@@ -41,8 +41,7 @@ export function substringInString(string, substring) {
 }
 
 export function localEnvironment() {
-  const url = window.location.href;
-  return substringInString(url, "localhost:3000") || substringInString(url, "0.0.0.0:3000/");
+  return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 }
 
 export function capitalizeFirstLetter(str) {
