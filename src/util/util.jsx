@@ -10,7 +10,12 @@ export const teamIdToKey = (teamId) => {
   return targetTeam ? targetTeam.team_key : null;
 };
 
-export const teamsMap = (teams) => {
+export const teamIdToLogo = (teamId) => {
+  const teams = JSON.parse(localStorage.getItem('teams'));
+  return teams[teamId - 1].team_logo;
+};
+
+export const teamsMap = (teams, returnType='team_id') => {
   if (!teams || teams.length === 0) {
     return null;
   }
@@ -18,8 +23,8 @@ export const teamsMap = (teams) => {
     team => {
       return (
         <option 
-          key={team.team_id} 
-          value={team.team_id}
+          key={team[returnType]} 
+          value={team[returnType]}
         >
           {team.team_name}
         </option>
