@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
-import { getDraft, getDBGoalies, getDBPlayers } from '../../../../util/requests';
+import { getDraft, getDBGoalies, getDBPlayers, getTeams } from '../../../../util/requests';
 
-export default function DraftTab({user, currentPick, setCurrentPick, picks, setPicks, 
+export default function DraftTab({user, currentPick, setCurrentPick, picks, setPicks, setTeams,
   setPlayers, setGoalies, draftingNow, setDraftingNow, getLatestData, sendChatAnnouncement
 }) {
   const columns = [
@@ -121,11 +121,15 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
 
     const localGoalieData = localStorage.getItem('goalieDBData');
     const localPlayerData = localStorage.getItem('playerDBData');
+    const playerTeamData = localStorage.getItem('playerTeamData');
     if (!localGoalieData) {
       getDBGoalies(setGoalies);
     } 
     if (!localPlayerData) {
       getDBPlayers(setPlayers);
+    } 
+    if (!playerTeamData) {
+      getTeams(setTeams);
     } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

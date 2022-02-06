@@ -42,6 +42,7 @@ export default function Navbar({
             userId={userId}
             picks={picks}
             setPicks={setPicks}
+            setTeams={setTeams}
             setPlayers={setPlayers}
             setGoalies={setGoalies}
             getLatestData={getLatestData}
