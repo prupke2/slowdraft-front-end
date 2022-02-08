@@ -150,7 +150,7 @@ export default function Table(
   )
 
   return (
-    <div className='team-tab-wrapper'>
+    <div>
       { tableType !== 'forum' && tableType !== 'teams' && 
         <Pagination 
           currentRound={currentPick ? currentPick.round - 1 : null}
