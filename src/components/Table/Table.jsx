@@ -181,22 +181,7 @@ export default function Table(
                   <th className="blank-cell" width="30px" />
                 }
                 {headerGroup.headers.map(column => {
-                  return (column.Header === 'Player Type' || column.Header === 'Yahoo Team' || column.Header === 'Availability') ?
-                    <th key={column.accessor} id={column.Header === 'Availability' ? 'show-taken-dropdown' : 'prospect-column'}>
-                      <span {...column.getHeaderProps(column.getSortByToggleProps())} >
-                        {column.render('Header')}
-                        {/* <span>
-                          {column.isSorted
-                            ? column.isSortedDesc
-                            ? ' ▼'
-                            : ' ▲'
-                          : ''}
-                        </span> */}
-                      </span>
-                      <div>{column.canFilter ? column.render('Filter') : null}</div>
-                    </th>
-                  :
-                  
+                  return (
                     <th key={column.id} width={column.width}>
                       <span {...column.getHeaderProps(column.getSortByToggleProps())} >
                         {column.render('Header')}
@@ -210,7 +195,7 @@ export default function Table(
                       </span>
                       <div>{column.canFilter ? column.render('Filter') : null}</div>
                     </th>
-                  
+                  );
                 }
               )}
               </tr>
@@ -253,9 +238,6 @@ export default function Table(
                           {...cell.getCellProps()}
                           >
                             {cell.render('Cell')}
-                            {(tableType === 'draftPicks' && row.original.overall_pick === 13) &&
-                              <span className="asterisk">* </span>
-                            }
                           </td>
                         </>
                       )
@@ -372,12 +354,6 @@ export default function Table(
                           </div> */}
                         </td>                    
                       )
-                    } else if (cell.column.Header === 'Player Type' || cell.column.Header === 'Yahoo Team') {
-                      return (
-                        <td className="prospect-column-hidden" />
-                      )
-                    } else if (cell.column.Header === 'Availability') {
-                      return null
                     } else {
                       return (
                         <td className={cell.column.Header}
@@ -387,7 +363,6 @@ export default function Table(
                         </td>
                       )
                     }
-                    // return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   })}
                 </tr>
               )
