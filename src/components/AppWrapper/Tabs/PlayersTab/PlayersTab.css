@@ -1,0 +1,29 @@
+.player-tabs-filter-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 450px;
+  margin: 0 10px -50px 200px;
+}
+
+.player-tabs-filter-wrapper > div {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  text-align: left;
+}
+
+.player-tabs-filter-wrapper .player-type-wrapper {
+  width: 130px;
+}
+
+h3 {
+  color: white;
+}
+
+@media screen and (max-width: 800px) { 
+  .player-tabs-filter-wrapper {
+    margin: 0 auto;
+    width: 350px;
+  }
+}
+
