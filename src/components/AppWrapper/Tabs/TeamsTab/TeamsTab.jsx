@@ -16,6 +16,28 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   );
 
   useEffect(() => {
+    setIsLoading(true);
+    getLatestData();
+    if (teams && user) {
+      console.log("Using cached data");
+      setTeams(teams.teams);
+    }
+    else {
+      console.log("Getting new team data");
+      if (user) {
+        getTeams(setTeams);    
+      }
+    }
+    setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function multiSelectPositionsFilter(rows) {
+    const filterValue = ['LW', 'C', 'RW', 'D'];
+    return rows.filter((row) => filterValue.includes(row.original.position))
+  }
+
+  useEffect(() => {
     const teamPlayerCount = teams.filter(team => team.username === teamFilter).length;
     setTeamPlayerCount(parseInt(teamPlayerCount, 10));
   }, [teamFilter, teams]);
@@ -56,6 +78,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       Header: 'Pos',
       accessor: 'position',
       width: '30px',
+      filter: multiSelectPositionsFilter,
       disableFilters: true,
       disableSortBy: true,
     },
@@ -64,84 +87,84 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       accessor: '0',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },   
     {
       Header: 'G',
       accessor: '1',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'A',
       accessor: '2',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'P',
       accessor: '3',
       disableFilters: true,
+      width: '30px',
       sortDescFirst: true,
-      width: '30px'
     },
     {
       Header: '+/-',
       accessor: '4',
       disableFilters: true,
+      width: '30px',
       sortDescFirst: true,
-      width: '30px'
     },
     {
       Header: 'PIM',
       accessor: '5',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'PPP',
       accessor: '8',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'SOG',
       accessor: '14',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'S%',
       accessor: '15',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'FW',
       accessor: '16',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'HIT',
       accessor: '31',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'BLK',
       accessor: '32',
       disableFilters: true,
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       accessor: 'username'
@@ -162,17 +185,17 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
     sortBy: [
       {
         id: 'overall_pick',
-        desc: false
+        desc: false,
       }
     ],
     filters: [
       { 
         id: 'username', 
-        value: teamFilter
+        value: teamFilter,
       },
       {
         id: 'position',
-        value: ('D', 'LW', 'RW', 'C')
+        // no value needed here - this filtering is done in the column definition (filter: multiSelectPositionsFilter)
       }
     ]
   }
@@ -215,7 +238,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       disableFilters: true,
       sortType: 'alphanumeric',
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'W',
@@ -223,14 +246,14 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       disableFilters: true,
       sortType: 'alphanumeric',
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'GAA',
       accessor: '23',      
       disableFilters: true,
-      sortType: 'alphanumeric',
       width: '30px',
+      sortType: 'alphanumeric',
     },
     {
       Header: 'SV',
@@ -238,7 +261,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       disableFilters: true,
       sortType: 'alphanumeric',
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       Header: 'SV%',
@@ -246,7 +269,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       disableFilters: true,
       sortType: 'alphanumeric',
       width: '30px',
-      sortDescFirst: true
+      sortDescFirst: true,
     },
     {
       accessor: 'username'
@@ -270,17 +293,17 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
     sortBy: [
       {
         id: 'overall_pick',
-        desc: false
+        desc: false,
       }
     ],
     filters: [
       { 
         id: 'username', 
-        value: teamFilter
+        value: teamFilter,
       },
       {
         id: 'position',
-        value: 'G'
+        value: 'G',
       }
     ]
   }
@@ -288,98 +311,72 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   const [isLoading, setIsLoading] = useState(true);
 
   function handleTeamFilterChange(e) {
+    setTeamId(e.target.value);
     const teamSelectFilter = document.getElementById('team-filter-select');
     const teamName = teamSelectFilter.options[teamSelectFilter.selectedIndex].text;
-    setTeamId(e.target.value);
     setTeamFilter(teamName);
   }
-
-  useEffect(() => {
-    setIsLoading(true);
-    getLatestData();
-    const playerTeamData = localStorage.getItem('playerTeamData');
-    if (playerTeamData && user) {
-      console.log("Using cached data");
-      let data = JSON.parse(playerTeamData);
-      setTeams(data.teams);
-      // setTeamFilter(teamName);
-    }
-    else {
-      console.log("Getting new team data");
-      if (user) {
-        getTeams(setTeams);    
-      }
-    }
-    setIsLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setTeams, user])
 
   if (isLoading) {
     return <Loading text="Loading teams..." />
   }
   if (!isLoading) {
-    console.log("rerendering")
     return (
       <>
-        {(teams && teams.length > 0) && 
-          <>
-            <div className='team-and-logo-wrapper'>
-              <img 
-                className='logo-teams-page'
-                src={teamIdToLogo(teamId)}
-                alt='logo'
-              />
-              <div className='team-filter-wrapper'>
-                <select
-                  defaultValue={user.team_id}
-                  id='team-filter-select'
-                  value={teamId} 
-                  className='change-user-dropdown'
-                  onChange={e => handleTeamFilterChange(e)}
-                >
-                  { teamsMap(teamInfo) }
-                </select>
-              </div>
-            </div>
-            <div className='team-header-wrapper'>
-              <div className="player-count">
-                <div>
-                  Total: <span>{teamPlayerCount}</span>
-                </div>
-                <div>
-                  Remaining: <span>{24 - teamPlayerCount}</span> 
-                </div>
-              </div>
-            </div>
-            { teams && 
-              <h2>Skaters</h2>
-            }
-            <Table
-              user={user}
-              data={teams}
-              columns={playerColumns}
-              tableState={playerTableState}
-              defaultColumn='player_id'
-              draftingNow={draftingNow} 
-              tableType='teams'
-              setTeamFilter={setTeamFilter}
+        <div className='team-tab-header'>
+          <div className='team-and-logo-wrapper'>
+            <img 
+              className='logo-teams-page'
+              src={teamIdToLogo(teamId)}
+              alt='logo'
             />
-            { teams && 
-              <h2>Goalies</h2>
-            }
-            <Table
-              user={user}
-              data={teams}
-              columns={goalieColumns}
-              tableState={goalieTableState}
-              defaultColumn='player_id'
-              draftingNow={draftingNow} 
-              tableType='teams'
-              setTeamFilter={setTeamFilter}
-            />
-          </>
+            <div className='team-filter-wrapper'>
+              <select
+                id='team-filter-select'
+                value={teamId} 
+                className='change-user-dropdown'
+                onChange={e => handleTeamFilterChange(e)}
+              >
+                { teamsMap(teamInfo) }
+              </select>
+            </div>
+          </div>
+          <div className="player-count">
+            <div>
+              Total: <span>{teamPlayerCount}</span>
+            </div>
+            <div>
+              Remaining: <span>{24 - teamPlayerCount}</span> 
+            </div>
+          </div>
+        </div>
+        { teams && 
+          <h2>Skaters</h2>
         }
-        </>
+        <Table
+          user={user}
+          data={teams}
+          columns={playerColumns}
+          tableState={playerTableState}
+          defaultColumn='player_id'
+          draftingNow={draftingNow} 
+          tableType='teams'
+          setTeamFilter={setTeamFilter}
+        />
+        { teams && 
+          <h2>Goalies</h2>
+        }
+        <Table
+          user={user}
+          data={teams}
+          columns={goalieColumns}
+          tableState={goalieTableState}
+          defaultColumn='player_id'
+          draftingNow={draftingNow} 
+          tableType='teams'
+          setTeamFilter={setTeamFilter}
+        />
+      </>
     )
   }
 }
