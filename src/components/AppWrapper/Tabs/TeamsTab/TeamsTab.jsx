@@ -361,7 +361,6 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
           defaultColumn='player_id'
           draftingNow={draftingNow} 
           tableType='teams'
-          setTeamFilter={setTeamFilter}
         />
         { teams && 
           <h2>Goalies</h2>
@@ -374,7 +373,6 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
           defaultColumn='player_id'
           draftingNow={draftingNow} 
           tableType='teams'
-          setTeamFilter={setTeamFilter}
         />
       </>
     )
