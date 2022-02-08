@@ -1,9 +1,23 @@
+.team-tab-header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--main-text);
+}
+
+.team-header-wrapper {
+  flex-shrink: initial;
+  width: 200px;
+  right: 20px;
+  top: 10px;
+}
+
 .team-and-logo-wrapper {
+  flex-shrink: initial;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  width: 300px;
+  justify-content: space-between;
+  width: 290px;
 }
 
 .logo-teams-page {
@@ -13,4 +27,27 @@
 
 .team-filter-wrapper > select {
   width: 200px;
+}
+
+.player-count {
+  display: flex;
+  align-items: left;
+  width: 180px;
+  height: 50px;
+  border: 1px solid var(--main-very-dark);
+  border-radius: 4px;
+  background-color: white;
+  color: var(--main-very-dark);
+}
+
+.player-count > div:first-child {
+  border-right: 1px dotted var(--main-very-dark);
+}
+
+.player-count > div > span {
+  padding: 1px 6px;
+  border: 1px solid white;
+  border-radius: 4px;
+  background: var(--main-very-dark);
+  color: white;
 }
