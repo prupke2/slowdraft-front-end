@@ -10,7 +10,7 @@ export default function Login({ setUser, code, setLoggedIn, setPub, setSub,
   }) {
   const client_id = "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
   let errors = null;
-  const redirect_uri = localEnvironment ? "oob" : "https://slowdraft.herokuapp.com";
+  const redirect_uri = localEnvironment() ? "oob" : "https://slowdraft.herokuapp.com";
   const yahooLoginUrl = `https://api.login.yahoo.com/oauth2/request_auth?client_id=${client_id}` + 
       `&redirect_uri=${redirect_uri}&response_type=code&language=en-us`
 
