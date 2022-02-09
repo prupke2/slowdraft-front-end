@@ -46,7 +46,7 @@ export function substringInString(string, substring) {
 }
 
 export function localEnvironment() {
-  return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+  return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === '0.0.0.0';
 }
 
 export function capitalizeFirstLetter(str) {
