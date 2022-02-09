@@ -24,7 +24,6 @@
   font-size: 1.1rem;
   font-variant: small-caps;
   color: var(--main-very-dark);
-  /* filter: contrast(2000%); */
   text-shadow: 1px 1px var(--main-very-dark);
   margin: 20px;
 }

@@ -231,7 +231,6 @@ export default function PlayersTab({players, setPlayers, draftingNow, setTeams, 
               <select
               value={availabilityDropdown}
               onChange={e => {
-                console.log(`e.target.value: ${e.target.value}`);
                 setAvailabilityDropdown(e.target.value || undefined)
               }}
               >

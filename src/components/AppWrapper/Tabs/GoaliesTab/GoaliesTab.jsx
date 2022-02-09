@@ -34,21 +34,6 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, 
       sortType: 'alphanumeric',
       width: '100px',
     },
-    // {
-    //   Header: 'Player Type',
-    //   accessor: 'prospect',
-    //   Filter: SelectPlayerTypeColumnFilter,
-    //   width: '0px',
-    //   disableSortBy: true,
-    // },
-    // {
-    //   Header: 'Availability',
-    //   accessor: 'user',
-    //   id: 'userColumn',
-    //   Filter: SelectTakenPlayerFilter,
-    //   width: '0px',     
-    //   disableSortBy: true,
-    // },
     {
       Header: 'Team',
       accessor: 'team',
@@ -198,7 +183,6 @@ export default function GoaliesTab({goalies, setGoalies, draftingNow, setTeams, 
               <select
               value={availabilityDropdown}
               onChange={e => {
-                console.log(`e.target.value: ${e.target.value}`);
                 setAvailabilityDropdown(e.target.value || undefined)
               }}
               >

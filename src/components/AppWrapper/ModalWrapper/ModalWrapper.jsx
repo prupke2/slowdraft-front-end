@@ -48,7 +48,6 @@ export default function ModalWrapper(
       return response.json()
     })
     .then(data => {
-      console.log(`data: ${JSON.stringify(data, null, 4)}`);
       const draftingAgain = data.drafting_again === true ? "You're up again!" : '';
       sendChatAnnouncement(chatMessage);
       getDraft(setPicks, setCurrentPick, setDraftingNow)
@@ -144,8 +143,6 @@ export default function ModalWrapper(
         <span className='modal-forum-user'>
           <div className="logo-wrapper">
             {/* <img className="logo" src={data && teams[data.yahoo_team_id - 1].team_logo} alt=''/> */}
-
-            { console.log(`data: ${JSON.stringify(data, null, 4)}`) }
           </div>
           {data.user} &nbsp;
           <div className='modal-forum-date'>{timeSince(data.create_date)}</div>

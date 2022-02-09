@@ -45,7 +45,6 @@ export default function App() {
 
   function logout() {
     fetch('/logout').then(res => res.json()).then(data => {
-      console.log("Logging out: " + data.success);
       localStorage.clear();
       setLoggedIn(false);
       setIsLoading(false);
