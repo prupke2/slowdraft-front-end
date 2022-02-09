@@ -15,8 +15,9 @@
 }
 
 .login-container > h1 {
+  font-size: 1.9rem;
   margin: 0 0 100px;
-  padding: 30px;
+  padding: 15px;
 }
 
 .info {
