@@ -24,7 +24,7 @@
   color: #000 !important;
 }
 
-.pagination li, .pagination select {
+.pagination select {
   height: 33px;
   width: 250px;
 }
@@ -32,13 +32,13 @@
 .pagination li.pagination-goto-page {
   display: flex;
   flex-direction: row;
-  width: 128px;
   border-radius: 4px;
 }
 
 .page-link {
   display: flex;
   color: var(--main-very-dark);
+  font-variant: small-caps;
 }
 
 .page-of-page {
@@ -55,13 +55,15 @@
 
 .pagination li {
   font-size: 0.9rem;
-  width: 130px;
 }
 
 .current-round-button {
-  font-size: 0.7rem;
+  width: 50px;
+  height: 18px;
+  font-size: 0.9rem;
   font-variant: small-caps;
   line-height: 0.8;
+  margin: 0 4px;
 }
 
 @media (max-width: 800px) {
@@ -84,6 +86,7 @@
   .current-round-button {
     line-height: 1;
     font-size: 0.9rem;
+    height: 28px;
   }
 
   .page-first {
