@@ -7,6 +7,8 @@ export default function AddDraftPickTab() {
   const user = JSON.parse(localStorage.getItem('user'));
   const teams = JSON.parse(localStorage.getItem('teams'));
   const [teamId, setTeamId] = useState(user.team_id);
+  localStorage.setItem('adminTab', 'add_pick');
+
   function addNewPick(e) {
     e.preventDefault();
     const requestParams = {

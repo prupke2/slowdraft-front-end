@@ -11,6 +11,7 @@ export default function AddKeeperTab({ singleTeam }) {
   const formComplete = keeperPlayerId && teamIdToKey;
   const [keeperList, setKeeperList] = useState([]); 
   const teams = JSON.parse(localStorage.getItem('teams'));
+  localStorage.setItem('adminTab', 'add_keeper');
 
   function addKeeper(e) {
     e.preventDefault();

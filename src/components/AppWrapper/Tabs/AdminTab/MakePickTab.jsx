@@ -10,6 +10,7 @@ export default function MakePickTab() {
   const teams = JSON.parse(localStorage.getItem('teams'));
   const teamKey = teamIdToKey(teamId);
   const formComplete = teamId && playerId;
+  localStorage.setItem('adminTab', 'make_pick');
 
   function draftPlayer(e) {
     e.preventDefault();

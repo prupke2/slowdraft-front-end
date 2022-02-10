@@ -7,6 +7,7 @@ import { SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId, 
     team, setTeam, positions, setPositions }
   ) {
+  localStorage.setItem('adminTab', 'add_player');
 
   const handlePositionChange = event => {
     const newPosition = event.target.value;

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AdminTab.css';
 import { Tabs, Tab, TabPanel, TabList } from 'react-tabs';
 import AddKeeperTab from './AddKeeperTab';
 import AddPlayerToDBTab from './AddPlayerToDBTab';
 import MakePickTab from './MakePickTab';
 import AddDraftPickTab from './AddDraftPickTab';
+import { updateRoute } from '../../../../util/util';
 
 export default function AdminTab() {
   const [name, setName] = useState(null);
@@ -12,9 +13,22 @@ export default function AdminTab() {
   const [team, setTeam] = useState('Anh');
   const [positions, setPositions] = useState([]);
   const userInfo = JSON.parse(localStorage.getItem('user'));
+  const currentAdminTab = localStorage.getItem('adminTab');
+
+  useEffect(() => {
+    updateRoute('admin');
+  }, []);
+
+  const tabNameToIndexMap = {
+    'add_player': 0,
+    'add_keeper': 1,
+    'make_pick': 2,
+    'add_pick': 3,
+  }
+  const defaultAdminTab = tabNameToIndexMap[currentAdminTab] || 0;
 
   return (
-    <Tabs defaultIndex={0} className="navbar-tabs inner-navbar-tabs">
+    <Tabs defaultIndex={defaultAdminTab} className="navbar-tabs inner-navbar-tabs">
       <TabList>
         <Tab>
           <div className="inner-tab">Add player to DB</div>
