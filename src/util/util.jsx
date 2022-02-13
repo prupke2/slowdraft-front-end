@@ -3,9 +3,12 @@ import React from 'react';
 export const webToken = localStorage.getItem('web_token');
 
 export const teamIdToKey = (teamId) => {
+  console.log(`teamId: ${teamId}`);
+  console.log(`type teamId: ${typeof(teamId)}`);
+
   const teams = JSON.parse(localStorage.getItem('teams'));
   const targetTeam = teams.find(team => (
-    team.team_id === teamId.toString()
+    team.yahoo_team_id === parseInt(teamId, 10)
   ));
   return targetTeam ? targetTeam.team_key : null;
 };
@@ -15,7 +18,7 @@ export const teamIdToLogo = (teamId) => {
   return teams[teamId - 1].team_logo;
 };
 
-export const teamsMap = (teams, returnType='team_id') => {
+export const teamsMap = (teams, returnType='yahoo_team_id') => {
   if (!teams || teams.length === 0) {
     return null;
   }

@@ -57,6 +57,7 @@ export default function MakePickTab() {
         <select 
           className='admin-user-dropdown'
           onChange={e => setTeamId(e.target.value)}
+          value={teamId}
         >
           { teamsMap(teams) }
         </select>

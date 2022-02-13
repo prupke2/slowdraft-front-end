@@ -96,7 +96,7 @@ export default function AddPlayerToDBTab({ name, setName, playerId, setPlayerId,
           name='team'
           label='team'
           column={{filterValue: team, setFilter: (e => setTeam(e))}}
-          wideFilter={true}
+          wideFilter
         />
       </div>
       

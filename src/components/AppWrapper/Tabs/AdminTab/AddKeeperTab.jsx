@@ -7,7 +7,7 @@ import Emoji from '../../Emoji';
 export default function AddKeeperTab({ singleTeam }) {
   const user = JSON.parse(localStorage.getItem('user'));
   const [keeperPlayerId, setKeeperPlayerId] = useState(null);
-  const [teamId, setTeamId] = useState(user.team_id);
+  const [teamId, setTeamId] = useState(user.yahoo_team_id);
   const formComplete = keeperPlayerId && teamIdToKey;
   const [keeperList, setKeeperList] = useState([]); 
   const teams = JSON.parse(localStorage.getItem('teams'));
@@ -48,10 +48,6 @@ export default function AddKeeperTab({ singleTeam }) {
       ToastsStore.error('Please fill out all the fields.')
     }
   }
-
-  const handleTeamIdChange = event => {
-    setTeamId(event.target.value)
-  };
   
   return (
     <form className='admin-form add-keeper-form'>
@@ -67,9 +63,13 @@ export default function AddKeeperTab({ singleTeam }) {
           <label name='admin-user-dropdown'>Team:</label>
           { }
           <select 
-            defaultValue={user.team_id}
             className='admin-user-dropdown'
-            onChange={handleTeamIdChange}
+            onChange={e => {
+              console.log(`e: ${e.target.value}`);
+
+              setTeamId(e.target.value)
+            }}
+            value={teamId}
           >
             { teamsMap(teams) }
           </select>

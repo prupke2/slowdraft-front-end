@@ -6,7 +6,7 @@ import Emoji from '../../Emoji';
 export default function AddDraftPickTab() {
   const user = JSON.parse(localStorage.getItem('user'));
   const teams = JSON.parse(localStorage.getItem('teams'));
-  const [teamId, setTeamId] = useState(user.team_id);
+  const [teamId, setTeamId] = useState(user.yahoo_team_id);
   localStorage.setItem('adminTab', 'add_pick');
 
   function addNewPick(e) {
@@ -59,6 +59,7 @@ export default function AddDraftPickTab() {
         <select 
           className='admin-user-dropdown'
           onChange={handleTeamIdChange}
+          value={teamId}
         >
           { teamsMap(teams) }
         </select>
