@@ -9,7 +9,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   const teams = JSON.parse(localStorage.getItem('playerTeamData'));
   const teamInfo = JSON.parse(localStorage.getItem('teams'));
   const [teamFilter, setTeamFilter] = useState(user.team_name);
-  const [teamId, setTeamId] = useState(user.team_id);
+  const [teamId, setTeamId] = useState(user.yahoo_team_id);
 
   const [teamPlayerCount, setTeamPlayerCount] = useState(
     teams.filter(team => team.username === teamFilter).length
@@ -33,8 +33,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   }, [])
 
   function multiSelectPositionsFilter(rows) {
-    const filterValue = ['LW', 'C', 'RW', 'D'];
-    return rows.filter((row) => filterValue.includes(row.original.position))
+    return rows.filter((row) => row.original.position !== 'G')
   }
 
   useEffect(() => {
