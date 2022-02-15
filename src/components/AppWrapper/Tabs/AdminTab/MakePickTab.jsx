@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import { ToastsStore } from 'react-toasts';
-import SelectPlayerDropdown from './SelectPlayerDropdown';
+import SelectPlayer from './SelectPlayer';
 import { getHeaders, teamIdToKey, teamsMap } from '../../../../util/util';
 import Emoji from '../../Emoji';
 
@@ -9,7 +9,6 @@ export default function MakePickTab() {
   const [playerId, setPlayerId] = useState(null);
   const teams = JSON.parse(localStorage.getItem('teams'));
   const teamKey = teamIdToKey(teamId);
-  const formComplete = teamId && playerId;
   localStorage.setItem('adminTab', 'make_pick');
 
   function draftPlayer(e) {
@@ -62,11 +61,9 @@ export default function MakePickTab() {
           { teamsMap(teams) }
         </select>
       </div>
-      <SelectPlayerDropdown
+      <SelectPlayer 
         handleClick={e => draftPlayer(e)}
         setPlayerId={setPlayerId}
-        buttonName={"Draft player"}
-        formComplete={formComplete}
       />
     </form>
   )

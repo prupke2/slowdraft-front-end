@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ToastsStore } from 'react-toasts';
-import SelectPlayerDropdown from './SelectPlayerDropdown';
+import SelectPlayer from './SelectPlayer';
 import { getHeaders, teamIdToKey, teamsMap } from '../../../../util/util';
 import Emoji from '../../Emoji';
 
@@ -8,7 +8,6 @@ export default function AddKeeperTab({ singleTeam }) {
   const user = JSON.parse(localStorage.getItem('user'));
   const [keeperPlayerId, setKeeperPlayerId] = useState(null);
   const [teamId, setTeamId] = useState(user.yahoo_team_id);
-  const formComplete = keeperPlayerId && teamIdToKey;
   const [keeperList, setKeeperList] = useState([]); 
   const teams = JSON.parse(localStorage.getItem('teams'));
   localStorage.setItem('adminTab', 'add_keeper');
@@ -39,6 +38,7 @@ export default function AddKeeperTab({ singleTeam }) {
             console.log(`keeperList: ${JSON.stringify(keeperList, null, 4)}`);
             ToastsStore.success('Keeper added successfully.')
           }, 500)
+          setKeeperPlayerId(null);
         } else {
           setKeeperPlayerId([]);
           ToastsStore.error('Error adding keeper.')
@@ -76,13 +76,10 @@ export default function AddKeeperTab({ singleTeam }) {
         </div>
       </>
       }
-      <SelectPlayerDropdown
+      <SelectPlayer 
         handleClick={addKeeper}
         setPlayerId={setKeeperPlayerId}
-        buttonName={"Add keeper"}
-        formComplete={formComplete}
       />
-
       { singleTeam &&
         <div>
           {keeperList}
