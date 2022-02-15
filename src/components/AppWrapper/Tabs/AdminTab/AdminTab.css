@@ -79,65 +79,28 @@ li.react-tabs__tab--selected > div.inner-tab {
 
 .player-list-wrapper {
   position: relative;
-  max-height: 250px;
+  max-height: 240px;
   width: 300px;
-  border-radius: 0 10px 4px 4px;
+  border-bottom: 1px solid var(--main-light);;
+  border-radius: 4px;
   background-color: var(--main-light);
   color: var(--main-very-dark);
-  margin: 0 2px 2px;
+  margin: 2px 2px 2px 0;
   overflow-y: scroll; 
   font-size: 1.1rem;
 }
 
-.player-search-input ~ .player-list-wrapper {
-  opacity: 0;
-  bottom: 1000px;
-  transition: bottom 0.1s ease, opacity 0.4s ease;
-  transition-delay: 200ms;
+.single-player {
+  cursor: pointer;
 }
 
-.player-search-input ~ .player-list-wrapper > div {
-  position: relative;
-  /* transition: bottom 0.1s ease; */
+.open {
+  max-height: 240px;
 }
 
 .closed {
-  display: none;
-}
-
-.player-search-input:focus ~ .player-list-wrapper {
-  display: flex;
-  position: relative;
-  opacity: 1;
-  bottom: 0;
-  transition: opacity 0.4s ease;
-  transition-delay: 0;
-}
-
-.player-search-input:focus ~ .player-list-wrapper > div {
-  display: inline-flex;
-  bottom: 0;
-  transition: bottom 0.8s ease;
-}
-
-.player-search-input:focus ~ .player-list-wrapper {
-  opacity: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.player-list-wrapper > div:hover {
-  cursor: pointer;
-  color: white;
-  background-color: var(--main-very-dark);
-}
-
-.player-search > div {
-  text-align: left;
-}
-
-.player-search > div > div {
-  padding: 1px 4px;
+  max-height: 36px;
+  overflow: hidden;
 }
 
 .admin-player-id {
@@ -146,6 +109,11 @@ li.react-tabs__tab--selected > div.inner-tab {
 
 .add-player-button {
   margin-top: 20px;
+}
+
+.clear-button {
+  height: 30px;
+  margin: 4px;
 }
 
 .positions {

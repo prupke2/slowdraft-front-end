@@ -150,7 +150,7 @@ export default function Table(
 
   return (
     <div>
-      { tableType !== 'forum' && tableType !== 'teams' && 
+      { tableType !== 'forum' && tableType !== 'teams' && tableType !== 'singlePlayer' && 
         <Pagination 
           currentRound={currentPick ? currentPick.round - 1 : null}
           tableType={tableType}
@@ -183,7 +183,9 @@ export default function Table(
                   return (
                     <th key={column.id} width={column.width}>
                       <span {...column.getHeaderProps(column.getSortByToggleProps())} >
-                        {column.render('Header')}
+                        { tableType !== 'singlePlayer' && 
+                          column.render('Header')
+                        }
                         <span>
                           {column.isSorted && tableType !== 'draftPicks'
                             ? column.isSortedDesc
@@ -292,11 +294,11 @@ export default function Table(
                         {...cell.getCellProps()}
                         >
                           {cell.row.original.player_id && 
-                          <div className='playerNameAndHeadshot'>
+                          <div className='player-name-and-headshot'>
                             <img className='headshot' src={cell.row.original.headshot} alt='' />
                             <span>
                               <a
-                                href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
+                                href={tableType === 'singlePlayer' ? null : `https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
@@ -369,7 +371,7 @@ export default function Table(
           </tbody>
         </table>
       }
-      { tableType !== 'teams' && 
+      { tableType !== 'teams' && tableType !== 'singlePlayer' &&
       <Pagination 
         currentRound={currentPick ? currentPick.round - 1 : null}
         tableType={tableType}

@@ -85,7 +85,7 @@ table tr:last-child td {
   font-size: 0.7rem;
 }
 
-.playerNameAndHeadshot {
+.player-name-and-headshot {
   display: flex;
   align-items: center;
   line-height: 1.3;
