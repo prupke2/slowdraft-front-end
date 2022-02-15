@@ -65,7 +65,7 @@ export function SelectFilter({
 
 
 export function SelectTeamFilter({
-  column: { filterValue, setFilter }, wideFilter
+  column: { filterValue, setFilter }, wideFilter, disableAll
 }) {
   // Calculate the options for filtering
   // using the preFilteredRows
@@ -89,7 +89,13 @@ export function SelectTeamFilter({
         setFilter(e.target.value)
       }}
     >
+      { !disableAll &&
       <option value="">All</option>
+      }
+      { disableAll &&
+      <option value="">Select a team</option>
+      }
+
       <option value="Anh">Anaheim</option>
       <option value="Ari">Arizona</option>
       <option value="Bos">Boston</option>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './AdminTab.css';
 import { Tabs, Tab, TabPanel, TabList } from 'react-tabs';
 import AddKeeperTab from './AddKeeperTab';
@@ -8,10 +8,7 @@ import AddDraftPickTab from './AddDraftPickTab';
 import { updateRoute } from '../../../../util/util';
 
 export default function AdminTab() {
-  const [name, setName] = useState(null);
-  const [playerId, setPlayerId] = useState(null);
-  const [team, setTeam] = useState('Anh');
-  const [positions, setPositions] = useState([]);
+
   const userInfo = JSON.parse(localStorage.getItem('user'));
   const currentAdminTab = localStorage.getItem('adminTab');
 
@@ -44,16 +41,7 @@ export default function AdminTab() {
         </Tab>
       </TabList>
       <TabPanel>
-        <AddPlayerToDBTab
-          name={name}
-          setName={setName}
-          playerId={playerId} 
-          setPlayerId={setPlayerId}
-          team={team}
-          setTeam={setTeam}
-          positions={positions}
-          setPositions={setPositions}         
-        />      
+        <AddPlayerToDBTab />      
       </TabPanel>
       <TabPanel>
         <AddKeeperTab 
