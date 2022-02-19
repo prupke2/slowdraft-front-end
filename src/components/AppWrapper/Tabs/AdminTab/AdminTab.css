@@ -92,6 +92,7 @@ li.react-tabs__tab--selected > div.inner-tab {
 
 .single-player {
   cursor: pointer;
+  padding: 16px;
 }
 
 .open {
