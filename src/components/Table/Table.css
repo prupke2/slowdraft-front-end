@@ -64,15 +64,6 @@ table tr:last-child td {
   width: 100px;
 }
 
-.draft-button-cell {
-  width: 20px;
-}
-
-.draft-button-cell div {
-  display: flex;
-  justify-content: center;
-}
-
 .disabled-pick {
   background-color: #de7d7d !important;
 }

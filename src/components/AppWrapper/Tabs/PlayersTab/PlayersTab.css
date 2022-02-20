@@ -1,3 +1,7 @@
+h3 {
+  color: white;
+}
+
 .player-tabs-filter-wrapper {
   display: flex;
   flex-direction: row;
@@ -16,8 +20,17 @@
   width: 130px;
 }
 
-h3 {
-  color: white;
+.player-wrapper {
+  display: flex;
+}
+
+.draft-button-cell {
+  width: 60px;
+}
+
+.draft-button-cell div {
+  display: flex;
+  justify-content: center;
 }
 
 @media screen and (max-width: 800px) { 
