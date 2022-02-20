@@ -12,7 +12,7 @@ export const teamIdToKey = (teamId) => {
 
 export const teamIdToLogo = (teamId) => {
   const teams = JSON.parse(localStorage.getItem('teams'));
-  return teams[teamId - 1].team_logo;
+  return teamId ? teams[teamId - 1].team_logo : null;
 };
 
 export const teamsMap = (teams, returnType='yahoo_team_id') => {
