@@ -1,26 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import ReactHtmlParser from 'react-html-parser';
-import { ToastsStore } from 'react-toasts';
 import './ModalWrapper.css';
 import { timeSince } from '../../../util/time';
 import CloseModalButton from './CloseModalButton/CloseModalButton';
 import NewPost from './NewPost/NewPost';
-import { getDraft, getDBGoalies, getDBPlayers, getTeams } from '../../../util/requests';
 import { getHeaders } from '../../../util/util';
-import Loading from '../../Loading/Loading';
+import UsernameStyled from '../UsernameStyled/UsernameStyled';
 
-export default function ModalWrapper(
-    { modalIsOpen, setIsOpen, data, modalType, sendChatAnnouncement, tableType, setTeams,
-      setPicks, currentPick, setCurrentPick, setDraftingNow, setPlayers, setGoalies }
-  ) {
+// This is a shared wrapper used by both the forum and rules tabs
+export default function ModalWrapper({ modalIsOpen, setIsOpen, data, modalType, tableType }) {
   const [forumPostReplies, setForumPostReplies] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
   const teams = JSON.parse(localStorage.getItem('teams'));
 
   function getReplies(post_id) {
-
     fetch(`/view_post_replies/${post_id}`, {
       method: 'GET',
       headers: getHeaders()
@@ -30,81 +24,6 @@ export default function ModalWrapper(
       setForumPostReplies(data.replies);
     })
   }
-
-  function draftPlayer(data) {
-    setIsLoading(true);
-    const isGoalie = data.position === 'G' ? true : false;
-    const chatMessage = "The " + user.team_name + " have drafted " + data.name + ", " + data.position + " - " + data.team;
-    fetch(`/draft/${data.player_id}`, {
-      method: 'GET',
-      headers: getHeaders()
-    })
-    .then(response => {
-      if (!response.ok) {
-        ToastsStore.error(`An error occurred. Please try again later.`)
-        const error = (data && data.message) || response.status;
-        return Promise.reject(error);
-      }
-      return response.json()
-    })
-    .then(data => {
-      const draftingAgain = data.drafting_again === true ? "You're up again!" : '';
-      sendChatAnnouncement(chatMessage);
-      getDraft(setPicks, setCurrentPick, setDraftingNow)
-      getTeams(setTeams)
-      isGoalie && getDBGoalies(setGoalies)
-      !isGoalie && getDBPlayers(setPlayers)
-      if (data.success !== true) {
-        ToastsStore.error(`Error: ${data.error}`)
-      } else {
-        ToastsStore.success(`You have drafted ${data.player}. ${draftingAgain}`)
-      }
-      setIsOpen(false);
-      setIsLoading(false);
-    })
-  }
-  
-  if (modalType === 'draftPlayer') {
-    return (
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setIsOpen(false)}
-        contentLabel='Player Draft'
-        parentSelector={() => document.querySelector('main')}
-        id='draft-player-modal'
-        setPicks={setPicks}
-        currentPick={currentPick}
-        setCurrentPick={setCurrentPick}
-        setDraftingNow={setDraftingNow}
-        setPlayers={setPlayers}
-        setTeams={setTeams}
-        ariaHideApp={false}
-      >
-        <CloseModalButton 
-          setIsOpen={setIsOpen}
-        />
-        <div className='modal-title'>You are about to draft:</div>
-        <div className='modal-player-info'>
-          {typeof(data.team) !== 'undefined' &&
-            <>
-              <strong>{data.name}</strong>, {data.position} - {(data.team).toUpperCase()}
-            </>
-          }
-        </div>
-        <div className='button-group'>
-          { isLoading &&
-            <Loading alt={true} text='Drafting...' />
-          }
-          { !isLoading &&
-            <>
-              <button className="button-large" onClick={() => draftPlayer(data)}>Draft</button>
-              <button className="button-large" onClick={() => setIsOpen(false)}>Cancel</button>
-            </>
-          }
-        </div>
-      </Modal>
-    );
-  } 
 
   if (modalType === 'post' && tableType === 'rules') {
     return (
@@ -124,12 +43,19 @@ export default function ModalWrapper(
       </Modal>
     );
   }
+
+  function modalOpenHandler() {
+    if (tableType === 'forum') {
+      getReplies(data.id)
+    }
+  }
   
   if (modalType === 'post' && tableType === 'forum') {
+    console.log(`data: ${JSON.stringify(data, null, 4)}`);
     return (
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={() => getReplies(data.id)}
+        onAfterOpen={() => modalOpenHandler()}
         onRequestClose={() => setIsOpen(false)}
         contentLabel='Forum Post'
         parentSelector={() => document.querySelector('main')}
@@ -158,7 +84,12 @@ export default function ModalWrapper(
                   <div className="logo-wrapper">
                     <img className="logo" src={teams[reply.yahoo_team_id - 1].team_logo} alt=''/>
                   </div>
-                  {reply.username} &nbsp;
+                  <UsernameStyled
+                    username={reply.value}
+                    color={reply.row.original.color}
+                    teamId={reply.row.original.yahoo_team_id}
+                  />
+                  {/* {reply.username} &nbsp; */}
                   <div className='modal-forum-date'>{timeSince(reply.create_date)}</div>
                 </span>
                 <div className='modal-forum-text'>
