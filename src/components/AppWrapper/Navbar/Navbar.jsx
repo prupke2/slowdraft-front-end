@@ -2,7 +2,6 @@ import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './Navbar.css';
 import PlayersTab from '../Tabs/PlayersTab/PlayersTab';
-import GoaliesTab from '../Tabs/GoaliesTab/GoaliesTab';
 import TeamsTab from '../Tabs/TeamsTab/TeamsTab';
 import ForumTab from '../Tabs/ForumTab/ForumTab';
 import DraftTab from '../Tabs/DraftTab/DraftTab';
@@ -50,7 +49,8 @@ export default function Navbar({
           />
         </TabPanel>
         <TabPanel>
-          <PlayersTab 
+          <PlayersTab
+            playerType='skaters'
             user={user}
             setPicks={setPicks}
             setCurrentPick={setCurrentPick}
@@ -59,22 +59,27 @@ export default function Navbar({
             sendChatAnnouncement={sendChatAnnouncement}
             players={players}
             setPlayers={setPlayers}
+            setGoalies={setGoalies}
             setTeams={setTeams}
             getLatestData={getLatestData}
+            currentPick={currentPick}
           />
         </TabPanel>
         <TabPanel>
-          <GoaliesTab 
+          <PlayersTab
+            playerType='goalies'
             user={user}
             setPicks={setPicks}
             setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
             setDraftingNow={setDraftingNow}
             sendChatAnnouncement={sendChatAnnouncement}
-            goalies={goalies}
+            players={goalies}
+            setPlayers={setPlayers}
             setGoalies={setGoalies}
             setTeams={setTeams}
             getLatestData={getLatestData}
+            currentPick={currentPick}
           />
         </TabPanel>
         <TabPanel>

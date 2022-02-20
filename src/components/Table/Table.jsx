@@ -1,85 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTable, useFilters, useSortBy, usePagination } from 'react-table';
 import { matchSorter } from 'match-sorter';
 import './Table.css';
 import Pagination from './Pagination/Pagination';
 import Loading from '../Loading/Loading';
-import { ToastsStore } from 'react-toasts';
-import UsernameStyled from '../AppWrapper/UsernameStyled/UsernameStyled';
-import { getDraft } from '../../util/requests';
-import { getHeaders, teamIdToKey, teamsMap } from '../../util/util';
-import DraftModal from "../AppWrapper/Tabs/DraftTab/DraftModal";
 
 export default function Table(
-    { columns, data, user, defaultColumnFilter, tableState, tableType, loading, draftingNow, setTeams,
-      sendChatAnnouncement, currentPick, setPicks, setCurrentPick, setDraftingNow, setPlayers, setGoalies
-    }
+    { columns, data, defaultColumnFilter, tableState, tableType, loading, currentPick, paginationTop, paginationBottom }
   ) {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [playerDrafted, setPlayerDrafted] = useState('');
-  const isAdmin = user.role === 'admin';
-  const teams = JSON.parse(localStorage.getItem('teams'));
-
-  function draftModal(player) {
-    setModalOpen(true);
-    setPlayerDrafted(player); 
-  }
-
-  function updatePick(event, overall_pick) {
-    const requestParams = {
-      method: 'POST',
-      headers: getHeaders()
-    };
-    if (event.target.value === '0') {
-      requestParams.body = JSON.stringify({ 
-        overall_pick: overall_pick
-      })
-      fetch('/update_pick_enablement', requestParams)
-        .then(response => {
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-        return response.json()
-      })
-      .then( data => {
-        if (data.success === true) {
-          sendChatAnnouncement(`The ${user.team_name} have updated pick ${overall_pick}.`);
-          getDraft(setPicks, setCurrentPick, setDraftingNow)
-          setTimeout(function () {
-            ToastsStore.success(`Pick ${overall_pick} ${data.status}.`)
-          }, 200)
-        } else {
-          ToastsStore.error(`Error updating pick ${overall_pick}.`)
-        }
-      });
-
-    } else {
-      requestParams.body = JSON.stringify({ 
-        overall_pick: overall_pick,
-        team_key: teamIdToKey(event.target.value)
-      })
-      fetch('/update_pick', requestParams)
-      .then(response => {
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-        return response.json()
-      })
-      .then( data => {
-        if (data.success === true) {
-          sendChatAnnouncement(`The ${user.team_name} have updated pick ${overall_pick}.`);
-          getDraft(setPicks, setCurrentPick, setDraftingNow)
-          setTimeout(function () {
-            ToastsStore.success(`Pick ${overall_pick} updated.`)
-          }, 200)
-        } else {
-          ToastsStore.error(`Error updating pick ${overall_pick}.`)
-        }
-      })
-    }
-  }
 
   const filterTypes = React.useMemo(
     () => ({
@@ -144,7 +72,7 @@ export default function Table(
 
   return (
     <div>
-      { tableType !== 'forum' && tableType !== 'teams' && tableType !== 'singlePlayer' && 
+      { paginationTop &&
         <Pagination 
           currentRound={currentPick ? currentPick.round - 1 : null}
           tableType={tableType}
@@ -165,11 +93,6 @@ export default function Table(
           <thead>
             {headerGroups.map((headerGroup, i) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
-                {/* Add an extra column for the draft button */}
-                { (tableType === 'draft' && draftingNow) &&
-                  <th width="30px"></th>
-                }
-                
                 {headerGroup.headers.map(column => {
                   return (
                     <th key={column.id} width={column.width}>
@@ -202,87 +125,6 @@ export default function Table(
                 <tr key={row.id} {...row.getRowProps()} className={`${pickDisabled} ${takenPlayer}`}>
                   {row.cells.map(
                     cell => {
-                    if (cell.column.Header === 'Player') {
-                      return (
-                        <>
-                        {
-                          (tableType === 'draft' && draftingNow) &&
-                          <td className="draft-button-cell">
-                            { takenPlayer &&
-                             <div>
-                              <UsernameStyled
-                                username={cell.row.original.user}
-                                color={cell.row.original.owner_color}
-                                teamId={cell.row.original.yahoo_team_id}
-                              />
-                             </div>
-                            }
-                            { !takenPlayer &&
-                            <div>
-                              <button onClick={() => draftModal(cell.row.original)}>Draft</button>
-                              <DraftModal 
-                                modalIsOpen={modalOpen}
-                                setIsOpen={setModalOpen}
-                                data={playerDrafted}
-                                modalType="draftPlayer"
-                                sendChatAnnouncement={sendChatAnnouncement}
-                                setPicks={setPicks}
-                                currentPick={currentPick}
-                                setCurrentPick={setCurrentPick}
-                                setDraftingNow={setDraftingNow}
-                                setPlayers={setPlayers}
-                                setGoalies={setGoalies}
-                                setTeams={setTeams}
-                              />
-                            </div>
-                            }
-                          </td>
-                        } 
-                        <td className="player-name"
-                        {...cell.getCellProps()}
-                        >
-                          {cell.row.original.player_id && 
-                          <div className='player-name-and-headshot'>
-                            <img className='headshot' src={cell.row.original.headshot} alt='' />
-                            <span>
-                              <a
-                                href={tableType === 'singlePlayer' ? null : `https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {cell.row.original.prospect === "1" && 
-                                  <span>
-                                    <span className='prospect' title='Prospect'>P</span>
-                                    &nbsp;
-                                  </span>
-                                }
-                                {cell.row.original.is_keeper === 1 && 
-                                  <span>
-                                    <span className='keeper' title='Keeper'>K</span>
-                                    &nbsp;
-                                  </span>
-                                }
-                                {cell.render('Cell')}
-                              </a>
-                              { (takenPlayer && !draftingNow) &&
-                                <div className="small-username">
-                                  &nbsp;{cell.row.original.user}
-                                </div>
-                              }
-                            </span>
-                          </div>
-                          }
-                          { !cell.row.original.player_id && 
-                            <>
-                              <span>
-                              {cell.render('Cell')}
-                              </span>
-                            </>
-                          }
-                        </td> 
-                        </>
-                      )
-                    } else {
                       return (
                         <td className={cell.column.Header}
                         {...cell.getCellProps()}
@@ -291,25 +133,25 @@ export default function Table(
                         </td>
                       )
                     }
-                  })}
+                  )}
                 </tr>
               )
             })}
           </tbody>
         </table>
       }
-      { tableType !== 'teams' && tableType !== 'singlePlayer' &&
-      <Pagination 
-        currentRound={currentPick ? currentPick.round - 1 : null}
-        tableType={tableType}
-        gotoPage={gotoPage}
-        previousPage={previousPage}
-        canPreviousPage={canPreviousPage}
-        nextPage={nextPage}
-        canNextPage={canNextPage}
-        pageCount={pageCount}
-        pageIndex={pageIndex}
-        pageOptions={pageOptions}
+      { paginationBottom &&
+        <Pagination 
+          currentRound={currentPick ? currentPick.round - 1 : null}
+          tableType={tableType}
+          gotoPage={gotoPage}
+          previousPage={previousPage}
+          canPreviousPage={canPreviousPage}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageCount={pageCount}
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
         />
       }
     </div >
