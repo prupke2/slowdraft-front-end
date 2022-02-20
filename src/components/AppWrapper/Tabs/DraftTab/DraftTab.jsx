@@ -2,10 +2,74 @@ import React, {useEffect, useState} from 'react';
 import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
 import { getDraft, getDBGoalies, getDBPlayers, getTeams } from '../../../../util/requests';
+import UsernameStyled from '../../UsernameStyled/UsernameStyled';
+import { teamsMap, getHeaders, teamIdToKey } from '../../../../util/util';
+import { ToastsStore } from 'react-toasts';
 
 export default function DraftTab({user, currentPick, setCurrentPick, picks, setPicks, setTeams,
   setPlayers, setGoalies, draftingNow, setDraftingNow, getLatestData, sendChatAnnouncement
 }) {
+  const isAdmin = user.role === 'admin';
+  console.log(`isAdmin: ${isAdmin}`);
+
+  const teams = JSON.parse(localStorage.getItem('teams'));
+
+  function updatePick(event, overall_pick) {
+    const requestParams = {
+      method: 'POST',
+      headers: getHeaders()
+    };
+    if (event.target.value === '0') {
+      requestParams.body = JSON.stringify({ 
+        overall_pick: overall_pick
+      })
+      fetch('/update_pick_enablement', requestParams)
+        .then(response => {
+        if (!response.ok) {
+          const error = (picks && picks.message) || response.status;
+          return Promise.reject(error);
+        }
+        return response.json()
+      })
+      .then( data => {
+        if (data.success === true) {
+          sendChatAnnouncement(`The ${user.team_name} have updated pick ${overall_pick}.`);
+          getDraft(setPicks, setCurrentPick, setDraftingNow)
+          setTimeout(function () {
+            ToastsStore.success(`Pick ${overall_pick} ${data.status}.`)
+          }, 200)
+        } else {
+          ToastsStore.error(`Error updating pick ${overall_pick}.`)
+        }
+      });
+
+    } else {
+      requestParams.body = JSON.stringify({ 
+        overall_pick: overall_pick,
+        team_key: teamIdToKey(event.target.value)
+      })
+      fetch('/update_pick', requestParams)
+      .then(response => {
+        if (!response.ok) {
+          const error = (picks && picks.message) || response.status;
+          return Promise.reject(error);
+        }
+        return response.json()
+      })
+      .then( data => {
+        if (data.success === true) {
+          sendChatAnnouncement(`The ${user.team_name} have updated pick ${overall_pick}.`);
+          getDraft(setPicks, setCurrentPick, setDraftingNow)
+          setTimeout(function () {
+            ToastsStore.success(`Pick ${overall_pick} updated.`)
+          }, 200)
+        } else {
+          ToastsStore.error(`Error updating pick ${overall_pick}.`)
+        }
+      })
+    }
+  }
+
   const columns = [
     {
       Header: 'Pick',
@@ -14,12 +78,42 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
       width: 10,
       sortDescFirst: false,
       disableSortBy: true,
+      Cell: cell => {
+        const activePick = cell.row.original.draft_pick_timestamp === null;
+        if (!isAdmin || !activePick) {
+          return cell.value
+        }
+        return (
+          <div className="admin-column" width='20px'>
+            <div>{cell.value}</div>
+            <select 
+              defaultValue={cell.row.original.yahoo_team_id} 
+              className='change-user-dropdown'
+              onChange={(event) => updatePick(event, cell.row.original.overall_pick)}
+            >
+              { teamsMap(teams) }
+              {cell.row.original.disabled === 0 && 
+                <option value={0}>DISABLE PICK</option>
+              } 
+              {cell.row.original.disabled === 1 && 
+                <option value={0}>ENABLE PICK</option>
+              } 
+            </select>
+          </div>
+        );
+      },
     },
     {
       Header: 'User',
       accessor: 'username',
       disableFilters: true,
       disableSortBy: true,
+      Cell: cell => 
+        <UsernameStyled
+          username={cell.value}
+          color={cell.row.original.color}
+          teamId={cell.row.original.yahoo_team_id}
+        />
     },
     {
       Header: 'Player',
