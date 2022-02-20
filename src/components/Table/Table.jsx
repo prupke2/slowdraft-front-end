@@ -3,12 +3,12 @@ import { useTable, useFilters, useSortBy, usePagination } from 'react-table';
 import { matchSorter } from 'match-sorter';
 import './Table.css';
 import Pagination from './Pagination/Pagination';
-import ModalWrapper from '../AppWrapper/ModalWrapper/ModalWrapper';
 import Loading from '../Loading/Loading';
 import { ToastsStore } from 'react-toasts';
 import UsernameStyled from '../AppWrapper/UsernameStyled/UsernameStyled';
 import { getDraft } from '../../util/requests';
 import { getHeaders, teamIdToKey, teamsMap } from '../../util/util';
+import DraftModal from "../AppWrapper/Tabs/DraftTab/DraftModal";
 
 export default function Table(
     { columns, data, user, defaultColumnFilter, tableState, tableType, loading, draftingNow, setTeams,
@@ -17,18 +17,12 @@ export default function Table(
   ) {
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState('');
-  const [forumPostId, setForumPostId] = useState('');
   const isAdmin = user.role === 'admin';
   const teams = JSON.parse(localStorage.getItem('teams'));
 
   function draftModal(player) {
     setModalOpen(true);
     setPlayerDrafted(player); 
-  }
-
-  function forumModal(id) {
-    setForumPostId(id); 
-    setModalOpen(true);
   }
 
   function updatePick(event, overall_pick) {
@@ -176,9 +170,6 @@ export default function Table(
                   <th width="30px"></th>
                 }
                 
-                { (tableType === 'draftPicks' && isAdmin) &&
-                  <th className="blank-cell" width="30px" />
-                }
                 {headerGroup.headers.map(column => {
                   return (
                     <th key={column.id} width={column.width}>
@@ -211,50 +202,7 @@ export default function Table(
                 <tr key={row.id} {...row.getRowProps()} className={`${pickDisabled} ${takenPlayer}`}>
                   {row.cells.map(
                     cell => {
-                    if (cell.column.Header === 'Pick') {
-                      return (
-                        <>
-                          { (isAdmin && cell.row.original.draft_pick_timestamp !== null) &&
-                            <td className="admin-column" width='50px' />
-                          }
-                          { (isAdmin && cell.row.original.draft_pick_timestamp === null) &&
-                          <td className="admin-column" width='50px'>
-                            <select 
-                              defaultValue={cell.row.original.yahoo_team_id} 
-                              className='change-user-dropdown'
-                              onChange={(event) => updatePick(event, cell.row.original.overall_pick)}
-                            >
-                              { teamsMap(teams) }
-
-                              {cell.row.original.disabled === 0 && 
-                                <option value={0}>DISABLE PICK</option>
-                              } 
-                              {cell.row.original.disabled === 1 && 
-                                <option value={0}>ENABLE PICK</option>
-                              } 
-                            </select>
-                          </td>
-                          }
-                          <td className={cell.column.Header}
-                          {...cell.getCellProps()}
-                          >
-                            {cell.render('Cell')}
-                          </td>
-                        </>
-                      )
-                    } else if (cell.column.Header === 'User') {
-                      return (
-                        <td className={cell.column.Header}
-                          {...cell.getCellProps()}
-                          >
-                          <UsernameStyled
-                            username={cell.render('Cell')}
-                            color={cell.row.original.color}
-                            teamId={cell.row.original.yahoo_team_id}
-                          />
-                        </td>
-                      )
-                    } else if (cell.column.Header === 'Player') {
+                    if (cell.column.Header === 'Player') {
                       return (
                         <>
                         {
@@ -272,7 +220,7 @@ export default function Table(
                             { !takenPlayer &&
                             <div>
                               <button onClick={() => draftModal(cell.row.original)}>Draft</button>
-                              <ModalWrapper 
+                              <DraftModal 
                                 modalIsOpen={modalOpen}
                                 setIsOpen={setModalOpen}
                                 data={playerDrafted}
@@ -333,27 +281,6 @@ export default function Table(
                           }
                         </td> 
                         </>
-                      )
-                    } 
-                    else if (cell.column.Header === 'Title' || cell.column.Header === 'Rule') {
-                      return (
-                        <td width='50vw' className='post-title'
-                        {...cell.getCellProps()}
-                        >
-                          <div onClick={() => forumModal(cell.row.original)}>
-                            {cell.render('Cell')}
-                          </div>
-                          <ModalWrapper 
-                            modalIsOpen={modalOpen}
-                            setIsOpen={setModalOpen}
-                            data={forumPostId}
-                            modalType="post"
-                            tableType={tableType}
-                          />
-                          {/* <div id={`body-${cell.row.id}`} className='hidden'>
-                            {ReactHtmlParser(cell.row.original.body)}
-                          </div> */}
-                        </td>                    
                       )
                     } else {
                       return (
