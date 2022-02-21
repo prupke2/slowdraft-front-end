@@ -25,7 +25,12 @@ h3 {
 }
 
 .draft-button-cell {
-  width: 100px;
+  min-width: 60px;
+  max-width: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .draft-button-cell div {
