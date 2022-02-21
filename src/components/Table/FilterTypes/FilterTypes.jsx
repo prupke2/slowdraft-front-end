@@ -84,8 +84,6 @@ export function SelectTeamFilter({
       value={filterValue}
       className={`team-filter ${isWideFilter}`}
       onChange={e => {
-        console.log(`e: ${e.target.value}`);
-
         setFilter(e.target.value)
       }}
     >

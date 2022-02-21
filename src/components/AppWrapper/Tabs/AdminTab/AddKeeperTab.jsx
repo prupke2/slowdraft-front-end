@@ -35,7 +35,6 @@ export default function AddKeeperTab({ singleTeam }) {
       .then( data => {
         if (data.success === true) {
           setTimeout(function () {
-            console.log(`keeperList: ${JSON.stringify(keeperList, null, 4)}`);
             ToastsStore.success('Keeper added successfully.')
           }, 500)
           setKeeperPlayerId(null);
@@ -65,8 +64,6 @@ export default function AddKeeperTab({ singleTeam }) {
           <select 
             className='admin-user-dropdown'
             onChange={e => {
-              console.log(`e: ${e.target.value}`);
-
               setTeamId(e.target.value)
             }}
             value={teamId}

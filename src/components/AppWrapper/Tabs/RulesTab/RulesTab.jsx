@@ -13,7 +13,6 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
   const [ruleData, setRuleData] = useState(null);
 
   function viewRuleModalHandler(cell) {
-    console.log(`cell: ${JSON.stringify(cell, null, 4)}`);
     setRuleData(cell); 
     setViewModalOpen(true);
   }
