@@ -7,8 +7,8 @@ export default function NewPost({parentPostId, user, setIsOpen, postType, post})
   const [body, setBody] = useState(post?.body || '');
   const isReply = typeof(parentPostId) !== 'undefined';
   const postTypeToIdMap = {
-    edit_rule: post.rule_id,
-    edit_post: post.id
+    edit_rule: post?.rule_id,
+    edit_post: post?.id
   }
   const postId = post ? postTypeToIdMap[postType] : null;
   const saveButtonDisabled = isReply ? !body : !title || !body;
