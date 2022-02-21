@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
-// import Table from '../../../Table/Table';
 import Table from '../../../Table/Table';
-// import { getLeague } from '../../../../api/yahooApi';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
-import ModalWrapper from '../../ModalWrapper/ModalWrapper';
+import ModalWrapper from '../../ModalWrapper/ModalWrappers';
 import { getForumPosts } from '../../../../util/requests';
 import { timeSince } from '../../../../util/time';
+import UsernameStyled from '../../UsernameStyled/UsernameStyled';
+import './ForumTab.css';
 
 export default function ForumTab({user, posts, setPosts, getLatestData}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
+  const [forumPostId, setForumPostId] = useState('');
+
+  function forumModal(id) {
+    setForumPostId(id); 
+    setModalOpen(true);
+  }
 
   const columns = [
     {
@@ -18,11 +24,30 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
       accessor: 'title',
       Filter: SearchColumnFilter,
       width: '400px',
+      Cell: cell => 
+        <div className='post-title'>
+          <div onClick={() => forumModal(cell.row.original)}>
+            {cell.value}
+          </div>
+          <ModalWrapper 
+            modalIsOpen={modalOpen}
+            setIsOpen={setModalOpen}
+            data={forumPostId}
+            modalType="post"
+            tableType="forum"
+          />
+        </div>
     },
     {
       Header: 'User',
       accessor: 'user',
       Filter: SearchColumnFilter,
+      Cell: cell => 
+        <UsernameStyled
+          username={cell.value}
+          color={cell.row.original.color}
+          teamId={cell.row.original.yahoo_team_id}
+        />
     },
     {
       Header: 'Body',
@@ -105,6 +130,8 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
             tableState={tableState}
             defaultColumn='create_date'
             tableType='forum'
+            paginationTop
+            paginationBottom
           />
         </>
       }
