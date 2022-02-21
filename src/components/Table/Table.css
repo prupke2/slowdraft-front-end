@@ -23,6 +23,11 @@ table {
   background-color: var(--main-even);
 }
 
+.table td {
+  padding: 4px;
+  vertical-align: inherit;
+}
+
 thead, tbody {
   max-width: 100%;
 }
@@ -69,7 +74,7 @@ table tr:last-child td {
 }
 
 .taken-player {
-  background-color:darkgrey !important;
+  background-color: #b69d9d !important;
 }
 
 .small-username {
