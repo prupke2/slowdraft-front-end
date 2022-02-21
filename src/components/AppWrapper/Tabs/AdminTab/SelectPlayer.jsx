@@ -14,7 +14,7 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
 
   const columns = [
     {
-      Header: 'Player',
+      Header: '',
       accessor: 'name',
       Filter: SearchColumnFilter,
       sortType: 'alphanumeric',

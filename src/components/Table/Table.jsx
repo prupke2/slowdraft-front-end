@@ -6,9 +6,9 @@ import Pagination from './Pagination/Pagination';
 import Loading from '../Loading/Loading';
 
 export default function Table(
-    { columns, data, defaultColumnFilter, tableState, tableType, loading, currentPick, paginationTop, paginationBottom }
+    { columns, data, defaultColumnFilter, tableState, tableType, defaultPage, pageSize,
+      loading, currentPick, paginationTop, paginationBottom }
   ) {
-
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -33,11 +33,8 @@ export default function Table(
     return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
   }
 
-  if (tableType === 'draftPicks') {
-    tableState = {...tableState, pageIndex: currentPick ? currentPick.round - 1 : 0, pageSize: 12}
-  } else {
-    tableState = {...tableState, pageIndex: 0, pageSize: 25}
-  }
+  tableState = {...tableState, pageIndex: defaultPage || 0, pageSize: pageSize || 25}
+
   const {
       getTableProps,
       getTableBodyProps,
@@ -97,9 +94,7 @@ export default function Table(
                   return (
                     <th key={column.id} width={column.width}>
                       <span {...column.getHeaderProps(column.getSortByToggleProps())} >
-                        { tableType !== 'singlePlayer' && 
-                          column.render('Header')
-                        }
+                        {column.render('Header')}
                         <span>
                           {column.isSorted && tableType !== 'draftPicks'
                             ? column.isSortedDesc
