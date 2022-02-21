@@ -12,7 +12,6 @@ export default function NewPost({parentPostId, user, setIsOpen, postType, post})
   }
   const postId = post ? postTypeToIdMap[postType] : null;
   const saveButtonDisabled = isReply ? !body : !title || !body;
-  console.log(`post: ${JSON.stringify(post, null, 4)}`);
   const handleTitleChange = event => {
     setTitle(event.target.value)
   };
