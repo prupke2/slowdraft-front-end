@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import ReactHtmlParser from 'react-html-parser';
-import './ModalWrapper.css';
+import './ModalWrappers.css';
 import { timeSince } from '../../../util/time';
 import CloseModalButton from './CloseModalButton/CloseModalButton';
 import NewPost from './NewPost/NewPost';
@@ -13,6 +13,7 @@ export default function ModalWrapper({ modalIsOpen, setIsOpen, data, modalType, 
   const [forumPostReplies, setForumPostReplies] = useState('');
   const user = JSON.parse(localStorage.getItem('user'));
   const teams = JSON.parse(localStorage.getItem('teams'));
+  console.log(`modalType: ${modalType}`);
 
   function getReplies(post_id) {
     fetch(`/view_post_replies/${post_id}`, {
@@ -23,25 +24,6 @@ export default function ModalWrapper({ modalIsOpen, setIsOpen, data, modalType, 
     .then(data => {
       setForumPostReplies(data.replies);
     })
-  }
-
-  if (modalType === 'post' && tableType === 'rules') {
-    return (
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setIsOpen(false)}
-        contentLabel='Rule'
-        parentSelector={() => document.querySelector('main')}
-        id='rule-modal'
-        ariaHideApp={false}
-      >
-        <CloseModalButton 
-          setIsOpen={setIsOpen}
-        />
-        <div className='modal-title'>{ReactHtmlParser(data.title)}</div>
-        <div className='modal-forum-text'>{ReactHtmlParser(data.body)}</div>
-      </Modal>
-    );
   }
 
   function modalOpenHandler() {
@@ -137,29 +119,42 @@ export default function ModalWrapper({ modalIsOpen, setIsOpen, data, modalType, 
         </div>
       </Modal>
     );
-  } 
-
-  if (modalType === 'newRule') {
-    return (
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setIsOpen(false)}
-        contentLabel='New Rule'
-        parentSelector={() => document.querySelector('main')}
-        id='new-rule-modal'
-        ariaHideApp={false}
-      >
-        <CloseModalButton 
-          setIsOpen={setIsOpen}
-        />
-        <div className='modal-title'>New Rule</div>
-        <NewPost
-          setIsOpen={setIsOpen}
-          postType='create_rule'
-          user={user}
-        />
-      </Modal>
-    );
   }
   return null;
 }
+
+export const NewRuleModal = ({modalIsOpen, setIsOpen, user }) =>
+  <Modal
+    isOpen={modalIsOpen}
+    onRequestClose={() => setIsOpen(false)}
+    contentLabel='New Rule'
+    parentSelector={() => document.querySelector('main')}
+    id='new-rule-modal'
+    ariaHideApp={false}
+    >
+    <CloseModalButton 
+      setIsOpen={setIsOpen}
+    />
+    <div className='modal-title'>New Rule</div>
+    <NewPost
+      setIsOpen={setIsOpen}
+      postType='create_rule'
+      user={user}
+    />
+  </Modal>
+
+export const ViewRuleModal = ({ modalIsOpen, setIsOpen, data }) =>
+  <Modal
+    isOpen={modalIsOpen}
+    onRequestClose={() => setIsOpen(false)}
+    contentLabel='Rule'
+    parentSelector={() => document.querySelector('main')}
+    id='rule-modal'
+    ariaHideApp={false}
+  >
+    <CloseModalButton 
+      setIsOpen={setIsOpen}
+    />
+    <div className='modal-title'>{ReactHtmlParser(data?.title)}</div>
+    <div className='modal-forum-text'>{ReactHtmlParser(data?.body)}</div>
+  </Modal>
