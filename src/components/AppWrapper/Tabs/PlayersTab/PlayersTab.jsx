@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SearchColumnFilter, SelectPositionColumnFilter, SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Table from '../../../Table/Table';
-import { getDBPlayers } from '../../../../util/requests';
+import { getDBPlayers, getDBGoalies } from '../../../../util/requests';
 import Loading from '../../../Loading/Loading';
 import DraftModal from '../DraftTab/DraftModal';
 import UsernameStyled from '../../UsernameStyled/UsernameStyled';
@@ -9,8 +9,7 @@ import PlayerCell from './PlayerCell';
 import './PlayersTab.css';
 
 export default function PlayersTab({playerType, players, setPlayers, setGoalies, draftingNow, setTeams, 
-    getLatestData, sendChatAnnouncement, user, setPicks, setCurrentPick, setDraftingNow,
-    currentPick
+    getLatestData, sendChatAnnouncement, user, setPicks, setCurrentPick, setDraftingNow, currentPick
   }) {
   const [isLoading, setIsLoading] = useState(true);
   const [prospectDropdown, setProspectDropdown] = useState('all');
@@ -310,21 +309,35 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
     setIsLoading(true);
     getLatestData();
     const playerDBData = localStorage.getItem('playerDBData');
+    const goalieDBData = localStorage.getItem('goalieDBData');
     
-    if (playerDBData) {
+    if (playerType === 'skaters') {
+      if (playerDBData) {
+        console.log("Using cached data");
+        let data = JSON.parse(playerDBData);
+        setPlayers(data.players);
+        setIsLoading(false);
+      }
+      else {
+        console.log("Getting new player DB data");
+        getDBPlayers(setPlayers);
+      }
+    }
+    if (playerType === 'goalies') { 
+    if (goalieDBData) {
       console.log("Using cached data");
-      let data = JSON.parse(playerDBData);
-      setPlayers(data.players);
+      let data = JSON.parse(goalieDBData);
+      setGoalies(data.players);
       setIsLoading(false);
     }
     else {
       console.log("Getting new player DB data");
-      getDBPlayers(setPlayers);
+      getDBGoalies(setGoalies);
     }
-    
+  }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setPlayers])
+  }, [setPlayers, setGoalies])
 
 
   return (
