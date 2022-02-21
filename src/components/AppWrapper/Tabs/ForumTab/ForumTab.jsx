@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Table from '../../../Table/Table';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
-import ModalWrapper from '../../ModalWrapper/ModalWrappers';
+import { ViewForumPost, NewForumPost } from '../../ModalWrapper/ModalWrappers';
 import { getForumPosts } from '../../../../util/requests';
-import { timeSince } from '../../../../util/time';
+import { timeSince, adjustOffset } from '../../../../util/time';
 import UsernameStyled from '../../UsernameStyled/UsernameStyled';
 import './ForumTab.css';
 
 export default function ForumTab({user, posts, setPosts, getLatestData}) {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
-  const [forumPostId, setForumPostId] = useState('');
-
-  function forumModal(id) {
-    setForumPostId(id); 
-    setModalOpen(true);
+  const [forumPost, setForumPost] = useState({id: null});
+  
+  function forumModal(post) {
+    console.log(`post: ${JSON.stringify(post, null, 4)}`);
+    setForumPost(post);
+    setViewModalOpen(true);
   }
 
   const columns = [
@@ -29,13 +31,6 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
           <div onClick={() => forumModal(cell.row.original)}>
             {cell.value}
           </div>
-          <ModalWrapper 
-            modalIsOpen={modalOpen}
-            setIsOpen={setModalOpen}
-            data={forumPostId}
-            modalType="post"
-            tableType="forum"
-          />
         </div>
     },
     {
@@ -44,7 +39,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
       Filter: SearchColumnFilter,
       Cell: cell => 
         <UsernameStyled
-          username={cell.value}
+          username={cell.row.original.username}
           color={cell.row.original.color}
           teamId={cell.row.original.yahoo_team_id}
         />
@@ -66,7 +61,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
       }</div>,
       accessor: 'create_date',
       disableFilters: true,
-      Cell: row => <div>{timeSince(row.value)}</div>,
+      Cell: row => <div title={adjustOffset(row.value)}>{timeSince(row.value)}</div>,
     },
   ]
   const tableState = { 
@@ -79,11 +74,11 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
       getForumPosts(setPosts);
       setNeedToUpdate(false);
     }
-    if (modalOpen === true) {
+    if (createModalOpen === true) {
       setNeedToUpdate(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalOpen])
+  }, [createModalOpen])
 
   useEffect(() => {
     setIsLoading(true);
@@ -105,10 +100,6 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setPosts])
 
-  function newForumPost() {
-    setModalOpen(true);
-  }
-
   return (
     <>
       { isLoading &&
@@ -116,13 +107,20 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
       }
       { !isLoading &&
         <>
-          <button className='margin-15' onClick = {() => newForumPost()}>New post</button>
-          <ModalWrapper 
-            modalIsOpen={modalOpen}
-            setIsOpen={setModalOpen}
-            data=''
-            modalType='newForumPost'
-          />
+          <button className='margin-15' onClick = {() => setCreateModalOpen(true)}>New post</button>
+          { createModalOpen &&
+            <NewForumPost 
+              modalIsOpen={createModalOpen}
+              setIsOpen={setCreateModalOpen}
+            />
+          }
+          { viewModalOpen &&
+            <ViewForumPost
+              modalIsOpen={viewModalOpen}
+              setIsOpen={setViewModalOpen}
+              post={forumPost}
+            />
+          }
           <Table
             user={user}
             data={posts}
