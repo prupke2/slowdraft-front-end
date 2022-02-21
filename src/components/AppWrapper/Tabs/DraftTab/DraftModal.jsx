@@ -5,7 +5,7 @@ import { getDraft, getDBGoalies, getDBPlayers, getTeams } from '../../../../util
 import { getHeaders } from '../../../../util/util';
 import Loading from '../../../Loading/Loading';
 import CloseModalButton from '../../ModalWrapper/CloseModalButton/CloseModalButton';
-import '../../ModalWrapper/ModalWrapper.css';
+import '../../ModalWrapper/ModalWrappers.css';
 
 export default function DraftModal(
     { modalIsOpen, setIsOpen, data, modalType, sendChatAnnouncement, setTeams,

@@ -1,20 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '../../../Table/Table';
 import Loading from '../../../Loading/Loading';
 import { getDraft, getDBGoalies, getDBPlayers, getTeams } from '../../../../util/requests';
 import UsernameStyled from '../../UsernameStyled/UsernameStyled';
 import { teamsMap, getHeaders, teamIdToKey } from '../../../../util/util';
 import { ToastsStore } from 'react-toasts';
+import PlayerCell from '../PlayersTab/PlayerCell';
 
 export default function DraftTab({user, currentPick, setCurrentPick, picks, setPicks, setTeams,
   setPlayers, setGoalies, draftingNow, setDraftingNow, getLatestData, sendChatAnnouncement
 }) {
   const isAdmin = user.role === 'admin';
-  console.log(`isAdmin: ${isAdmin}`);
-
   const teams = JSON.parse(localStorage.getItem('teams'));
+  const [page, setPage] = useState(null);
 
-  function updatePick(event, overall_pick) {
+
+  function updatePick(event, round, overall_pick) {
+    setPage(round - 1);
     const requestParams = {
       method: 'POST',
       headers: getHeaders()
@@ -79,8 +81,9 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
       sortDescFirst: false,
       disableSortBy: true,
       Cell: cell => {
-        const activePick = cell.row.original.draft_pick_timestamp === null;
-        if (!isAdmin || !activePick) {
+        const unusedPick = cell.row.original.draft_pick_timestamp === null;
+        const disabledPick = cell.row.original.disabled === 1;
+        if (!isAdmin || !unusedPick) {
           return cell.value
         }
         return (
@@ -89,14 +92,19 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
             <select 
               defaultValue={cell.row.original.yahoo_team_id} 
               className='change-user-dropdown'
-              onChange={(event) => updatePick(event, cell.row.original.overall_pick)}
+              onChange={(event) => updatePick(event, cell.row.original.round, cell.row.original.overall_pick)}
             >
-              { teamsMap(teams) }
-              {cell.row.original.disabled === 0 && 
-                <option value={0}>DISABLE PICK</option>
+              { !disabledPick && 
+                <>
+                  {teamsMap(teams)}
+                  <option value={0}>DISABLE PICK</option>
+                </>
               } 
-              {cell.row.original.disabled === 1 && 
-                <option value={0}>ENABLE PICK</option>
+              { disabledPick &&
+                <>
+                  <option value={null}>(DISABLED)</option>
+                  <option value={0}>ENABLE PICK</option>
+                </>
               } 
             </select>
           </div>
@@ -120,6 +128,14 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
       accessor: 'player_name',
       disableFilters: true,
       disableSortBy: true,
+      Cell: cell => {
+        return (
+          <PlayerCell
+            cell={cell}
+            draftingNow={draftingNow}
+          />
+        );
+      }  
     },
     {
       Header: 'Team',
@@ -247,6 +263,10 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
           setCurrentPick={setCurrentPick}
           setDraftingNow={setDraftingNow}
           sendChatAnnouncement={sendChatAnnouncement}
+          defaultPage={page || currentPick?.round - 1}
+          pageSize={12}
+          paginationTop
+          paginationBottom
         />
       }
     </>
