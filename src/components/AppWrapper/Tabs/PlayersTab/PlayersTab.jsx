@@ -188,13 +188,11 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
             <div className='player-wrapper'>
               <div className="draft-button-cell">
                 { takenPlayer &&
-                  <div>
                   <UsernameStyled
                     username={cell.row.original.user}
                     color={cell.row.original.owner_color}
                     teamId={cell.row.original.yahoo_team_id}
                   />
-                  </div>
                 }
                 { !takenPlayer &&
                 <div>
@@ -218,8 +216,8 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
               </div>
               <PlayerCell
                 cell={cell}
-                takenPlayer={takenPlayer}
                 draftingNow={draftingNow}
+                addMargin={takenPlayer}
               />
             </div>
           );
@@ -227,8 +225,8 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
           return (
             <PlayerCell
               cell={cell}
-              takenPlayer={takenPlayer}
               draftingNow={draftingNow}
+              addMargin={takenPlayer}
             />
           )
         }
