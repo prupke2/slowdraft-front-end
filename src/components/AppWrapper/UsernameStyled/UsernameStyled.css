@@ -1,6 +1,7 @@
 .user-wrapper {
   display: flex;
   height: 30px;
+  margin: 10px;
 }
 
 .user-in-draft {
