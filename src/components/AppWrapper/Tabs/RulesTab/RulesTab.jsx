@@ -22,6 +22,12 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
     setCreateModalOpen(true);
   }
 
+  useEffect(() =>  {
+    if (createModalOpen === false) {
+      setRuleData(null);
+    }
+  }, [createModalOpen])
+
   const columns = [
     {
       Header: '',
