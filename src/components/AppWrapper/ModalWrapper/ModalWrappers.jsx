@@ -5,7 +5,7 @@ import './ModalWrappers.css';
 import { timeSince } from '../../../util/time';
 import CloseModalButton from './CloseModalButton/CloseModalButton';
 import NewPost from './NewPost/NewPost';
-import { getHeaders } from '../../../util/util';
+import { getHeaders, capitalizeFirstLetter } from '../../../util/util';
 import UsernameStyled from '../UsernameStyled/UsernameStyled';
 import { useEffect } from 'react';
 
@@ -103,25 +103,30 @@ export const NewForumPost = ({ modalIsOpen, setIsOpen }) => {
   );
 }
 
-export const NewRuleModal = ({ modalIsOpen, setIsOpen, user }) =>
-  <Modal
-    isOpen={modalIsOpen}
-    onRequestClose={() => setIsOpen(false)}
-    contentLabel='New Rule'
-    parentSelector={() => document.querySelector('main')}
-    id='new-rule-modal'
-    ariaHideApp={false}
-    >
-    <CloseModalButton 
-      setIsOpen={setIsOpen}
-    />
-    <div className='modal-title'>New Rule</div>
-    <NewPost
-      setIsOpen={setIsOpen}
-      postType='create_rule'
-      user={user}
-    />
-  </Modal>
+export const NewRuleModal = ({ modalIsOpen, setIsOpen, user, data }) => {
+  const type = data ? 'edit' : 'new';
+  return (
+    <Modal
+      isOpen={modalIsOpen}
+      onRequestClose={() => setIsOpen(false)}
+      contentLabel='New Rule'
+      parentSelector={() => document.querySelector('main')}
+      id='new-rule-modal'
+      ariaHideApp={false}
+      >
+      <CloseModalButton 
+        setIsOpen={setIsOpen}
+      />
+      <div className='modal-title'>{capitalizeFirstLetter(type)} Rule</div>
+      <NewPost
+        setIsOpen={setIsOpen}
+        postType={type === 'edit' ? 'edit_rule' : 'create_rule'}
+        user={user}
+        post={data || null}
+      />
+    </Modal>
+  );
+}
 
 export const ViewRuleModal = ({ modalIsOpen, setIsOpen, data }) =>
   <Modal

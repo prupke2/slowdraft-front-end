@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import { ToastsStore } from 'react-toasts';
 import { getHeaders, capitalizeFirstLetter } from '../../../../util/util';
 
-export default function NewPost({parentPostId, user, setIsOpen, postType}){
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+export default function NewPost({parentPostId, user, setIsOpen, postType, post}){
+  const [title, setTitle] = useState(post?.title || '');
+  const [body, setBody] = useState(post?.body || '');
   const isReply = typeof(parentPostId) !== 'undefined';
+  const postTypeToIdMap = {
+    edit_rule: post.rule_id,
+    edit_post: post.id
+  }
+  const postId = post ? postTypeToIdMap[postType] : null;
   const saveButtonDisabled = isReply ? !body : !title || !body;
-  
+  console.log(`post: ${JSON.stringify(post, null, 4)}`);
   const handleTitleChange = event => {
     setTitle(event.target.value)
   };
@@ -21,7 +26,8 @@ export default function NewPost({parentPostId, user, setIsOpen, postType}){
     const requestParams = {
       method: 'POST',
       headers: getHeaders(),
-      body: JSON.stringify({ 
+      body: JSON.stringify({
+        id: postId || null,
         parentId: parentPostId || null,
         user: user,
         title: title,

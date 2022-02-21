@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Table from '../../../Table/Table';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
-import ModalWrapper, { ViewRuleModal, NewRuleModal } from '../../ModalWrapper/ModalWrappers';
+import { ViewRuleModal, NewRuleModal } from '../../ModalWrapper/ModalWrappers';
 import { getRules } from '../../../../util/requests';
 import './RulesTab.css';
 
@@ -16,6 +16,12 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
     setRuleData(cell); 
     setViewModalOpen(true);
   }
+
+  function editRuleHandler(cell) {
+    setRuleData(cell); 
+    setCreateModalOpen(true);
+  }
+
   const columns = [
     {
       Header: '',
@@ -29,16 +35,17 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
       Filter: SearchColumnFilter,
       width: '400px',
       Cell: cell => 
-        <div className='post-title'>
-          <div onClick={() => viewRuleModalHandler(cell.row.original)}>
-            {cell.value}
+        <div className='rule-cell'>
+          <div className='post-title'>
+            <div onClick={() => viewRuleModalHandler(cell.row.original)}>
+              {cell.value}
+            </div>
           </div>
-          {viewModalOpen &&
-            <ViewRuleModal
-              modalIsOpen={viewModalOpen}
-              setIsOpen={setViewModalOpen}
-              data={ruleData}
-            />
+          { user.role === 'admin' && 
+            <button 
+              className='small-button'
+              onClick={() => editRuleHandler(cell.row.original)}
+            >Edit</button>
           }
         </div>
     },
@@ -106,8 +113,16 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
                 modalIsOpen={createModalOpen}
                 setIsOpen={setCreateModalOpen}
                 user={user}
+                data={ruleData}
               />
             </>
+          }
+          { viewModalOpen &&
+            <ViewRuleModal
+              modalIsOpen={viewModalOpen}
+              setIsOpen={setViewModalOpen}
+              data={ruleData}
+            />
           }
           <Table
             user={user}
