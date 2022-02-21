@@ -4,7 +4,7 @@ import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
 import { ViewForumPost, NewForumPost } from '../../ModalWrapper/ModalWrappers';
 import { getForumPosts } from '../../../../util/requests';
-import { timeSince, adjustOffset } from '../../../../util/time';
+import { timeSince } from '../../../../util/time';
 import UsernameStyled from '../../UsernameStyled/UsernameStyled';
 import './ForumTab.css';
 
@@ -15,7 +15,6 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
   const [forumPost, setForumPost] = useState({id: null});
   
   function forumModal(post) {
-    console.log(`post: ${JSON.stringify(post, null, 4)}`);
     setForumPost(post);
     setViewModalOpen(true);
   }
@@ -61,7 +60,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
       }</div>,
       accessor: 'create_date',
       disableFilters: true,
-      Cell: row => <div title={adjustOffset(row.value)}>{timeSince(row.value)}</div>,
+      Cell: row => <div title={new Date(row.value)}>{timeSince(row.value)}</div>,
     },
   ]
   const tableState = { 
@@ -71,7 +70,9 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
 
   useEffect(() => {
     if (needToUpdate === true) {
-      getForumPosts(setPosts);
+      setTimeout(() => {
+        getForumPosts(setPosts);
+      }, 1000);
       setNeedToUpdate(false);
     }
     if (createModalOpen === true) {
