@@ -2,12 +2,21 @@ import React, { useEffect, useState } from 'react';
 import Table from '../../../Table/Table';
 import { SearchColumnFilter } from '../../../Table/FilterTypes/FilterTypes';
 import Loading from '../../../Loading/Loading';
-import ModalWrapper from '../../ModalWrapper/ModalWrapper';
+import ModalWrapper, { ViewRuleModal, NewRuleModal } from '../../ModalWrapper/ModalWrappers';
 import { getRules } from '../../../../util/requests';
+import './RulesTab.css';
 
 export default function RulesTab({user, rules, setRules, getLatestData}) {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
+  const [ruleData, setRuleData] = useState(null);
+
+  function viewRuleModalHandler(cell) {
+    console.log(`cell: ${JSON.stringify(cell, null, 4)}`);
+    setRuleData(cell); 
+    setViewModalOpen(true);
+  }
   const columns = [
     {
       Header: '',
@@ -20,6 +29,19 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
       accessor: 'title',
       Filter: SearchColumnFilter,
       width: '400px',
+      Cell: cell => 
+        <div className='post-title'>
+          <div onClick={() => viewRuleModalHandler(cell.row.original)}>
+            {cell.value}
+          </div>
+          {viewModalOpen &&
+            <ViewRuleModal
+              modalIsOpen={viewModalOpen}
+              setIsOpen={setViewModalOpen}
+              data={ruleData}
+            />
+          }
+        </div>
     },
     {
       Header: 'Body',
@@ -43,11 +65,11 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
       getRules(setRules);
       setNeedToUpdate(false);
     }
-    if (modalOpen === true) {
+    if (createModalOpen === true) {
       setNeedToUpdate(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalOpen])
+  }, [createModalOpen])
   
   useEffect(() => {
     setIsLoading(true);
@@ -69,11 +91,6 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setRules])
 
-
-  function newRule() {
-    setModalOpen(true);
-  }
-
   return (
     <>
       { isLoading &&
@@ -83,12 +100,11 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
         <>
           { user.role === 'admin' && 
             <>
-              <button className='new-rules-button margin-15' onClick = {() => newRule()}>New rule</button>
-              <ModalWrapper 
-                modalIsOpen={modalOpen}
-                setIsOpen={setModalOpen}
-                data=''
-                modalType='newRule'
+              <button className='new-rules-button margin-15' onClick = {() => setCreateModalOpen(true)}>New rule</button>
+              <NewRuleModal 
+                modalIsOpen={createModalOpen}
+                setIsOpen={setCreateModalOpen}
+                user={user}
               />
             </>
           }
@@ -99,6 +115,8 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
             tableState={tableState}
             defaultColumn='order'
             tableType='rules'
+            paginationTop
+            paginationBottom
           />
         </>
       }
