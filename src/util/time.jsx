@@ -5,7 +5,7 @@ export function adjustOffset(ts) {
 }
 
 export function timeSince(ts) {
-  const timeStamp = adjustOffset(ts);
+  const timeStamp = new Date(ts);
   const now = new Date(),
     secondsPast = (now.getTime() - timeStamp) / 1000;
 
