@@ -19,6 +19,14 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
     setViewModalOpen(true);
   }
 
+  function editPostHandler(post) {
+    setForumPost(post); 
+    setCreateModalOpen(true);
+  }
+
+  console.log(user)
+  
+
   const columns = [
     {
       Header: 'Title',
@@ -30,6 +38,12 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
           <div onClick={() => forumModal(cell.row.original)}>
             {cell.value}
           </div>
+          {cell.row.original.username === user.team_name && 
+            <button 
+              className='small-button'
+              onClick={() => editPostHandler(cell.row.original)}
+            >Edit</button>
+          }
         </div>
     },
     {
@@ -51,14 +65,14 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
     {
       Header: <div>{
         <span>
-          Date Posted 
+          Date Updated 
           <span className='timezoneInWords'>
             &nbsp;
             ({(Intl.DateTimeFormat().resolvedOptions().timeZone)})
           </span>
         </span>
       }</div>,
-      accessor: 'create_date',
+      accessor: 'update_date',
       disableFilters: true,
       Cell: row => <div title={new Date(row.value)}>{timeSince(row.value)}</div>,
     },
@@ -110,9 +124,12 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
         <>
           <button className='margin-15' onClick = {() => setCreateModalOpen(true)}>New post</button>
           { createModalOpen &&
-            <NewForumPost 
+            <NewForumPost
+              parentPostId={forumPost.parent_id || null}
               modalIsOpen={createModalOpen}
               setIsOpen={setCreateModalOpen}
+              user={user}
+              post={forumPost}
             />
           }
           { viewModalOpen &&
@@ -120,6 +137,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
               modalIsOpen={viewModalOpen}
               setIsOpen={setViewModalOpen}
               post={forumPost}
+              editPostHandler={editPostHandler}
             />
           }
           <Table

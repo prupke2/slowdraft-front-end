@@ -114,6 +114,11 @@
   width: 90%;
 }
 
+.date-and-edit-button-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 @media screen and (max-width: 800px) { 
   .ReactModal__Content {
     width: calc(100vw - 90px) !important;

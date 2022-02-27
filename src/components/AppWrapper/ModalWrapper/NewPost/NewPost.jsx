@@ -4,10 +4,11 @@ import { getHeaders, capitalizeFirstLetter } from '../../../../util/util';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-export default function NewPost({parentPostId, user, setIsOpen, postType, post}){
+export default function NewPost({ parentPostId, setIsOpen, postType, user, post }){
   const [title, setTitle] = useState(post?.title || '');
   const [body, setBody] = useState(post?.body || '');
-  const isReply = typeof(parentPostId) !== 'undefined';
+  const isReply = typeof(parentPostId) !== 'undefined' || typeof(post.parent_id) !== 'undefined';
+
   const postTypeToIdMap = {
     edit_rule: post?.rule_id,
     edit_post: post?.id
@@ -22,7 +23,7 @@ export default function NewPost({parentPostId, user, setIsOpen, postType, post})
       ToastsStore.error("A message is required.");
       return
     }
-    if (postType !== 'reply' && !title) {
+    if (!isReply && !title) {
       ToastsStore.error("A title is required.");
       return
     }
@@ -31,7 +32,7 @@ export default function NewPost({parentPostId, user, setIsOpen, postType, post})
       headers: getHeaders(),
       body: JSON.stringify({
         id: postId || null,
-        parentId: parentPostId || null,
+        parent_id: parentPostId || post.parent_id || null,
         user: user,
         title: title || null,
         body: body
@@ -51,19 +52,19 @@ export default function NewPost({parentPostId, user, setIsOpen, postType, post})
           ToastsStore.error(`Error saving ${postType}.`)
         }
       })
-      // .then(ToastsStore.success("Post saved."))
       .then(setIsOpen(false));
   }
 
   return (
     <form className='new-post-form'>
-      { typeof(parentPostId) === 'undefined' && 
+      { !isReply && 
       <div>
         <label name='title'></label>
         <input
           type='text' 
           label='title' 
           placeholder='Title'
+          value={title}
           onChange={(event) => setTitle(event.target.value)}
           required
         />
@@ -80,9 +81,11 @@ export default function NewPost({parentPostId, user, setIsOpen, postType, post})
             "|", "insertTable", "undo", "redo",
             ]}}
           placeholder='Message'
+          onReady={ editor => {
+            editor.setData(body)
+          } }
           onChange={ ( event, editor ) => {
             const data = editor.getData();
-            console.log(title?.current?.value);
             setBody(data);
           } }
       />

@@ -8,7 +8,7 @@ import { timeSince } from '../../../util/time';
 import UsernameStyled from '../UsernameStyled/UsernameStyled';
 import './ModalWrappers.css';
 
-export const ViewForumPost = ({ modalIsOpen, setIsOpen, post }) => {
+export const ViewForumPost = ({ modalIsOpen, setIsOpen, post, editPostHandler }) => {
   const [forumPostReplies, setForumPostReplies] = useState(null);
   const user = JSON.parse(localStorage.getItem('user'));
 
@@ -24,6 +24,12 @@ export const ViewForumPost = ({ modalIsOpen, setIsOpen, post }) => {
       })
     }
   }, [forumPostReplies, setForumPostReplies, post.id])
+
+  function editReplyHandler(reply) {
+    console.log(`reply : ${JSON.stringify(reply , null, 4)}`);
+    editPostHandler(reply);
+    setIsOpen(false);
+  }
 
   return (
     <Modal
@@ -59,8 +65,15 @@ export const ViewForumPost = ({ modalIsOpen, setIsOpen, post }) => {
                   color={reply.color}
                   teamId={reply.yahoo_team_id}
                 />
-                &nbsp;
-                <div className='modal-forum-date'>{timeSince(reply.create_date)}</div>
+                <div className='date-and-edit-button-wrapper'>
+                  <div className='modal-forum-date'>{timeSince(reply.create_date)}</div>
+                  { reply.username === user.team_name &&
+                    <button 
+                      className='small-button'
+                      onClick={() => editReplyHandler(reply)}
+                    >Edit</button>
+                  }
+                </div>
               </span>
               <div className='modal-forum-text'>
                 {ReactHtmlParser(reply.body)}
@@ -79,8 +92,12 @@ export const ViewForumPost = ({ modalIsOpen, setIsOpen, post }) => {
   );
 }
 
-export const NewForumPost = ({ modalIsOpen, setIsOpen }) => {
-  const user = JSON.parse(localStorage.getItem('user'));
+export const NewForumPost = ({ modalIsOpen, setIsOpen, user, post }) => {
+  console.log(`POST : ${JSON.stringify(post, null, 4)}`);
+  const type = post ? 'edit' : 'new';
+  const isReplyEdit = type === 'edit' && post.parent_id; 
+  const modalTitle = isReplyEdit ? 'Edit reply' : `${capitalizeFirstLetter(type)} forum post`;
+
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -93,11 +110,12 @@ export const NewForumPost = ({ modalIsOpen, setIsOpen }) => {
       <CloseModalButton 
         setIsOpen={setIsOpen}
       />
-      <div className='modal-title'>New forum post</div>
+      <div className='modal-title'>{modalTitle}</div>
       <NewPost 
         setIsOpen={setIsOpen}
-        postType='new_forum_post'
+        postType={type === 'edit' ? 'edit_post' : 'create_post'}
         user={user}
+        post={post || null}
       />
     </Modal>
   );

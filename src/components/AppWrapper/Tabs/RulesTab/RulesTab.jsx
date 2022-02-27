@@ -12,13 +12,13 @@ export default function RulesTab({user, rules, setRules, getLatestData}) {
   const [needToUpdate, setNeedToUpdate] = useState(false);
   const [ruleData, setRuleData] = useState(null);
 
-  function viewRuleModalHandler(cell) {
-    setRuleData(cell); 
+  function viewRuleModalHandler(post) {
+    setRuleData(post); 
     setViewModalOpen(true);
   }
 
-  function editRuleHandler(cell) {
-    setRuleData(cell); 
+  function editRuleHandler(post) {
+    setRuleData(post); 
     setCreateModalOpen(true);
   }
 
