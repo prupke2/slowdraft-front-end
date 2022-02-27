@@ -95,7 +95,7 @@ export const ViewForumPost = ({ modalIsOpen, setIsOpen, post, editPostHandler })
 export const NewForumPost = ({ modalIsOpen, setIsOpen, user, post }) => {
   console.log(`POST : ${JSON.stringify(post, null, 4)}`);
   const type = post ? 'edit' : 'new';
-  const isReplyEdit = type === 'edit' && post.parent_id; 
+  const isReplyEdit = type === 'edit' && post?.parent_id; 
   const modalTitle = isReplyEdit ? 'Edit reply' : `${capitalizeFirstLetter(type)} forum post`;
 
   return (

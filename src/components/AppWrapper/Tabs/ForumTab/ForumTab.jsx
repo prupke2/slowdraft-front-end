@@ -24,8 +24,11 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
     setCreateModalOpen(true);
   }
 
-  console.log(user)
-  
+  useEffect(() =>  {
+    if (createModalOpen === false) {
+      setForumPost(null);
+    }
+  }, [createModalOpen])
 
   const columns = [
     {
@@ -125,7 +128,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
           <button className='margin-15' onClick = {() => setCreateModalOpen(true)}>New post</button>
           { createModalOpen &&
             <NewForumPost
-              parentPostId={forumPost.parent_id || null}
+              parentPostId={forumPost?.parent_id || null}
               modalIsOpen={createModalOpen}
               setIsOpen={setCreateModalOpen}
               user={user}

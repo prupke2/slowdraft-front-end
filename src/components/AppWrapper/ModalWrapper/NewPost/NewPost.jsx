@@ -7,7 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default function NewPost({ parentPostId, setIsOpen, postType, user, post }){
   const [title, setTitle] = useState(post?.title || '');
   const [body, setBody] = useState(post?.body || '');
-  const isReply = typeof(parentPostId) !== 'undefined' || typeof(post.parent_id) !== 'undefined';
+  const isReply = typeof(parentPostId) !== 'undefined' || typeof(post?.parent_id) !== 'undefined';
 
   const postTypeToIdMap = {
     edit_rule: post?.rule_id,
