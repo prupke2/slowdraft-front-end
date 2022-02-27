@@ -51,7 +51,7 @@ export default function AddDraftPickTab() {
       <div className='instructions'>
         <div>
           <Emoji emoji='⚠️' />
-          This will add a pick at the end of the draft for the specified team.
+          This will add a pick at the end of the draft for the selected team.
         </div>
       </div>
       <div>

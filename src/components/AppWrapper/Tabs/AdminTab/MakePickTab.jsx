@@ -5,7 +5,8 @@ import { getHeaders, teamIdToKey, teamsMap } from '../../../../util/util';
 import Emoji from '../../Emoji';
 
 export default function MakePickTab() {
-  const [teamId, setTeamId] = useState(1);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [teamId, setTeamId] = useState(user.yahoo_team_id);
   const [playerId, setPlayerId] = useState(null);
   const teams = JSON.parse(localStorage.getItem('teams'));
   const teamKey = teamIdToKey(teamId);
@@ -47,7 +48,7 @@ export default function MakePickTab() {
       <div className='instructions make-pick-instructions '>
         <div className='warning'>
           <Emoji emoji='⚠️' /> 
-          This will draft a player for another team.
+          This will draft a player for the selected team.
         </div>
         <div>It will also send out the "Next Pick" email.</div>
       </div>
