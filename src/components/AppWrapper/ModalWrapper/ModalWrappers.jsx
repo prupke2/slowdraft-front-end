@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import ReactHtmlParser from 'react-html-parser';
-import './ModalWrappers.css';
-import { timeSince } from '../../../util/time';
 import CloseModalButton from './CloseModalButton/CloseModalButton';
 import NewPost from './NewPost/NewPost';
 import { getHeaders, capitalizeFirstLetter } from '../../../util/util';
+import { timeSince } from '../../../util/time';
 import UsernameStyled from '../UsernameStyled/UsernameStyled';
-import { useEffect } from 'react';
+import './ModalWrappers.css';
 
 export const ViewForumPost = ({ modalIsOpen, setIsOpen, post }) => {
   const [forumPostReplies, setForumPostReplies] = useState(null);
   const user = JSON.parse(localStorage.getItem('user'));
+
   useEffect(() => {
     if (!forumPostReplies) {
       fetch(`/view_post_replies/${post.id}`, {
@@ -24,6 +24,7 @@ export const ViewForumPost = ({ modalIsOpen, setIsOpen, post }) => {
       })
     }
   }, [forumPostReplies, setForumPostReplies, post.id])
+
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -46,7 +47,6 @@ export const ViewForumPost = ({ modalIsOpen, setIsOpen, post }) => {
         &nbsp;
         <div className='modal-forum-date'>{timeSince(post.create_date)}</div>
       </span>
-
       <div className='modal-forum-text'>{ReactHtmlParser(post.body)}</div>
 
       { forumPostReplies &&
