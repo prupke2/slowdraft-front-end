@@ -86,7 +86,7 @@ export default function Table(
 
       { loading && <Loading text="Loading..." />}
       { !loading &&
-        <table className="table" {...getTableProps()}>
+        <table autoComplete="off" className="table" {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup, i) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
