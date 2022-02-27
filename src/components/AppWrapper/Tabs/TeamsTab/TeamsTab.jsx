@@ -4,6 +4,7 @@ import Table from '../../../Table/Table';
 import { getTeams } from '../../../../util/requests';
 import { teamIdToLogo, teamsMap } from '../../../../util/util';
 import './TeamsTab.css';
+import PlayerCell from '../PlayersTab/PlayerCell';
 
 export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   const teams = JSON.parse(localStorage.getItem('playerTeamData'));
@@ -54,6 +55,11 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       accessor: 'name',
       disableFilters: true,
       disableSortBy: true,
+      Cell: cell => 
+      <PlayerCell
+        cell={cell}
+        draftingNow={draftingNow}
+      />
     },
     {
       Header: 'Team',
@@ -212,6 +218,11 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       accessor: 'name',
       disableFilters: true,
       disableSortBy: true,
+      Cell: cell => 
+        <PlayerCell
+          cell={cell}
+          draftingNow={draftingNow}
+        />
     },
     {
       Header: 'Team',

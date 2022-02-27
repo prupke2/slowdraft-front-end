@@ -1,7 +1,7 @@
 import React from 'react';
 
-const PlayerCell = ({cell, draftingNow}) => {
-  const takenPlayer = cell.row.original.user !== null ? 'taken-player' : null;
+const PlayerCell = ({ cell, draftingNow }) => {
+  const takenPlayer = cell.row.original.user !== null;
   return (
     <div className='player-name'>
       {cell.row.original.player_id && 

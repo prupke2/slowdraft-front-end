@@ -216,7 +216,6 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
               <PlayerCell
                 cell={cell}
                 draftingNow={draftingNow}
-                addMargin={takenPlayer}
               />
             </div>
           );
@@ -225,7 +224,6 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
             <PlayerCell
               cell={cell}
               draftingNow={draftingNow}
-              addMargin={takenPlayer}
             />
           )
         }
