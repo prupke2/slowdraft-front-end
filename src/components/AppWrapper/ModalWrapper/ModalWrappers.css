@@ -19,7 +19,7 @@
 }
 
 .ReactModal__Overlay--after-open {
-  background-color: #5e8b950a !important
+  background-color: rgba(0, 0, 0, 0.35) !important;
 }
 
 .ReactModal__Content {
