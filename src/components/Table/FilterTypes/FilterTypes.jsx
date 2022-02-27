@@ -6,6 +6,7 @@ export function SearchColumnFilter({
   }) {
     return (
       <input
+        autoComplete="off"
         className="search-filter"
         id={`${id}-search-filter`}
         value={filterValue || ''}
