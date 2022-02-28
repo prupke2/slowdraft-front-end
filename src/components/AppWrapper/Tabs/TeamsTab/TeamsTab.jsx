@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Loading from '../../../Loading/Loading';
 import Table from '../../../Table/Table';
 import { getTeams } from '../../../../util/requests';
-import { teamIdToLogo, teamsMap } from '../../../../util/util';
+import { teamIdToLogo, teamsMap, validateTeamParam } from '../../../../util/util';
 import './TeamsTab.css';
 import PlayerCell from '../PlayersTab/PlayerCell';
 
@@ -11,6 +11,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   const teamInfo = JSON.parse(localStorage.getItem('teams'));
   const [teamFilter, setTeamFilter] = useState(user.team_name);
   const [teamId, setTeamId] = useState(user.yahoo_team_id);
+  const teamParamValidated = validateTeamParam(teams);
 
   const [teamPlayerCount, setTeamPlayerCount] = useState(
     teams.filter(team => team.username === teamFilter).length
@@ -30,6 +31,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       }
     }
     setIsLoading(false);
+    setTeamId(teamParamValidated || user.yahoo_team_id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

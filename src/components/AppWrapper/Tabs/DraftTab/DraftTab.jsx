@@ -8,12 +8,11 @@ import { ToastsStore } from 'react-toasts';
 import PlayerCell from '../PlayersTab/PlayerCell';
 
 export default function DraftTab({user, currentPick, setCurrentPick, picks, setPicks, setTeams,
-  setPlayers, setGoalies, draftingNow, setDraftingNow, getLatestData, sendChatAnnouncement
+  setPlayers, setGoalies, draftingNow, setDraftingNow, getLatestData, sendChatAnnouncement, setUpdateTab
 }) {
   const isAdmin = user.role === 'admin';
   const teams = JSON.parse(localStorage.getItem('teams'));
   const [page, setPage] = useState(null);
-
 
   function updatePick(event, round, overall_pick) {
     setPage(round - 1);
@@ -121,7 +120,8 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
           username={cell.value}
           color={cell.row.original.color}
           teamId={cell.row.original.yahoo_team_id}
-        />
+          setUpdateTab={setUpdateTab}
+          />
     },
     {
       Header: 'Player',

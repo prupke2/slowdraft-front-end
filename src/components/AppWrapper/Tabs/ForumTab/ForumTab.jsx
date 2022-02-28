@@ -8,12 +8,11 @@ import { timeSince } from '../../../../util/time';
 import UsernameStyled from '../../UsernameStyled/UsernameStyled';
 import './ForumTab.css';
 
-export default function ForumTab({user, posts, setPosts, getLatestData}) {
+export default function ForumTab({ user, posts, setPosts, getLatestData, setUpdateTab }) {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
   const [forumPost, setForumPost] = useState({id: null});
-  
   function forumModal(post) {
     setForumPost(post);
     setViewModalOpen(true);
@@ -58,6 +57,7 @@ export default function ForumTab({user, posts, setPosts, getLatestData}) {
           username={cell.row.original.username}
           color={cell.row.original.color}
           teamId={cell.row.original.yahoo_team_id}
+          setUpdateTab={setUpdateTab}
         />
     },
     {

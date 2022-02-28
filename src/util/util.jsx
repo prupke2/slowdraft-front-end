@@ -1,6 +1,30 @@
 import React from 'react';
+import qs from 'qs';
 
-export const webToken = localStorage.getItem('web_token');
+export function updateUrlPath(path) {
+  window.history.replaceState(null, null, path);
+}
+
+export const getParam = (param) => {
+  const currentParams = qs.parse((window.location.search).substring(1));
+  return currentParams[param];
+};
+
+export const validateTeamParam = (teams) => {
+  const teamId = parseInt(getParam('team'), 10);
+  if (!teamId || Number.isNaN(teamId)) {
+    return false;
+  }
+  let validTeamId = null;
+  teams.every(team => {
+    if (team.yahoo_team_id === parseInt(teamId, 10)) {
+      validTeamId = teamId;
+      return false;
+    }
+    return true;
+  })
+  return validTeamId;
+}
 
 export const teamIdToKey = (teamId) => {
   const teams = JSON.parse(localStorage.getItem('teams'));

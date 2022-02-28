@@ -1,10 +1,11 @@
 import React from 'react';
 import './UsernameStyled.css';
 
-export default function UsernameStyled({username, color, teamId}) {
+export default function UsernameStyled({ username, color, teamId, setUpdateTab }) {
+
   const teams = JSON.parse(localStorage.getItem('teams'));
   return (
-    <p className='user-wrapper'>
+    <p className='user-wrapper' onClick={() => setUpdateTab(`/teams?team=${teamId}`)}>
       { (teamId && teams) &&
         <img className='user-logo' src={teams[teamId - 1].team_logo || null} alt='👤' />
       }
