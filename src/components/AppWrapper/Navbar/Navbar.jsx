@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import './Navbar.css';
 import PlayersTab from '../Tabs/PlayersTab/PlayersTab';
 import TeamsTab from '../Tabs/TeamsTab/TeamsTab';
 import ForumTab from '../Tabs/ForumTab/ForumTab';
@@ -9,26 +8,80 @@ import RulesTab from '../Tabs/RulesTab/RulesTab';
 import AdminTab from '../Tabs/AdminTab/AdminTab';
 import PickTrackerTab from '../Tabs/PickTrackerTab/PickTrackerTab';
 import Emoji from '../Emoji';
+import { updateUrlPath } from '../../../../src/util/util'
+import './Navbar.css';
 
 export default function Navbar({
   currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
   sendChatAnnouncement, players, setPlayers, goalies, setGoalies,
   teams, setTeams, posts, setPosts, rules, setRules, user, getLatestData
 }) {
-  
+  const path = window.location.pathname;
+  const [updateTab, setUpdateTab] = useState(null);
+  const pathToIndexMap = {
+    '/draft': 0,
+    '/skaters': 1,
+    '/goalies': 2,
+    '/teams': 3,
+    '/forum': 4,
+    '/rules': 5,
+    '/pick-tracker': 6,
+    '/admin': 7
+  }
+  useEffect(() => {
+    if (!pathToIndexMap[path]) {
+      updateUrlPath('draft');
+    }
+  }, [path, pathToIndexMap]);
+
+  useEffect(() => {
+    if (updateTab) {
+      const pathWithoutParams = updateTab.match(/^[^?]*/);
+      const tab = pathToIndexMap[pathWithoutParams];
+      const tabId = `react-tabs-${tab * 2}`; // x2 because react-tabs uses an extra hidden tab for each for a11y purposes
+      document.getElementById(tabId).click();
+      updateUrlPath(updateTab);
+      setUpdateTab(null);
+    }
+  }, [updateTab, pathToIndexMap])
+
   return (
     <>
-      <Tabs defaultIndex={0} className="navbar-tabs">
+      <Tabs defaultIndex={pathToIndexMap[path] || 0} className="navbar-tabs">
         <TabList>
-          <Tab><Emoji navbar={true} emoji='⚔️'  /><div>Draft</div></Tab>
-          <Tab><Emoji navbar={true} emoji='⛸' /><div>Skaters</div></Tab>
-          <Tab><Emoji navbar={true} emoji='🥅' /><div>Goalies</div></Tab>
-          <Tab><Emoji navbar={true} emoji='🏒' /><div>Teams</div></Tab>
-          <Tab><Emoji navbar={true} emoji='💬' /><div>Forum</div></Tab>
-          <Tab><Emoji navbar={true} emoji='📖' /><div>Rules</div></Tab>
-          <Tab><Emoji navbar={true} emoji='⛏️' /><div>Pick Tracker</div></Tab>
+          <Tab onClick={() => updateUrlPath('draft')}>
+            <Emoji navbar={true} emoji='⚔️'  />
+            <div>Draft</div>
+          </Tab>
+          <Tab onClick={() => updateUrlPath('skaters')}>
+            <Emoji navbar={true} emoji='⛸' />
+            <div >Skaters</div>
+          </Tab>
+          <Tab onClick={() => updateUrlPath('goalies')}>
+            <Emoji navbar={true} emoji='🥅' />
+            <div >Goalies</div>
+          </Tab>
+          <Tab onClick={() => updateUrlPath('teams')}>
+            <Emoji navbar={true} emoji='🏒' />
+            <div>Teams</div>
+          </Tab>
+          <Tab onClick={() => updateUrlPath('forum')}>
+            <Emoji navbar={true} emoji='💬' />
+            <div>Forum</div>
+          </Tab>
+          <Tab onClick={() => updateUrlPath('rules')}>
+            <Emoji navbar={true} emoji='📖' />
+            <div>Rules</div>
+          </Tab>
+          <Tab onClick={() => updateUrlPath('pick-tracker')}>
+            <Emoji navbar={true} emoji='⛏️' />
+            <div>Pick Tracker</div>
+          </Tab>
           { user.role === 'admin' && (
-            <Tab><Emoji navbar={true} emoji='✨' /><div>Admin</div></Tab>
+            <Tab onClick={() => updateUrlPath('admin')}>
+              <Emoji navbar={true} emoji='✨' />
+              <div>Admin</div>
+            </Tab>
           )}
         </TabList>
         <TabPanel>
@@ -46,6 +99,7 @@ export default function Navbar({
             setGoalies={setGoalies}
             getLatestData={getLatestData}
             sendChatAnnouncement={sendChatAnnouncement}
+            setUpdateTab={setUpdateTab}
           />
         </TabPanel>
         <TabPanel>
@@ -96,6 +150,7 @@ export default function Navbar({
             posts={posts}
             setPosts={setPosts}
             getLatestData={getLatestData}
+            setUpdateTab={setUpdateTab}
           />
         </TabPanel>
         <TabPanel>
