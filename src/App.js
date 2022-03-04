@@ -7,9 +7,13 @@ import './App.css';
 import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toasts';
 import dummyIcon from './assets/dummy_icon.png';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import {
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 
 export default function App() {
-
   const [loggedIn, setLoggedIn] = useState(false);
   // pub and sub (publish/subscribe) states are used for the chat backend
   const [pub, setPub] = useState(localStorage.getItem( 'pub' ) || ''); 
@@ -32,6 +36,8 @@ export default function App() {
     role: null, 
     color: null
   });
+  const webToken = localStorage.getItem( 'web_token' );
+
 
   useEffect(() => {
     const webToken = localStorage.getItem( 'web_token' ) || '';
@@ -50,45 +56,68 @@ export default function App() {
       setIsLoading(false);
     });
   }
-
+  
   return (
-    <>
-      <ErrorBoundary>
-        <ToastsContainer 
-          store={ToastsStore}
-          position={ToastsContainerPosition.TOP_CENTER}
-        />
-        { isLoading &&
-          <Loading />
-        }
-        { (!isLoading && !loggedIn) &&
-          <ErrorBoundary>          
-            <Login 
-              code={code}
-              setLoggedIn={setLoggedIn}
-              setPub={setPub}
-              setSub={setSub}
-              setIsLoading={setIsLoading}
-              user={user}
-              setUser={setUser}
-              setPicks={setPicks}
-              currentPick={currentPick}
-              setCurrentPick={setCurrentPick}
-              draftingNow={draftingNow}
-              setDraftingNow={setDraftingNow}
-            />
-          </ErrorBoundary>
-        }
+    <Switch>
+      <Route exact path ={['/', '/#/']}>
         { (loggedIn && user) &&
-          <main>
-            <ErrorBoundary >
-              <AppWrapper
+          <Redirect to='/draft' />
+        }
+        <Redirect to='/login' />
+      </Route>
+      <Route exact path = '/test'>
+        test
+      </Route>
+      <Route 
+        path={["/draft", "/skaters", "/goalies", "/forum", "/teams", "/rules", "/pick-tracker", "/admin"]}
+      >
+        <>
+          { !webToken &&
+            <Redirect to='/login' />
+          }
+          { (loggedIn && user) &&
+            <main>
+              <ErrorBoundary >
+                <AppWrapper
+                  setLoggedIn={setLoggedIn}
+                  logout={logout}
+                  pub={pub}
+                  sub={sub}
+                  user={user}
+                  picks={picks}
+                  setPicks={setPicks}
+                  currentPick={currentPick}
+                  setCurrentPick={setCurrentPick}
+                  draftingNow={draftingNow}
+                  setDraftingNow={setDraftingNow}
+                />
+              </ErrorBoundary>
+            </main>
+          }
+        </>
+      </Route>
+      <Route exact path='/login'>
+        { (loggedIn && user) &&
+          <Redirect to='/draft' />
+        }
+        <ErrorBoundary>
+          <ToastsContainer 
+            store={ToastsStore}
+            position={ToastsContainerPosition.TOP_CENTER}
+          />
+          { isLoading &&
+            <Loading />
+          }
+          { (!isLoading && !loggedIn) &&
+            <ErrorBoundary>          
+              <Login 
+                code={code}
                 setLoggedIn={setLoggedIn}
-                logout={logout}
-                pub={pub}
-                sub={sub}
+                setPub={setPub}
+                setSub={setSub}
+                setIsLoading={setIsLoading}
                 user={user}
-                picks={picks}
+                setUser={setUser}
                 setPicks={setPicks}
                 currentPick={currentPick}
                 setCurrentPick={setCurrentPick}
@@ -96,11 +125,30 @@ export default function App() {
                 setDraftingNow={setDraftingNow}
               />
             </ErrorBoundary>
-          </main>
-        }
-      </ErrorBoundary>
-
-    </>
+          }
+          { (loggedIn && user) &&
+            <main>
+              <ErrorBoundary >
+                <AppWrapper
+                  setLoggedIn={setLoggedIn}
+                  logout={logout}
+                  pub={pub}
+                  sub={sub}
+                  user={user}
+                  picks={picks}
+                  setPicks={setPicks}
+                  currentPick={currentPick}
+                  setCurrentPick={setCurrentPick}
+                  draftingNow={draftingNow}
+                  setDraftingNow={setDraftingNow}
+                />
+              </ErrorBoundary>
+            </main>
+          }
+        </ErrorBoundary>
+      </Route>
+      <Redirect to="/draft" />
+    </Switch>
   );
 }
 

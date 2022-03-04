@@ -8,7 +8,8 @@ import RulesTab from '../Tabs/RulesTab/RulesTab';
 import AdminTab from '../Tabs/AdminTab/AdminTab';
 import PickTrackerTab from '../Tabs/PickTrackerTab/PickTrackerTab';
 import Emoji from '../Emoji';
-import { updateUrlPath } from '../../../../src/util/util'
+import { updateUrlPath } from '../../../../src/util/util';
+import { useLocation } from "react-router-dom";
 import './Navbar.css';
 
 export default function Navbar({
@@ -16,8 +17,6 @@ export default function Navbar({
   sendChatAnnouncement, players, setPlayers, goalies, setGoalies,
   teams, setTeams, posts, setPosts, rules, setRules, user, getLatestData
 }) {
-  const path = window.location.pathname;
-  const [updateTab, setUpdateTab] = useState(null);
   const pathToIndexMap = {
     '/draft': 0,
     '/skaters': 1,
@@ -28,17 +27,16 @@ export default function Navbar({
     '/pick-tracker': 6,
     '/admin': 7
   }
-  useEffect(() => {
-    if (!pathToIndexMap[path]) {
-      updateUrlPath('draft');
-    }
-  }, [path, pathToIndexMap]);
+  const location = useLocation();
+  const defaultIndex = pathToIndexMap[location.pathname] || '0';
+  const [updateTab, setUpdateTab] = useState(null);
 
   useEffect(() => {
     if (updateTab) {
       const pathWithoutParams = updateTab.match(/^[^?]*/);
-      const tab = pathToIndexMap[pathWithoutParams];
+      const tab = pathToIndexMap[`/${pathWithoutParams}`];
       const tabId = `react-tabs-${tab * 2}`; // x2 because react-tabs uses an extra hidden tab for each for a11y purposes
+
       document.getElementById(tabId).click();
       updateUrlPath(updateTab);
       setUpdateTab(null);
@@ -47,7 +45,7 @@ export default function Navbar({
 
   return (
     <>
-      <Tabs defaultIndex={pathToIndexMap[path] || 0} className="navbar-tabs">
+      <Tabs defaultIndex={defaultIndex} className="navbar-tabs">
         <TabList>
           <Tab onClick={() => updateUrlPath('draft')}>
             <Emoji navbar={true} emoji='⚔️'  />

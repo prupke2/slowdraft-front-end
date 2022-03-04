@@ -26,7 +26,6 @@ export const ViewForumPost = ({ modalIsOpen, setIsOpen, post, editPostHandler })
   }, [forumPostReplies, setForumPostReplies, post.id])
 
   function editReplyHandler(reply) {
-    console.log(`reply : ${JSON.stringify(reply , null, 4)}`);
     editPostHandler(reply);
     setIsOpen(false);
   }
