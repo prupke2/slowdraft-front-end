@@ -5,7 +5,7 @@ import Emoji from '../../Emoji';
 import { SelectTeamFilter } from '../../../Table/FilterTypes/FilterTypes';
 
 export default function AddPlayerToDBTab() {
-  localStorage.setItem('adminTab', 'add_player');
+  localStorage.setItem('adminTab', 'add-player');
   const [name, setName] = useState(null);
   const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState(null);

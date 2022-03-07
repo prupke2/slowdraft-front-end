@@ -98,6 +98,10 @@ table tr:last-child td {
   font-size: 0.8rem;
 }
 
+td.Pick {
+  padding-left: 8px;
+}
+
 .prospect {
   font-size: 0.8rem;
   background: lightcyan;

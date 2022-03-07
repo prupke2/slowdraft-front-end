@@ -10,10 +10,13 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import {
   Switch,
   Route,
-  Redirect
+  Redirect,
+  useLocation
 } from "react-router-dom";
 
 export default function App() {
+  const location = useLocation();
+  console.log(`location: ${JSON.stringify(location, null, 4)}`);
   const [loggedIn, setLoggedIn] = useState(false);
   // pub and sub (publish/subscribe) states are used for the chat backend
   const [pub, setPub] = useState(localStorage.getItem( 'pub' ) || ''); 
@@ -25,7 +28,17 @@ export default function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const queryParams = qs.parse(window.location.search);
+  console.log(`queryParams: ${JSON.stringify(queryParams, null, 4)}`);
+
   const code = queryParams["code"];
+
+  const locSearch = qs.parse(location.search);
+  console.log(`locSearch: ${JSON.stringify(locSearch, null, 4)}`);
+
+  const locCode = queryParams["code"];
+  console.log(`locCode: ${locCode}`);
+
+
   const [user, setUser] = useState({
     team_key: null,
     user_id: null,
@@ -42,7 +55,6 @@ export default function App() {
   useEffect(() => {
     const webToken = localStorage.getItem( 'web_token' ) || '';
     const user = JSON.parse(localStorage.getItem('user'));
-
     if (webToken) {
       setUser(user);
       setLoggedIn(true);
@@ -56,51 +68,72 @@ export default function App() {
       setIsLoading(false);
     });
   }
-  
+
   return (
-    <Switch>
-      <Route exact path ={['/', '/#/']}>
-        { (loggedIn && user) &&
-          <Redirect to='/draft' />
-        }
-        <Redirect to='/login' />
-      </Route>
+    <>
+      { !loggedIn &&
+        <Login 
+          code={code}
+          setLoggedIn={setLoggedIn}
+          setPub={setPub}
+          setSub={setSub}
+          setIsLoading={setIsLoading}
+          user={user}
+          setUser={setUser}
+          setPicks={setPicks}
+          currentPick={currentPick}
+          setCurrentPick={setCurrentPick}
+          draftingNow={draftingNow}
+          setDraftingNow={setDraftingNow}
+        />
+      }
+      { (loggedIn && user) &&
+        <main>
+          <ToastsContainer 
+            store={ToastsStore}
+            position={ToastsContainerPosition.TOP_CENTER}
+          />
+          <ErrorBoundary >
+            <AppWrapper
+              setLoggedIn={setLoggedIn}
+              logout={logout}
+              pub={pub}
+              sub={sub}
+              user={user}
+              picks={picks}
+              setPicks={setPicks}
+              currentPick={currentPick}
+              setCurrentPick={setCurrentPick}
+              draftingNow={draftingNow}
+              setDraftingNow={setDraftingNow}
+              pathname={location.pathname}
+            />
+          </ErrorBoundary>
+        </main>
+      }
+    {/* <Switch>
       <Route exact path = '/test'>
         test
       </Route>
-      <Route 
-        path={["/draft", "/skaters", "/goalies", "/forum", "/teams", "/rules", "/pick-tracker", "/admin"]}
-      >
-        <>
-          { !webToken &&
-            <Redirect to='/login' />
-          }
-          { (loggedIn && user) &&
-            <main>
-              <ErrorBoundary >
-                <AppWrapper
-                  setLoggedIn={setLoggedIn}
-                  logout={logout}
-                  pub={pub}
-                  sub={sub}
-                  user={user}
-                  picks={picks}
-                  setPicks={setPicks}
-                  currentPick={currentPick}
-                  setCurrentPick={setCurrentPick}
-                  draftingNow={draftingNow}
-                  setDraftingNow={setDraftingNow}
-                />
-              </ErrorBoundary>
-            </main>
-          }
-        </>
+      <Route path='asdf'>
+        <Login />
       </Route>
-      <Route exact path='/login'>
+      <Route path ={['/', '/#/']}>
+        { (!loggedIn || !user) &&
+          <Redirect to='/login' /> 
+        } 
+      </Route>
+      <Route path='/login'>
+        { console.log(`login route`)}
         { (loggedIn && user) &&
+          <>
+          { console.log("REDIRECTING TO DRAFT") }
           <Redirect to='/draft' />
+          </>
         }
-        <ErrorBoundary>
+        <>
+          { console.log("NOT redir") }
+          asdf
           <ToastsContainer 
             store={ToastsStore}
             position={ToastsContainerPosition.TOP_CENTER}
@@ -109,7 +142,9 @@ export default function App() {
             <Loading />
           }
           { (!isLoading && !loggedIn) &&
-            <ErrorBoundary>          
+            <ErrorBoundary>
+              { console.log("login comp") }
+
               <Login 
                 code={code}
                 setLoggedIn={setLoggedIn}
@@ -145,10 +180,39 @@ export default function App() {
               </ErrorBoundary>
             </main>
           }
-        </ErrorBoundary>
+        </>
       </Route>
-      <Redirect to="/draft" />
-    </Switch>
+    </Switch> */}
+    {/* <>
+      { !webToken &&
+        <Redirect to='/login' />
+      }
+      { (loggedIn && user) &&
+        <main>
+          <ToastsContainer 
+            store={ToastsStore}
+            position={ToastsContainerPosition.TOP_CENTER}
+          />
+          <ErrorBoundary >
+            <AppWrapper
+              setLoggedIn={setLoggedIn}
+              logout={logout}
+              pub={pub}
+              sub={sub}
+              user={user}
+              picks={picks}
+              setPicks={setPicks}
+              currentPick={currentPick}
+              setCurrentPick={setCurrentPick}
+              draftingNow={draftingNow}
+              setDraftingNow={setDraftingNow}
+              pathname={location.pathname}
+            />
+          </ErrorBoundary>
+        </main>
+      }
+    </> */}
+    </>
   );
 }
 

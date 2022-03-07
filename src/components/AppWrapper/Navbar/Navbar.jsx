@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import React from 'react';
 import PlayersTab from '../Tabs/PlayersTab/PlayersTab';
 import TeamsTab from '../Tabs/TeamsTab/TeamsTab';
 import ForumTab from '../Tabs/ForumTab/ForumTab';
@@ -8,168 +7,189 @@ import RulesTab from '../Tabs/RulesTab/RulesTab';
 import AdminTab from '../Tabs/AdminTab/AdminTab';
 import PickTrackerTab from '../Tabs/PickTrackerTab/PickTrackerTab';
 import Emoji from '../Emoji';
-import { updateUrlPath } from '../../../../src/util/util';
-import { useLocation } from "react-router-dom";
+import { Route, Switch, Redirect, NavLink } from "react-router-dom";
 import './Navbar.css';
 
 export default function Navbar({
   currentPick, setCurrentPick, picks, setPicks, draftingNow, setDraftingNow, userId, 
   sendChatAnnouncement, players, setPlayers, goalies, setGoalies,
-  teams, setTeams, posts, setPosts, rules, setRules, user, getLatestData
+  teams, setTeams, posts, setPosts, rules, setRules, user, getLatestData,
 }) {
-  const pathToIndexMap = {
-    '/draft': 0,
-    '/skaters': 1,
-    '/goalies': 2,
-    '/teams': 3,
-    '/forum': 4,
-    '/rules': 5,
-    '/pick-tracker': 6,
-    '/admin': 7
-  }
-  const location = useLocation();
-  const defaultIndex = pathToIndexMap[location.pathname] || '0';
-  const [updateTab, setUpdateTab] = useState(null);
+  // const pathToIndexMap = {
+  //   '/draft': 0,
+  //   '/skaters': 1,
+  //   '/goalies': 2,
+  //   '/teams': 3,
+  //   '/teams/2': 3,
+  //   teamRoute: 3,
+  //   '/forum': 4,
+  //   '/rules': 5,
+  //   '/pick-tracker': 6,
+  //   '/admin': 7
+  // }
+  // const location = useLocation();
+  // const defaultIndex = pathToIndexMap[pathname] || 0;
+  // console.log(`defaultIndex: ${JSON.stringify(defaultIndex, null, 4)}`);
+  // const [updateTab, setUpdateTab] = useState(null);
 
-  useEffect(() => {
-    if (updateTab) {
-      const pathWithoutParams = updateTab.match(/^[^?]*/);
-      const tab = pathToIndexMap[`/${pathWithoutParams}`];
-      const tabId = `react-tabs-${tab * 2}`; // x2 because react-tabs uses an extra hidden tab for each for a11y purposes
-
-      document.getElementById(tabId).click();
-      updateUrlPath(updateTab);
-      setUpdateTab(null);
-    }
-  }, [updateTab, pathToIndexMap])
+  // useEffect(() => {
+  //   if (updateTab) {
+  //     const pathWithoutParams = updateTab.match(/^[^?]*/);
+  //     const tab = pathToIndexMap[`/${pathWithoutParams}`];
+  //     const tabId = `react-tabs-${tab * 2}`; // x2 because react-tabs uses an extra hidden tab for each for a11y purposes
+  //     const tabElement = document.getElementById(tabId);
+  //     tabElement && tabElement.click();
+  //     // updateUrlPath(`#/${updateTab}`);
+  //     setUpdateTab(null);
+  //   }
+  // }, [updateTab, pathToIndexMap])
 
   return (
-    <>
-      <Tabs defaultIndex={defaultIndex} className="navbar-tabs">
-        <TabList>
-          <Tab onClick={() => updateUrlPath('draft')}>
+    <div className="navbar-tabs">
+      <ul className='navtab-list'>
+        <li className='navtab'>
+          <NavLink to='/draft' activeClassName='active'>
             <Emoji navbar={true} emoji='⚔️'  />
             <div>Draft</div>
-          </Tab>
-          <Tab onClick={() => updateUrlPath('skaters')}>
+          </NavLink>
+        </li>
+        <li className='navtab'>
+          <NavLink to='/skaters' activeClassName='active'>
             <Emoji navbar={true} emoji='⛸' />
             <div >Skaters</div>
-          </Tab>
-          <Tab onClick={() => updateUrlPath('goalies')}>
+          </NavLink>
+        </li>
+        <li className='navtab'>
+          <NavLink to='/goalies' activeClassName='active'>
             <Emoji navbar={true} emoji='🥅' />
             <div >Goalies</div>
-          </Tab>
-          <Tab onClick={() => updateUrlPath('teams')}>
+          </NavLink>
+        </li>
+        <li className='navtab'>
+          <NavLink to='/teams' activeClassName='active'>
             <Emoji navbar={true} emoji='🏒' />
             <div>Teams</div>
-          </Tab>
-          <Tab onClick={() => updateUrlPath('forum')}>
+          </NavLink>
+        </li>
+        <li className='navtab'>
+          <NavLink to='/forum' activeClassName='active'>
             <Emoji navbar={true} emoji='💬' />
             <div>Forum</div>
-          </Tab>
-          <Tab onClick={() => updateUrlPath('rules')}>
+          </NavLink>
+        </li>
+        <li className='navtab'>
+          <NavLink to='/rules' activeClassName='active'>
             <Emoji navbar={true} emoji='📖' />
             <div>Rules</div>
-          </Tab>
-          <Tab onClick={() => updateUrlPath('pick-tracker')}>
+          </NavLink>
+        </li>
+        <li className='navtab'>
+          <NavLink to='/pick-tracker' activeClassName='active'>
             <Emoji navbar={true} emoji='⛏️' />
             <div>Pick Tracker</div>
-          </Tab>
-          { user.role === 'admin' && (
-            <Tab onClick={() => updateUrlPath('admin')}>
+          </NavLink>
+        </li>
+        { user.role === 'admin' && (
+          <li className='navtab'>
+            <NavLink to='/admin'  activeClassName='active'>
               <Emoji navbar={true} emoji='✨' />
               <div>Admin</div>
-            </Tab>
-          )}
-        </TabList>
-        <TabPanel>
-          <DraftTab 
-            user={user}
-            currentPick={currentPick}
-            setCurrentPick={setCurrentPick}
-            draftingNow={draftingNow}
-            setDraftingNow={setDraftingNow}
-            userId={userId}
-            picks={picks}
-            setPicks={setPicks}
-            setTeams={setTeams}
-            setPlayers={setPlayers}
-            setGoalies={setGoalies}
-            getLatestData={getLatestData}
-            sendChatAnnouncement={sendChatAnnouncement}
-            setUpdateTab={setUpdateTab}
-          />
-        </TabPanel>
-        <TabPanel>
-          <PlayersTab
-            playerType='skaters'
-            user={user}
-            setPicks={setPicks}
-            setCurrentPick={setCurrentPick}
-            draftingNow={draftingNow}
-            setDraftingNow={setDraftingNow}
-            sendChatAnnouncement={sendChatAnnouncement}
-            players={players}
-            setPlayers={setPlayers}
-            setGoalies={setGoalies}
-            setTeams={setTeams}
-            getLatestData={getLatestData}
-            currentPick={currentPick}
-          />
-        </TabPanel>
-        <TabPanel>
-          <PlayersTab
-            playerType='goalies'
-            user={user}
-            setPicks={setPicks}
-            setCurrentPick={setCurrentPick}
-            draftingNow={draftingNow}
-            setDraftingNow={setDraftingNow}
-            sendChatAnnouncement={sendChatAnnouncement}
-            players={goalies}
-            setPlayers={setPlayers}
-            setGoalies={setGoalies}
-            setTeams={setTeams}
-            getLatestData={getLatestData}
-            currentPick={currentPick}
-          />
-        </TabPanel>
-        <TabPanel>
-          <TeamsTab 
-            user={user}
-            teams={teams}
-            setTeams={setTeams}
-            getLatestData={getLatestData}
-          />
-        </TabPanel>
-        <TabPanel>
-          <ForumTab 
-            user={user}
-            posts={posts}
-            setPosts={setPosts}
-            getLatestData={getLatestData}
-            setUpdateTab={setUpdateTab}
-          />
-        </TabPanel>
-        <TabPanel>
-          <RulesTab
-            user={user}
-            rules={rules}
-            setRules={setRules}
-            getLatestData={getLatestData}
-          />
-        </TabPanel>
-        <TabPanel>
-          <PickTrackerTab />
-        </TabPanel>
+            </NavLink>
+          </li>
+        )}
+      </ul>
+        
+      <div className='tab-wrapper'>
+        <Switch>
+          <Route path='/draft'>
+            <DraftTab 
+              user={user}
+              currentPick={currentPick}
+              setCurrentPick={setCurrentPick}
+              draftingNow={draftingNow}
+              setDraftingNow={setDraftingNow}
+              userId={userId}
+              picks={picks}
+              setPicks={setPicks}
+              setTeams={setTeams}
+              setPlayers={setPlayers}
+              setGoalies={setGoalies}
+              getLatestData={getLatestData}
+              sendChatAnnouncement={sendChatAnnouncement}
+            />
+          </Route>
+          <Route path='/skaters'>
+            <PlayersTab
+              playerType='skaters'
+              user={user}
+              setPicks={setPicks}
+              setCurrentPick={setCurrentPick}
+              draftingNow={draftingNow}
+              setDraftingNow={setDraftingNow}
+              sendChatAnnouncement={sendChatAnnouncement}
+              players={players}
+              setPlayers={setPlayers}
+              setGoalies={setGoalies}
+              setTeams={setTeams}
+              getLatestData={getLatestData}
+              currentPick={currentPick}
+            />
+          </Route>
+          <Route path='/goalies'>
+            <PlayersTab
+              playerType='goalies'
+              user={user}
+              setPicks={setPicks}
+              setCurrentPick={setCurrentPick}
+              draftingNow={draftingNow}
+              setDraftingNow={setDraftingNow}
+              sendChatAnnouncement={sendChatAnnouncement}
+              players={goalies}
+              setPlayers={setPlayers}
+              setGoalies={setGoalies}
+              setTeams={setTeams}
+              getLatestData={getLatestData}
+              currentPick={currentPick}
+            />
+          </Route>
+          <Route path='/teams'>
+            <TeamsTab 
+              user={user}
+              teams={teams}
+              setTeams={setTeams}
+              getLatestData={getLatestData}
+            />
+          </Route>
+          <Route path='/forum'>
+            <ForumTab 
+              user={user}
+              posts={posts}
+              setPosts={setPosts}
+              getLatestData={getLatestData}
+            />
+          </Route>
+          <Route path='/rules'>
+            <RulesTab
+              user={user}
+              rules={rules}
+              setRules={setRules}
+              getLatestData={getLatestData}
+            />
+          </Route>
+          <Route path='/pick-tracker'>
+            <PickTrackerTab />
+          </Route>
         { user.role === 'admin' && (
-          <TabPanel>
+          <Route path='/admin'>
             <AdminTab />
-          </TabPanel>
+          </Route>
           )
         }
-      </Tabs>
-    </>
+          <Redirect from="*" to="/draft" />
+        </Switch>
+      </div>
+
+    </div>
   );
 }
 

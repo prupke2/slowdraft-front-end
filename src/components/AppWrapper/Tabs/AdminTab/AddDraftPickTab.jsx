@@ -7,7 +7,7 @@ export default function AddDraftPickTab() {
   const user = JSON.parse(localStorage.getItem('user'));
   const teams = JSON.parse(localStorage.getItem('teams'));
   const [teamId, setTeamId] = useState(user.yahoo_team_id);
-  localStorage.setItem('adminTab', 'add_pick');
+  localStorage.setItem('adminTab', 'add-pick');
 
   function addNewPick(e) {
     e.preventDefault();

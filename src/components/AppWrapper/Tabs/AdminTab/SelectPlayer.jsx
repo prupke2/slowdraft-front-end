@@ -19,12 +19,12 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
       Filter: SearchColumnFilter,
       sortType: 'alphanumeric',
       Cell: cell =>
-        <span
+        <div
           className='single-player'
           onClick={() => playerNameOnClick(cell.row.original) || null}  
         >
           {cell.value}, {cell.row.original.position} - {cell.row.original.team}
-        </span>
+        </div>
       ,
       width: '100px',
     },

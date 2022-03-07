@@ -4,6 +4,7 @@ import './Login.css';
 import { ToastsStore } from 'react-toasts';
 import { getDraft } from '../../util/requests';
 import { localEnvironment } from '../../util/util';
+import { Router, Route, Redirect, Switch } from 'react-router-dom';
 
 export default function Login({ setUser, code, setLoggedIn, setPub, setSub, 
   setIsLoading, setPicks, setCurrentPick, setDraftingNow
@@ -13,6 +14,7 @@ export default function Login({ setUser, code, setLoggedIn, setPub, setSub,
   const redirect_uri = localEnvironment() ? "oob" : "https://slowdraft.herokuapp.com";
   const yahooLoginUrl = `https://api.login.yahoo.com/oauth2/request_auth?client_id=${client_id}` + 
       `&redirect_uri=${redirect_uri}&response_type=code&language=en-us`
+  console.log(`code: ${code}`);
 
   useEffect(() => {
     function loginUser() {
@@ -54,32 +56,40 @@ export default function Login({ setUser, code, setLoggedIn, setPub, setSub,
   }, [code]);
 
   return (
-    <div className="App">
-      <div className="login-container">
-        <h1>
-          <span>
-            <img className='logo-login' src="hockey_icon_large.png" alt=""/>
-          </span>
-          Slow<span>Draft</span>
-        </h1>
-        <div className='info'>Fantasy hockey drafting at your own pace</div>
-        <div className='info'>Currently by invitation only</div>
-          { errors != null && (
-            <Errors
-              code={errors.code}
-              message={errors.message}
-            />
-          )}
-        <div className="connect-to-yahoo">
-          <a href={yahooLoginUrl}>
-            Sign in with &nbsp;
-            <img alt="Yahoo" src="yahoo.png" width="57" height="16" />
-          </a>
-        </div>
-      </div>	
-      <footer>
-        Photo credit: <a href="https://unsplash.com/@k1n1m0de?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Dominik Dombrowski</a> on <a href="https://unsplash.com/s/photos/frozen-pond?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-      </footer>
-    </div>
+    <>
+      <Switch>
+        <Route exact path='/login'>
+          <div className="App">
+            <div className="login-container">
+              <h1>
+                <span>
+                  <img className='logo-login' src="hockey_icon_large.png" alt=""/>
+                </span>
+                Slow<span>Draft</span>
+              </h1>
+              <div className='info'>Fantasy hockey drafting at your own pace</div>
+              <div className='info'>Currently by invitation only</div>
+                { errors != null && (
+                  <Errors
+                    code={errors.code}
+                    message={errors.message}
+                  />
+                )}
+              <div className="connect-to-yahoo">
+                <a href={yahooLoginUrl}>
+                  Sign in with &nbsp;
+                  <img alt="Yahoo" src="yahoo.png" width="57" height="16" />
+                </a>
+              </div>
+            </div>	
+            <footer>
+              Photo credit: <a href="https://unsplash.com/@k1n1m0de?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Dominik Dombrowski</a> on <a href="https://unsplash.com/s/photos/frozen-pond?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+            </footer>
+          </div>
+        </Route>
+        <Redirect to='/login' />
+      </Switch>
+
+    </>
   );
 }

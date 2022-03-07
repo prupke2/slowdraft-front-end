@@ -9,7 +9,6 @@ import { localEnvironment } from '../../util/util';
 export default function AppWrapper({logout, pub, sub, user,
   picks, setPicks, currentPick, setCurrentPick, draftingNow, setDraftingNow
  }) {
-
   // You can reset the chat by updating the channel name to something new
   const channel = localEnvironment ? "test" : "slowdraftChat" 
   const [messages, setMessages] = useState([]);

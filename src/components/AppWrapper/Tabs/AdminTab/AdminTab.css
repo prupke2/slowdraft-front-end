@@ -1,25 +1,26 @@
-.inner-tab {
-  color: var(--main-very-dark);
-}
 
-.inner-navbar-tabs {
-  width: 100%;
-  min-height: calc(100vh - 109px);
-}
-
-.navbar-tabs .inner-navbar-tabs {
-  background: var(--main-even);;
-}
 
 li.react-tabs__tab--selected > div.inner-tab {
   color: var(--main-light);
 }
 
+.admin-tab-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+.tab-wrapper:last-child {
+  padding: 20px;
+  height: 100vh;
+  background-color: var(--main-dark);
+}
+
 .admin-form {
   background: var(--main-dark);
-  height: 500px;
-  margin: -2px auto 100px;
-  padding: 60px 0;
+  min-height: 700px;
+  margin: 0 30px 30px;
+  border-radius: 0 0 8px 8px;
+  padding: 60px 0 0;
   position: relative;
   z-index: 1;
 }
@@ -92,7 +93,8 @@ li.react-tabs__tab--selected > div.inner-tab {
 
 .single-player {
   cursor: pointer;
-  padding: 16px;
+  padding: 7px 10px;
+  margin: 0;
 }
 
 .open {

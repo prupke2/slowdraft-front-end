@@ -3,8 +3,7 @@ ul {
   justify-content: space-around;
 }
 
-li.react-tabs__tab {
-  padding: 8px 10px;
+li.navtab {
   position: relative;
   border: 1px solid var(--gradient1);
   border-radius: 8px 8px 0 0;
@@ -17,62 +16,48 @@ li.react-tabs__tab {
   font-weight: 900;
 }
 
-.react-tabs__tab-panel {
+li.navtab > a {
+  display: flex;
+  padding: 8px 10px;
+}
+
+li.navtab > a:hover {
+  color: var(--main-very-dark);
+}
+
+.tab-wrapper {
   transition: background 0.2s ease;
-  padding: 0 20px;
+  padding: 20px;
   margin-top: 0;
-}
-
-#react-tabs-1 > div {
-  padding-top: 20px;
-}
-
-#react-tabs-3 > div {
-  padding-top: 18px;
-}
-
-#react-tabs-5 > div {
-  padding-top: 16px;
-}
-
-#react-tabs-7 > div {
-  padding-top: 14px;
 }
 
 /* Admin tabs */
 
-#react-tabs-15 {
-  background: var(--main-light);
+.inner-navbar-tabs {
+  background: var(--main-light) !important;
   padding: 0;
+  min-height: calc(100vh - 109px);
+  position: relative;
+  right: 20px;
 }
 
-#react-tabs-17 > div {
-  padding-top: 20px;
-}
-
-#react-tabs-19 > div {
-  padding-top: 18px;
-}
-
-#react-tabs-21 > div {
-  padding-top: 16px;
-}
-
-#react-tabs-23 > div {
-  padding-top: 14px;
-}
-
-.react-tabs__tab:hover {
+.navtab:hover {
   background: var(--main-even);
   transition: background 0.1s ease;
 }
 
-li.react-tabs__tab--selected:hover {
-  cursor: auto;
-  background: var(--main-dark);
+li.navtab a.active {
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+  color: rgb(245, 245, 245);
 }
 
-li.react-tabs__tab--selected, .react-tabs__tab-panel {
+li.navtab a.active:hover {
+  cursor: default;
+  color: white;
+}
+
+li.navtab a.active, .tab-wrapper {
   border: 1px solid transparent;
   background: var(--main-dark);
   color: rgb(245, 245, 245);
@@ -81,19 +66,17 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
 }
 
 .navbar-tabs {
-  padding: 20px 0 10px 0;
+  padding: 20px 0 0 0;
   font-size: 1.2rem;
-  width: calc(100vw - 250px);
+  width: calc(100vw - 270px);
   min-width: 550px;
+  margin: 0;
 }
 
-.react-tabs__tab-list {
+.navtab-list {
   max-width: 100%;
-}
-
-.react-tabs__tab--selected {
-  font-weight: bold;
-  position: fixed;
+  height: 35px;
+  margin: 0 auto;
 }
 
 .navbar-tabs > div {
@@ -119,24 +102,15 @@ li.react-tabs__tab--selected, .react-tabs__tab-panel {
     min-width: 350px;
   }
 
-  /* Players tab needs to scroll to see all stats */
-  #react-tabs-3 > div {
-    overflow: scroll;
-  }
-
-  #react-tabs-12, #react-tabs-14 {
-    display: none;
-  }
-
   .navbar-tabs > div, .navbar-tabs > ul {
     width: 100vw;
   }
 
-  ul.react-tabs__tab-list:last-child, li.react-tabs__tab > div {
+  ul.navtab-list:last-child, li.navtab > div {
     display: none;
   }
 
-  .react-tabs__tab-panel {
+  .tab-wrapper {
     padding: 0;
   }
 

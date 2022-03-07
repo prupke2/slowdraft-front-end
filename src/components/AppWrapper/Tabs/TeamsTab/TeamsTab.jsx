@@ -2,20 +2,32 @@ import React, { useEffect, useState } from 'react';
 import Loading from '../../../Loading/Loading';
 import Table from '../../../Table/Table';
 import { getTeams } from '../../../../util/requests';
-import { teamIdToLogo, teamsMap, validateTeamParam } from '../../../../util/util';
+import { teamIdToLogo, teamsMap } from '../../../../util/util';
 import './TeamsTab.css';
 import PlayerCell from '../PlayersTab/PlayerCell';
+import { useLocation } from 'react-router-dom';
 
 export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   const teams = JSON.parse(localStorage.getItem('playerTeamData'));
   const teamInfo = JSON.parse(localStorage.getItem('teams'));
   const [teamFilter, setTeamFilter] = useState(user.team_name);
-  const [teamId, setTeamId] = useState(user.yahoo_team_id);
-  const teamParamValidated = validateTeamParam(teams);
-
+  const location = useLocation();
+  const teamIdParam = parseInt(location?.state?.teamId, 10) || null;
+  const [teamId, setTeamId] = useState(null);
   const [teamPlayerCount, setTeamPlayerCount] = useState(
     teams.filter(team => team.username === teamFilter).length
   );
+
+  useEffect(() => {
+    if (teamIdParam) {
+      const selectedTeam = teamIdParam ? teamInfo.filter(team => team.yahoo_team_id === teamIdParam) : null;
+      console.log(`selectedTeam: ${selectedTeam}`);
+  
+      if (selectedTeam) {
+        setTeamFilter(selectedTeam[0]?.team_name);
+      }
+    }
+  }, [teamIdParam, teamInfo])
 
   useEffect(() => {
     setIsLoading(true);
@@ -31,7 +43,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
       }
     }
     setIsLoading(false);
-    setTeamId(teamParamValidated || user.yahoo_team_id)
+    setTeamId(teamIdParam || user.yahoo_team_id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -362,30 +374,30 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
             </div>
           </div>
         </div>
-        { teams && 
-          <h2>Skaters</h2>
+        { teams &&
+          <>
+            <h2>Skaters</h2>
+            <Table
+              user={user}
+              data={teams}
+              columns={playerColumns}
+              tableState={playerTableState}
+              defaultColumn='player_id'
+              draftingNow={draftingNow}
+              tableType='teams'
+            />
+              <h2>Goalies</h2>
+            <Table
+              user={user}
+              data={teams}
+              columns={goalieColumns}
+              tableState={goalieTableState}
+              defaultColumn='player_id'
+              draftingNow={draftingNow}
+              tableType='teams'
+            />
+          </>
         }
-        <Table
-          user={user}
-          data={teams}
-          columns={playerColumns}
-          tableState={playerTableState}
-          defaultColumn='player_id'
-          draftingNow={draftingNow} 
-          tableType='teams'
-        />
-        { teams && 
-          <h2>Goalies</h2>
-        }
-        <Table
-          user={user}
-          data={teams}
-          columns={goalieColumns}
-          tableState={goalieTableState}
-          defaultColumn='player_id'
-          draftingNow={draftingNow} 
-          tableType='teams'
-        />
       </>
     )
   }

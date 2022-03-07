@@ -76,7 +76,3 @@ export function localEnvironment() {
 export function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-export function updateRoute(route) {
-  localStorage.setItem('route', route);
-}

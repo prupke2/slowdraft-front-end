@@ -10,7 +10,7 @@ export default function AddKeeperTab({ singleTeam }) {
   const [teamId, setTeamId] = useState(user.yahoo_team_id);
   const [keeperList, setKeeperList] = useState([]); 
   const teams = JSON.parse(localStorage.getItem('teams'));
-  localStorage.setItem('adminTab', 'add_keeper');
+  localStorage.setItem('adminTab', 'add-keeper');
 
   function addKeeper(e) {
     e.preventDefault();

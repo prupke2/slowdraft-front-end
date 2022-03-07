@@ -312,7 +312,7 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
     if (playerType === 'skaters') {
       if (playerDBData) {
         console.log("Using cached data");
-        let data = JSON.parse(playerDBData);
+        const data = JSON.parse(playerDBData);
         setPlayers(data.players);
         setIsLoading(false);
       }
@@ -324,7 +324,7 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
     if (playerType === 'goalies') { 
     if (goalieDBData) {
       console.log("Using cached data");
-      let data = JSON.parse(goalieDBData);
+      const data = JSON.parse(goalieDBData);
       setGoalies(data.players);
       setIsLoading(false);
     }
