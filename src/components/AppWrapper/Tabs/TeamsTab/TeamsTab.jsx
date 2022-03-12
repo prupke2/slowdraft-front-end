@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   const teams = JSON.parse(localStorage.getItem('playerTeamData'));
   const teamInfo = JSON.parse(localStorage.getItem('teams'));
+  // const [teamInfo, setTeamInfo] = useState([]);
   const [teamFilter, setTeamFilter] = useState(user.team_name);
   const location = useLocation();
   const teamIdParam = parseInt(location?.state?.teamId, 10) || null;
@@ -21,7 +22,6 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   useEffect(() => {
     if (teamIdParam) {
       const selectedTeam = teamIdParam ? teamInfo.filter(team => team.yahoo_team_id === teamIdParam) : null;
-      console.log(`selectedTeam: ${selectedTeam}`);
   
       if (selectedTeam) {
         setTeamFilter(selectedTeam[0]?.team_name);
@@ -30,7 +30,14 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   }, [teamIdParam, teamInfo])
 
   useEffect(() => {
+    console.log("wait");
     setIsLoading(true);
+    // setTimeout(function () {}, 1500) // set a delay so that the localStorage is available
+    // const teamInfo = JSON.parse(localStorage.getItem('teams'));
+    // if (teamInfo) {
+    //   console.log("setting team info");
+    //   setTeamInfo(teamInfo);
+    // }
     getLatestData();
     if (teams && user) {
       console.log("Using cached data");
@@ -340,6 +347,8 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
     const teamName = teamSelectFilter.options[teamSelectFilter.selectedIndex].text;
     setTeamFilter(teamName);
   }
+
+  console.log(`teamInfo: ${JSON.stringify(teamInfo, null, 4)}`);
 
   if (isLoading) {
     return <Loading text="Loading teams..." />

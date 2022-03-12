@@ -1,8 +1,8 @@
 import React from 'react';
 import './UsernameStyled.css';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default function UsernameStyled({ username, color, teamId, setUpdateTab }) {
+export default function UsernameStyled({ username, color, teamId }) {
 
   const teams = JSON.parse(localStorage.getItem('teams'));
   return (

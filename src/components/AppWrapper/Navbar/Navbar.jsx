@@ -91,7 +91,7 @@ export default function Navbar({
         </li>
         { user.role === 'admin' && (
           <li className='navtab'>
-            <NavLink to='/admin'  activeClassName='active'>
+            <NavLink to='/admin' activeClassName='active'>
               <Emoji navbar={true} emoji='✨' />
               <div>Admin</div>
             </NavLink>
@@ -179,12 +179,9 @@ export default function Navbar({
           <Route path='/pick-tracker'>
             <PickTrackerTab />
           </Route>
-        { user.role === 'admin' && (
           <Route path='/admin'>
             <AdminTab />
           </Route>
-          )
-        }
           <Redirect from="*" to="/draft" />
         </Switch>
       </div>

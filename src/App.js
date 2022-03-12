@@ -8,16 +8,13 @@ import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toa
 import dummyIcon from './assets/dummy_icon.png';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import {
-  Switch,
-  Route,
-  Redirect,
   useLocation
 } from "react-router-dom";
 
 export default function App() {
   const location = useLocation();
   console.log(`location: ${JSON.stringify(location, null, 4)}`);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   // pub and sub (publish/subscribe) states are used for the chat backend
   const [pub, setPub] = useState(localStorage.getItem( 'pub' ) || ''); 
   const [sub, setSub] = useState(localStorage.getItem( 'sub' ) || '');
@@ -26,18 +23,9 @@ export default function App() {
   const [picks, setPicks] = useState([]);
   const [draftingNow, setDraftingNow] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const queryParams = qs.parse(window.location.search);
-  console.log(`queryParams: ${JSON.stringify(queryParams, null, 4)}`);
-
   const code = queryParams["code"];
-
-  const locSearch = qs.parse(location.search);
-  console.log(`locSearch: ${JSON.stringify(locSearch, null, 4)}`);
-
-  const locCode = queryParams["code"];
-  console.log(`locCode: ${locCode}`);
-
 
   const [user, setUser] = useState({
     team_key: null,
@@ -51,14 +39,15 @@ export default function App() {
   });
   const webToken = localStorage.getItem( 'web_token' );
 
-
   useEffect(() => {
     const webToken = localStorage.getItem( 'web_token' ) || '';
     const user = JSON.parse(localStorage.getItem('user'));
     if (webToken) {
       setUser(user);
-      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
     }
+    setIsLoading(false);
   }, [code]);
 
   function logout() {
@@ -71,7 +60,10 @@ export default function App() {
 
   return (
     <>
-      { !loggedIn &&
+      { isLoading &&
+        <Loading />
+      }
+      { (!webToken || !loggedIn) &&
         <Login 
           code={code}
           setLoggedIn={setLoggedIn}
@@ -87,7 +79,7 @@ export default function App() {
           setDraftingNow={setDraftingNow}
         />
       }
-      { (loggedIn && user) &&
+      { (webToken && user) &&
         <main>
           <ToastsContainer 
             store={ToastsStore}

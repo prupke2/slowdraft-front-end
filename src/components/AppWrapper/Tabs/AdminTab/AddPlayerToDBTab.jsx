@@ -8,7 +8,7 @@ export default function AddPlayerToDBTab() {
   localStorage.setItem('adminTab', 'add-player');
   const [name, setName] = useState(null);
   const [playerId, setPlayerId] = useState(null);
-  const [team, setTeam] = useState(null);
+  const [team, setTeam] = useState('');
   const [positions, setPositions] = useState([]);
 
   const handlePositionChange = (event) => {
@@ -96,10 +96,10 @@ export default function AddPlayerToDBTab() {
         <label className='position'>Positions: </label>
         <div className='positions'>
           {['LW', 'RW', 'D', 'C', 'G'].map(position => 
-            <>
+            <div key={position}>
               <input type='checkbox' value={position} name={position} id={position} onChange={handlePositionChange}/>
               <label htmlFor={position}>{position}</label>
-            </>  
+            </div>  
           )}
         </div>
       </div>

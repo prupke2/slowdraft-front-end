@@ -41,6 +41,7 @@ export default function AppWrapper({logout, pub, sub, user,
 
   useEffect(() => {
     if (user !== null) {
+      console.log('getting data')
       getLatestData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
