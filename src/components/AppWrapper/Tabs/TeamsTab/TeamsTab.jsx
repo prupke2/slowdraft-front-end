@@ -30,7 +30,6 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
   }, [teamIdParam, teamInfo])
 
   useEffect(() => {
-    console.log("wait");
     setIsLoading(true);
     // setTimeout(function () {}, 1500) // set a delay so that the localStorage is available
     // const teamInfo = JSON.parse(localStorage.getItem('teams'));
@@ -347,8 +346,6 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
     const teamName = teamSelectFilter.options[teamSelectFilter.selectedIndex].text;
     setTeamFilter(teamName);
   }
-
-  console.log(`teamInfo: ${JSON.stringify(teamInfo, null, 4)}`);
 
   if (isLoading) {
     return <Loading text="Loading teams..." />

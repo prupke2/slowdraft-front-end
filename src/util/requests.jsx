@@ -119,7 +119,7 @@ export function getForumPosts(setPosts) {
   )
 }
 
-export function checkForUpdates(draftOnly, setPicks, setCurrentPick, setDraftingNow, 
+export function checkForUpdates(setPicks, setCurrentPick, setDraftingNow, 
   setPlayers, setGoalies, setTeams, setRules, setPosts) {
 
   fetch(`/check_for_updates`, {
@@ -139,30 +139,26 @@ export function checkForUpdates(draftOnly, setPicks, setCurrentPick, setDrafting
         if ((Date.parse(data.updates.latest_draft_update) + 5) > Date.parse(localStorage.getItem('draftDataUpdate'))) {
           console.log("Update draft data...");
           getDraft(setPicks, setCurrentPick, setDraftingNow)
+        }       
+        if ((Date.parse(data.updates.latest_player_db_update) + 5) > Date.parse(localStorage.getItem('playerDBUpdate'))) {
+          console.log("Update player DB data...");
+          getDBPlayers(setPlayers);
+        } 
+        if ((Date.parse(data.updates.latest_goalie_db_update) + 5) > Date.parse(localStorage.getItem('goalieDBUpdate'))) {
+          console.log("Update goalie DB data...");
+          getDBGoalies(setGoalies);
         }
-        
-        if (draftOnly === false) {
-
-          if ((Date.parse(data.updates.latest_player_db_update) + 5) > Date.parse(localStorage.getItem('playerDBUpdate'))) {
-            console.log("Update player DB data...");
-            getDBPlayers(setPlayers);
-          } 
-          if ((Date.parse(data.updates.latest_goalie_db_update) + 5) > Date.parse(localStorage.getItem('goalieDBUpdate'))) {
-            console.log("Update goalie DB data...");
-            getDBGoalies(setGoalies);
-          }
-          if ((Date.parse(data.updates.latest_team_update) + 5) > Date.parse(localStorage.getItem('playerTeamDataUpdate'))) {
-            console.log("Update team data...");
-            getTeams(setTeams)
-          }
-          if ((Date.parse(data.updates.latest_rules_update) + 5) > Date.parse(localStorage.getItem('rulesUpdate'))) {
-            console.log("Update rules data...");
-            getRules(setRules)
-          }
-          if ((Date.parse(data.updates.latest_forum_update) + 5) > Date.parse(localStorage.getItem('forumUpdate'))) {
-            console.log("Update forum data...");
-            getForumPosts(setPosts);
-          }
+        if ((Date.parse(data.updates.latest_team_update) + 5) > Date.parse(localStorage.getItem('playerTeamDataUpdate'))) {
+          console.log("Update team data...");
+          getTeams(setTeams)
+        }
+        if ((Date.parse(data.updates.latest_rules_update) + 5) > Date.parse(localStorage.getItem('rulesUpdate'))) {
+          console.log("Update rules data...");
+          getRules(setRules)
+        }
+        if ((Date.parse(data.updates.latest_forum_update) + 5) > Date.parse(localStorage.getItem('forumUpdate'))) {
+          console.log("Update forum data...");
+          getForumPosts(setPosts);
         }
       } else {
         console.log(`No updates.`);

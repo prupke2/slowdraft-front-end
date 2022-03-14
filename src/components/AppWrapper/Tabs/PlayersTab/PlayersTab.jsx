@@ -322,20 +322,19 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
       }
     }
     if (playerType === 'goalies') { 
-    if (goalieDBData) {
-      console.log("Using cached data");
-      const data = JSON.parse(goalieDBData);
-      setGoalies(data.players);
-      setIsLoading(false);
+      if (goalieDBData) {
+        console.log("Using cached data");
+        const data = JSON.parse(goalieDBData);
+        setGoalies(data.players);
+        setIsLoading(false);
+      }
+      else {
+        console.log("Getting new player DB data");
+        getDBGoalies(setGoalies);
+      }
     }
-    else {
-      console.log("Getting new player DB data");
-      getDBGoalies(setGoalies);
-    }
-  }
     setIsLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setPlayers, setGoalies])
+  }, [setPlayers, setGoalies, getLatestData, playerType])
 
 
   return (

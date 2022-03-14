@@ -155,6 +155,7 @@ export default function Navbar({
           <Route path='/teams'>
             <TeamsTab 
               user={user}
+              draftingNow={draftingNow}
               teams={teams}
               setTeams={setTeams}
               getLatestData={getLatestData}

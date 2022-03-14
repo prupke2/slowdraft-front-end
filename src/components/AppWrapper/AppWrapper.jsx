@@ -5,6 +5,7 @@ import PubNub from 'pubnub'; // backend for chat component
 import Widget from './Widget/Widget';
 import { checkForUpdates } from '../../util/requests';
 import { localEnvironment } from '../../util/util';
+import { useCallback } from 'react';
 
 export default function AppWrapper({logout, pub, sub, user,
   picks, setPicks, currentPick, setCurrentPick, draftingNow, setDraftingNow
@@ -18,10 +19,9 @@ export default function AppWrapper({logout, pub, sub, user,
   const [posts, setPosts] = useState([]);
   const [rules, setRules] = useState([]);
 
-  function getLatestData(draftOnly = false) {
-    checkForUpdates(draftOnly, setPicks, setCurrentPick, setDraftingNow, 
-      setPlayers, setGoalies, setTeams, setRules, setPosts)
-  }
+  const getLatestData = useCallback(() => {
+    checkForUpdates(setPicks, setCurrentPick, setDraftingNow, setPlayers, setGoalies, setTeams, setRules, setPosts)
+  }, [setPlayers, setGoalies, setTeams, setRules, setPosts, setPicks, setCurrentPick, setDraftingNow]);
 
   function sendChatAnnouncement(message) {
     const messageObject = {
@@ -44,8 +44,7 @@ export default function AppWrapper({logout, pub, sub, user,
       console.log('getting data')
       getLatestData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, getLatestData]);
 
   return (
     <>      
