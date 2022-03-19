@@ -3,7 +3,7 @@
   position: fixed;
   display: flex;
   flex-direction: row;
-  bottom: 0;
+  top: 0;
   right: 0;
   width: 270px;
 }
@@ -43,6 +43,7 @@
     height: 60px;
     width: auto;
     background-color: white;
+    top: calc(100vh - 60px);
 	}
   
   .logo-and-logout-wrapper {
@@ -57,7 +58,10 @@
   #logout {
     position: fixed !important;
     top: 12px;
-    right: 2px;
-    font-size: 0.7rem;
+    right: 12px;
+    font-variant: small-caps;
+    font-size: 0.8rem;
+    padding: 1px 4px;
+    z-index: 1000;
   }
 }
