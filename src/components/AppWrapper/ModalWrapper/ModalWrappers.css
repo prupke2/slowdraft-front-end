@@ -137,7 +137,6 @@
   #new-forum-post-modal input, #new-rule-modal input, #new-forum-post-modal div, #new-rule-modal div,
     #new-forum-post-modal textarea, #new-rule-modal textarea {
     width: 95%;
-    padding: 0 0 0 20px !important;
     margin: 0 !important;
   }
 
