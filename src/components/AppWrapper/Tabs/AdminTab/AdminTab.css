@@ -9,11 +9,6 @@ li.react-tabs__tab--selected > div.inner-tab {
   padding: 0;
 }
 
-.tab-wrapper:last-child {
-  padding: 20px;
-  height: 100vh;
-  background-color: var(--main-dark);
-}
 
 .admin-form {
   background: var(--main-dark);

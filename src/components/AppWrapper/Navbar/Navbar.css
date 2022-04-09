@@ -33,7 +33,7 @@ li.navtab > a:hover {
 
 /* Admin tabs */
 
-.inner-navbar-tabs {
+.tab-wrapper > .inner-navbar-tabs {
   background: var(--main-light) !important;
   padding: 0;
   min-height: calc(100vh - 109px);
@@ -137,7 +137,6 @@ li.navtab a.active, .tab-wrapper {
   .tab-wrapper {
     padding: 0 0 50px 0;
     margin: 35px 0 70px;
-    height: calc(100vh - 45px);
   }
 
   .tab-wrapper > div:last-child {
