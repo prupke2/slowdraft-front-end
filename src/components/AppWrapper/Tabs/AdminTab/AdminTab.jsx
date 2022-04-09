@@ -11,7 +11,6 @@ export default function AdminTab() {
   const userInfo = JSON.parse(localStorage.getItem('user'));
   const cachedAdminTab = localStorage.getItem('adminTab');
   const defaultTabRoute = cachedAdminTab ? `/admin/${cachedAdminTab}` : '/admin/add-player';
-  console.log(`userInfo: ${JSON.stringify(userInfo, null, 4)}`);
   return (
     <div className="navbar-tabs inner-navbar-tabs">
       <ul className='navtab-list'>
