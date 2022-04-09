@@ -33,6 +33,10 @@
 
 /* 🎨 colors: #ffffff | #1b2733 | #637282 | #AB24A1 */
 
+html {
+  background-color: var(--main-light);
+}
+
 main {
   display: flex;
   height: 100vh;
@@ -176,7 +180,6 @@ textarea {
 
 @media (max-width: 800px) {
   main {
-    margin-top: 55px;
     width: 100vw;
     min-width: 350px;
     overflow-x: hidden;

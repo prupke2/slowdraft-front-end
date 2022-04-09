@@ -18,7 +18,7 @@ li.navtab {
 
 li.navtab > a {
   display: flex;
-  padding: 8px 10px;
+  padding: 9px 10px;
 }
 
 li.navtab > a:hover {
@@ -41,14 +41,18 @@ li.navtab > a:hover {
   right: 20px;
 }
 
-.navtab:hover {
+.navtab a {
+  border-radius: 8px 8px 0 0;
+  
+}
+
+.navtab a:hover {
   background: var(--main-even);
   transition: background 0.1s ease;
 }
 
 li.navtab a.active {
   font-weight: bold;
-  border-radius: 8px 8px 0 0;
   color: rgb(245, 245, 245);
 }
 
@@ -71,6 +75,7 @@ li.navtab a.active, .tab-wrapper {
   width: calc(100vw - 270px);
   min-width: 550px;
   margin: 0;
+  position: sticky;
 }
 
 .navtab-list {
@@ -102,16 +107,41 @@ li.navtab a.active, .tab-wrapper {
     min-width: 350px;
   }
 
+  .navbar-tabs > .navtab-list {
+    height: 45px;
+    width: 100vw;
+    margin: 0 auto;
+    padding-right: 50px;
+    position: fixed;
+    top: 0;
+    background-color: var(--main-light);
+    z-index: 10;
+  }
+  
+  .navbar-tabs > .navtab-list > li.navtab {
+    margin-top: 15px;
+  }
+
   .navbar-tabs > div, .navbar-tabs > ul {
     width: 100vw;
   }
 
-  ul.navtab-list:last-child, li.navtab > div {
+  li.navtab {
+    padding-bottom: 30px;
+  }
+
+  li.navtab > a > div, .hide-small-width {
     display: none;
   }
 
   .tab-wrapper {
-    padding: 0;
+    padding: 0 0 50px 0;
+    margin: 35px 0 70px;
+    height: calc(100vh - 45px);
+  }
+
+  .tab-wrapper > div:last-child {
+    margin-bottom: 70px;
   }
 
   th {

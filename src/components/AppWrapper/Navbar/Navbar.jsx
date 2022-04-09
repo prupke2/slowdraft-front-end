@@ -83,14 +83,14 @@ export default function Navbar({
             <div>Rules</div>
           </NavLink>
         </li>
-        <li className='navtab'>
+        <li className='navtab hide-small-width'>
           <NavLink to='/pick-tracker' activeClassName='active'>
             <Emoji navbar={true} emoji='⛏️' />
             <div>Pick Tracker</div>
           </NavLink>
         </li>
         { user.role === 'admin' && (
-          <li className='navtab'>
+          <li className='navtab hide-small-width'>
             <NavLink to='/admin' activeClassName='active'>
               <Emoji navbar={true} emoji='✨' />
               <div>Admin</div>

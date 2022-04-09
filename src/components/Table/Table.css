@@ -160,6 +160,9 @@ td.Pick {
   th.blank-cell, .admin-column {
     display: none;
   }
+  .table thead th {
+    top: 45px;
+  }
   .table thead th, .table td {
     font-size: 0.7rem;
     padding: 3px;
