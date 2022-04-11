@@ -9,6 +9,9 @@ li.react-tabs__tab--selected > div.inner-tab {
   padding: 0;
 }
 
+.new-draft-tab > a.active {
+  background-color: red !important;
+}
 
 .admin-form {
   background: var(--main-dark);
@@ -143,4 +146,29 @@ li.react-tabs__tab--selected > div.inner-tab {
 
 .warning {
   color: red;
+}
+
+#team-order-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+#team-order-wrapper > div {
+  margin-left: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.small-input {
+  width: 40px !important;
+}
+
+.username-small {
+  font-size: 0.9rem;
+  font-variant: small-caps;
+  color: var(--alt-text);
+  margin-left: 5px;
+  padding: 2px;
 }
