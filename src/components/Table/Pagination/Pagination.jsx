@@ -8,6 +8,8 @@ export default function Pagination(
     }) {
   
   const pageOrRound = tableType === 'draftPicks' ? 'Round' : 'Page';
+  const isLiveDraft = JSON.parse(localStorage.getItem('liveDraft')) === 'true';
+
   return (
 
     <ul className="pagination">
@@ -23,10 +25,9 @@ export default function Pagination(
         <div className="page-item" onClick={() => previousPage()} disabled={!canPreviousPage}>
             <span className="page-link">{'<'}</span>
         </div>
-        { currentRound &&
+        { (isLiveDraft && currentRound) &&
           <div className="page-item" onClick={() => gotoPage(currentRound)} disabled={!canPreviousPage}>
             <span className="page-link">
-              {/* <Emoji emoji='➡️ ' /> */}
               <span className='current-round-button'>current round</span>
             </span>
           </div>

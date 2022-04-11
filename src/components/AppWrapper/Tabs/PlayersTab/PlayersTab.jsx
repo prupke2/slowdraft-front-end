@@ -16,6 +16,7 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
   const [availabilityDropdown, setAvailabilityDropdown] = useState('available');
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState('');
+  const isLiveDraft = JSON.parse(localStorage.getItem('liveDraft')) === 'true';
 
   function draftModal(player) {
     setModalOpen(true);
@@ -193,7 +194,7 @@ export default function PlayersTab({playerType, players, setPlayers, setGoalies,
                     teamId={cell.row.original.yahoo_team_id}
                   />
                 }
-                { !takenPlayer &&
+                { (!takenPlayer && isLiveDraft) &&
                 <div>
                   <button onClick={() => draftModal(cell.row.original)}>Draft</button>
                   <DraftModal 

@@ -76,3 +76,7 @@ export function localEnvironment() {
 export function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export const binaryToBoolean = (binary) => {
+  return binary === 1 || binary === '1';
+}

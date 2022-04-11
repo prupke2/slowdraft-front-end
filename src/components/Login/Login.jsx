@@ -3,7 +3,7 @@ import Errors from '../Errors/Errors';
 import './Login.css';
 import { ToastsStore } from 'react-toasts';
 import { getDraft } from '../../util/requests';
-import { localEnvironment } from '../../util/util';
+import { localEnvironment, binaryToBoolean } from '../../util/util';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
 export default function Login({ setUser, code, setLoggedIn, setPub, setSub, 
@@ -34,6 +34,8 @@ export default function Login({ setUser, code, setLoggedIn, setPub, setSub,
             localStorage.setItem( 'sub', data.sub );
             localStorage.setItem( 'teams', JSON.stringify(data.teams) );
             localStorage.setItem( 'web_token', data.web_token );
+            localStorage.setItem( 'registeredLeague', data.registered );
+            localStorage.setItem( 'liveDraft', binaryToBoolean(data.is_live_draft) );
             getDraft(setPicks, setCurrentPick, setDraftingNow);
             setLoggedIn(true);
           } else {

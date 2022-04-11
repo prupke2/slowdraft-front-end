@@ -6,12 +6,17 @@ import UsernameStyled from '../../UsernameStyled/UsernameStyled';
 import { teamsMap, getHeaders, teamIdToKey } from '../../../../util/util';
 import { ToastsStore } from 'react-toasts';
 import PlayerCell from '../PlayersTab/PlayerCell';
+import NewDraftTab from '../AdminTab/NewDraftTab';
 
 export default function DraftTab({user, currentPick, setCurrentPick, picks, setPicks, setTeams,
   setPlayers, setGoalies, draftingNow, setDraftingNow, getLatestData, sendChatAnnouncement, setUpdateTab
 }) {
   const isAdmin = user.role === 'admin';
   const teams = JSON.parse(localStorage.getItem('teams'));
+
+  // set to "=== true" to make it a boolean, since localStorage can only be kept as strings
+  const isLiveDraft = localStorage.getItem('liveDraft') === 'true';
+  const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
   const [page, setPage] = useState(null);
 
   function updatePick(event, round, overall_pick) {
@@ -82,30 +87,31 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
       Cell: cell => {
         const unusedPick = cell.row.original.draft_pick_timestamp === null;
         const disabledPick = cell.row.original.disabled === 1;
-        if (!isAdmin || !unusedPick) {
+
+        if (!isAdmin || !unusedPick || !isLiveDraft) {
           return cell.value
         }
         return (
           <div className="admin-column" width='20px'>
             <div>{cell.value}</div>
-            <select 
-              defaultValue={cell.row.original.yahoo_team_id} 
-              className='change-user-dropdown'
-              onChange={(event) => updatePick(event, cell.row.original.round, cell.row.original.overall_pick)}
-            >
-              { !disabledPick && 
-                <>
-                  {teamsMap(teams)}
-                  <option value={0}>DISABLE PICK</option>
-                </>
-              } 
-              { disabledPick &&
-                <>
-                  <option value={null}>(DISABLED)</option>
-                  <option value={0}>ENABLE PICK</option>
-                </>
-              } 
-            </select>
+              <select 
+                defaultValue={cell.row.original.yahoo_team_id} 
+                className='change-user-dropdown'
+                onChange={(event) => updatePick(event, cell.row.original.round, cell.row.original.overall_pick)}
+              >
+                { !disabledPick && 
+                  <>
+                    {teamsMap(teams)}
+                    <option value={0}>DISABLE PICK</option>
+                  </>
+                } 
+                { disabledPick &&
+                  <>
+                    <option value={null}>(DISABLED)</option>
+                    <option value={0}>ENABLE PICK</option>
+                  </>
+                } 
+              </select>
           </div>
         );
       },
@@ -249,7 +255,13 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
       { isLoading &&
         <Loading text="Loading draft..." />
       }
-      { !isLoading &&
+      { !isLiveDraft &&
+        <h2>This draft is over</h2>
+      }
+      { !isRegisteredLeague && 
+        <NewDraftTab />
+      }
+      { (!isLoading && isRegisteredLeague) &&
         <Table
           data={picks}
           columns={columns}
@@ -265,6 +277,7 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
           sendChatAnnouncement={sendChatAnnouncement}
           defaultPage={page || currentPick?.round - 1}
           pageSize={12}
+          isLiveDraft={isLiveDraft}
           paginationTop
           paginationBottom
         />

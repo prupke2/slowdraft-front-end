@@ -6,9 +6,10 @@ import Widget from './Widget/Widget';
 import { checkForUpdates } from '../../util/requests';
 import { localEnvironment } from '../../util/util';
 import { useCallback } from 'react';
+import NewDraftTab from './Tabs/AdminTab/NewDraftTab';
 
-export default function AppWrapper({logout, pub, sub, user,
-  picks, setPicks, currentPick, setCurrentPick, draftingNow, setDraftingNow
+export default function AppWrapper({logout, pub, sub, user, picks, setPicks,
+  currentPick, setCurrentPick, draftingNow, setDraftingNow
  }) {
   // You can reset the chat by updating the channel name to something new
   const channel = localEnvironment ? "test" : "slowdraftChat" 
@@ -18,6 +19,7 @@ export default function AppWrapper({logout, pub, sub, user,
   const [teams, setTeams] = useState([]);
   const [posts, setPosts] = useState([]);
   const [rules, setRules] = useState([]);
+  const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
 
   const getLatestData = useCallback(() => {
     checkForUpdates(setPicks, setCurrentPick, setDraftingNow, setPlayers, setGoalies, setTeams, setRules, setPosts)
@@ -47,46 +49,53 @@ export default function AppWrapper({logout, pub, sub, user,
   }, [user, getLatestData]);
 
   return (
-    <>      
-      <Navbar 
-        logout={logout}
-        currentPick={currentPick}
-        setCurrentPick={setCurrentPick}
-        picks={picks}
-        setPicks={setPicks}
-        draftingNow={draftingNow}
-        setDraftingNow={setDraftingNow}
-        sendChatAnnouncement={sendChatAnnouncement}
-        players={players}
-        setPlayers={setPlayers}
-        goalies={goalies}
-        setGoalies={setGoalies}
-        teams={teams}
-        setTeams={setTeams}
-        posts={posts}
-        setPosts={setPosts}
-        rules={rules}
-        setRules={setRules}
-        user={user}
-        getLatestData={getLatestData}
-      />
-      <Widget 
-        user={user}
-        currentPick={currentPick}
-        draftingNow={draftingNow}
-        logout={logout}
-      />
-      {!localEnvironment &&      
-        <Chat 
-          messages={messages}
-          setMessages={setMessages}
-          pub={pub}
-          sub={sub}
-          user={user}
-          channel={channel}
-          getLatestData={getLatestData}
-          sendChatAnnouncement={sendChatAnnouncement}
-        />
+    <>
+      { !isRegisteredLeague &&
+        <NewDraftTab />
+      }
+      { isRegisteredLeague &&
+        <>
+          <Navbar 
+            logout={logout}
+            currentPick={currentPick}
+            setCurrentPick={setCurrentPick}
+            picks={picks}
+            setPicks={setPicks}
+            draftingNow={draftingNow}
+            setDraftingNow={setDraftingNow}
+            sendChatAnnouncement={sendChatAnnouncement}
+            players={players}
+            setPlayers={setPlayers}
+            goalies={goalies}
+            setGoalies={setGoalies}
+            teams={teams}
+            setTeams={setTeams}
+            posts={posts}
+            setPosts={setPosts}
+            rules={rules}
+            setRules={setRules}
+            user={user}
+            getLatestData={getLatestData}
+          />
+          <Widget 
+            user={user}
+            currentPick={currentPick}
+            draftingNow={draftingNow}
+            logout={logout}
+          />
+          {!localEnvironment() &&      
+            <Chat 
+              messages={messages}
+              setMessages={setMessages}
+              pub={pub}
+              sub={sub}
+              user={user}
+              channel={channel}
+              getLatestData={getLatestData}
+              sendChatAnnouncement={sendChatAnnouncement}
+            />
+          }
+        </>
       }
       </>
   );

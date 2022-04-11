@@ -9,7 +9,7 @@ export default function Table(
     { columns, data, defaultColumnFilter, tableState, tableType, defaultPage, pageSize,
       loading, currentPick, paginationTop, paginationBottom }
   ) {
-    console.log(`currentPick: ${JSON.stringify(currentPick, null, 4)}`);
+  const isLiveDraft = JSON.parse(localStorage.getItem('liveDraft')) === 'true';
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -117,12 +117,15 @@ export default function Table(
               prepareRow(row)
               const pickDisabled = row.cells[0].row.original.disabled === 1 ? 'disabled-pick' : null;
               const takenPlayer = tableType === 'draft' && row.cells[0].row.original.user !== null ? 'taken-player' : null;
-              const currentPickRow = currentPick && currentPick.overall_pick === row.cells[0].row.original.overall_pick ? 'current-pick-row' : null;
+
+              const currentPickRow = isLiveDraft && currentPick && currentPick.overall_pick === row.cells[0].row.original.overall_pick 
+                ? 'current-pick-row' : null;
               return (
                 <tr 
                   key={row.id} 
                   {...row.getRowProps()} 
-                  className={`${pickDisabled} ${takenPlayer} ${currentPickRow}`}>
+                  className={`${pickDisabled} ${takenPlayer} ${currentPickRow}`}
+                  title={pickDisabled ? 'This pick has been disabled' : null}>
                   {row.cells.map(
                     cell => {
                       return (

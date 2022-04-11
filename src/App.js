@@ -15,6 +15,7 @@ export default function App() {
   const location = useLocation();
   console.log(`location: ${JSON.stringify(location, null, 4)}`);
   const [loggedIn, setLoggedIn] = useState(true);
+
   // pub and sub (publish/subscribe) states are used for the chat backend
   const [pub, setPub] = useState(localStorage.getItem( 'pub' ) || ''); 
   const [sub, setSub] = useState(localStorage.getItem( 'sub' ) || '');

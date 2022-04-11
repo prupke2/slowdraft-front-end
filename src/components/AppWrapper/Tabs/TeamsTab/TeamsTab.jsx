@@ -392,7 +392,7 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
               draftingNow={draftingNow}
               tableType='teams'
             />
-              <h2>Goalies</h2>
+            <h2>Goalies</h2>
             <Table
               user={user}
               data={teams}

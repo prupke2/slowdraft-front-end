@@ -15,34 +15,6 @@ export default function Navbar({
   sendChatAnnouncement, players, setPlayers, goalies, setGoalies,
   teams, setTeams, posts, setPosts, rules, setRules, user, getLatestData,
 }) {
-  // const pathToIndexMap = {
-  //   '/draft': 0,
-  //   '/skaters': 1,
-  //   '/goalies': 2,
-  //   '/teams': 3,
-  //   '/teams/2': 3,
-  //   teamRoute: 3,
-  //   '/forum': 4,
-  //   '/rules': 5,
-  //   '/pick-tracker': 6,
-  //   '/admin': 7
-  // }
-  // const location = useLocation();
-  // const defaultIndex = pathToIndexMap[pathname] || 0;
-  // console.log(`defaultIndex: ${JSON.stringify(defaultIndex, null, 4)}`);
-  // const [updateTab, setUpdateTab] = useState(null);
-
-  // useEffect(() => {
-  //   if (updateTab) {
-  //     const pathWithoutParams = updateTab.match(/^[^?]*/);
-  //     const tab = pathToIndexMap[`/${pathWithoutParams}`];
-  //     const tabId = `react-tabs-${tab * 2}`; // x2 because react-tabs uses an extra hidden tab for each for a11y purposes
-  //     const tabElement = document.getElementById(tabId);
-  //     tabElement && tabElement.click();
-  //     // updateUrlPath(`#/${updateTab}`);
-  //     setUpdateTab(null);
-  //   }
-  // }, [updateTab, pathToIndexMap])
 
   return (
     <div className="navbar-tabs">
@@ -89,14 +61,14 @@ export default function Navbar({
             <div>Pick Tracker</div>
           </NavLink>
         </li>
-        { user.role === 'admin' && (
+        { user.role === 'admin' &&
           <li className='navtab hide-small-width'>
             <NavLink to='/admin' activeClassName='active'>
               <Emoji navbar={true} emoji='✨' />
               <div>Admin</div>
             </NavLink>
           </li>
-        )}
+        }
       </ul>
         
       <div className='tab-wrapper'>
@@ -180,9 +152,11 @@ export default function Navbar({
           <Route path='/pick-tracker'>
             <PickTrackerTab />
           </Route>
-          <Route path='/admin'>
-            <AdminTab />
-          </Route>
+          { user.role === 'admin' &&
+            <Route path='/admin'>
+              <AdminTab />
+            </Route>
+          }
           <Redirect from="*" to="/draft" />
         </Switch>
       </div>
