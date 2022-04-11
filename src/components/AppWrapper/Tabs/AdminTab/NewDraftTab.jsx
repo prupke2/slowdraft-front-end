@@ -65,7 +65,6 @@ export default function NewDraftTab() {
         <label>Rounds:</label>
         <input 
           className='small-input'
-          defaultValue={14}
           value={rounds}
           onChange={(e) => setRounds(e.target.value)}
         />
@@ -88,9 +87,8 @@ export default function NewDraftTab() {
       <div id='team-order-wrapper'>
         <label>Draft order:</label>
         { teams.map(team =>
-          <div>
+          <div key={team.yahoo_team_id}>
             <input 
-              key={team.yahoo_team_id}
               id={team.yahoo_team_id}
               className='small-input'
               defaultValue={team.yahoo_team_id}
