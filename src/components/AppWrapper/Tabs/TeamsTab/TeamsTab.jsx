@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import Loading from '../../../Loading/Loading';
-import Table from '../../../Table/Table';
-import { getTeams } from '../../../../util/requests';
-import { teamIdToLogo, teamsMap } from '../../../../util/util';
-import './TeamsTab.css';
-import PlayerCell from '../PlayersTab/PlayerCell';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import Loading from "../../../Loading/Loading";
+import Table from "../../../Table/Table";
+import { getTeams } from "../../../../util/requests";
+import { teamIdToLogo, teamsMap } from "../../../../util/util";
+import "./TeamsTab.css";
+import PlayerCell from "../PlayersTab/PlayerCell";
+import { useLocation } from "react-router-dom";
 
-export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
-  const teams = JSON.parse(localStorage.getItem('playerTeamData'));
-  const teamInfo = JSON.parse(localStorage.getItem('teams'));
+export default function TeamTab({
+  user,
+  draftingNow,
+  setTeams,
+  getLatestData,
+}) {
+  const teams = JSON.parse(localStorage.getItem("playerTeamData"));
+  const teamInfo = JSON.parse(localStorage.getItem("teams"));
   // const [teamInfo, setTeamInfo] = useState([]);
   const [teamFilter, setTeamFilter] = useState(user.team_name);
   const location = useLocation();
   const teamIdParam = parseInt(location?.state?.teamId, 10) || null;
   const [teamId, setTeamId] = useState(null);
   const [teamPlayerCount, setTeamPlayerCount] = useState(
-    teams.filter(team => team.username === teamFilter).length
+    teams.filter((team) => team.username === teamFilter).length
   );
 
   useEffect(() => {
     if (teamIdParam) {
-      const selectedTeam = teamIdParam ? teamInfo.filter(team => team.yahoo_team_id === teamIdParam) : null;
-  
+      const selectedTeam = teamIdParam
+        ? teamInfo.filter((team) => team.yahoo_team_id === teamIdParam)
+        : null;
+
       if (selectedTeam) {
         setTeamFilter(selectedTeam[0]?.team_name);
       }
     }
-  }, [teamIdParam, teamInfo])
+  }, [teamIdParam, teamInfo]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,333 +48,335 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
     if (teams && user) {
       console.log("Using cached data");
       setTeams(teams.teams);
-    }
-    else {
+    } else {
       console.log("Getting new team data");
       if (user) {
-        getTeams(setTeams);    
+        getTeams(setTeams);
       }
     }
     setIsLoading(false);
-    setTeamId(teamIdParam || user.yahoo_team_id)
+    setTeamId(teamIdParam || user.yahoo_team_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   function multiSelectPositionsFilter(rows) {
-    return rows.filter((row) => row.original.position !== 'G')
+    return rows.filter((row) => row.original.position !== "G");
   }
 
   useEffect(() => {
-    const teamPlayerCount = teams.filter(team => team.username === teamFilter).length;
+    const teamPlayerCount = teams.filter(
+      (team) => team.username === teamFilter
+    ).length;
     setTeamPlayerCount(parseInt(teamPlayerCount, 10));
   }, [teamFilter, teams]);
 
   const playerColumns = [
     {
-      Header: 'Overall Pick',
-      accessor: 'overall_pick',
+      Header: "Overall Pick",
+      accessor: "overall_pick",
       disableFilters: true,
-      Cell: cell => cell.value || '-',
-      width: '20px',
+      Cell: (cell) => cell.value || "-",
+      width: "20px",
     },
     {
-      Header: 'Player',
-      accessor: 'name',
-      disableFilters: true,
-      disableSortBy: true,
-      Cell: cell => 
-      <PlayerCell
-        cell={cell}
-        draftingNow={draftingNow}
-      />
-    },
-    {
-      Header: 'Team',
-      accessor: 'team',
-      width: '50px',
+      Header: "Player",
+      accessor: "name",
       disableFilters: true,
       disableSortBy: true,
-      Cell: cell => <div className='team-logo-container'>
-      {
-        (cell.value) &&
-          <img 
-            className='teamLogo' 
-            src={`/teamLogos/${cell.value}.png`} 
-            alt={cell.value} 
-            title={cell.value} 
-          />
-      }
-      </div>
+      Cell: (cell) => <PlayerCell cell={cell} draftingNow={draftingNow} />,
     },
     {
-      Header: 'Pos',
-      accessor: 'position',
-      width: '30px',
+      Header: "Team",
+      accessor: "team",
+      width: "50px",
+      disableFilters: true,
+      disableSortBy: true,
+      Cell: (cell) => (
+        <div className="team-logo-container">
+          {cell.value && (
+            <img
+              className="teamLogo"
+              src={`/teamLogos/${cell.value}.png`}
+              alt={cell.value}
+              title={cell.value}
+            />
+          )}
+        </div>
+      ),
+    },
+    {
+      Header: "Pos",
+      accessor: "position",
+      width: "30px",
       filter: multiSelectPositionsFilter,
       disableFilters: true,
       disableSortBy: true,
     },
     {
-      Header: 'GP',
-      accessor: '0',
+      Header: "GP",
+      accessor: "0",
       disableFilters: true,
-      width: '30px',
-      sortDescFirst: true,
-    },   
-    {
-      Header: 'G',
-      accessor: '1',
-      disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'A',
-      accessor: '2',
+      Header: "G",
+      accessor: "1",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'P',
-      accessor: '3',
+      Header: "A",
+      accessor: "2",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: '+/-',
-      accessor: '4',
+      Header: "P",
+      accessor: "3",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'PIM',
-      accessor: '5',
+      Header: "+/-",
+      accessor: "4",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'PPP',
-      accessor: '8',
+      Header: "PIM",
+      accessor: "5",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'SOG',
-      accessor: '14',
+      Header: "PPP",
+      accessor: "8",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'S%',
-      accessor: '15',
+      Header: "SOG",
+      accessor: "14",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'FW',
-      accessor: '16',
+      Header: "S%",
+      accessor: "15",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'HIT',
-      accessor: '31',
+      Header: "FW",
+      accessor: "16",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'BLK',
-      accessor: '32',
+      Header: "HIT",
+      accessor: "31",
       disableFilters: true,
-      width: '30px',
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      accessor: 'username'
+      Header: "BLK",
+      accessor: "32",
+      disableFilters: true,
+      width: "30px",
+      sortDescFirst: true,
     },
     {
-      accessor: 'player_id'
+      accessor: "username",
     },
     {
-      accessor: 'is_keeper'
+      accessor: "player_id",
     },
     {
-      accessor: 'prospect'
+      accessor: "is_keeper",
     },
-  ]
+    {
+      accessor: "prospect",
+    },
+  ];
 
-  const playerTableState = { 
-    hiddenColumns: ['player_id', 'is_keeper', 'prospect', 'username'],
+  const playerTableState = {
+    hiddenColumns: ["player_id", "is_keeper", "prospect", "username"],
     sortBy: [
       {
-        id: 'overall_pick',
+        id: "overall_pick",
         desc: false,
-      }
+      },
     ],
     filters: [
-      { 
-        id: 'username', 
+      {
+        id: "username",
         value: teamFilter,
       },
       {
-        id: 'position',
+        id: "position",
         // no value needed here - this filtering is done in the column definition (filter: multiSelectPositionsFilter)
-      }
-    ]
-  }
+      },
+    ],
+  };
 
   const goalieColumns = [
     {
-      Header: 'Overall Pick',
-      accessor: 'overall_pick',
-      Cell: cell => cell.value || '-',
+      Header: "Overall Pick",
+      accessor: "overall_pick",
+      Cell: (cell) => cell.value || "-",
       disableFilters: true,
-      width: '20px',
+      width: "20px",
     },
     {
-      Header: 'Player',
-      accessor: 'name',
-      disableFilters: true,
-      disableSortBy: true,
-      Cell: cell => 
-        <PlayerCell
-          cell={cell}
-          draftingNow={draftingNow}
-        />
-    },
-    {
-      Header: 'Team',
-      accessor: 'team',
-      width: '50px',
+      Header: "Player",
+      accessor: "name",
       disableFilters: true,
       disableSortBy: true,
-      Cell: cell => <div className='team-logo-container'>
-      {
-        (cell.value) &&
-          <img 
-            className='teamLogo' 
-            src={`/teamLogos/${cell.value}.png`} 
-            alt={cell.value} 
-            title={cell.value} 
-          />
-      }
-      </div>
+      Cell: (cell) => <PlayerCell cell={cell} draftingNow={draftingNow} />,
     },
     {
-      Header: 'GS',
-      accessor: '18',
+      Header: "Team",
+      accessor: "team",
+      width: "50px",
       disableFilters: true,
-      sortType: 'alphanumeric',
-      width: '30px',
+      disableSortBy: true,
+      Cell: (cell) => (
+        <div className="team-logo-container">
+          {cell.value && (
+            <img
+              className="teamLogo"
+              src={`/teamLogos/${cell.value}.png`}
+              alt={cell.value}
+              title={cell.value}
+            />
+          )}
+        </div>
+      ),
+    },
+    {
+      Header: "GS",
+      accessor: "18",
+      disableFilters: true,
+      sortType: "alphanumeric",
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'W',
-      accessor: '19',
+      Header: "W",
+      accessor: "19",
       disableFilters: true,
-      sortType: 'alphanumeric',
-      width: '30px',
+      sortType: "alphanumeric",
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'GAA',
-      accessor: '23',      
+      Header: "GAA",
+      accessor: "23",
       disableFilters: true,
-      width: '30px',
-      sortType: 'alphanumeric',
+      width: "30px",
+      sortType: "alphanumeric",
     },
     {
-      Header: 'SV',
-      accessor: '25',
+      Header: "SV",
+      accessor: "25",
       disableFilters: true,
-      sortType: 'alphanumeric',
-      width: '30px',
+      sortType: "alphanumeric",
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      Header: 'SV%',
-      accessor: '26',
+      Header: "SV%",
+      accessor: "26",
       disableFilters: true,
-      sortType: 'alphanumeric',
-      width: '30px',
+      sortType: "alphanumeric",
+      width: "30px",
       sortDescFirst: true,
     },
     {
-      accessor: 'username'
+      accessor: "username",
     },
     {
-      accessor: 'position'
+      accessor: "position",
     },
     {
-      accessor: 'player_id'
+      accessor: "player_id",
     },
     {
-      accessor: 'is_keeper'
+      accessor: "is_keeper",
     },
     {
-      accessor: 'prospect'
+      accessor: "prospect",
     },
-  ]
+  ];
 
-  const goalieTableState = { 
-    hiddenColumns: ['player_id', 'position', 'is_keeper', 'prospect', 'username'],
+  const goalieTableState = {
+    hiddenColumns: [
+      "player_id",
+      "position",
+      "is_keeper",
+      "prospect",
+      "username",
+    ],
     sortBy: [
       {
-        id: 'overall_pick',
+        id: "overall_pick",
         desc: false,
-      }
+      },
     ],
     filters: [
-      { 
-        id: 'username', 
+      {
+        id: "username",
         value: teamFilter,
       },
       {
-        id: 'position',
-        value: 'G',
-      }
-    ]
-  }
+        id: "position",
+        value: "G",
+      },
+    ],
+  };
 
   const [isLoading, setIsLoading] = useState(true);
 
   function handleTeamFilterChange(e) {
     setTeamId(e.target.value);
-    const teamSelectFilter = document.getElementById('team-filter-select');
-    const teamName = teamSelectFilter.options[teamSelectFilter.selectedIndex].text;
+    const teamSelectFilter = document.getElementById("team-filter-select");
+    const teamName =
+      teamSelectFilter.options[teamSelectFilter.selectedIndex].text;
     setTeamFilter(teamName);
   }
 
   if (isLoading) {
-    return <Loading text="Loading teams..." />
+    return <Loading text="Loading teams..." />;
   }
   if (!isLoading) {
     return (
       <>
-        <div className='team-tab-header'>
-          <div className='team-and-logo-wrapper'>
-            <img 
-              className='logo-teams-page'
+        <div className="team-tab-header">
+          <div className="team-and-logo-wrapper">
+            <img
+              className="logo-teams-page"
               src={teamIdToLogo(teamId)}
-              alt='logo'
+              alt="logo"
             />
-            <div className='team-filter-wrapper'>
+            <div className="team-filter-wrapper">
               <select
-                id='team-filter-select'
-                value={teamId} 
-                className='change-user-dropdown'
-                onChange={e => handleTeamFilterChange(e)}
+                id="team-filter-select"
+                value={teamId}
+                className="change-user-dropdown"
+                onChange={(e) => handleTeamFilterChange(e)}
               >
-                { teamsMap(teamInfo) }
+                {teamsMap(teamInfo)}
               </select>
             </div>
           </div>
@@ -376,11 +385,11 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
               Total: <span>{teamPlayerCount}</span>
             </div>
             <div>
-              Remaining: <span>{24 - teamPlayerCount}</span> 
+              Remaining: <span>{24 - teamPlayerCount}</span>
             </div>
           </div>
         </div>
-        { teams &&
+        {teams && (
           <>
             <h2>Skaters</h2>
             <Table
@@ -388,9 +397,9 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
               data={teams}
               columns={playerColumns}
               tableState={playerTableState}
-              defaultColumn='player_id'
+              defaultColumn="player_id"
               draftingNow={draftingNow}
-              tableType='teams'
+              tableType="teams"
             />
             <h2>Goalies</h2>
             <Table
@@ -398,13 +407,13 @@ export default function TeamTab({user, draftingNow, setTeams, getLatestData}) {
               data={teams}
               columns={goalieColumns}
               tableState={goalieTableState}
-              defaultColumn='player_id'
+              defaultColumn="player_id"
               draftingNow={draftingNow}
-              tableType='teams'
+              tableType="teams"
             />
           </>
-        }
+        )}
       </>
-    )
+    );
   }
 }

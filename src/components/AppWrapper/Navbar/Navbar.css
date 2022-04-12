@@ -5,7 +5,7 @@ ul {
 
 li.navtab {
   position: relative;
-  border: 1px solid var(--gradient1);
+  /* border: 1px solid var(--gradient1); */
   border-radius: 8px 8px 0 0;
   border-bottom: none;
   bottom: 10px;
@@ -14,6 +14,9 @@ li.navtab {
   background: var(--main-light);
   font-variant: small-caps;
   font-weight: 900;
+  /* -webkit-box-shadow: 0 0 0 2px var(--main-even);
+  -moz-box-shadow: 0 0 0 2px var(--main-even);
+  box-shadow: 0 0 2px 2px var(--main-dark); */
 }
 
 li.navtab > a {
@@ -43,7 +46,6 @@ li.navtab > a:hover {
 
 .navtab a {
   border-radius: 8px 8px 0 0;
-  
 }
 
 .navtab a:hover {
@@ -61,7 +63,8 @@ li.navtab a.active:hover {
   color: white;
 }
 
-li.navtab a.active, .tab-wrapper {
+li.navtab a.active,
+.tab-wrapper {
   border: 1px solid transparent;
   background: var(--main-dark);
   color: rgb(245, 245, 245);
@@ -101,7 +104,7 @@ li.navtab a.active, .tab-wrapper {
   width: auto;
 }
 
-@media screen and (max-width: 800px) { 
+@media screen and (max-width: 800px) {
   .navbar-tabs {
     width: auto;
     min-width: 350px;
@@ -117,12 +120,13 @@ li.navtab a.active, .tab-wrapper {
     background-color: var(--main-light);
     z-index: 10;
   }
-  
+
   .navbar-tabs > .navtab-list > li.navtab {
     margin-top: 15px;
   }
 
-  .navbar-tabs > div, .navbar-tabs > ul {
+  .navbar-tabs > div,
+  .navbar-tabs > ul {
     width: 100vw;
   }
 
@@ -130,7 +134,8 @@ li.navtab a.active, .tab-wrapper {
     padding-bottom: 30px;
   }
 
-  li.navtab > a > div, .hide-small-width {
+  li.navtab > a > div,
+  .hide-small-width {
     display: none;
   }
 

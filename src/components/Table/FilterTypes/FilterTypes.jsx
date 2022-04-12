@@ -1,22 +1,20 @@
-import React, { useMemo } from 'react';
-import './FilterTypes.css';
+import React, { useMemo } from "react";
+import "./FilterTypes.css";
 
-export function SearchColumnFilter({
-    column: { filterValue, setFilter, id },
-  }) {
-    return (
-      <input
-        autoComplete="off"
-        className="search-filter"
-        id={`${id}-search-filter`}
-        value={filterValue || ''}
-        onChange={(event) => {
-          setFilter(event.target.value !== '' ? event.target.value : undefined);
-        }}
-        placeholder="Filter..."
-      />
-    )
-  }
+export function SearchColumnFilter({ column: { filterValue, setFilter, id } }) {
+  return (
+    <input
+      autoComplete="off"
+      className="search-filter"
+      id={`${id}-search-filter`}
+      value={filterValue || ""}
+      onChange={(event) => {
+        setFilter(event.target.value !== "" ? event.target.value : undefined);
+      }}
+      placeholder="Filter..."
+    />
+  );
+}
 
 export function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
@@ -25,13 +23,13 @@ export function DefaultColumnFilter({
 
   return (
     <input
-      value={filterValue || ''}
-      onChange={e => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      value={filterValue || ""}
+      onChange={(e) => {
+        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
       }}
       placeholder="Filter..."
     />
-  )
+  );
 }
 
 export function SelectFilter({
@@ -41,18 +39,18 @@ export function SelectFilter({
   // using the preFilteredRows
 
   const options = useMemo(() => {
-    const options = new Set()
-    preFilteredRows.forEach(row => {
-      options.add(row.values[id])
-    })
-    return [...options.values()]
-  }, [id, preFilteredRows])
+    const options = new Set();
+    preFilteredRows.forEach((row) => {
+      options.add(row.values[id]);
+    });
+    return [...options.values()];
+  }, [id, preFilteredRows]);
 
   return (
     <select
       value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined)
+      onChange={(e) => {
+        setFilter(e.target.value || undefined);
       }}
     >
       {options.map((option, i) => (
@@ -61,16 +59,17 @@ export function SelectFilter({
         </option>
       ))}
     </select>
-  )
+  );
 }
 
-
 export function SelectTeamFilter({
-  column: { filterValue, setFilter }, wideFilter, disableAll
+  column: { filterValue, setFilter },
+  wideFilter,
+  disableAll,
 }) {
   // Calculate the options for filtering
   // using the preFilteredRows
-  
+
   // const options = React.useMemo(() => {
   //   const options = new Set()
   //   preFilteredRows.forEach(row => {
@@ -79,21 +78,17 @@ export function SelectTeamFilter({
   //   return [...options.values()]
   // }, [id, preFilteredRows])
 
-  const isWideFilter = wideFilter ? 'wide-filter' : null;
+  const isWideFilter = wideFilter ? "wide-filter" : null;
   return (
     <select
       value={filterValue}
       className={`team-filter ${isWideFilter}`}
-      onChange={e => {
-        setFilter(e.target.value)
+      onChange={(e) => {
+        setFilter(e.target.value);
       }}
     >
-      { !disableAll &&
-      <option value="">All</option>
-      }
-      { disableAll &&
-      <option value="">Select a team</option>
-      }
+      {!disableAll && <option value="">All</option>}
+      {disableAll && <option value="">Select a team</option>}
 
       <option value="Anh">Anaheim</option>
       <option value="Ari">Arizona</option>
@@ -134,41 +129,41 @@ export function SelectTeamFilter({
         </option>
       ))} */}
     </select>
-  )
+  );
 }
 
 export function SelectPositionColumnFilter({
   column: { filterValue, setFilter, preFilteredRows, id },
 }) {
   const options = useMemo(() => {
-    const options = new Set()
-    preFilteredRows.forEach(row => {
-      options.add(row.values[id])
-    })
-    return [...options.values()]
-  }, [id, preFilteredRows])
+    const options = new Set();
+    preFilteredRows.forEach((row) => {
+      options.add(row.values[id]);
+    });
+    return [...options.values()];
+  }, [id, preFilteredRows]);
 
   return (
     <select
       className="position-filter"
       value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined)
+      onChange={(e) => {
+        setFilter(e.target.value || undefined);
       }}
     >
       <option value="">All</option>
       {options.map((option, i) => {
-        if (option.length < 3) { // To prevent showing LW/RW, etc.
-          return(
+        if (option.length < 3) {
+          // To prevent showing LW/RW, etc.
+          return (
             <option key={i} value={option}>
               {option}
             </option>
           );
         }
-        return options
-      } 
-      )}
-      <option value={'/'}>Multi</option>
+        return options;
+      })}
+      <option value={"/"}>Multi</option>
     </select>
-  )
+  );
 }

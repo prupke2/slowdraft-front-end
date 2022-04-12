@@ -1,40 +1,45 @@
-import React from 'react';
-import Errors from '../Errors/Errors';
+import React from "react";
+import Errors from "../Errors/Errors";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       hasError: false,
-      errorInfo: null 
+      errorInfo: null,
     };
   }
 
-  static getDerivedStateFromError(error) {    // Update state so the next render will show the fallback UI.    
-    return { 
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return {
       hasError: true,
-      errorInfo: error 
-    };  
+      errorInfo: error,
+    };
   }
-  componentDidCatch(error, errorInfo) {    // You can also log the error to an error reporting service    
-    this.setState = { 
+  componentDidCatch(error, errorInfo) {
+    // You can also log the error to an error reporting service
+    this.setState = {
       error: error,
-      errorInfo: errorInfo
-    }
+      errorInfo: errorInfo,
+    };
   }
   render() {
-    if (this.state.errorInfo) {      // You can render any custom fallback UI      
+    if (this.state.errorInfo) {
+      // You can render any custom fallback UI
       return (
         <>
-          <Errors 
+          <Errors
             error={this.state.error}
-            errorInfo={this.state.error ? this.state.error : "Error connecting to server"}
+            errorInfo={
+              this.state.error ? this.state.error : "Error connecting to server"
+            }
           />
           {/* {this.state.error.toString()} */}
         </>
       );
     }
-    return this.props.children; 
+    return this.props.children;
   }
 }
 

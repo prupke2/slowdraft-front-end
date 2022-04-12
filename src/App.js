@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Login from './components/Login/Login';
-import qs from 'query-string';
-import AppWrapper from './components/AppWrapper/AppWrapper';
-import Loading from './components/Loading/Loading';
-import './App.css';
-import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toasts';
-import dummyIcon from './assets/dummy_icon.png';
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import React, { useEffect, useState } from "react";
+import Login from "./components/Login/Login";
+import qs from "query-string";
+import AppWrapper from "./components/AppWrapper/AppWrapper";
+import Loading from "./components/Loading/Loading";
+import "./App.css";
 import {
-  useLocation
-} from "react-router-dom";
+  ToastsContainer,
+  ToastsStore,
+  ToastsContainerPosition,
+} from "react-toasts";
+import dummyIcon from "./assets/dummy_icon.png";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
+import { useLocation } from "react-router-dom";
 
 export default function App() {
   const location = useLocation();
@@ -17,10 +19,10 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(true);
 
   // pub and sub (publish/subscribe) states are used for the chat backend
-  const [pub, setPub] = useState(localStorage.getItem( 'pub' ) || ''); 
-  const [sub, setSub] = useState(localStorage.getItem( 'sub' ) || '');
+  const [pub, setPub] = useState(localStorage.getItem("pub") || "");
+  const [sub, setSub] = useState(localStorage.getItem("sub") || "");
 
-  const [currentPick, setCurrentPick] = useState({user_id: null});
+  const [currentPick, setCurrentPick] = useState({ user_id: null });
   const [picks, setPicks] = useState([]);
   const [draftingNow, setDraftingNow] = useState([]);
 
@@ -32,17 +34,17 @@ export default function App() {
     team_key: null,
     user_id: null,
     logo: dummyIcon,
-    team_name: null, 
-    league_id: null, 
+    team_name: null,
+    league_id: null,
     draft_id: null,
-    role: null, 
-    color: null
+    role: null,
+    color: null,
   });
-  const webToken = localStorage.getItem( 'web_token' );
+  const webToken = localStorage.getItem("web_token");
 
   useEffect(() => {
-    const webToken = localStorage.getItem( 'web_token' ) || '';
-    const user = JSON.parse(localStorage.getItem('user'));
+    const webToken = localStorage.getItem("web_token") || "";
+    const user = JSON.parse(localStorage.getItem("user"));
     if (webToken) {
       setUser(user);
     } else {
@@ -52,20 +54,20 @@ export default function App() {
   }, [code]);
 
   function logout() {
-    fetch('/logout').then(res => res.json()).then(data => {
-      localStorage.clear();
-      setLoggedIn(false);
-      setIsLoading(false);
-    });
+    fetch("/logout")
+      .then((res) => res.json())
+      .then((data) => {
+        localStorage.clear();
+        setLoggedIn(false);
+        setIsLoading(false);
+      });
   }
 
   return (
     <>
-      { isLoading &&
-        <Loading />
-      }
-      { (!webToken || !loggedIn) &&
-        <Login 
+      {isLoading && <Loading />}
+      {(!webToken || !loggedIn) && (
+        <Login
           code={code}
           setLoggedIn={setLoggedIn}
           setPub={setPub}
@@ -79,14 +81,14 @@ export default function App() {
           draftingNow={draftingNow}
           setDraftingNow={setDraftingNow}
         />
-      }
-      { (webToken && user) &&
+      )}
+      {webToken && user && (
         <main>
-          <ToastsContainer 
+          <ToastsContainer
             store={ToastsStore}
             position={ToastsContainerPosition.TOP_CENTER}
           />
-          <ErrorBoundary >
+          <ErrorBoundary>
             <AppWrapper
               setLoggedIn={setLoggedIn}
               logout={logout}
@@ -103,8 +105,8 @@ export default function App() {
             />
           </ErrorBoundary>
         </main>
-      }
-    {/* <Switch>
+      )}
+      {/* <Switch>
       <Route exact path = '/test'>
         test
       </Route>
@@ -176,7 +178,7 @@ export default function App() {
         </>
       </Route>
     </Switch> */}
-    {/* <>
+      {/* <>
       { !webToken &&
         <Redirect to='/login' />
       }
@@ -208,5 +210,3 @@ export default function App() {
     </>
   );
 }
-
-
