@@ -261,7 +261,7 @@ export default function DraftTab({user, currentPick, setCurrentPick, picks, setP
       { !isRegisteredLeague && 
         <NewDraftTab />
       }
-      { (!isLoading && isRegisteredLeague) &&
+      { (!isLoading && isRegisteredLeague && picks) &&
         <Table
           data={picks}
           columns={columns}

@@ -7,6 +7,7 @@ export default function NewDraftTab() {
   const teams = JSON.parse(localStorage.getItem('teams'));
   const [rounds, setRounds] = useState(14);
   // const [snakeDraft, setSnakeDraft] = useState(false);
+  const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
   localStorage.setItem('adminTab', 'new-draft');
 
   function createNewDraft(e) {
@@ -18,6 +19,7 @@ export default function NewDraftTab() {
       body: JSON.stringify({ 
         rounds: rounds,
         // snake: snakeDraft,
+        teams: teams,
         team_order: teamOrderList
       })
     } 
@@ -34,6 +36,11 @@ export default function NewDraftTab() {
     })
     .then( data => {
       if (data.success === true) {
+        if (data.temp) {
+          localStorage.setItem('web_token', data.web_token)
+        }
+        localStorage.setItem('registeredLeague', 'true')
+        localStorage.setItem('liveDraft', 'true')
         setTimeout(function () {
           ToastsStore.success('Draft created successfully.')
         }, 200)
@@ -47,19 +54,33 @@ export default function NewDraftTab() {
     let teamOrder = [];
     const teamOrderInputs = document.querySelectorAll('#team-order-wrapper input');
     teamOrderInputs.forEach(team => {
-      console.log(team);
       teamOrder.push({id: team.id, order: parseInt(team.value)})
     })
     return teamOrder;
   };
+
+  const instructions = () => {
+    if (isRegisteredLeague) {
+      return (
+        <div className='warning'>
+          <Emoji emoji='⚠️' />
+          This will create a new draft. If a draft is already active, this will replace it.
+          
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Emoji emoji='⚠️' />
+        Your Yahoo league is not registered with SlowDraft yet. You can create a draft for your league now!
+      </div>
+    )
+  }
   
   return (
     <form className='admin-form new-draft-form'>
       <div className='instructions'>
-        <div className='warning'>
-          <Emoji emoji='⚠️' />
-          This will create a new draft. If a draft is already active, this will replace it.
-        </div>
+        {instructions()}
       </div>
       <div>
         <label>Rounds:</label>

@@ -26,7 +26,7 @@ export default function NextPick( {currentPick, pickExpiry, draftingNow }) {
   return (
     <>
     {/* <div className='current-pick-timer'> */}
-      { currentPick && 
+      { currentPick?.user_id &&
         <div className={`drafting-now drafting-${draftingNow}`}>
           <p>Drafting:&nbsp;</p>
           <UsernameStyled 

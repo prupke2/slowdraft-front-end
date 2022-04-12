@@ -42,6 +42,10 @@ li.react-tabs__tab--selected > div.inner-tab {
   width: 160px;
 }
 
+.new-draft-form {
+  max-width: 80vw;
+}
+
 .admin-user-dropdown {
   width: 200px;
 }
@@ -171,4 +175,16 @@ li.react-tabs__tab--selected > div.inner-tab {
   color: var(--alt-text);
   margin-left: 5px;
   padding: 2px;
+}
+
+@media screen and (max-width: 800px) { 
+  .new-draft-form {
+    max-width: 90vw;
+    margin-left: 40%;
+  }
+
+  .instructions {
+    max-width: 400px;
+    margin: 10px auto;
+  }
 }

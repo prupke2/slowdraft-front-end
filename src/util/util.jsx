@@ -78,5 +78,5 @@ export function capitalizeFirstLetter(str) {
 }
 
 export const binaryToBoolean = (binary) => {
-  return binary === 1 || binary === '1';
+  return binary === 1 || binary === '1' || binary === 'true';
 }

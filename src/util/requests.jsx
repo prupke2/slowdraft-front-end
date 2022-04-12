@@ -13,11 +13,13 @@ export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
         const error = (data && data.message) || response.status;
         return Promise.reject(error);
       }
-      localStorage.setItem('draftData', JSON.stringify(data))
-      localStorage.setItem('draftDataUpdate', new Date())
-
-      setPicks(data.picks);
-      setDraftingNow(data.drafting_now);
+      console.log(`draft data: ${JSON.stringify(data, null, 4)}`);
+      if (!data.error) {
+        localStorage.setItem('draftData', JSON.stringify(data))
+        localStorage.setItem('draftDataUpdate', new Date())
+        setPicks(data.picks);
+        setDraftingNow(data.drafting_now);
+      }
       if (typeof(data.current_pick) !== 'undefined') {
         setCurrentPick(data.current_pick);
       }
@@ -121,6 +123,12 @@ export function getForumPosts(setPosts) {
 
 export function checkForUpdates(setPicks, setCurrentPick, setDraftingNow, 
   setPlayers, setGoalies, setTeams, setRules, setPosts) {
+
+  // const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
+  
+  // if (!isRegisteredLeague) {
+  //   return
+  // }
 
   fetch(`/check_for_updates`, {
     method: 'GET',

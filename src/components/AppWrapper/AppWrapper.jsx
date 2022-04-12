@@ -6,7 +6,6 @@ import Widget from './Widget/Widget';
 import { checkForUpdates } from '../../util/requests';
 import { localEnvironment } from '../../util/util';
 import { useCallback } from 'react';
-import NewDraftTab from './Tabs/AdminTab/NewDraftTab';
 
 export default function AppWrapper({logout, pub, sub, user, picks, setPicks,
   currentPick, setCurrentPick, draftingNow, setDraftingNow
@@ -50,53 +49,48 @@ export default function AppWrapper({logout, pub, sub, user, picks, setPicks,
 
   return (
     <>
-      { !isRegisteredLeague &&
-        <NewDraftTab />
+      <Navbar 
+        isRegisteredLeague={isRegisteredLeague}
+        logout={logout}
+        currentPick={currentPick}
+        setCurrentPick={setCurrentPick}
+        picks={picks}
+        setPicks={setPicks}
+        draftingNow={draftingNow}
+        setDraftingNow={setDraftingNow}
+        sendChatAnnouncement={sendChatAnnouncement}
+        players={players}
+        setPlayers={setPlayers}
+        goalies={goalies}
+        setGoalies={setGoalies}
+        teams={teams}
+        setTeams={setTeams}
+        posts={posts}
+        setPosts={setPosts}
+        rules={rules}
+        setRules={setRules}
+        user={user}
+        getLatestData={getLatestData}
+      />
+      <Widget
+        isRegisteredLeague={isRegisteredLeague}
+        user={user}
+        currentPick={currentPick}
+        draftingNow={draftingNow}
+        logout={logout}
+      />
+      {!localEnvironment() &&      
+        <Chat
+          messages={messages}
+          setMessages={setMessages}
+          pub={pub}
+          sub={sub}
+          user={user}
+          channel={channel}
+          getLatestData={getLatestData}
+          sendChatAnnouncement={sendChatAnnouncement}
+        />
       }
-      { isRegisteredLeague &&
-        <>
-          <Navbar 
-            logout={logout}
-            currentPick={currentPick}
-            setCurrentPick={setCurrentPick}
-            picks={picks}
-            setPicks={setPicks}
-            draftingNow={draftingNow}
-            setDraftingNow={setDraftingNow}
-            sendChatAnnouncement={sendChatAnnouncement}
-            players={players}
-            setPlayers={setPlayers}
-            goalies={goalies}
-            setGoalies={setGoalies}
-            teams={teams}
-            setTeams={setTeams}
-            posts={posts}
-            setPosts={setPosts}
-            rules={rules}
-            setRules={setRules}
-            user={user}
-            getLatestData={getLatestData}
-          />
-          <Widget 
-            user={user}
-            currentPick={currentPick}
-            draftingNow={draftingNow}
-            logout={logout}
-          />
-          {!localEnvironment() &&      
-            <Chat 
-              messages={messages}
-              setMessages={setMessages}
-              pub={pub}
-              sub={sub}
-              user={user}
-              channel={channel}
-              getLatestData={getLatestData}
-              sendChatAnnouncement={sendChatAnnouncement}
-            />
-          }
-        </>
-      }
-      </>
+  </>
   );
 }
