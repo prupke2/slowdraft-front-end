@@ -28,7 +28,7 @@ export default function DraftTab({
   sendChatAnnouncement,
   setUpdateTab,
 }) {
-  const isAdmin = user.role === "admin";
+  const isAdmin = user?.role === "admin";
   const teams = JSON.parse(localStorage.getItem("teams"));
 
   // set to "=== true" to make it a boolean, since localStorage can only be kept as strings

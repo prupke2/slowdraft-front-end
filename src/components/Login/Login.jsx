@@ -5,6 +5,7 @@ import { ToastsStore } from "react-toasts";
 import { getDraft } from "../../util/requests";
 import { localEnvironment, binaryToBoolean } from "../../util/util";
 import { Route, Redirect, Switch } from "react-router-dom";
+import { useState } from "react";
 
 export default function Login({
   setUser,
@@ -26,9 +27,10 @@ export default function Login({
   const yahooLoginUrl =
     `https://api.login.yahoo.com/oauth2/request_auth?client_id=${client_id}` +
     `&redirect_uri=${redirect_uri}&response_type=code&language=en-us`;
-
+  const [lastLoginTimestamp, setLastLoginTimestamp] = useState(null);
   useEffect(() => {
     function loginUser() {
+      setIsLoading(true);
       fetch(`/login/${code}`)
         .then((response) => {
           if (!response.ok) throw response;
@@ -47,11 +49,14 @@ export default function Login({
             localStorage.setItem("teams", JSON.stringify(data.teams));
             localStorage.setItem("web_token", data.web_token);
             localStorage.setItem("registeredLeague", data.registered);
+            localStorage.setItem("leagueList", JSON.stringify(data.league_list));
             localStorage.setItem(
               "liveDraft",
               binaryToBoolean(data.is_live_draft)
             );
-            getDraft(setPicks, setCurrentPick, setDraftingNow);
+            if (user) {
+              getDraft(setPicks, setCurrentPick, setDraftingNow);
+            }
             setLoggedIn(true);
           } else {
             ToastsStore.error(
@@ -66,9 +71,15 @@ export default function Login({
           console.log(`Error: ${error.text}`);
           setLoggedIn(false);
         });
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
-    if (typeof code !== "undefined") {
+    const now = new Date();
+
+    if (typeof code !== "undefined" && (!lastLoginTimestamp || lastLoginTimestamp + 10 < now)) {
+      const newLoginDate = new Date();
+      setLastLoginTimestamp(newLoginDate);
       setIsLoading(true);
       loginUser();
     }
@@ -86,6 +97,7 @@ export default function Login({
                   className="logo-login"
                   src="hockey_icon_large.png"
                   alt=""
+                  title="SlowDraft"
                 />
               </span>
               Slow<span>Draft</span>

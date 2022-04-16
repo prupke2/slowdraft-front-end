@@ -34,6 +34,7 @@ export default function Navbar({
   user,
   getLatestData,
 }) {
+
   return (
     <div className="navbar-tabs">
       <ul className="navtab-list">
@@ -89,7 +90,7 @@ export default function Navbar({
                 <div>Pick Tracker</div>
               </NavLink>
             </li>
-            {user.role === "admin" && (
+            {user?.role === "admin" && (
               <li className="navtab hide-small-width">
                 <NavLink to="/admin" activeClassName="active">
                   <Emoji navbar={true} emoji="✨" />
@@ -191,7 +192,7 @@ export default function Navbar({
             <Route path="/pick-tracker">
               <PickTrackerTab />
             </Route>
-            {user.role === "admin" && (
+            {user?.role === "admin" && (
               <Route path="/admin">
                 <AdminTab />
               </Route>

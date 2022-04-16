@@ -66,7 +66,7 @@ export default function App() {
   return (
     <>
       {isLoading && <Loading />}
-      {(!webToken || !loggedIn) && (
+      {((!webToken || !loggedIn) && !isLoading) && (
         <Login
           code={code}
           setLoggedIn={setLoggedIn}
@@ -82,8 +82,8 @@ export default function App() {
           setDraftingNow={setDraftingNow}
         />
       )}
-      {webToken && user && (
-        <main>
+      {(webToken && !isLoading) && (
+        <main className={!user ? 'full-width' : null}>
           <ToastsContainer
             store={ToastsStore}
             position={ToastsContainerPosition.TOP_CENTER}
@@ -92,6 +92,7 @@ export default function App() {
             <AppWrapper
               setLoggedIn={setLoggedIn}
               logout={logout}
+              setIsLoading={setIsLoading}
               pub={pub}
               sub={sub}
               user={user}

@@ -1,0 +1,41 @@
+.league-selector-wrapper {
+  background-color: var(--main-dark);
+  display: flex;
+  flex-direction: column;
+  padding: 10vh 10vw;
+  width: 100vw;
+}
+
+.blank-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--main-light);
+  width: 100vw;
+  height: 72px;
+}
+
+.blank-navbar > span {
+  margin: 5px 15px;
+}
+
+.league-selector-instructions {
+  margin-top: 50px;
+}
+
+ul.league-selector {
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  margin: 20px auto;
+}
+
+ul.league-selector > li > button {
+  margin: 15px auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.league-name {
+  margin-left: 5px;
+}

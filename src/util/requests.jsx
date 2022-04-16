@@ -1,5 +1,5 @@
 import { ToastsStore } from "react-toasts";
-import { getHeaders } from "./util";
+import { getHeaders, binaryToBoolean } from "./util";
 
 export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
   fetch(`/get_draft`, {
@@ -7,20 +7,18 @@ export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
     headers: getHeaders(),
   }).then(async (response) => {
     const data = await response.json();
-    if (!response.ok) {
-      ToastsStore.error("Error getting draft.");
-      const error = (data && data.message) || response.status;
-      return Promise.reject(error);
-    }
-    console.log(`draft data: ${JSON.stringify(data, null, 4)}`);
-    if (!data.error) {
+    if (data.success === true) {
       localStorage.setItem("draftData", JSON.stringify(data));
       localStorage.setItem("draftDataUpdate", new Date());
       setPicks(data.picks);
       setDraftingNow(data.drafting_now);
-    }
-    if (typeof data.current_pick !== "undefined") {
-      setCurrentPick(data.current_pick);
+      if (typeof data.current_pick !== "undefined") {
+        setCurrentPick(data.current_pick);
+      }
+    } else {
+      ToastsStore.error("Error getting draft.");
+      const error = (data && data.message) || response.status;
+      return Promise.reject(error);
     }
   });
 }
@@ -31,14 +29,16 @@ export function getDBPlayers(setPlayers) {
     headers: getHeaders(),
   }).then(async (response) => {
     const data = await response.json();
-    if (!response.ok) {
+    if (data.success === true) {
+      localStorage.setItem("playerDBData", JSON.stringify(data));
+      localStorage.setItem("playerDBUpdate", new Date());
+      setPlayers(data.players);
+    } else {
       ToastsStore.error("Error getting players.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
-    localStorage.setItem("playerDBData", JSON.stringify(data));
-    localStorage.setItem("playerDBUpdate", new Date());
-    setPlayers(data.players);
+
   });
 }
 
@@ -48,14 +48,16 @@ export function getDBGoalies(setGoalies) {
     headers: getHeaders(),
   }).then(async (response) => {
     const data = await response.json();
-    if (!response.ok) {
+    if (data.success === true) {
+      localStorage.setItem("goalieDBData", JSON.stringify(data));
+      localStorage.setItem("goalieDBUpdate", new Date());
+      setGoalies(data.players);
+    } else {
       ToastsStore.error("Error getting goalies.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
-    localStorage.setItem("goalieDBData", JSON.stringify(data));
-    localStorage.setItem("goalieDBUpdate", new Date());
-    setGoalies(data.players);
+
   });
 }
 
@@ -65,14 +67,15 @@ export function getTeams(setTeams) {
     headers: getHeaders(),
   }).then(async (response) => {
     const data = await response.json();
-    if (!response.ok) {
+    if (data.success === true) {
+      localStorage.setItem("playerTeamData", JSON.stringify(data.teams));
+      localStorage.setItem("playerTeamDataUpdate", new Date());
+      setTeams(data.teams);
+    } else {
       ToastsStore.error("Error getting teams.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
-    localStorage.setItem("playerTeamData", JSON.stringify(data.teams));
-    localStorage.setItem("playerTeamDataUpdate", new Date());
-    setTeams(data.teams);
   });
 }
 
@@ -82,14 +85,15 @@ export function getRules(setRules) {
     headers: getHeaders(),
   }).then(async (response) => {
     const data = await response.json();
-    if (!response.ok) {
+    if (data.success === true) {
+      localStorage.setItem("rulesData", JSON.stringify(data));
+      localStorage.setItem("rulesUpdate", new Date());
+      setRules(data.rules);
+    } else {
       ToastsStore.error("Error getting rules.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
-    localStorage.setItem("rulesData", JSON.stringify(data));
-    localStorage.setItem("rulesUpdate", new Date());
-    setRules(data.rules);
   });
 }
 
@@ -99,15 +103,58 @@ export function getForumPosts(setPosts) {
     headers: getHeaders(),
   }).then(async (response) => {
     const data = await response.json();
-    if (!response.ok) {
+    if (data.success === true) {
+      localStorage.setItem("forumData", JSON.stringify(data));
+      localStorage.setItem("forumUpdate", new Date());
+      setPosts(data.posts);
+    } else {
       ToastsStore.error("Error getting forum posts.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
-    localStorage.setItem("forumData", JSON.stringify(data));
-    localStorage.setItem("forumUpdate", new Date());
-    setPosts(data.posts);
+
   });
+}
+
+export function selectLeague(
+  leagueKey,
+  setPicks,
+  setCurrentPick,
+  setDraftingNow
+) {
+  const requestParams = {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({
+      league_key: leagueKey,
+    }),
+  };
+  fetch("/select_league", requestParams)
+    .then((response) => {
+      if (!response.ok) throw response;
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success === true) {
+        const user = data.user;
+        localStorage.setItem("teams", JSON.stringify(data.teams));
+        localStorage.setItem("web_token", data.web_token);
+        localStorage.setItem("registeredLeague", data.registered);
+        localStorage.setItem("liveDraft", binaryToBoolean(data.is_live_draft));
+        localStorage.setItem("user", JSON.stringify(user));
+        getDraft(setPicks, setCurrentPick, setDraftingNow);
+      } else {
+        ToastsStore.error(
+          "There was an error connecting to Yahoo. Please try again later."
+        );
+      }
+    })
+    .catch((error) => {
+      ToastsStore.error(
+        `There was an error connecting to Yahoo. Please try again later.`
+      );
+      console.log(`Error: ${error.text}`);
+    });
 }
 
 export function checkForUpdates(

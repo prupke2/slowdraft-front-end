@@ -57,6 +57,10 @@ main {
   /* font-family: 'Rubik', sans-serif; */
 }
 
+.full-width {
+  width: 100vw;
+}
+
 a {
   color: var(--link);
 }

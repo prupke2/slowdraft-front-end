@@ -109,7 +109,7 @@ export default function NewDraftTab() {
 
       <div id="team-order-wrapper">
         <label>Draft order:</label>
-        {teams.map((team) => (
+        {teams?.map((team) => (
           <div key={team.yahoo_team_id}>
             <input
               id={team.yahoo_team_id}

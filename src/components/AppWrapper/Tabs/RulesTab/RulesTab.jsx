@@ -118,7 +118,7 @@ export default function RulesTab({ user, rules, setRules, getLatestData }) {
       {isLoading && <Loading text="Loading rules..." />}
       {!isLoading && (
         <>
-          {user.role === "admin" && (
+          {user?.role === "admin" && (
             <>
               <button
                 className="new-rules-button margin-15"

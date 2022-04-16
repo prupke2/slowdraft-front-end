@@ -16,7 +16,7 @@ export default function TeamTab({
   const teams = JSON.parse(localStorage.getItem("playerTeamData"));
   const teamInfo = JSON.parse(localStorage.getItem("teams"));
   // const [teamInfo, setTeamInfo] = useState([]);
-  const [teamFilter, setTeamFilter] = useState(user.team_name);
+  const [teamFilter, setTeamFilter] = useState(user?.team_name);
   const location = useLocation();
   const teamIdParam = parseInt(location?.state?.teamId, 10) || null;
   const [teamId, setTeamId] = useState(null);
@@ -55,7 +55,7 @@ export default function TeamTab({
       }
     }
     setIsLoading(false);
-    setTeamId(teamIdParam || user.yahoo_team_id);
+    setTeamId(teamIdParam || user?.yahoo_team_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

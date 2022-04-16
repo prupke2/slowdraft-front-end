@@ -6,9 +6,12 @@ import Widget from "./Widget/Widget";
 import { checkForUpdates } from "../../util/requests";
 import { localEnvironment } from "../../util/util";
 import { useCallback } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import LeagueSelector from "./LeagueSelector/LeagueSelector";
 
 export default function AppWrapper({
   logout,
+  setIsLoading,
   pub,
   sub,
   user,
@@ -29,6 +32,37 @@ export default function AppWrapper({
   const [rules, setRules] = useState([]);
   const isRegisteredLeague =
     localStorage.getItem("registeredLeague") === "true";
+  const leagueList = JSON.parse(localStorage.getItem("leagueList"));
+
+  // function getRegisteredLeagueCount() {
+  //   let count = 0;
+  //   leagueList.forEach((league) => {
+  //     if (league.registered === true) {
+  //       count += 1;
+  //     }
+  //   });
+  //   return count;
+  // }
+
+  // useEffect(() => {
+  //   function activeEstateList() {
+  //     const localStorageUser = localStorage.getItem('user')
+  //     console.log(`localStorageUser: ${localStorageUser}`);
+
+  //     if (localStorageUser !== 'null') {
+  //       setSingleLeagueSelected(true);
+  //     }
+  //   }
+  
+  //   window.addEventListener('storage', activeEstateList)
+  
+  //   return () => {
+  //     window.removeEventListener('storage', activeEstateList)
+  //   }
+  // }, [])
+
+  const teamsInLocalStorage = localStorage.getItem("teams");
+  const [singleLeagueSelected, setSingleLeagueSelected] = useState(teamsInLocalStorage !== 'null')
 
   const getLatestData = useCallback(() => {
     checkForUpdates(
@@ -77,47 +111,67 @@ export default function AppWrapper({
 
   return (
     <>
-      <Navbar
-        isRegisteredLeague={isRegisteredLeague}
-        logout={logout}
-        currentPick={currentPick}
-        setCurrentPick={setCurrentPick}
-        picks={picks}
-        setPicks={setPicks}
-        draftingNow={draftingNow}
-        setDraftingNow={setDraftingNow}
-        sendChatAnnouncement={sendChatAnnouncement}
-        players={players}
-        setPlayers={setPlayers}
-        goalies={goalies}
-        setGoalies={setGoalies}
-        teams={teams}
-        setTeams={setTeams}
-        posts={posts}
-        setPosts={setPosts}
-        rules={rules}
-        setRules={setRules}
-        user={user}
-        getLatestData={getLatestData}
-      />
-      <Widget
-        isRegisteredLeague={isRegisteredLeague}
-        user={user}
-        currentPick={currentPick}
-        draftingNow={draftingNow}
-        logout={logout}
-      />
-      {!localEnvironment() && (
-        <Chat
-          messages={messages}
-          setMessages={setMessages}
-          pub={pub}
-          sub={sub}
-          user={user}
-          channel={channel}
-          getLatestData={getLatestData}
-          sendChatAnnouncement={sendChatAnnouncement}
-        />
+      {!singleLeagueSelected && (
+        <Switch>
+          <Route path="/league-select">
+            <LeagueSelector
+              leagueList={leagueList}
+              setSingleLeagueSelected={setSingleLeagueSelected}
+              logout={logout}
+              setIsLoading={setIsLoading}
+              setPicks={setPicks}
+              setCurrentPick={setCurrentPick}
+              setDraftingNow={setDraftingNow}
+            />
+          </Route>
+          <Redirect to="/league-select" />
+        </Switch>
+      )}
+      {singleLeagueSelected && (
+        <>
+          <Navbar
+            isRegisteredLeague={isRegisteredLeague}
+            logout={logout}
+            currentPick={currentPick}
+            setCurrentPick={setCurrentPick}
+            picks={picks}
+            setPicks={setPicks}
+            draftingNow={draftingNow}
+            setDraftingNow={setDraftingNow}
+            sendChatAnnouncement={sendChatAnnouncement}
+            players={players}
+            setPlayers={setPlayers}
+            goalies={goalies}
+            setGoalies={setGoalies}
+            teams={teams}
+            setTeams={setTeams}
+            posts={posts}
+            setPosts={setPosts}
+            rules={rules}
+            setRules={setRules}
+            user={user}
+            getLatestData={getLatestData}
+          />
+          <Widget
+            isRegisteredLeague={isRegisteredLeague}
+            user={user}
+            currentPick={currentPick}
+            draftingNow={draftingNow}
+            logout={logout}
+          />
+          {!localEnvironment() && (
+            <Chat
+              messages={messages}
+              setMessages={setMessages}
+              pub={pub}
+              sub={sub}
+              user={user}
+              channel={channel}
+              getLatestData={getLatestData}
+              sendChatAnnouncement={sendChatAnnouncement}
+            />
+          )}
+        </>
       )}
     </>
   );
