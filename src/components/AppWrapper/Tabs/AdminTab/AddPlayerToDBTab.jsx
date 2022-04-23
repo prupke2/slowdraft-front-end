@@ -10,6 +10,8 @@ export default function AddPlayerToDBTab() {
   const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState("");
   const [positions, setPositions] = useState([]);
+  const [positionsValid, setPositionsValid] = useState(false);
+  const formComplete = name && playerId && team && positionsValid;
 
   const handlePositionChange = (event) => {
     const newPosition = event.target.value;
@@ -21,8 +23,8 @@ export default function AddPlayerToDBTab() {
       newPositionsArray.splice(index, 1);
     }
     setPositions(newPositionsArray);
+    setPositionsValid(newPositionsArray.length > 0);
   };
-  const formComplete = name && playerId && team && positions.length !== 0;
 
   function addPlayerToDb(e) {
     e.preventDefault();
@@ -81,6 +83,7 @@ export default function AddPlayerToDBTab() {
           name="name"
           label="name"
           onChange={(e) => setName(e.target.value)}
+          onBlur={(e) => setName(e.target.value)}
           required
         />
       </div>
@@ -94,6 +97,7 @@ export default function AddPlayerToDBTab() {
           name="yahooId"
           label="yahooId"
           onChange={(e) => setPlayerId(e.target.value)}
+          onBlur={(e) => setPlayerId(e.target.value)}
           required
         />
       </div>
@@ -107,7 +111,7 @@ export default function AddPlayerToDBTab() {
                 value={position}
                 name={position}
                 id={position}
-                onChange={handlePositionChange}
+                onClick={(e) => handlePositionChange(e)}
               />
               <label htmlFor={position}>{position}</label>
             </div>
