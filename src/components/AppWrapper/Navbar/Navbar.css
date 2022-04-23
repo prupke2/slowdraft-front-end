@@ -34,16 +34,6 @@ li.navtab > a:hover {
   margin-top: 0;
 }
 
-/* Admin tabs */
-
-.tab-wrapper > .inner-navbar-tabs {
-  background: var(--main-light) !important;
-  padding: 0;
-  min-height: calc(100vh - 109px);
-  position: relative;
-  right: 20px;
-}
-
 .navtab a {
   border-radius: 8px 8px 0 0;
 }

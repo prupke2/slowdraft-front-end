@@ -1,7 +1,14 @@
+.tab-wrapper > .inner-navbar-tabs {
+  background: var(--main-light) !important;
+  padding: 0;
+  min-height: calc(100vh - 109px);
+  position: relative;
+  right: 20px;
+  border-top: 1px solid var(--main-dark);
+}
 
-
-li.react-tabs__tab--selected > div.inner-tab {
-  color: var(--main-light);
+a.active {
+  box-shadow: 0 0 2px 1px var(--main-light);
 }
 
 .admin-tab-wrapper {
