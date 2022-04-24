@@ -1,8 +1,8 @@
 import { ToastsStore } from "react-toasts";
-import { getHeaders, binaryToBoolean } from "./util";
+import { getHeaders, binaryToBoolean, API_URL } from "./util";
 
 export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
-  fetch(`/get_draft`, {
+  fetch(`${API_URL}/get_draft`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -24,7 +24,7 @@ export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
 }
 
 export function getDBPlayers(setPlayers) {
-  fetch(`/get_db_players`, {
+  fetch(`${API_URL}/get_db_players`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -43,7 +43,7 @@ export function getDBPlayers(setPlayers) {
 }
 
 export function getDBGoalies(setGoalies) {
-  fetch(`/get_db_players?position=G`, {
+  fetch(`${API_URL}/get_db_players?position=G`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -62,7 +62,7 @@ export function getDBGoalies(setGoalies) {
 }
 
 export function getTeams(setTeams) {
-  fetch(`/get_teams`, {
+  fetch(`${API_URL}/get_teams`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -80,7 +80,7 @@ export function getTeams(setTeams) {
 }
 
 export function getRules(setRules) {
-  fetch(`/get_all_rules`, {
+  fetch(`${API_URL}/get_all_rules`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -98,7 +98,7 @@ export function getRules(setRules) {
 }
 
 export function getForumPosts(setPosts) {
-  fetch(`/get_forum_posts`, {
+  fetch(`${API_URL}/get_forum_posts`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -129,7 +129,7 @@ export function selectLeague(
       league_key: leagueKey,
     }),
   };
-  fetch("/select_league", requestParams)
+  fetch(`${API_URL}/select_league`, requestParams)
     .then((response) => {
       if (!response.ok) throw response;
       return response.json();
@@ -173,7 +173,7 @@ export function checkForUpdates(
   //   return
   // }
 
-  fetch(`/check_for_updates`, {
+  fetch(`${API_URL}/check_for_updates`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
