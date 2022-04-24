@@ -1,6 +1,8 @@
 import React from "react";
 import qs from "qs";
 
+export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://draft-api.onrender.com';
+
 export function updateUrlPath(path) {
   window.history.replaceState(null, null, path);
 }
@@ -53,9 +55,10 @@ export const teamsMap = (teams, returnType = "yahoo_team_id") => {
 };
 
 export const getHeaders = () => ({
-  Accept: "application/json",
+  "Accept": "application/json",
   "Content-Type": "application/json",
-  Authorization: localStorage.getItem("web_token"),
+  "Access-Control-Allow-Origin": API_URL,
+  "Authorization": localStorage.getItem("web_token"),
 });
 
 export function substringInString(string, substring) {
