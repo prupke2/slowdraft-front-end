@@ -3,7 +3,7 @@ import Errors from "../Errors/Errors";
 import "./Login.css";
 import { ToastsStore } from "react-toasts";
 import { getDraft } from "../../util/requests";
-import { localEnvironment, binaryToBoolean } from "../../util/util";
+import { localEnvironment, binaryToBoolean, API_URL } from "../../util/util";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useState } from "react";
 
@@ -21,9 +21,7 @@ export default function Login({
   const client_id =
     "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
   let errors = null;
-  const redirect_uri = localEnvironment()
-    ? "oob"
-    : "https://slowdraft.herokuapp.com";
+  const redirect_uri = localEnvironment() ? "oob" : "https://slowdraft.netlify.app";
   const yahooLoginUrl =
     `https://api.login.yahoo.com/oauth2/request_auth?client_id=${client_id}` +
     `&redirect_uri=${redirect_uri}&response_type=code&language=en-us`;
@@ -31,7 +29,15 @@ export default function Login({
   useEffect(() => {
     function loginUser() {
       setIsLoading(true);
-      fetch(`/login/${code}`)
+      const headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": API_URL,
+      }
+      fetch(`${API_URL}/login/${code}`,{
+        method: "GET",
+        headers: headers,
+      })
         .then((response) => {
           if (!response.ok) throw response;
           return response.json();
@@ -68,7 +74,7 @@ export default function Login({
           ToastsStore.error(
             `There was an error connecting to the server. Please try again later.`
           );
-          console.log(`Error: ${error.text}`);
+          console.log(`error: ${JSON.stringify(error.text, null, 4)}`);
           setLoggedIn(false);
         });
       setTimeout(() => {
