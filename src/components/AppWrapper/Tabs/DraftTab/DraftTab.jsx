@@ -8,7 +8,7 @@ import {
   getTeams,
 } from "../../../../util/requests";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
-import { teamsMap, getHeaders, teamIdToKey } from "../../../../util/util";
+import { teamsMap, getHeaders, teamIdToKey, API_URL } from "../../../../util/util";
 import { ToastsStore } from "react-toasts";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import NewDraftTab from "../AdminTab/NewDraftTab";
@@ -47,7 +47,7 @@ export default function DraftTab({
       requestParams.body = JSON.stringify({
         overall_pick: overall_pick,
       });
-      fetch("/update_pick_enablement", requestParams)
+      fetch(`${API_URL}/update_pick_enablement`, requestParams)
         .then((response) => {
           if (!response.ok) {
             const error = (picks && picks.message) || response.status;
@@ -73,7 +73,7 @@ export default function DraftTab({
         overall_pick: overall_pick,
         team_key: teamIdToKey(event.target.value),
       });
-      fetch("/update_pick", requestParams)
+      fetch(`${API_URL}/update_pick`, requestParams)
         .then((response) => {
           if (!response.ok) {
             const error = (picks && picks.message) || response.status;
