@@ -15,7 +15,6 @@ import { useLocation } from "react-router-dom";
 
 export default function App() {
   const location = useLocation();
-  console.log(`location: ${JSON.stringify(location, null, 4)}`);
   const [loggedIn, setLoggedIn] = useState(true);
 
   // pub and sub (publish/subscribe) states are used for the chat backend
@@ -54,13 +53,9 @@ export default function App() {
   }, [code]);
 
   function logout() {
-    fetch("/logout")
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.clear();
-        setLoggedIn(false);
-        setIsLoading(false);
-      });
+    localStorage.clear();
+    setLoggedIn(false);
+    setIsLoading(false);
   }
 
   return (
