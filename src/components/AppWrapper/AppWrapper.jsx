@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar/Navbar";
 import Chat from "./Chat/Chat";
 import PubNub from "pubnub"; // backend for chat component
@@ -102,12 +102,12 @@ export default function AppWrapper({
     });
   }
 
-  useEffect(() => {
-    if (user !== null) {
-      console.log("getting data");
-      getLatestData();
-    }
-  }, [user, getLatestData]);
+  // useEffect(() => {
+  //   if (user !== null) {
+  //     console.log("getting data");
+  //     getLatestData();
+  //   }
+  // }, [user, getLatestData]);
 
   return (
     <>
