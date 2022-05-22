@@ -80,6 +80,7 @@ export const teamsMap = (teams, returnType = "yahoo_team_id") => {
 export const getHeaders = () => ({
   "Accept": "application/json",
   "Content-Type": "application/json",
+  "Host": API_URL,
   "Access-Control-Allow-Origin": localEnvironment() ? '*' : 'https://slowdraft.netlify.app',
   "Authorization": localStorage.getItem("web_token"),
 });
