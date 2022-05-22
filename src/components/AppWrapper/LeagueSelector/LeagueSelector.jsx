@@ -52,7 +52,7 @@ export default function LeagueSelector({
             {leagueList.map((league) => {
               const registeredEmoji = league.registered ? "✅" : "❌";
               return (
-                <li>
+                <li key={league.league_key}>
                   <button onClick={(e) => fetchLeague(league.league_key)}>
                     <div>
                       <Emoji emoji={registeredEmoji} />
