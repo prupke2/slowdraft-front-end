@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { ToastsStore } from "react-toasts";
-import { getHeaders, capitalizeFirstLetter } from "../../../../util/util";
+import { getHeaders, capitalizeFirstLetter, API_URL } from "../../../../util/util";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
@@ -40,24 +40,24 @@ export default function NewPost({
       headers: getHeaders(),
       body: JSON.stringify({
         id: postId || null,
-        parent_id: parentPostId || post.parent_id || null,
+        parent_id: parentPostId || post?.parent_id || null,
         user: user,
         title: title || null,
         body: body,
       }),
     };
-    fetch(`/${postType}`, requestParams)
+    fetch(`${API_URL}/${postType}`, requestParams)
       .then(async (response) => {
         const data = await response.json();
+        const post = postType === "create_rule" ? "rule" : "post";
         if (!response.ok) {
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
         if (data.success === true) {
-          const post = postType === "create_rule" ? "rule" : "post";
           ToastsStore.success(`${capitalizeFirstLetter(post)} saved.`);
         } else {
-          ToastsStore.error(`Error saving ${postType}.`);
+          ToastsStore.error(`Error saving ${post}.`);
         }
       })
       .then(setIsOpen(false));

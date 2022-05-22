@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ToastsStore } from "react-toasts";
-import { getHeaders, teamIdToKey, teamsMap } from "../../../../util/util";
+import { getHeaders, teamIdToKey, teamsMap, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 
 export default function AddDraftPickTab() {
@@ -19,7 +19,7 @@ export default function AddDraftPickTab() {
       }),
     };
     if (teamId) {
-      fetch("/add_new_pick", requestParams)
+      fetch(`${API_URL}/add_new_pick`, requestParams)
         .then((response) => {
           if (!response.ok) {
             const error = response.status;

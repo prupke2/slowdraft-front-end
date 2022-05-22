@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToastsStore } from "react-toasts";
 import SelectPlayer from "./SelectPlayer";
-import { getHeaders, teamIdToKey, teamsMap } from "../../../../util/util";
+import { getHeaders, teamIdToKey, teamsMap, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 
 export default function AddKeeperTab({ singleTeam }) {
@@ -24,7 +24,7 @@ export default function AddKeeperTab({ singleTeam }) {
     };
     if (teamId && keeperPlayerId) {
       setKeeperList([...keeperList, [keeperPlayerId]]);
-      fetch("/add_keeper_player", requestParams)
+      fetch(`${API_URL}/add_keeper_player`, requestParams)
         .then((response) => {
           if (!response.ok) {
             const error = response.status;

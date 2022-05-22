@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ToastsStore } from "react-toasts";
-import { getHeaders } from "../../../../util/util";
+import { getHeaders, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 
 export default function NewDraftTab() {
@@ -24,7 +24,7 @@ export default function NewDraftTab() {
         team_order: teamOrderList,
       }),
     };
-    fetch("/create_draft", requestParams)
+    fetch(`${API_URL}/create_draft`, requestParams)
       .then((response) => {
         console.log(`response: ${JSON.stringify(response, null, 4)}`);
         if (!response?.ok) {

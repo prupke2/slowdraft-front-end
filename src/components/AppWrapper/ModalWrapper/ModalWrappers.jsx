@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import ReactHtmlParser from "react-html-parser";
 import CloseModalButton from "./CloseModalButton/CloseModalButton";
 import NewPost from "./NewPost/NewPost";
-import { getHeaders, capitalizeFirstLetter } from "../../../util/util";
+import { getHeaders, capitalizeFirstLetter, API_URL } from "../../../util/util";
 import { timeSince } from "../../../util/time";
 import UsernameStyled from "../UsernameStyled/UsernameStyled";
 import "./ModalWrappers.css";
@@ -19,7 +19,7 @@ export const ViewForumPost = ({
 
   useEffect(() => {
     if (!forumPostReplies) {
-      fetch(`/view_post_replies/${post.id}`, {
+      fetch(`${API_URL}/view_post_replies/${post.id}`, {
         method: "GET",
         headers: getHeaders(),
       })
@@ -163,3 +163,27 @@ export const ViewRuleModal = ({ modalIsOpen, setIsOpen, data }) => (
     <div className="modal-forum-text">{ReactHtmlParser(data?.body)}</div>
   </Modal>
 );
+
+export const AddToHomepageModal = () => {
+  const [modalOpen, setModalOpen] = useState(true);
+  return (
+    <Modal
+      isOpen={modalOpen}
+      onRequestClose={() => setModalOpen(false)}
+      contentLabel="Add to homescreen"
+      parentSelector={() => document.querySelector("main")}
+      id="add-homepage-modal"
+      ariaHideApp={false}
+    >
+      <CloseModalButton setIsOpen={setModalOpen} />
+      <div className="modal-title">Add to homescreen</div>
+      <div className="modal-forum-text">
+        Would you like to add SlowDraft to your homescreen?
+      </div>
+      <div className="button-group">
+        <button onClick={() => setModalOpen(false)}>Yup</button>
+        <button onClick={() => setModalOpen(false)}>No thanks</button>
+      </div>
+    </Modal>
+  );
+};

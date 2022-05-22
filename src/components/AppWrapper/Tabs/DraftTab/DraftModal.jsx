@@ -7,7 +7,7 @@ import {
   getDBPlayers,
   getTeams,
 } from "../../../../util/requests";
-import { getHeaders } from "../../../../util/util";
+import { getHeaders, API_URL } from "../../../../util/util";
 import Loading from "../../../Loading/Loading";
 import CloseModalButton from "../../ModalWrapper/CloseModalButton/CloseModalButton";
 import "../../ModalWrapper/ModalWrappers.css";
@@ -40,7 +40,7 @@ export default function DraftModal({
       data.position +
       " - " +
       data.team;
-    fetch(`/draft/${data.player_id}`, {
+    fetch(`${API_URL}/draft/${data.player_id}`, {
       method: "GET",
       headers: getHeaders(),
     })

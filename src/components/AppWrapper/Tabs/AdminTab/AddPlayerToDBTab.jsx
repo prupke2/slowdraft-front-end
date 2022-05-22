@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ToastsStore } from "react-toasts";
-import { getHeaders } from "../../../../util/util";
+import { getHeaders, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 import { SelectTeamFilter } from "../../../Table/FilterTypes/FilterTypes";
 
@@ -39,7 +39,7 @@ export default function AddPlayerToDBTab() {
       positions: positions,
     });
     if (formComplete) {
-      fetch("/insert_player", requestParams)
+      fetch(`${API_URL}/insert_player`, requestParams)
         .then((response) => {
           if (!response.ok) {
             const error = response.status;

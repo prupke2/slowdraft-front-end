@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToastsStore } from "react-toasts";
 import SelectPlayer from "./SelectPlayer";
-import { getHeaders, teamIdToKey, teamsMap } from "../../../../util/util";
+import { getHeaders, teamIdToKey, teamsMap, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 
 export default function MakePickTab() {
@@ -26,7 +26,7 @@ export default function MakePickTab() {
         player_id: playerId,
       }),
     };
-    fetch(`/make_pick`, requestParams)
+    fetch(`${API_URL}/make_pick`, requestParams)
       .then((response) => {
         if (!response.ok) {
           ToastsStore.error(`An error occurred. Please try again later.`);
