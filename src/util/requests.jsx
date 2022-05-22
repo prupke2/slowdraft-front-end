@@ -8,7 +8,8 @@ export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
   }).then(async (response) => {
     const data = await response.json();
     if (data.success === true) {
-      localStorage.setItem("draftData", JSON.stringify(data));
+      localStorage.setItem("picks", JSON.stringify(data.picks));
+      localStorage.setItem("draftData", JSON.stringify(data.draft));
       localStorage.setItem("draftDataUpdate", new Date());
       setPicks(data.picks);
       setDraftingNow(data.drafting_now);
@@ -30,7 +31,7 @@ export function getDBPlayers(setPlayers) {
   }).then(async (response) => {
     const data = await response.json();
     if (data.success === true) {
-      localStorage.setItem("playerDBData", JSON.stringify(data));
+      localStorage.setItem("playerDBData", JSON.stringify(data.players));
       localStorage.setItem("playerDBUpdate", new Date());
       setPlayers(data.players);
     } else {
@@ -49,15 +50,15 @@ export function getDBGoalies(setGoalies) {
   }).then(async (response) => {
     const data = await response.json();
     if (data.success === true) {
-      localStorage.setItem("goalieDBData", JSON.stringify(data));
+      localStorage.setItem("goalieDBData", JSON.stringify(data.players));
       localStorage.setItem("goalieDBUpdate", new Date());
       setGoalies(data.players);
     } else {
       ToastsStore.error("Error getting goalies.");
-      const error = (data && data.message) || response.status;
+      const error = data?.message || response.status;
+      console.log(`error: ${error}`);
       return Promise.reject(error);
     }
-
   });
 }
 
@@ -86,7 +87,7 @@ export function getRules(setRules) {
   }).then(async (response) => {
     const data = await response.json();
     if (data.success === true) {
-      localStorage.setItem("rulesData", JSON.stringify(data));
+      localStorage.setItem("rulesData", JSON.stringify(data.rules));
       localStorage.setItem("rulesUpdate", new Date());
       setRules(data.rules);
     } else {
@@ -104,7 +105,7 @@ export function getForumPosts(setPosts) {
   }).then(async (response) => {
     const data = await response.json();
     if (data.success === true) {
-      localStorage.setItem("forumData", JSON.stringify(data));
+      localStorage.setItem("forumData", JSON.stringify(data.posts));
       localStorage.setItem("forumUpdate", new Date());
       setPosts(data.posts);
     } else {
@@ -141,8 +142,16 @@ export function selectLeague(
         localStorage.setItem("web_token", data.web_token);
         localStorage.setItem("registeredLeague", data.registered);
         localStorage.setItem("liveDraft", binaryToBoolean(data.is_live_draft));
+        localStorage.setItem("draftIsOver", binaryToBoolean(data.is_over));
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("pub", data.pub);
+        localStorage.setItem("sub", data.sub);
         getDraft(setPicks, setCurrentPick, setDraftingNow);
+      } else if (data.error === "INVALID_REFRESH_TOKEN") {
+        localStorage.clear();
+        ToastsStore.error(
+          "Your Yahoo connection has expired."
+        );
       } else {
         ToastsStore.error(
           "There was an error connecting to Yahoo. Please try again later."
