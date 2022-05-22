@@ -1,5 +1,5 @@
 import React from "react";
-import NextPick from "./NextPick/NextPick";
+import CountdownTimer from "./CountdownTimer/CountdownTimer";
 import "./Widget.css";
 
 export default function Widget({
@@ -12,9 +12,9 @@ export default function Widget({
   return (
     <div className="widget-wrapper">
       {isRegisteredLeague && currentPick && (
-        <NextPick
+        <CountdownTimer
           currentPick={currentPick}
-          pickExpiry={currentPick.pick_expires}
+          expiryDate={currentPick.pick_expires}
           draftingNow={draftingNow}
         />
       )}
