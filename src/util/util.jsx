@@ -1,10 +1,33 @@
 import React from "react";
 import qs from "qs";
-
 export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://draft-api.onrender.com';
 
 export function updateUrlPath(path) {
   window.history.replaceState(null, null, path);
+}
+
+export const mobileCheck = () => {
+
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    console.log(`mobile: ${navigator.userAgent}`);
+    return true;
+  } else {
+    console.log(`NOT mobile: ${navigator.userAgent}`);
+  }
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+    console.log(`deferredPrompt: ${deferredPrompt}`);
+
+    // Update UI notify the user they can install the PWA
+    // Optionally, send analytics event that PWA install promo was shown.
+    console.log(`'beforeinstallprompt' event was fired.`);
+  });
+  return false;
 }
 
 export const getParam = (param) => {
@@ -57,7 +80,7 @@ export const teamsMap = (teams, returnType = "yahoo_team_id") => {
 export const getHeaders = () => ({
   "Accept": "application/json",
   "Content-Type": "application/json",
-  "Access-Control-Allow-Origin": API_URL,
+  "Access-Control-Allow-Origin": localEnvironment() ? '*' : 'https://slowdraft.netlify.app',
   "Authorization": localStorage.getItem("web_token"),
 });
 
