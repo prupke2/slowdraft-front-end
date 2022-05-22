@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import "./NextPick.css";
+import "./CountdownTimer.css";
 import { useEffect } from "react";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 
-export default function NextPick({ currentPick, pickExpiry, draftingNow }) {
+export default function CountdownTimer({ currentPick, expiryDate, draftingNow, draftCountdown }) {
   const [currentTime, setCurrentTime] = useState(Date.now());
-  const expiry = Date.parse(pickExpiry);
+  const expiry = Date.parse(expiryDate);
   const timeLeft = expiry - currentTime;
 
-  const hours =
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+  const hours = draftCountdown ? Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) :
     Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) +
     Math.floor(timeLeft / (1000 * 60 * 60 * 24)) * 24;
   const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
@@ -16,9 +17,9 @@ export default function NextPick({ currentPick, pickExpiry, draftingNow }) {
   const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
   const formattedSeconds = ("0" + seconds).slice(-2);
 
-  const counter = isNaN(timeLeft)
-    ? ""
+  const counter = isNaN(timeLeft) ? ""
     : hours + ":" + formattedMinutes + ":" + formattedSeconds;
+
   const countdownClock = timeLeft < 0 ? "Expired" : counter;
 
   useEffect(() => {
@@ -29,7 +30,24 @@ export default function NextPick({ currentPick, pickExpiry, draftingNow }) {
   }, []);
   return (
     <>
-      {/* <div className='current-pick-timer'> */}
+      {draftCountdown &&
+        <div className="draft-countdown">
+          <h2>Countdown to draft:</h2>
+          <div>
+            {days === 1 && 
+              <span>1 day,</span>
+            }
+            {days > 1 &&  
+              <span>{days} days,</span>
+            }
+            {
+              <span>
+                {` ` + countdownClock || ""} 
+              </span>
+            }
+          </div>
+        </div>
+      }
       {currentPick?.user_id && (
         <div className={`drafting-now drafting-${draftingNow}`}>
           <p>Drafting:&nbsp;</p>
@@ -43,12 +61,6 @@ export default function NextPick({ currentPick, pickExpiry, draftingNow }) {
           </p>
         </div>
       )}
-      {/* { !userPickingNow &&
-        <p className="drafting-now">
-          Draft has not started yet
-        </p>
-      } */}
-      {/* </div> */}
     </>
   );
 }
