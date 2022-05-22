@@ -25,17 +25,17 @@ export default function Chat({
       {
         publishKey: pub,
         subscribeKey: sub,
-        uuid: user.team_name,
+        uuid: user?.team_name || null,
       },
       [user]
     );
     const userInfo = JSON.parse(localStorage.getItem("user"));
-    setUserList((userList) => [...userList, userInfo.team_name]);
+    setUserList((userList) => [...userList, userInfo?.team_name]);
 
     pubnub.addListener({
       status: function (statusEvent) {
         if (statusEvent.category === "PNConnectedCategory") {
-          sendChatAnnouncement(`New sign in! ${userInfo.team_name}`);
+          sendChatAnnouncement(`New sign in! ${userInfo?.team_name}`);
           console.log("Connected to chat!");
         }
       },
