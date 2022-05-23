@@ -80,7 +80,7 @@ export function getTeams(setTeams) {
   });
 }
 
-export function getRules(setRules) {
+export function getRules() {
   fetch(`${API_URL}/get_all_rules`, {
     method: "GET",
     headers: getHeaders(),
@@ -89,7 +89,6 @@ export function getRules(setRules) {
     if (data.success === true) {
       localStorage.setItem("rulesData", JSON.stringify(data.rules));
       localStorage.setItem("rulesUpdate", new Date());
-      setRules(data.rules);
     } else {
       ToastsStore.error("Error getting rules.");
       const error = (data && data.message) || response.status;
@@ -98,7 +97,7 @@ export function getRules(setRules) {
   });
 }
 
-export function getForumPosts(setPosts) {
+export function getForumPosts() {
   fetch(`${API_URL}/get_forum_posts`, {
     method: "GET",
     headers: getHeaders(),
@@ -107,7 +106,6 @@ export function getForumPosts(setPosts) {
     if (data.success === true) {
       localStorage.setItem("forumData", JSON.stringify(data.posts));
       localStorage.setItem("forumUpdate", new Date());
-      setPosts(data.posts);
     } else {
       ToastsStore.error("Error getting forum posts.");
       const error = (data && data.message) || response.status;
