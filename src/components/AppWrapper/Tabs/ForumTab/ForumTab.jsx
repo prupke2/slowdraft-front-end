@@ -10,14 +10,14 @@ import "./ForumTab.css";
 
 export default function ForumTab({
   user,
-  posts,
-  setPosts,
   getLatestData,
   setUpdateTab,
 }) {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
+
+  const [posts, setPosts] = useState([]);
   const [forumPost, setForumPost] = useState({ id: null });
   function forumModal(post) {
     setForumPost(post);
@@ -34,6 +34,13 @@ export default function ForumTab({
       setForumPost(null);
     }
   }, [createModalOpen]);
+
+  useEffect(() => {
+    const localStoragePosts = localStorage.getItem('forumData')
+    if (localStoragePosts) {
+      setPosts(localStoragePosts);
+    }
+  }, []);
 
   const columns = [
     {
@@ -101,7 +108,7 @@ export default function ForumTab({
   useEffect(() => {
     if (needToUpdate === true) {
       setTimeout(() => {
-        getForumPosts(setPosts);
+        getForumPosts();
       }, 1000);
       setNeedToUpdate(false);
     }
@@ -119,16 +126,16 @@ export default function ForumTab({
     if (forumData && user) {
       console.log("Using cached data");
       let data = JSON.parse(forumData);
-      setPosts(data.posts);
+      setPosts(data);
     } else {
       console.log("Getting new forum data");
       if (user) {
-        getForumPosts(setPosts);
+        getForumPosts();
       }
     }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setPosts]);
+  }, []);
 
   return (
     <>

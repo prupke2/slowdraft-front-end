@@ -6,11 +6,12 @@ import { ViewRuleModal, NewRuleModal } from "../../ModalWrapper/ModalWrappers";
 import { getRules } from "../../../../util/requests";
 import "./RulesTab.css";
 
-export default function RulesTab({ user, rules, setRules, getLatestData }) {
+export default function RulesTab({ user, getLatestData }) {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
   const [ruleData, setRuleData] = useState(null);
+  const [rules, setRules] = useState([]);
 
   function viewRuleModalHandler(post) {
     setRuleData(post);
@@ -34,6 +35,13 @@ export default function RulesTab({ user, rules, setRules, getLatestData }) {
     }
   }, [viewModalOpen]);
 
+  useEffect(() => {
+    const localStorageRules = localStorage.getItem('rulesData')
+    if (localStorageRules) {
+      setRules(localStorageRules);
+    }
+  }, []);
+
   const columns = [
     {
       Header: "",
@@ -45,6 +53,7 @@ export default function RulesTab({ user, rules, setRules, getLatestData }) {
       Header: "Rule",
       accessor: "title",
       Filter: SearchColumnFilter,
+      disableSortBy: true,
       width: "400px",
       Cell: (cell) => (
         <div className="rule-cell">
@@ -84,7 +93,7 @@ export default function RulesTab({ user, rules, setRules, getLatestData }) {
   useEffect(() => {
     if (needToUpdate === true) {
       setTimeout(() => {
-        getRules(setRules);
+        getRules();
       }, 1000);
       setNeedToUpdate(false);
     }
@@ -102,16 +111,16 @@ export default function RulesTab({ user, rules, setRules, getLatestData }) {
     if (rulesData && user) {
       console.log("Using cached data");
       let data = JSON.parse(rulesData);
-      setRules(data.rules);
+      setRules(data);
     } else {
       console.log("Getting new forum data");
       if (user) {
-        getRules(setRules);
+        getRules();
       }
     }
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setRules]);
+  }, []);
 
   return (
     <>
