@@ -14,8 +14,6 @@ import "./PlayersTab.css";
 
 export default function PlayersTab({
   playerType,
-  players,
-  setPlayers,
   setGoalies,
   draftingNow,
   setTeams,
@@ -28,6 +26,7 @@ export default function PlayersTab({
   currentPick,
 }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [players, setPlayers] = useState([]);
   const [prospectDropdown, setProspectDropdown] = useState("all");
   const [availabilityDropdown, setAvailabilityDropdown] = useState("available");
   const [modalOpen, setModalOpen] = useState(false);
@@ -324,6 +323,7 @@ export default function PlayersTab({
 
   const tableState =
     playerType === "skaters" ? skaterTableState : goalieTableState;
+  
 
   useEffect(() => {
     setIsLoading(true);
@@ -335,7 +335,7 @@ export default function PlayersTab({
       if (playerDBData) {
         console.log("Using cached data");
         const data = JSON.parse(playerDBData);
-        setPlayers(data.players);
+        setPlayers(data);
         setIsLoading(false);
       } else {
         console.log("Getting new player DB data");
@@ -346,7 +346,7 @@ export default function PlayersTab({
       if (goalieDBData) {
         console.log("Using cached data");
         const data = JSON.parse(goalieDBData);
-        setGoalies(data.players);
+        setPlayers(data);
         setIsLoading(false);
       } else {
         console.log("Getting new player DB data");
@@ -392,7 +392,7 @@ export default function PlayersTab({
           </div>
           <Table
             user={user}
-            data={players}
+            data={players || []}
             columns={columns}
             tableState={tableState}
             defaultColumn="name"
