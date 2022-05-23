@@ -8,7 +8,7 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const playerDBData = JSON.parse(localStorage.getItem("playerDBData"));
   const goalieDBData = JSON.parse(localStorage.getItem("goalieDBData"));
-  const data = playerDBData.players.concat(goalieDBData.players);
+  const data = playerDBData.concat(goalieDBData);
   const dropdownState = player ? "closed" : "open";
   const button = player ? `Select ${player.name}` : null;
 
