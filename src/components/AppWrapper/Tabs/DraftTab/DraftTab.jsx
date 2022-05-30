@@ -8,16 +8,18 @@ import {
   getTeams,
 } from "../../../../util/requests";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
-import { teamsMap, getHeaders, teamIdToKey, API_URL } from "../../../../util/util";
+import { teamsMap, getHeaders, teamIdToKey, API_URL, mobileCheck } from "../../../../util/util";
 import { ToastsStore } from "react-toasts";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import NewDraftTab from "../AdminTab/NewDraftTab";
+import CountdownTimer from "../../Widget/CountdownTimer/CountdownTimer";
+// import { AddToHomepageModal } from "../../ModalWrapper/ModalWrappers";
 
 export default function DraftTab({
   user,
   currentPick,
   setCurrentPick,
-  picks,
+  // picks,
   setPicks,
   setTeams,
   setPlayers,
@@ -31,11 +33,17 @@ export default function DraftTab({
   const isAdmin = user?.role === "admin";
   const teams = JSON.parse(localStorage.getItem("teams"));
 
+  const picks = JSON.parse(localStorage.getItem("picks"));
+  const draft = JSON.parse(localStorage.getItem("draftData"));
   // set to "=== true" to make it a boolean, since localStorage can only be kept as strings
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
+  const draftIsOver = localStorage.getItem("draftIsOver") === "true";
   const isRegisteredLeague =
     localStorage.getItem("registeredLeague") === "true";
   const [page, setPage] = useState(null);
+
+  const isMobile = mobileCheck();
+  console.log(`isMobile: ${isMobile}`);
 
   function updatePick(event, round, overall_pick) {
     setPage(round - 1);
@@ -276,7 +284,9 @@ export default function DraftTab({
       getDBPlayers(setPlayers);
     }
     if (!playerTeamData) {
-      getTeams(setTeams);
+      setTimeout(() => {
+        getTeams(setTeams);
+      }, 2000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -284,7 +294,16 @@ export default function DraftTab({
   return (
     <>
       {isLoading && <Loading text="Loading draft..." />}
-      {!isLiveDraft && <h2>This draft is over</h2>}
+      {/* {isMobile && (
+        <AddToHomepageModal />
+      )} */}
+      {draftIsOver && <h2>This draft is over</h2>}
+      {!isLiveDraft && !draftIsOver &&
+        <CountdownTimer 
+          draftCountdown
+          expiryDate={draft?.draft_start_time_utc}
+        />
+      }
       {!isRegisteredLeague && <NewDraftTab />}
       {!isLoading && isRegisteredLeague && picks && (
         <Table
