@@ -1,6 +1,9 @@
 import React from "react";
 import qs from "qs";
+
 export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://draft-api.onrender.com';
+
+export const WEBSOCKET_URL = localEnvironment() ? 'ws://localhost:8000/chat' : 'ws://draft-api.onrender.com/chat';
 
 export function updateUrlPath(path) {
   window.history.replaceState(null, null, path);
