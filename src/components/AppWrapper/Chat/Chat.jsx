@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import MessageLog from "./MessageLog/MessageLog";
 import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
-import { WEBSOCKET_URL } from "../../../util/util.jsx";
+import { WEBSOCKET_URL, getHeaders } from "../../../util/util.jsx";
 
 export default function Chat() {
-  // const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const cachedMessages = JSON.parse(localStorage.getItem("chatMessages"));
   const [messages, setMessages] = useState(cachedMessages || []);
   const [chatStatus, setChatStatus] = useState("connecting");
@@ -19,7 +19,10 @@ export default function Chat() {
       return null
     }
 
-    ws.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`);
+    ws.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
+      null,
+      { headers: getHeaders() }
+      );
     ws.current.onopen = () => {
       console.log("Chat opened");
       setChatStatus("online");
@@ -41,13 +44,22 @@ export default function Chat() {
 			if (!ws.current) return;
 
 			ws.current.onmessage = e => {
-					const message = JSON.parse(e.data);
+          const message = JSON.parse(e.data);
+          if (message?.status) {
+            // If the user opens multiple tabs, don't list them multiple times
+            if (message.status === 'connected' && userList.includes(message.user)) {
+              return
+            }
+          }
+          if (message?.users) {
+            setUserList(message.users)
+          }
           console.log("e", message);
           setMessages((messages) => messages.concat(message));
           console.log(`messages: ${JSON.stringify(messages, null, 4)}`);
           localStorage.setItem("chatMessages", JSON.stringify(messages))
 			};
-  }, [messages]);
+  }, [messages, userList]);
 
   function sendMessage(msg) {
     const chatMessage = JSON.stringify(
@@ -70,15 +82,15 @@ export default function Chat() {
     }
   }
 
-  // const uniqueUserList = userList.filter((e, i) => userList.indexOf(e) === i);
+  const uniqueUserList = userList.filter((e, i) => userList.indexOf(e) === i);
 
   const chatBackgroundColor = chatStatus === "online" ? 'white' : 'grey';
   return (
     <ErrorBoundary>
       <aside id="chatbox" style={{backgroundColor: chatBackgroundColor}}>
-        {/* <div id="user-list">
+        <div id="user-list">
           Online: <span>{uniqueUserList.join(", ")}</span>{" "}
-        </div> */}
+        </div>
         { chatStatus === 'connecting' &&
           <div>Connecting to chat...</div>
         }
