@@ -17,7 +17,7 @@ export default function MessageLog({ messages }) {
         <div>
           {messages.map((item, index) => (
             <div key={index}>
-              {item.uuid !== "***" && (
+              {item.message && (
                 <>
                   <span
                     className="user-icon narrow-icon"
@@ -27,13 +27,13 @@ export default function MessageLog({ messages }) {
                   >
                     👤
                   </span>
-                  <span className="user user-in-chat">{item.uuid} </span>
-                  <span className="message">{item.text}</span>
+                  <span className="user user-in-chat">{item.user} </span>
+                  <span className="message">{item.message}</span>
                 </>
               )}
-              {item.uuid === "***" && (
+              {item?.status && (
                 <span className="message chat-announcement">
-                  *** {item.text}
+                  *** {item.user} {item.status}
                 </span>
               )}
             </div>

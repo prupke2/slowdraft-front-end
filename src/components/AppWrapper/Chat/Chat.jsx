@@ -1,186 +1,101 @@
-import React, { useEffect, useState } from "react";
-import useInput from "./useInput.js";
-import PubNub from "pubnub"; // backend for chat component
+import React, { useEffect, useState, useRef } from "react";
 import MessageLog from "./MessageLog/MessageLog";
 import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
-import { substringInString } from "../../../util/util.jsx";
+import { WEBSOCKET_URL } from "../../../util/util.jsx";
 
-export default function Chat({
-  messages,
-  setMessages,
-  pub,
-  sub,
-  user,
-  channel,
-  getLatestData,
-  sendChatAnnouncement,
-}) {
-  const [userList, setUserList] = useState([]);
-  const tempMessage = useInput();
+export default function Chat() {
+  // const [userList, setUserList] = useState([]);
+  const cachedMessages = JSON.parse(localStorage.getItem("chatMessages"));
+  const [messages, setMessages] = useState(cachedMessages || []);
+  const [chatStatus, setChatStatus] = useState("connecting");
 
-  useEffect(() => {
-    console.log("setting up chat");
-    const pubnub = new PubNub(
-      {
-        publishKey: pub,
-        subscribeKey: sub,
-        uuid: user?.team_name || null,
-      },
-      [user]
-    );
-    const userInfo = JSON.parse(localStorage.getItem("user"));
-    setUserList((userList) => [...userList, userInfo?.team_name]);
+  const user = JSON.parse(localStorage.getItem("user"));
+	const ws = useRef(null);
 
-    pubnub.addListener({
-      status: function (statusEvent) {
-        if (statusEvent.category === "PNConnectedCategory") {
-          sendChatAnnouncement(`New sign in! ${userInfo?.team_name}`);
-          console.log("Connected to chat!");
-        }
-      },
-      message: function (msg) {
-        const newMessage = msg.message.text;
-        const newSignIn = substringInString(newMessage, "New sign in! ");
-        if (newSignIn) {
-          const team = newMessage.replace("New sign in! ", "");
-          setUserList((userList) => [...userList, team]);
-        }
+	useEffect(() => {
+    console.log(`chatStatus: ${chatStatus}`);
+    if (chatStatus === 'online') {
+      return null
+    }
 
-        if (msg.message.text && !newSignIn) {
-          console.log(msg.message.text);
-          let newMessages = [];
-          newMessages.push({
-            uuid: msg.message.uuid,
-            text: msg.message.text,
-            color: msg.message.color,
-          });
-          setMessages((messages) => messages.concat(newMessages));
-          if (
-            substringInString(newMessage, " have updated pick ") ||
-            substringInString(newMessage, " have drafted ")
-          ) {
-            getLatestData(true, userInfo);
-          }
-        }
-      },
-    });
+    ws.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`);
+    ws.current.onopen = () => {
+      console.log("Chat opened");
+      setChatStatus("online");
+    }
+    ws.current.onclose = () => {
+      console.log("ws closed");
+      setChatStatus("offline");
+    }
 
-    pubnub.hereNow(
-      {
-        channels: [channel],
-        includeUUIDs: true,
-        includeState: true,
-      },
-      (status, response) => {
-        if (status.statusCode === 200) {
-          const currentUsers = response.channels[channel].occupants;
-          currentUsers.forEach((currentUser) => {
-            if (
-              currentUser.uuid !== "announcement" &&
-              !substringInString(currentUsers.uuid, "pn-")
-            ) {
-              setUserList((userList) => [...userList, currentUser.uuid]);
-            }
-          });
-        }
-      }
-    );
+    const wsCurrent = ws.current;
 
-    pubnub.subscribe({
-      channels: [channel],
-    });
-
-    pubnub.history(
-      {
-        channel: channel,
-        count: 500, // 100 is the default
-        stringifiedTimeToken: true, // false is the default
-      },
-      function (status, response) {
-        if (status.statusCode === 200) {
-          let newMessages = [];
-          for (let i = 0; i < response.messages.length; i++) {
-            const msg = response.messages[i].entry;
-            if (!substringInString(msg.text, "New sign in! ")) {
-              newMessages.push({
-                uuid: msg.uuid,
-                text: msg.text,
-                color: msg.color,
-              });
-            }
-          }
-          setMessages((messages) => messages.concat(newMessages));
-        } else {
-          setMessages([
-            {
-              uuid: "",
-              text: "Error connecting to chat. Try refreshing the page.",
-              color: "red",
-            },
-          ]);
-        }
-      }
-    );
-    return function cleanup() {
-      console.log("closing chat");
-      // sendChatAnnouncement(`User leaving chat! ${userInfo.team_name}`);
-      pubnub.unsubscribeAll();
-      setMessages([]);
+    return () => {
+        wsCurrent.close();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line
+	}, []);
+
+	useEffect(() => {
+			if (!ws.current) return;
+
+			ws.current.onmessage = e => {
+					const message = JSON.parse(e.data);
+          console.log("e", message);
+          setMessages((messages) => messages.concat(message));
+          console.log(`messages: ${JSON.stringify(messages, null, 4)}`);
+          localStorage.setItem("chatMessages", JSON.stringify(messages))
+			};
+  }, [messages]);
+
+  function sendMessage(msg) {
+    const chatMessage = JSON.stringify(
+      {
+        "user": user.team_name,
+        "color": user.color, 
+        "message": msg
+      }
+    )
+    ws.current.send(chatMessage);
+	}
+
 
   function handleKeyDown(event) {
     if (event.target.id === "messageInput") {
       if (event.key === "Enter") {
-        publishMessage();
+        sendMessage(event.target.value);
+        event.target.value = ""
       }
     }
   }
 
-  // Publishing messages via PubNub
-  function publishMessage() {
-    if (tempMessage.value) {
-      let messageObject = {
-        text: tempMessage.value,
-        uuid: user.team_name,
-        color: user.color,
-      };
-      const pubnub = new PubNub({
-        publishKey: pub,
-        subscribeKey: sub,
-        uuid: user.team_name,
-      });
-      pubnub.publish({
-        message: messageObject,
-        channel: channel,
-      });
-      tempMessage.setValue("");
-    }
-  }
+  // const uniqueUserList = userList.filter((e, i) => userList.indexOf(e) === i);
 
-  const uniqueUserList = userList.filter((e, i) => userList.indexOf(e) === i);
-
+  const chatBackgroundColor = chatStatus === "online" ? 'white' : 'grey';
   return (
     <ErrorBoundary>
-      {pub !== "" && sub !== "" && (
-        <aside id="chatbox">
-          {/* <h3 id="chat-title">League Chat</h3> */}
-          <div id="user-list">
-            Online: <span>{uniqueUserList.join(", ")}</span>{" "}
-          </div>
-          <MessageLog messages={messages} />
-          <input
-            placeholder="Enter a message..."
-            id="messageInput"
-            value={tempMessage.value}
-            onChange={tempMessage.onChange}
-            onKeyDown={handleKeyDown}
-          />
-        </aside>
-      )}
-      {(!pub || !sub) && <div>Error loading chat.</div>}
+      <aside id="chatbox" style={{backgroundColor: chatBackgroundColor}}>
+        {/* <div id="user-list">
+          Online: <span>{uniqueUserList.join(", ")}</span>{" "}
+        </div> */}
+        { chatStatus === 'connecting' &&
+          <div>Connecting to chat...</div>
+        }
+        { chatStatus === 'offline' &&
+          <div>Error loading chat</div>
+        }
+        { chatStatus === 'online' &&
+          <>
+            <MessageLog messages={messages} /> 
+            <input
+              placeholder="Enter a message..."
+              id="messageInput"
+              onKeyDown={handleKeyDown}
+            />
+          </>
+        }
+      </aside>
     </ErrorBoundary>
   );
 }
