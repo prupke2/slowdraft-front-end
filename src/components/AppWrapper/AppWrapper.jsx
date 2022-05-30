@@ -44,22 +44,6 @@ export default function AppWrapper({
   //   return count;
   // }
 
-  // useEffect(() => {
-  //   function activeEstateList() {
-  //     const localStorageUser = localStorage.getItem('user')
-  //     console.log(`localStorageUser: ${localStorageUser}`);
-
-  //     if (localStorageUser !== 'null') {
-  //       setSingleLeagueSelected(true);
-  //     }
-  //   }
-  
-  //   window.addEventListener('storage', activeEstateList)
-  
-  //   return () => {
-  //     window.removeEventListener('storage', activeEstateList)
-  //   }
-  // }, [])
 
   const teamsInLocalStorage = localStorage.getItem("teams");
   const [singleLeagueSelected, setSingleLeagueSelected] = useState(teamsInLocalStorage !== 'null')
