@@ -4,12 +4,12 @@ import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
 import { WEBSOCKET_URL, getHeaders } from "../../../util/util.jsx";
 
-
 export default function Chat({ websocket }) {
   const [userList, setUserList] = useState([]);
   const cachedMessages = JSON.parse(localStorage.getItem("chatMessages"));
   const [messages, setMessages] = useState(cachedMessages || []);
   const [chatStatus, setChatStatus] = useState("connecting");
+  const [reconnectChat, setReconnectChat] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -29,11 +29,13 @@ export default function Chat({ websocket }) {
     if (chatStatus === 'online') {
       return null
     }
+    setChatStatus('connecting');
 
     websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
       null,
       { headers: getHeaders() }
       );
+      console.log(`websocket.current: ${JSON.stringify(websocket.current, null, 4)}`);
     websocket.current.onopen = () => {
       console.log("Chat opened");
       setChatStatus("online");
@@ -41,6 +43,7 @@ export default function Chat({ websocket }) {
     websocket.current.onclose = () => {
       console.log("websocket closed");
       setChatStatus("offline");
+      setReconnectChat(true);
     }
 
     const websocketCurrent = websocket.current;
@@ -49,7 +52,7 @@ export default function Chat({ websocket }) {
         websocketCurrent.close();
     };
     // eslint-disable-next-line
-	}, []);
+	}, [websocket, reconnectChat]);
 
 	useEffect(() => {
 			if (!websocket.current) return;
@@ -80,21 +83,34 @@ export default function Chat({ websocket }) {
 
   const uniqueUserList = userList.filter((e, i) => userList.indexOf(e) === i);
 
-  const chatBackgroundColor = chatStatus === "online" ? 'white' : 'grey';
+  const chatBackgroundColor = chatStatus === "online" ? 'white' : '#dbdbdb';
+  const chatStatusToMessageMap = {
+    'connecting': 'Connecting to chat...',
+    'offline': 'Error loading chat.',
+  } 
+
   return (
     <ErrorBoundary>
       <aside id="chatbox" style={{backgroundColor: chatBackgroundColor}}>
-        <div id="user-list">
-          Online: <span>{uniqueUserList.join(", ")}</span>{" "}
-        </div>
-        { chatStatus === 'connecting' &&
-          <div>Connecting to chat...</div>
+
+        { chatStatus !== 'online' &&
+          <div className='chat-status-message'>
+            {chatStatusToMessageMap[chatStatus]}
+            { chatStatus === 'offline' &&
+              <button 
+                className='button-large'
+                onClick={setReconnectChat}
+              >Reconnect  
+              </button>
+            }
+          </div>
         }
-        { chatStatus === 'offline' &&
-          <div>Error loading chat</div>
-        }
+
         { chatStatus === 'online' &&
           <>
+            <div id="user-list">
+              Online: <span>{uniqueUserList.join(", ")}</span>{" "}
+            </div>
             <MessageLog messages={messages} /> 
             <input
               placeholder="Enter a message..."

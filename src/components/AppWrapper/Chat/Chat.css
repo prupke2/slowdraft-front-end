@@ -90,6 +90,13 @@
   font-size: 0.85rem;
 }
 
+.chat-status-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0 auto;
+}
+
 .message {
   word-break: break-all;
   word-break: break-word;
