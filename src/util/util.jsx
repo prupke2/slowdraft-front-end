@@ -3,7 +3,7 @@ import qs from "qs";
 
 export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://draft-api.onrender.com';
 
-export const WEBSOCKET_URL = localEnvironment() ? 'ws://localhost:8000/chat' : 'ws://draft-api.onrender.com/chat';
+export const WEBSOCKET_URL = localEnvironment() ? 'ws://localhost:8000/chat' : 'wss://draft-api.onrender.com/chat';
 
 export function updateUrlPath(path) {
   window.history.replaceState(null, null, path);
@@ -65,6 +65,11 @@ export const teamIdToKey = (teamId) => {
 export const teamIdToLogo = (teamId) => {
   const teams = JSON.parse(localStorage.getItem("teams"));
   return teamId ? teams[teamId - 1].team_logo : null;
+};
+
+export const teamIdToUserName = (teamId) => {
+  const teams = JSON.parse(localStorage.getItem("teams"));
+  return teamId ? teams[teamId - 1].user : null;
 };
 
 export const teamsMap = (teams, returnType = "yahoo_team_id") => {

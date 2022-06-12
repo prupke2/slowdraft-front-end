@@ -29,6 +29,7 @@ li.navtab > a:hover {
 }
 
 .tab-wrapper {
+  background: var(--main-dark);
   transition: background 0.2s ease;
   padding: 20px;
   margin-top: 0;
@@ -44,6 +45,9 @@ li.navtab > a:hover {
 }
 
 li.navtab a.active {
+  background: var(--main-dark);
+  border: 1px solid var(--main-dark);
+  border-bottom: none;
   font-weight: bold;
   color: rgb(245, 245, 245);
 }
@@ -55,8 +59,6 @@ li.navtab a.active:hover {
 
 li.navtab a.active,
 .tab-wrapper {
-  border: 1px solid transparent;
-  background: var(--main-dark);
   color: rgb(245, 245, 245);
   transition: background 0.1s ease;
   font-weight: 900;

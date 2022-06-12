@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loading from "../../../Loading/Loading";
 import Table from "../../../Table/Table";
 import { getTeams } from "../../../../util/requests";
-import { teamIdToLogo, teamsMap } from "../../../../util/util";
+import { teamIdToLogo, teamIdToUserName, teamsMap } from "../../../../util/util";
 import "./TeamsTab.css";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import { useLocation } from "react-router-dom";
@@ -364,11 +364,14 @@ export default function TeamTab({
       <>
         <div className="team-tab-header">
           <div className="team-and-logo-wrapper">
-            <img
-              className="logo-teams-page"
-              src={teamIdToLogo(teamId)}
-              alt="logo"
-            />
+            <div>
+              <img
+                className="logo-teams-page"
+                src={teamIdToLogo(teamId)}
+                alt="logo"
+              />
+              <div>{teamIdToUserName(teamId)}</div>
+            </div>
             <div className="team-filter-wrapper">
               <select
                 id="team-filter-select"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Navbar from "./Navbar/Navbar";
 import Chat from "./Chat/Chat";
 import PubNub from "pubnub"; // backend for chat component
@@ -33,7 +33,8 @@ export default function AppWrapper({
   const isRegisteredLeague =
     localStorage.getItem("registeredLeague") === "true";
   const leagueList = JSON.parse(localStorage.getItem("leagueList"));
-
+	const websocket = useRef(null);
+  const ws = websocket.current;
   // function getRegisteredLeagueCount() {
   //   let count = 0;
   //   leagueList.forEach((league) => {
@@ -135,6 +136,7 @@ export default function AppWrapper({
             setRules={setRules}
             user={user}
             getLatestData={getLatestData}
+            ws={ws}
           />
           <Widget
             isRegisteredLeague={isRegisteredLeague}
@@ -147,8 +149,7 @@ export default function AppWrapper({
             <Chat
               messages={messages}
               setMessages={setMessages}
-              pub={pub}
-              sub={sub}
+              websocket={websocket}
               user={user}
               channel={channel}
               getLatestData={getLatestData}

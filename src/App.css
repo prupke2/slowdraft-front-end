@@ -42,7 +42,7 @@ main {
   height: 100vh;
   overflow-y: scroll;
   max-height: 95%;
-  background: var(--main-light);;    
+  background: var(--main-light);
   /* grid-template-columns: minmax(100%, 10%); */
   text-align: center;
   font-family: 'Karla', 'Rubik', sans-serif;

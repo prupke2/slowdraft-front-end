@@ -10,6 +10,7 @@ import Emoji from "../Emoji";
 import { Route, Switch, Redirect, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import NewDraftTab from "../Tabs/AdminTab/NewDraftTab";
+import TradeTab from "../Tabs/TradeTab/TradeTab";
 
 export default function Navbar({
   isRegisteredLeague,
@@ -27,13 +28,22 @@ export default function Navbar({
   setGoalies,
   teams,
   setTeams,
-  posts,
-  setPosts,
+  // posts,
+  // setPosts,
   rules,
   setRules,
   user,
   getLatestData,
+  ws,
 }) {
+
+  const chatMessage = JSON.stringify(
+    {
+      "user": user.team_name,
+      "color": user.color, 
+      "message": "Hello"
+    }
+  )
 
   return (
     <div className="navbar-tabs">
@@ -90,6 +100,12 @@ export default function Navbar({
                 <div>Pick Tracker</div>
               </NavLink>
             </li>
+            <li className="navtab hide-small-width">
+              <NavLink to="/trade" activeClassName="active">
+                <Emoji navbar={true} emoji="🤝" />
+                <div>Trade</div>
+              </NavLink>
+            </li>
             {user?.role === "admin" && (
               <li className="navtab hide-small-width">
                 <NavLink to="/admin" activeClassName="active">
@@ -114,6 +130,8 @@ export default function Navbar({
         {isRegisteredLeague && (
           <Switch>
             <Route path="/draft">
+              <button onClick={() => ws.send(chatMessage)}>say hi</button>
+
               <DraftTab
                 user={user}
                 currentPick={currentPick}
@@ -176,8 +194,8 @@ export default function Navbar({
             <Route path="/forum">
               <ForumTab
                 user={user}
-                posts={posts}
-                setPosts={setPosts}
+                // posts={posts}
+                // setPosts={setPosts}
                 getLatestData={getLatestData}
               />
             </Route>
@@ -191,6 +209,9 @@ export default function Navbar({
             </Route>
             <Route path="/pick-tracker">
               <PickTrackerTab />
+            </Route>
+            <Route path="/trade">
+              <TradeTab />
             </Route>
             {user?.role === "admin" && (
               <Route path="/admin">

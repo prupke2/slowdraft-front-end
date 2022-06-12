@@ -17,10 +17,6 @@ export default function App() {
   const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(true);
 
-  // pub and sub (publish/subscribe) states are used for the chat backend
-  const [pub, setPub] = useState(localStorage.getItem("pub") || "");
-  const [sub, setSub] = useState(localStorage.getItem("sub") || "");
-
   const [currentPick, setCurrentPick] = useState({ user_id: null });
   const [picks, setPicks] = useState([]);
   const [draftingNow, setDraftingNow] = useState([]);
@@ -65,8 +61,6 @@ export default function App() {
         <Login
           code={code}
           setLoggedIn={setLoggedIn}
-          setPub={setPub}
-          setSub={setSub}
           setIsLoading={setIsLoading}
           user={user}
           setUser={setUser}
@@ -88,8 +82,6 @@ export default function App() {
               setLoggedIn={setLoggedIn}
               logout={logout}
               setIsLoading={setIsLoading}
-              pub={pub}
-              sub={sub}
               user={user}
               picks={picks}
               setPicks={setPicks}

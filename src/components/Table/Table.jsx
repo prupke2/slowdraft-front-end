@@ -81,6 +81,8 @@ export default function Table({
     usePagination
   );
 
+  const emptyTablePadding = page.length === 0 ? "empty-text" : null;
+
   return (
     <div>
       {paginationTop && (
@@ -100,7 +102,11 @@ export default function Table({
 
       {loading && <Loading text="Loading..." />}
       {!loading && (
-        <table autoComplete="off" className="table" {...getTableProps()}>
+        <table 
+          autoComplete="off" 
+          className={`table ${emptyTablePadding}`}
+          {...getTableProps()}
+        >
           <thead>
             {headerGroups.map((headerGroup, i) => (
               <tr {...headerGroup.getHeaderGroupProps()}>

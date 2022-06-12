@@ -1,65 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import MessageLog from "./MessageLog/MessageLog";
 import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
 import { WEBSOCKET_URL, getHeaders } from "../../../util/util.jsx";
 
-export default function Chat() {
+
+export default function Chat({ websocket }) {
   const [userList, setUserList] = useState([]);
   const cachedMessages = JSON.parse(localStorage.getItem("chatMessages"));
   const [messages, setMessages] = useState(cachedMessages || []);
   const [chatStatus, setChatStatus] = useState("connecting");
 
   const user = JSON.parse(localStorage.getItem("user"));
-	const ws = useRef(null);
-
-	useEffect(() => {
-    console.log(`chatStatus: ${chatStatus}`);
-    if (chatStatus === 'online') {
-      return null
-    }
-
-    ws.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
-      null,
-      { headers: getHeaders() }
-      );
-    ws.current.onopen = () => {
-      console.log("Chat opened");
-      setChatStatus("online");
-    }
-    ws.current.onclose = () => {
-      console.log("ws closed");
-      setChatStatus("offline");
-    }
-
-    const wsCurrent = ws.current;
-
-    return () => {
-        wsCurrent.close();
-    };
-    // eslint-disable-next-line
-	}, []);
-
-	useEffect(() => {
-			if (!ws.current) return;
-
-			ws.current.onmessage = e => {
-          const message = JSON.parse(e.data);
-          if (message?.status) {
-            // If the user opens multiple tabs, don't list them multiple times
-            if (message.status === 'connected' && userList.includes(message.user)) {
-              return
-            }
-          }
-          if (message?.users) {
-            setUserList(message.users)
-          }
-          console.log("e", message);
-          setMessages((messages) => messages.concat(message));
-          console.log(`messages: ${JSON.stringify(messages, null, 4)}`);
-          localStorage.setItem("chatMessages", JSON.stringify(messages))
-			};
-  }, [messages, userList]);
 
   function sendMessage(msg) {
     const chatMessage = JSON.stringify(
@@ -69,9 +21,53 @@ export default function Chat() {
         "message": msg
       }
     )
-    ws.current.send(chatMessage);
-	}
+    websocket.current.send(chatMessage);
+  }
+  
+	useEffect(() => {
+    console.log(`chatStatus: ${chatStatus}`);
+    if (chatStatus === 'online') {
+      return null
+    }
 
+    websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
+      null,
+      { headers: getHeaders() }
+      );
+    websocket.current.onopen = () => {
+      console.log("Chat opened");
+      setChatStatus("online");
+    }
+    websocket.current.onclose = () => {
+      console.log("websocket closed");
+      setChatStatus("offline");
+    }
+
+    const websocketCurrent = websocket.current;
+
+    return () => {
+        websocketCurrent.close();
+    };
+    // eslint-disable-next-line
+	}, []);
+
+	useEffect(() => {
+			if (!websocket.current) return;
+
+			websocket.current.onmessage = e => {
+          const message = JSON.parse(e.data);
+          // If the user opens multiple tabs, don't accounce each time they open and close them
+          if (message?.status && userList.includes(message.user)) {
+            return
+          }
+          if (message?.users) {
+            setUserList(message.users)
+          }
+          console.log("e", message);
+          setMessages((messages) => messages.concat(message));
+          localStorage.setItem("chatMessages", JSON.stringify(messages))
+			};
+  }, [messages, userList, websocket]);
 
   function handleKeyDown(event) {
     if (event.target.id === "messageInput") {

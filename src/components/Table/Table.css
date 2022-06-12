@@ -123,6 +123,10 @@ td.Pick {
   padding: 3px 6px;
 }
 
+.empty-text {
+  margin-bottom: 150px;
+}
+
 #prospect-column, #team-dropdown-column, #show-taken-dropdown {
   background: transparent;
   position: absolute;
