@@ -8,12 +8,11 @@ import PlayerCell from "../PlayersTab/PlayerCell";
 import { useLocation } from "react-router-dom";
 
 export default function TeamTab({
-  user,
   draftingNow,
-  setTeams,
   getLatestData,
 }) {
-  const teams = JSON.parse(localStorage.getItem("playerTeamData"));
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [teams, setTeams] = useState([]);
   const teamInfo = JSON.parse(localStorage.getItem("teams"));
   // const [teamInfo, setTeamInfo] = useState([]);
   const [teamFilter, setTeamFilter] = useState(user?.team_name);
@@ -25,9 +24,10 @@ export default function TeamTab({
   );
 
   useEffect(() => {
+    const localStorageTeams = JSON.parse(localStorage.getItem('teams'));
     if (teamIdParam) {
       const selectedTeam = teamIdParam
-        ? teamInfo.filter((team) => team.yahoo_team_id === teamIdParam)
+        ? localStorageTeams.filter((team) => team.yahoo_team_id === teamIdParam)
         : null;
 
       if (selectedTeam) {
@@ -39,25 +39,20 @@ export default function TeamTab({
   useEffect(() => {
     setIsLoading(true);
     // setTimeout(function () {}, 1500) // set a delay so that the localStorage is available
-    // const teamInfo = JSON.parse(localStorage.getItem('teams'));
-    // if (teamInfo) {
-    //   console.log("setting team info");
-    //   setTeamInfo(teamInfo);
-    // }
-    getLatestData();
-    if (teams && user) {
-      console.log("Using cached data");
-      setTeams(teams.teams);
+    const localStorageTeams = JSON.parse(localStorage.getItem('teams'));
+    if (localStorageTeams) {
+      console.log("setting team info");
+      setTeams(teamInfo);
     } else {
-      console.log("Getting new team data");
-      if (user) {
-        getTeams(setTeams);
-      }
+      getTeams();
     }
-    setIsLoading(false);
+    
     setTeamId(teamIdParam || user?.yahoo_team_id);
+    
+    setIsLoading(false);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setTeams]);
 
   function multiSelectPositionsFilter(rows) {
     return rows.filter((row) => row.original.position !== "G");

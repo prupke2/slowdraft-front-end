@@ -40,7 +40,6 @@ export default function DraftTab({
 
   useEffect(() => {
     const localStoragePicks = JSON.parse(localStorage.getItem("picks"));
-    console.log(`localStoragePicks: ${JSON.stringify(localStoragePicks, null, 4)}`);
     if (localStoragePicks) {
       setPicks(localStoragePicks);
     } else {
