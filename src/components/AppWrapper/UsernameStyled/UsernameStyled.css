@@ -4,6 +4,10 @@
   margin: 10px;
 }
 
+.user-wrapper a {
+  display: flex;
+}
+
 .user-in-draft {
   display: flex;
   align-items: center;
