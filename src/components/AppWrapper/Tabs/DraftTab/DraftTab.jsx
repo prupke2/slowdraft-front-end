@@ -19,21 +19,14 @@ export default function DraftTab({
   user,
   currentPick,
   setCurrentPick,
-  // picks,
-  setPicks,
-  setTeams,
-  setPlayers,
-  setGoalies,
   draftingNow,
   setDraftingNow,
   getLatestData,
   sendChatAnnouncement,
-  setUpdateTab,
 }) {
   const isAdmin = user?.role === "admin";
   const teams = JSON.parse(localStorage.getItem("teams"));
-
-  const picks = JSON.parse(localStorage.getItem("picks"));
+  const [picks, setPicks] = useState([]);
   const draft = JSON.parse(localStorage.getItem("draftData"));
   // set to "=== true" to make it a boolean, since localStorage can only be kept as strings
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
@@ -44,6 +37,16 @@ export default function DraftTab({
 
   const isMobile = mobileCheck();
   console.log(`isMobile: ${isMobile}`);
+
+  useEffect(() => {
+    const localStoragePicks = JSON.parse(localStorage.getItem("picks"));
+    console.log(`localStoragePicks: ${JSON.stringify(localStoragePicks, null, 4)}`);
+    if (localStoragePicks) {
+      setPicks(localStoragePicks);
+    } else {
+      getDraft(setCurrentPick, setDraftingNow);
+    }
+  }, [setDraftingNow, setCurrentPick])
 
   function updatePick(event, round, overall_pick) {
     setPage(round - 1);
@@ -68,7 +71,7 @@ export default function DraftTab({
             sendChatAnnouncement(
               `The ${user.team_name} have updated pick ${overall_pick}.`
             );
-            getDraft(setPicks, setCurrentPick, setDraftingNow);
+            getDraft(setCurrentPick, setDraftingNow);
             setTimeout(function () {
               ToastsStore.success(`Pick ${overall_pick} ${data.status}.`);
             }, 200);
@@ -94,7 +97,7 @@ export default function DraftTab({
             sendChatAnnouncement(
               `The ${user.team_name} have updated pick ${overall_pick}.`
             );
-            getDraft(setPicks, setCurrentPick, setDraftingNow);
+            getDraft(setCurrentPick, setDraftingNow);
             setTimeout(function () {
               ToastsStore.success(`Pick ${overall_pick} updated.`);
             }, 200);
@@ -161,7 +164,6 @@ export default function DraftTab({
           username={cell.value}
           color={cell.row.original.color}
           teamId={cell.row.original.yahoo_team_id}
-          setUpdateTab={setUpdateTab}
         />
       ),
     },
@@ -171,7 +173,12 @@ export default function DraftTab({
       disableFilters: true,
       disableSortBy: true,
       Cell: (cell) => {
-        return <PlayerCell cell={cell} draftingNow={draftingNow} />;
+        return (
+          <PlayerCell 
+            cell={cell} 
+            draftingNow={draftingNow} 
+          />
+        );
       },
     },
     {
@@ -207,7 +214,7 @@ export default function DraftTab({
             <span>
               Timestamp
               <span className="timezoneInWords">
-                &nbsp; ({Intl.DateTimeFormat().resolvedOptions().timeZone})
+                &nbsp; ({Intl.DateTimeFormat().resolvedOptions().timeZone || null})
               </span>
             </span>
           }
@@ -248,23 +255,20 @@ export default function DraftTab({
     setIsLoading(true);
     getLatestData();
     let data = {};
-    const localDraftData = localStorage.getItem("draftData");
+    const localDraftData = JSON.parse(localStorage.getItem("draftData"));
     if (localDraftData && user) {
       console.log("Using cached data");
-      data = JSON.parse(localDraftData);
-      setPicks(data.picks);
-      if (typeof data.current_pick !== "undefined") {
-        setCurrentPick(data.current_pick);
-        if (currentPick && currentPick.team_key === user.team_key) {
+      if (typeof localDraftData.current_pick !== "undefined") {
+        setCurrentPick(localDraftData.current_pick);
+        if (localDraftData.currentPick?.team_key === user.team_key) {
           setDraftingNow(true);
         }
       }
     } else {
       console.log("Getting new draft data");
-      data = getDraft(setPicks, setCurrentPick, setDraftingNow);
+      data = getDraft(setCurrentPick, setDraftingNow);
     }
     if (data) {
-      setPicks(data.picks);
       if (typeof data.current_pick !== "undefined") {
         setCurrentPick(data.current_pick);
         if (currentPick && currentPick.team_key === user.team_key) {
@@ -278,14 +282,14 @@ export default function DraftTab({
     const localPlayerData = localStorage.getItem("playerDBData");
     const playerTeamData = localStorage.getItem("playerTeamData");
     if (!localGoalieData) {
-      getDBGoalies(setGoalies);
+      getDBGoalies();
     }
     if (!localPlayerData) {
-      getDBPlayers(setPlayers);
+      getDBPlayers();
     }
     if (!playerTeamData) {
       setTimeout(() => {
-        getTeams(setTeams);
+        getTeams();
       }, 2000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

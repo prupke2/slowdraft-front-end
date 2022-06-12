@@ -9,17 +9,17 @@ import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import "./ForumTab.css";
 
 export default function ForumTab({
-  user,
   getLatestData,
-  setUpdateTab,
 }) {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
   const [posts, setPosts] = useState([]);
   const [forumPost, setForumPost] = useState({ id: null });
-  function forumModal(post) {
+
+  function viewForumModalHandler(post) {
     setForumPost(post);
     setViewModalOpen(true);
   }
@@ -39,6 +39,8 @@ export default function ForumTab({
     const localStoragePosts = localStorage.getItem('forumData')
     if (localStoragePosts) {
       setPosts(localStoragePosts);
+    } else {
+      getForumPosts();
     }
   }, []);
 
@@ -50,7 +52,7 @@ export default function ForumTab({
       width: "400px",
       Cell: (cell) => (
         <div className="post-title">
-          <div onClick={() => forumModal(cell.row.original)}>{cell.value}</div>
+          <div onClick={() => viewForumModalHandler(cell.row.original)}>{cell.value}</div>
           {cell.row.original.username === user.team_name && (
             <button
               className="small-button"
@@ -71,7 +73,6 @@ export default function ForumTab({
           username={cell.row.original.username}
           color={cell.row.original.color}
           teamId={cell.row.original.yahoo_team_id}
-          setUpdateTab={setUpdateTab}
         />
       ),
     },

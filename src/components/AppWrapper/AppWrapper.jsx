@@ -1,22 +1,17 @@
 import React, { useState, useRef } from "react";
 import Navbar from "./Navbar/Navbar";
 import Chat from "./Chat/Chat";
-import PubNub from "pubnub"; // backend for chat component
 import Widget from "./Widget/Widget";
 import { checkForUpdates } from "../../util/requests";
 import { localEnvironment } from "../../util/util";
 import { useCallback } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
+import { useEffect } from "react";
 
 export default function AppWrapper({
   logout,
   setIsLoading,
-  pub,
-  sub,
-  user,
-  picks,
-  setPicks,
   currentPick,
   setCurrentPick,
   draftingNow,
@@ -25,11 +20,7 @@ export default function AppWrapper({
   // You can reset the chat by updating the channel name to something new
   const channel = localEnvironment ? "test" : "slowdraftChat";
   const [messages, setMessages] = useState([]);
-  const [players, setPlayers] = useState([]);
-  const [goalies, setGoalies] = useState([]);
-  const [teams, setTeams] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [rules, setRules] = useState([]);
+
   const isRegisteredLeague =
     localStorage.getItem("registeredLeague") === "true";
   const leagueList = JSON.parse(localStorage.getItem("leagueList"));
@@ -51,40 +42,28 @@ export default function AppWrapper({
 
   const getLatestData = useCallback(() => {
     checkForUpdates(
-      setPicks,
       setCurrentPick,
       setDraftingNow,
-      setPlayers,
-      setGoalies,
-      setTeams,
-      setRules,
-      setPosts
     );
   }, [
-    setPlayers,
-    setGoalies,
-    setTeams,
-    setRules,
-    setPosts,
-    setPicks,
     setCurrentPick,
     setDraftingNow,
   ]);
 
   function sendChatAnnouncement(message) {
-    const messageObject = {
-      text: message,
-      uuid: "***",
-    };
-    const pubnub = new PubNub({
-      publishKey: pub,
-      subscribeKey: sub,
-      uuid: user.team_name,
-    });
-    pubnub.publish({
-      message: messageObject,
-      channel: channel,
-    });
+    // const messageObject = {
+    //   text: message,
+    //   uuid: "***",
+    // };
+    // const pubnub = new PubNub({
+    //   publishKey: pub,
+    //   subscribeKey: sub,
+    //   uuid: user.team_name,
+    // });
+    // pubnub.publish({
+    //   message: messageObject,
+    //   channel: channel,
+    // });
   }
 
   // useEffect(() => {
@@ -93,6 +72,14 @@ export default function AppWrapper({
   //     getLatestData();
   //   }
   // }, [user, getLatestData]);
+
+  useEffect(() => {
+    if (isRegisteredLeague) {
+      console.log("getting data");
+      const data = getLatestData();
+      console.log(`data: ${JSON.stringify(data, null, 4)}`);
+    }
+  }, [getLatestData, isRegisteredLeague]);
 
   return (
     <>
@@ -104,7 +91,6 @@ export default function AppWrapper({
               setSingleLeagueSelected={setSingleLeagueSelected}
               logout={logout}
               setIsLoading={setIsLoading}
-              setPicks={setPicks}
               setCurrentPick={setCurrentPick}
               setDraftingNow={setDraftingNow}
             />
@@ -116,32 +102,16 @@ export default function AppWrapper({
         <>
           <Navbar
             isRegisteredLeague={isRegisteredLeague}
-            logout={logout}
             currentPick={currentPick}
             setCurrentPick={setCurrentPick}
-            picks={picks}
-            setPicks={setPicks}
             draftingNow={draftingNow}
             setDraftingNow={setDraftingNow}
             sendChatAnnouncement={sendChatAnnouncement}
-            players={players}
-            setPlayers={setPlayers}
-            goalies={goalies}
-            setGoalies={setGoalies}
-            teams={teams}
-            setTeams={setTeams}
-            posts={posts}
-            setPosts={setPosts}
-            rules={rules}
-            setRules={setRules}
-            user={user}
             getLatestData={getLatestData}
             ws={ws}
           />
           <Widget
             isRegisteredLeague={isRegisteredLeague}
-            user={user}
-            currentPick={currentPick}
             draftingNow={draftingNow}
             logout={logout}
           />
@@ -150,7 +120,6 @@ export default function AppWrapper({
               messages={messages}
               setMessages={setMessages}
               websocket={websocket}
-              user={user}
               channel={channel}
               getLatestData={getLatestData}
               sendChatAnnouncement={sendChatAnnouncement}

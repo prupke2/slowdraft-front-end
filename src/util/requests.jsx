@@ -1,7 +1,12 @@
 import { ToastsStore } from "react-toasts";
 import { getHeaders, binaryToBoolean, API_URL } from "./util";
 
-export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
+export const getOptions = {
+  method: "GET",
+  headers: getHeaders(),
+}
+
+export function getDraft(setCurrentPick, setDraftingNow) {
   fetch(`${API_URL}/get_draft`, {
     method: "GET",
     headers: getHeaders(),
@@ -11,11 +16,9 @@ export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
       localStorage.setItem("picks", JSON.stringify(data.picks));
       localStorage.setItem("draftData", JSON.stringify(data.draft));
       localStorage.setItem("draftDataUpdate", new Date());
-      setPicks(data.picks);
+      localStorage.setItem("currentPick", JSON.stringify(data.current_pick));
+      setCurrentPick(data.current_pick);
       setDraftingNow(data.drafting_now);
-      if (typeof data.current_pick !== "undefined") {
-        setCurrentPick(data.current_pick);
-      }
     } else {
       ToastsStore.error("Error getting draft.");
       const error = (data && data.message) || response.status;
@@ -24,7 +27,7 @@ export function getDraft(setPicks, setCurrentPick, setDraftingNow) {
   });
 }
 
-export function getDBPlayers(setPlayers) {
+export function getDBPlayers() {
   fetch(`${API_URL}/get_db_players`, {
     method: "GET",
     headers: getHeaders(),
@@ -33,7 +36,6 @@ export function getDBPlayers(setPlayers) {
     if (data.success === true) {
       localStorage.setItem("playerDBData", JSON.stringify(data.players));
       localStorage.setItem("playerDBUpdate", new Date());
-      setPlayers(data.players);
     } else {
       ToastsStore.error("Error getting players.");
       const error = (data && data.message) || response.status;
@@ -43,7 +45,7 @@ export function getDBPlayers(setPlayers) {
   });
 }
 
-export function getDBGoalies(setGoalies) {
+export function getDBGoalies() {
   fetch(`${API_URL}/get_db_players?position=G`, {
     method: "GET",
     headers: getHeaders(),
@@ -52,7 +54,6 @@ export function getDBGoalies(setGoalies) {
     if (data.success === true) {
       localStorage.setItem("goalieDBData", JSON.stringify(data.players));
       localStorage.setItem("goalieDBUpdate", new Date());
-      setGoalies(data.players);
     } else {
       ToastsStore.error("Error getting goalies.");
       const error = data?.message || response.status;
@@ -62,7 +63,7 @@ export function getDBGoalies(setGoalies) {
   });
 }
 
-export function getTeams(setTeams) {
+export function getTeams() {
   fetch(`${API_URL}/get_teams`, {
     method: "GET",
     headers: getHeaders(),
@@ -71,7 +72,6 @@ export function getTeams(setTeams) {
     if (data.success === true) {
       localStorage.setItem("playerTeamData", JSON.stringify(data.teams));
       localStorage.setItem("playerTeamDataUpdate", new Date());
-      setTeams(data.teams);
     } else {
       ToastsStore.error("Error getting teams.");
       const error = (data && data.message) || response.status;
@@ -117,7 +117,6 @@ export function getForumPosts() {
 
 export function selectLeague(
   leagueKey,
-  setPicks,
   setCurrentPick,
   setDraftingNow
 ) {
@@ -142,9 +141,7 @@ export function selectLeague(
         localStorage.setItem("liveDraft", binaryToBoolean(data.is_live_draft));
         localStorage.setItem("draftIsOver", binaryToBoolean(data.is_over));
         localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("pub", data.pub);
-        localStorage.setItem("sub", data.sub);
-        getDraft(setPicks, setCurrentPick, setDraftingNow);
+        getDraft(setCurrentPick, setDraftingNow);
       } else if (data.error === "INVALID_REFRESH_TOKEN") {
         localStorage.clear();
         ToastsStore.error(
@@ -165,14 +162,8 @@ export function selectLeague(
 }
 
 export function checkForUpdates(
-  setPicks,
   setCurrentPick,
   setDraftingNow,
-  setPlayers,
-  setGoalies,
-  setTeams,
-  setRules,
-  setPosts
 ) {
   // const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
 
@@ -198,42 +189,42 @@ export function checkForUpdates(
         Date.parse(localStorage.getItem("draftDataUpdate"))
       ) {
         console.log("Update draft data...");
-        getDraft(setPicks, setCurrentPick, setDraftingNow);
+        getDraft(setCurrentPick, setDraftingNow);
       }
       if (
         Date.parse(data.updates.latest_player_db_update) + 5 >
         Date.parse(localStorage.getItem("playerDBUpdate"))
       ) {
         console.log("Update player DB data...");
-        getDBPlayers(setPlayers);
+        getDBPlayers();
       }
       if (
         Date.parse(data.updates.latest_goalie_db_update) + 5 >
         Date.parse(localStorage.getItem("goalieDBUpdate"))
       ) {
         console.log("Update goalie DB data...");
-        getDBGoalies(setGoalies);
+        getDBGoalies();
       }
       if (
         Date.parse(data.updates.latest_team_update) + 5 >
         Date.parse(localStorage.getItem("playerTeamDataUpdate"))
       ) {
         console.log("Update team data...");
-        getTeams(setTeams);
+        getTeams();
       }
       if (
         Date.parse(data.updates.latest_rules_update) + 5 >
         Date.parse(localStorage.getItem("rulesUpdate"))
       ) {
         console.log("Update rules data...");
-        getRules(setRules);
+        getRules();
       }
       if (
         Date.parse(data.updates.latest_forum_update) + 5 >
         Date.parse(localStorage.getItem("forumUpdate"))
       ) {
         console.log("Update forum data...");
-        getForumPosts(setPosts);
+        getForumPosts();
       }
     } else {
       console.log(`No updates.`);

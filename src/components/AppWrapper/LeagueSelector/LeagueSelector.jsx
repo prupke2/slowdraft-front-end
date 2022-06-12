@@ -8,13 +8,12 @@ export default function LeagueSelector({
   setSingleLeagueSelected,
   logout,
   setIsLoading,
-  setPicks,
   setCurrentPick,
   setDraftingNow,
 }) {
   const fetchLeague = (leagueKey) => {
     setIsLoading(true);
-    selectLeague(leagueKey, setPicks, setCurrentPick, setDraftingNow);
+    selectLeague(leagueKey, setCurrentPick, setDraftingNow);
     setTimeout(() => {
       setSingleLeagueSelected(true);
     }, 2000);

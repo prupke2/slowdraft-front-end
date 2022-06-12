@@ -56,10 +56,10 @@ export default function DraftModal({
         const draftingAgain =
           data.drafting_again === true ? "You're up again!" : "";
         sendChatAnnouncement(chatMessage);
-        getDraft(setPicks, setCurrentPick, setDraftingNow);
-        getTeams(setTeams);
-        isGoalie && getDBGoalies(setGoalies);
-        !isGoalie && getDBPlayers(setPlayers);
+        getDraft(setCurrentPick, setDraftingNow);
+        getTeams();
+        isGoalie && getDBGoalies();
+        !isGoalie && getDBPlayers();
         if (data.success !== true) {
           ToastsStore.error(`Error: ${data.error}`);
         } else {

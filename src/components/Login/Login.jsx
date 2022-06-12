@@ -8,13 +8,9 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import { useState } from "react";
 
 export default function Login({
-  setUser,
   code,
   setLoggedIn,
-  setPub,
-  setSub,
   setIsLoading,
-  setPicks,
   setCurrentPick,
   setDraftingNow,
 }) {
@@ -47,11 +43,6 @@ export default function Login({
           if (data.success === true) {
             const user = data.user;
             localStorage.setItem("user", JSON.stringify(user));
-            setUser(user);
-            setPub(data.pub);
-            setSub(data.sub);
-            localStorage.setItem("pub", data.pub);
-            localStorage.setItem("sub", data.sub);
             localStorage.setItem("teams", JSON.stringify(data.teams));
             localStorage.setItem("web_token", data.web_token);
             localStorage.setItem("registeredLeague", data.registered);
@@ -61,9 +52,10 @@ export default function Login({
               binaryToBoolean(data.is_live_draft)
             );
             if (user) {
-              getDraft(setPicks, setCurrentPick, setDraftingNow);
+              getDraft(setCurrentPick, setDraftingNow);
             }
             setLoggedIn(true);
+            setIsLoading(false);
           } else {
             ToastsStore.error(
               "There was an error logging into Yahoo. Please try again."

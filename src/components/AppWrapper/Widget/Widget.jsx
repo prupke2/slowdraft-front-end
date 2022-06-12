@@ -4,11 +4,13 @@ import "./Widget.css";
 
 export default function Widget({
   isRegisteredLeague,
-  user,
-  currentPick,
   draftingNow,
   logout,
 }) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const currentPick = JSON.parse(localStorage.getItem("currentPick"));
+  console.log(`isRegisteredLeague: ${isRegisteredLeague}`);
+
   return (
     <div className="widget-wrapper">
       {isRegisteredLeague && currentPick && (

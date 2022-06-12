@@ -16,31 +16,19 @@ export default function Navbar({
   isRegisteredLeague,
   currentPick,
   setCurrentPick,
-  picks,
-  setPicks,
   draftingNow,
   setDraftingNow,
-  userId,
   sendChatAnnouncement,
-  players,
-  setPlayers,
-  goalies,
-  setGoalies,
-  teams,
-  setTeams,
-  // posts,
-  // setPosts,
-  rules,
-  setRules,
-  user,
   getLatestData,
   ws,
 }) {
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const chatMessage = JSON.stringify(
     {
-      "user": user.team_name,
-      "color": user.color, 
+      "user": user?.team_name,
+      "color": user?.color, 
       "message": "Hello"
     }
   )
@@ -138,12 +126,6 @@ export default function Navbar({
                 setCurrentPick={setCurrentPick}
                 draftingNow={draftingNow}
                 setDraftingNow={setDraftingNow}
-                userId={userId}
-                picks={picks}
-                setPicks={setPicks}
-                setTeams={setTeams}
-                setPlayers={setPlayers}
-                setGoalies={setGoalies}
                 getLatestData={getLatestData}
                 sendChatAnnouncement={sendChatAnnouncement}
               />
@@ -152,15 +134,10 @@ export default function Navbar({
               <PlayersTab
                 playerType="skaters"
                 user={user}
-                setPicks={setPicks}
                 setCurrentPick={setCurrentPick}
                 draftingNow={draftingNow}
                 setDraftingNow={setDraftingNow}
                 sendChatAnnouncement={sendChatAnnouncement}
-                players={players}
-                setPlayers={setPlayers}
-                setGoalies={setGoalies}
-                setTeams={setTeams}
                 getLatestData={getLatestData}
                 currentPick={currentPick}
               />
@@ -169,31 +146,23 @@ export default function Navbar({
               <PlayersTab
                 playerType="goalies"
                 user={user}
-                setPicks={setPicks}
                 setCurrentPick={setCurrentPick}
                 draftingNow={draftingNow}
                 setDraftingNow={setDraftingNow}
                 sendChatAnnouncement={sendChatAnnouncement}
-                players={goalies}
-                setPlayers={setPlayers}
-                setGoalies={setGoalies}
-                setTeams={setTeams}
                 getLatestData={getLatestData}
                 currentPick={currentPick}
               />
             </Route>
             <Route path="/teams">
               <TeamsTab
-                user={user}
                 draftingNow={draftingNow}
-                teams={teams}
-                setTeams={setTeams}
                 getLatestData={getLatestData}
               />
             </Route>
             <Route path="/forum">
               <ForumTab
-                user={user}
+                // user={user}
                 // posts={posts}
                 // setPosts={setPosts}
                 getLatestData={getLatestData}
@@ -201,9 +170,9 @@ export default function Navbar({
             </Route>
             <Route path="/rules">
               <RulesTab
-                user={user}
-                rules={rules}
-                setRules={setRules}
+                // user={user}
+                // rules={rules}
+                // setRules={setRules}
                 getLatestData={getLatestData}
               />
             </Route>

@@ -6,11 +6,13 @@ import { ViewRuleModal, NewRuleModal } from "../../ModalWrapper/ModalWrappers";
 import { getRules } from "../../../../util/requests";
 import "./RulesTab.css";
 
-export default function RulesTab({ user, getLatestData }) {
+export default function RulesTab({ getLatestData }) {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [needToUpdate, setNeedToUpdate] = useState(false);
-  const [ruleData, setRuleData] = useState(null);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [ruleData, setRuleData] = useState({ id: null });
   const [rules, setRules] = useState([]);
 
   function viewRuleModalHandler(post) {
@@ -39,6 +41,8 @@ export default function RulesTab({ user, getLatestData }) {
     const localStorageRules = localStorage.getItem('rulesData')
     if (localStorageRules) {
       setRules(localStorageRules);
+    } else {
+      getRules();
     }
   }, []);
 
