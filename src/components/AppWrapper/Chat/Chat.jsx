@@ -32,24 +32,28 @@ export default function Chat({ websocket }) {
     setChatStatus('connecting');
 
     websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
-      null,
+      ['appProtocol', 'appProtocol-v2'],
       { headers: getHeaders() }
       );
-      console.log(`websocket.current: ${JSON.stringify(websocket.current, null, 4)}`);
-    websocket.current.onopen = () => {
+    
+    const websocketCurrent = websocket.current;
+    
+    websocketCurrent.onopen = () => {
       console.log("Chat opened");
       setChatStatus("online");
     }
-    websocket.current.onclose = () => {
+    websocketCurrent.onclose = () => {
       console.log("websocket closed");
       setChatStatus("offline");
       setReconnectChat(true);
     }
-
-    const websocketCurrent = websocket.current;
+    websocketCurrent.onerror = (error) => {
+      console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
+    }
 
     return () => {
-        websocketCurrent.close();
+      console.log("Closing websocket...")
+      websocketCurrent.close();
     };
     // eslint-disable-next-line
 	}, [websocket, reconnectChat]);
