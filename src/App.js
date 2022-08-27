@@ -61,6 +61,7 @@ export default function App() {
         <Login
           code={code}
           setLoggedIn={setLoggedIn}
+          isLoading={isLoading}
           setIsLoading={setIsLoading}
           user={user}
           setUser={setUser}

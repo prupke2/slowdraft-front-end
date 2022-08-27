@@ -10,6 +10,7 @@ import { useState } from "react";
 export default function Login({
   code,
   setLoggedIn,
+  isLoading,
   setIsLoading,
   setCurrentPick,
   setDraftingNow,
@@ -75,7 +76,7 @@ export default function Login({
     }
     const now = new Date();
 
-    if (typeof code !== "undefined" && (!lastLoginTimestamp || lastLoginTimestamp + 10 < now)) {
+    if (typeof code !== "undefined" && !isLoading && (!lastLoginTimestamp || lastLoginTimestamp + 10 < now)) {
       const newLoginDate = new Date();
       setLastLoginTimestamp(newLoginDate);
       setIsLoading(true);
