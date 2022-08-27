@@ -32,7 +32,7 @@ export default function Chat({ websocket }) {
     setChatStatus('connecting');
 
     websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
-      ['appProtocol', 'appProtocol-v2'],
+      ['appProtocol', 'chat'],
       { headers: getHeaders() }
       );
     
@@ -59,7 +59,9 @@ export default function Chat({ websocket }) {
 	}, [websocket, reconnectChat]);
 
 	useEffect(() => {
-			if (!websocket.current) return;
+			if (!websocket.current) {
+        setReconnectChat(true);
+      };
 
 			websocket.current.onmessage = e => {
           const message = JSON.parse(e.data);
