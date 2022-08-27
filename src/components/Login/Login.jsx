@@ -58,9 +58,11 @@ export default function Login({
             setLoggedIn(true);
             setIsLoading(false);
           } else {
-            ToastsStore.error(
-              "There was an error logging into Yahoo. Please try again."
-            );
+            if (localStorage.getItem('user') === null) {
+              ToastsStore.error(
+                "There was an error logging into Yahoo. Please try again."
+              );
+            }
           }
         })
         .catch((error) => {
