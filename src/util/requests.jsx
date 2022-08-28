@@ -17,6 +17,8 @@ export function getDraft(setCurrentPick, setDraftingNow) {
       localStorage.setItem("draftData", JSON.stringify(data.draft));
       localStorage.setItem("draftDataUpdate", new Date());
       localStorage.setItem("currentPick", JSON.stringify(data.current_pick));
+      localStorage.setItem("liveDraft", binaryToBoolean(data.draft.is_live));
+      localStorage.setItem("draftIsOver", binaryToBoolean(data.draft.is_over));
       setCurrentPick(data.current_pick);
       setDraftingNow(data.drafting_now);
     } else {
@@ -138,7 +140,7 @@ export function selectLeague(
         localStorage.setItem("teams", JSON.stringify(data.teams));
         localStorage.setItem("web_token", data.web_token);
         localStorage.setItem("registeredLeague", data.registered);
-        localStorage.setItem("liveDraft", binaryToBoolean(data.is_live_draft));
+        localStorage.setItem("liveDraft", binaryToBoolean(data.is_live));
         localStorage.setItem("draftIsOver", binaryToBoolean(data.is_over));
         localStorage.setItem("user", JSON.stringify(user));
         getDraft(setCurrentPick, setDraftingNow);
