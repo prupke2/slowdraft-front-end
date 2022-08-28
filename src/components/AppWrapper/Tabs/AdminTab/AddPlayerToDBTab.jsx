@@ -7,11 +7,15 @@ import { SelectTeamFilter } from "../../../Table/FilterTypes/FilterTypes";
 export default function AddPlayerToDBTab() {
   localStorage.setItem("adminTab", "add-player");
   const [name, setName] = useState(null);
-  const [playerId, setPlayerId] = useState(null);
   const [team, setTeam] = useState("");
+
+  const [playerId, setPlayerId] = useState(null);
+  const playerIdValid = !isNaN(parseInt(playerId), 10);
+
   const [positions, setPositions] = useState([]);
   const [positionsValid, setPositionsValid] = useState(false);
-  const formComplete = name && playerId && team && positionsValid;
+  
+  const formComplete = name && team && playerIdValid && positionsValid;
 
   const handlePositionChange = (event) => {
     const newPosition = event.target.value;
