@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 
-export default function MessageLog({ messages }) {
+export default function MessageLog({ messages, uniqueUserList }) {
   const chatbox = document.querySelector("ul#chat-messages");
 
   // Scroll to bottom of chatbox on initial load and when a new message comes in
@@ -31,7 +31,7 @@ export default function MessageLog({ messages }) {
                   <span className="message">{item.message}</span>
                 </>
               )}
-              {item?.status && (
+              {(item?.status && uniqueUserList.indexOf(item.user) === 0) && (
                 <span className="message chat-announcement">
                   *** {item.user} {item.status}
                 </span>
