@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MessageLog from "./MessageLog/MessageLog";
 import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
-import { WEBSOCKET_URL, getHeaders } from "../../../util/util.jsx";
+import { WEBSOCKET_URL } from "../../../util/util.jsx";
 
 export default function Chat({ websocket }) {
   const [userList, setUserList] = useState([]);
@@ -10,7 +10,7 @@ export default function Chat({ websocket }) {
   const [messages, setMessages] = useState(cachedMessages || []);
   const [chatStatus, setChatStatus] = useState("connecting");
   const [reconnectChat, setReconnectChat] = useState(false);
-
+  const firefoxUser = navigator.userAgent.includes("Firefox");
   const user = JSON.parse(localStorage.getItem("user"));
 
   function sendMessage(msg) {
@@ -26,15 +26,17 @@ export default function Chat({ websocket }) {
   
 	useEffect(() => {
     console.log(`chatStatus: ${chatStatus}`);
+
     if (chatStatus === 'online') {
       return null
     }
+    console.log(`connecting...`);
+
     setChatStatus('connecting');
 
     websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
-      ['appProtocol', 'chat'],
-      { headers: getHeaders() }
-      );
+      ['appProtocol', 'chat']
+    );
     
     const websocketCurrent = websocket.current;
     
@@ -43,9 +45,14 @@ export default function Chat({ websocket }) {
       setChatStatus("online");
     }
     websocketCurrent.onclose = () => {
-      console.log("websocket closed");
+      console.log("websocket closed.");
+
       setChatStatus("offline");
-      setReconnectChat(true);
+      // Chrome does not reconnect very well, better to have the user refresh
+      if (firefoxUser) {
+        console.log("reconnecting...")
+        setReconnectChat(true);
+      }
     }
     websocketCurrent.onerror = (error) => {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
@@ -59,10 +66,6 @@ export default function Chat({ websocket }) {
 	}, [websocket, reconnectChat]);
 
 	useEffect(() => {
-			if (!websocket.current) {
-        setReconnectChat(true);
-      };
-
 			websocket.current.onmessage = e => {
           const message = JSON.parse(e.data);
           // If the user opens multiple tabs, don't accounce each time they open and close them
@@ -92,7 +95,7 @@ export default function Chat({ websocket }) {
   const chatBackgroundColor = chatStatus === "online" ? 'white' : '#dbdbdb';
   const chatStatusToMessageMap = {
     'connecting': 'Connecting to chat...',
-    'offline': 'Error loading chat.',
+    'offline': firefoxUser ? 'Error loading chat.' : 'Chat and live sync disconnected. Please refresh the page.',
   } 
 
   return (
@@ -102,7 +105,7 @@ export default function Chat({ websocket }) {
         { chatStatus !== 'online' &&
           <div className='chat-status-message'>
             {chatStatusToMessageMap[chatStatus]}
-            { chatStatus === 'offline' &&
+            { (chatStatus === 'offline' && firefoxUser) &&
               <button 
                 className='button-large'
                 onClick={setReconnectChat}
@@ -117,7 +120,10 @@ export default function Chat({ websocket }) {
             <div id="user-list">
               Online: <span>{uniqueUserList.join(", ")}</span>{" "}
             </div>
-            <MessageLog messages={messages} /> 
+            <MessageLog 
+              messages={messages} 
+              uniqueUserList={uniqueUserList}
+            /> 
             <input
               placeholder="Enter a message..."
               id="messageInput"
