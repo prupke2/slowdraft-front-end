@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect } from "react";
-import Emoji from "../../Emoji";
 
 export default function MessageLog({ messages, uniqueUserList }) {
   const chatbox = document.querySelector("ul#chat-messages");

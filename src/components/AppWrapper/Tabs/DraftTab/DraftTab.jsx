@@ -37,8 +37,8 @@ export default function DraftTab({
     localStorage.getItem("registeredLeague") === "true";
   const [page, setPage] = useState(null);
 
-  // const isMobile = mobileCheck();
-  // console.log(`isMobile: ${isMobile}`);
+  const isMobile = mobileCheck();
+  console.log(`isMobile: ${isMobile}`);
 
   useEffect(() => {
     const localStoragePicks = JSON.parse(localStorage.getItem("picks"));
