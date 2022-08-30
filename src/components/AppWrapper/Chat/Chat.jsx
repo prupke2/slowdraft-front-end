@@ -4,7 +4,7 @@ import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
 import { WEBSOCKET_URL } from "../../../util/util.jsx";
 
-export default function Chat({ websocket }) {
+export default function Chat({ websocket, getLatestData }) {
   const [userList, setUserList] = useState([]);
   const cachedMessages = JSON.parse(localStorage.getItem("chatMessages"));
   const [messages, setMessages] = useState(cachedMessages || []);
@@ -66,20 +66,23 @@ export default function Chat({ websocket }) {
 	}, [websocket, reconnectChat]);
 
 	useEffect(() => {
-			websocket.current.onmessage = e => {
-          const message = JSON.parse(e.data);
-          // If the user opens multiple tabs, don't accounce each time they open and close them
-          if (message?.status && userList.includes(message.user)) {
-            return
-          }
-          if (message?.users) {
-            setUserList(message.users)
-          }
-          console.log("e", message);
-          setMessages((messages) => messages.concat(message));
-          localStorage.setItem("chatMessages", JSON.stringify(messages))
-			};
-  }, [messages, userList, websocket]);
+    websocket.current.onmessage = e => {
+      const message = JSON.parse(e.data);
+
+      // If the user opens multiple tabs, don't accounce each time they open and close them
+      if (message?.status && userList.includes(message.user)) {
+        return
+      }
+      if (message?.event === 'pickUpdated' || message?.event === 'playerDrafted') {
+        getLatestData();
+      }
+      if (message?.users) {
+        setUserList(message.users)
+      }
+      setMessages((messages) => messages.concat(message));
+      localStorage.setItem("chatMessages", JSON.stringify(messages))
+    };
+  }, [messages, userList, websocket, getLatestData]);
 
   function handleKeyDown(event) {
     if (event.target.id === "messageInput") {
