@@ -5,10 +5,10 @@ export const pickUpdatedAnnouncement = ( adminName, pickNumber) => JSON.stringif
 	}
 );
 
-export const playerDraftedAnnouncement = ( teamName, playerName, playerPosition, playerTeam) => JSON.stringify(
+export const playerDraftedAnnouncement = ( user, data) => JSON.stringify(
 	{
 		"event": "playerDrafted",
-		"message": `The ${teamName} have drafted ${playerName}, ${playerPosition} - ${playerTeam}`,
+		"message": `The ${user} have drafted ${data.name}, ${data.position} - ${data.team}`,
 	}
 );
 

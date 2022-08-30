@@ -11,6 +11,7 @@ import { getHeaders, API_URL } from "../../../../util/util";
 import Loading from "../../../Loading/Loading";
 import CloseModalButton from "../../ModalWrapper/CloseModalButton/CloseModalButton";
 import "../../ModalWrapper/ModalWrappers.css";
+import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 
 export default function DraftModal({
   modalIsOpen,
@@ -25,21 +26,14 @@ export default function DraftModal({
   setDraftingNow,
   setPlayers,
   setGoalies,
+  ws,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   function draftPlayer(data) {
     setIsLoading(true);
     const isGoalie = data.position === "G" ? true : false;
-    const chatMessage =
-      "The " +
-      user.team_name +
-      " have drafted " +
-      data.name +
-      ", " +
-      data.position +
-      " - " +
-      data.team;
+    const msg = playerDraftedAnnouncement(user.team_name, data);
     fetch(`${API_URL}/draft/${data.player_id}`, {
       method: "GET",
       headers: getHeaders(),
@@ -55,7 +49,7 @@ export default function DraftModal({
       .then((data) => {
         const draftingAgain =
           data.drafting_again === true ? "You're up again!" : "";
-        sendChatAnnouncement(chatMessage);
+        ws.send(msg);
         getDraft(setCurrentPick, setDraftingNow);
         getTeams();
         isGoalie && getDBGoalies();
@@ -66,6 +60,10 @@ export default function DraftModal({
           ToastsStore.success(
             `You have drafted ${data.player}. ${draftingAgain}`
           );
+          const draftTab = document.querySelector('.navtab-list .navtab:first-child a');
+          setTimeout(() => {
+            draftTab.click();
+          }, 500);
         }
         setIsOpen(false);
         setIsLoading(false);
