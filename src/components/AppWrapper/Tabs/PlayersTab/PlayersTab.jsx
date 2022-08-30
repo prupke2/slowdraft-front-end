@@ -14,16 +14,17 @@ import "./PlayersTab.css";
 
 export default function PlayersTab({
   playerType,
+  user,
   setGoalies,
   draftingNow,
   setTeams,
   getLatestData,
   sendChatAnnouncement,
-  user,
   setPicks,
   setCurrentPick,
   setDraftingNow,
   currentPick,
+  ws,
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState([]);
@@ -31,7 +32,7 @@ export default function PlayersTab({
   const [availabilityDropdown, setAvailabilityDropdown] = useState("available");
   const [modalOpen, setModalOpen] = useState(false);
   const [playerDrafted, setPlayerDrafted] = useState("");
-  const isLiveDraft = JSON.parse(localStorage.getItem("liveDraft")) === "true";
+  const isLiveDraft = localStorage.getItem("liveDraft") === "true";
 
   function draftModal(player) {
     setModalOpen(true);
@@ -229,6 +230,7 @@ export default function PlayersTab({
                       setPlayers={setPlayers}
                       setGoalies={setGoalies}
                       setTeams={setTeams}
+                      ws={ws}
                     />
                   </div>
                 )}
