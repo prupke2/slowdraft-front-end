@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import Emoji from "../../Emoji";
 
 export default function MessageLog({ messages, uniqueUserList }) {
   const chatbox = document.querySelector("ul#chat-messages");
@@ -17,7 +18,7 @@ export default function MessageLog({ messages, uniqueUserList }) {
         <div>
           {messages.map((item, index) => (
             <div key={index}>
-              {item.message && (
+              {(!item?.event && item.message) && (
                 <>
                   <span
                     className="user-icon narrow-icon"
@@ -31,11 +32,16 @@ export default function MessageLog({ messages, uniqueUserList }) {
                   <span className="message">{item.message}</span>
                 </>
               )}
-              {(item?.status && uniqueUserList.indexOf(item.user) === 0) && (
+              {item?.event && (
+                <span className="message chat-announcement">
+                  *** {item.message}
+                </span>
+              )}
+              {/* {(item?.status && uniqueUserList.indexOf(item.user) === 0) && (
                 <span className="message chat-announcement">
                   *** {item.user} {item.status}
                 </span>
-              )}
+              )} */}
             </div>
           ))}
         </div>
