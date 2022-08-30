@@ -25,14 +25,6 @@ export default function Navbar({
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const chatMessage = JSON.stringify(
-    {
-      "user": user?.team_name,
-      "color": user?.color, 
-      "message": "Hello"
-    }
-  )
-
   return (
     <div className="navbar-tabs">
       <ul className="navtab-list">
@@ -118,8 +110,6 @@ export default function Navbar({
         {isRegisteredLeague && (
           <Switch>
             <Route path="/draft">
-              <button onClick={() => ws.send(chatMessage)}>say hi</button>
-
               <DraftTab
                 user={user}
                 currentPick={currentPick}
@@ -127,6 +117,7 @@ export default function Navbar({
                 draftingNow={draftingNow}
                 setDraftingNow={setDraftingNow}
                 getLatestData={getLatestData}
+                ws={ws}
                 sendChatAnnouncement={sendChatAnnouncement}
               />
             </Route>
@@ -140,6 +131,7 @@ export default function Navbar({
                 sendChatAnnouncement={sendChatAnnouncement}
                 getLatestData={getLatestData}
                 currentPick={currentPick}
+                ws={ws}
               />
             </Route>
             <Route path="/goalies">
@@ -152,6 +144,7 @@ export default function Navbar({
                 sendChatAnnouncement={sendChatAnnouncement}
                 getLatestData={getLatestData}
                 currentPick={currentPick}
+                ws={ws}
               />
             </Route>
             <Route path="/teams">
