@@ -3,7 +3,6 @@ import Navbar from "./Navbar/Navbar";
 import Chat from "./Chat/Chat";
 import Widget from "./Widget/Widget";
 import { checkForUpdates } from "../../util/requests";
-import { localEnvironment } from "../../util/util";
 import { useCallback } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
@@ -17,10 +16,6 @@ export default function AppWrapper({
   draftingNow,
   setDraftingNow,
 }) {
-  // You can reset the chat by updating the channel name to something new
-  const channel = localEnvironment ? "test" : "slowdraftChat";
-  const [messages, setMessages] = useState([]);
-
   const isRegisteredLeague =
     localStorage.getItem("registeredLeague") === "true";
   const leagueList = JSON.parse(localStorage.getItem("leagueList"));
@@ -115,16 +110,10 @@ export default function AppWrapper({
             draftingNow={draftingNow}
             logout={logout}
           />
-          {!localEnvironment() && (
-            <Chat
-              messages={messages}
-              setMessages={setMessages}
-              websocket={websocket}
-              channel={channel}
-              getLatestData={getLatestData}
-              sendChatAnnouncement={sendChatAnnouncement}
-            />
-          )}
+          <Chat
+            websocket={websocket}
+            getLatestData={getLatestData}
+          />
         </>
       )}
     </>
