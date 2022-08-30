@@ -13,6 +13,7 @@ import { ToastsStore } from "react-toasts";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import NewDraftTab from "../AdminTab/NewDraftTab";
 import CountdownTimer from "../../Widget/CountdownTimer/CountdownTimer";
+import { pickUpdatedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 // import { AddToHomepageModal } from "../../ModalWrapper/ModalWrappers";
 
 export default function DraftTab({
@@ -22,6 +23,7 @@ export default function DraftTab({
   draftingNow,
   setDraftingNow,
   getLatestData,
+  ws,
   sendChatAnnouncement,
 }) {
   const isAdmin = user?.role === "admin";
@@ -35,8 +37,8 @@ export default function DraftTab({
     localStorage.getItem("registeredLeague") === "true";
   const [page, setPage] = useState(null);
 
-  const isMobile = mobileCheck();
-  console.log(`isMobile: ${isMobile}`);
+  // const isMobile = mobileCheck();
+  // console.log(`isMobile: ${isMobile}`);
 
   useEffect(() => {
     const localStoragePicks = JSON.parse(localStorage.getItem("picks"));
@@ -45,7 +47,7 @@ export default function DraftTab({
     } else {
       getDraft(setCurrentPick, setDraftingNow);
     }
-  }, [setDraftingNow, setCurrentPick])
+  }, [setDraftingNow, setCurrentPick, sendChatAnnouncement])
 
   function updatePick(event, round, overall_pick) {
     setPage(round - 1);
@@ -67,6 +69,9 @@ export default function DraftTab({
         })
         .then((data) => {
           if (data.success === true) {
+            const msg = pickUpdatedAnnouncement(user.team_name, overall_pick);
+
+            ws.send(msg);
             sendChatAnnouncement(
               `The ${user.team_name} have updated pick ${overall_pick}.`
             );
@@ -93,10 +98,14 @@ export default function DraftTab({
         })
         .then((data) => {
           if (data.success === true) {
+            getDraft(setCurrentPick, setDraftingNow);
+            const msg = pickUpdatedAnnouncement(user.team_name, overall_pick);
+            console.log(`msg: ${msg}`);
+
+            ws.send(msg);
             sendChatAnnouncement(
               `The ${user.team_name} have updated pick ${overall_pick}.`
             );
-            getDraft(setCurrentPick, setDraftingNow);
             setTimeout(function () {
               ToastsStore.success(`Pick ${overall_pick} updated.`);
             }, 200);
@@ -254,16 +263,18 @@ export default function DraftTab({
     setIsLoading(true);
     getLatestData();
     let data = {};
-    const localDraftData = JSON.parse(localStorage.getItem("draftData"));
-    if (localDraftData && user) {
+    const currentPickData = JSON.parse(localStorage.getItem("currentPick"));
+    if (currentPickData && user) {
+      setCurrentPick(currentPickData);
       console.log("Using cached data");
-      if (typeof localDraftData.current_pick !== "undefined") {
-        setCurrentPick(localDraftData.current_pick);
-        if (localDraftData.currentPick?.team_key === user.team_key) {
+      if (typeof currentPickData !== "undefined") {
+        if (currentPickData.team_key === user.team_key) {
           setDraftingNow(true);
         }
       }
-    } else {
+    }
+    const localDraftData = JSON.parse(localStorage.getItem("draftData"));
+    if (!localDraftData) {
       console.log("Getting new draft data");
       data = getDraft(setCurrentPick, setDraftingNow);
     }
@@ -322,7 +333,7 @@ export default function DraftTab({
           setCurrentPick={setCurrentPick}
           setDraftingNow={setDraftingNow}
           sendChatAnnouncement={sendChatAnnouncement}
-          defaultPage={page || currentPick?.round - 1}
+          defaultPage={page || currentPick.round}
           pageSize={12}
           isLiveDraft={isLiveDraft}
           paginationTop
