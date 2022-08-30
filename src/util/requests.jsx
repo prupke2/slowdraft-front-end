@@ -6,6 +6,8 @@ export const getOptions = {
   headers: getHeaders(),
 }
 
+export const offsetSeconds = new Date().getTimezoneOffset() * 60;
+
 export function getDraft(setCurrentPick, setDraftingNow) {
   fetch(`${API_URL}/get_draft`, {
     method: "GET",
@@ -15,7 +17,7 @@ export function getDraft(setCurrentPick, setDraftingNow) {
     if (data.success === true) {
       localStorage.setItem("picks", JSON.stringify(data.picks));
       localStorage.setItem("draftData", JSON.stringify(data.draft));
-      localStorage.setItem("draftDataUpdate", new Date());
+      localStorage.setItem("draftDataUpdate", new Date() - offsetSeconds);
       localStorage.setItem("currentPick", JSON.stringify(data.current_pick));
       localStorage.setItem("liveDraft", binaryToBoolean(data.draft.is_live));
       localStorage.setItem("draftIsOver", binaryToBoolean(data.draft.is_over));
@@ -37,7 +39,7 @@ export function getDBPlayers() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("playerDBData", JSON.stringify(data.players));
-      localStorage.setItem("playerDBUpdate", new Date());
+      localStorage.setItem("playerDBUpdate", new Date() - offsetSeconds);
     } else {
       ToastsStore.error("Error getting players.");
       const error = (data && data.message) || response.status;
@@ -55,7 +57,7 @@ export function getDBGoalies() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("goalieDBData", JSON.stringify(data.players));
-      localStorage.setItem("goalieDBUpdate", new Date());
+      localStorage.setItem("goalieDBUpdate", new Date() - offsetSeconds);
     } else {
       ToastsStore.error("Error getting goalies.");
       const error = data?.message || response.status;
@@ -73,7 +75,7 @@ export function getTeams() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("playerTeamData", JSON.stringify(data.teams));
-      localStorage.setItem("playerTeamDataUpdate", new Date());
+      localStorage.setItem("playerTeamDataUpdate", new Date() - offsetSeconds);
     } else {
       ToastsStore.error("Error getting teams.");
       const error = (data && data.message) || response.status;
@@ -90,7 +92,7 @@ export function getRules() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("rulesData", JSON.stringify(data.rules));
-      localStorage.setItem("rulesUpdate", new Date());
+      localStorage.setItem("rulesUpdate", new Date() - offsetSeconds);
     } else {
       ToastsStore.error("Error getting rules.");
       const error = (data && data.message) || response.status;
@@ -107,7 +109,7 @@ export function getForumPosts() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("forumData", JSON.stringify(data.posts));
-      localStorage.setItem("forumUpdate", new Date());
+      localStorage.setItem("forumUpdate", new Date() - offsetSeconds);
     } else {
       ToastsStore.error("Error getting forum posts.");
       const error = (data && data.message) || response.status;
@@ -185,16 +187,15 @@ export function checkForUpdates(
     if (data.updates) {
       setDraftingNow(data.drafting_now);
 
-      // 5 seconds is added to the update timestamp to prevent it from not updating due to a race condition
       if (
-        Date.parse(data.updates.latest_draft_update) + 5 >
+        Date.parse(data.updates.latest_draft_update) >
         Date.parse(localStorage.getItem("draftDataUpdate"))
       ) {
         console.log("Update draft data...");
         getDraft(setCurrentPick, setDraftingNow);
       }
       if (
-        Date.parse(data.updates.latest_player_db_update) + 5 >
+        Date.parse(data.updates.latest_player_db_update) >
         Date.parse(localStorage.getItem("playerDBUpdate"))
       ) {
         console.log("Update player DB data...");
@@ -208,21 +209,21 @@ export function checkForUpdates(
         getDBGoalies();
       }
       if (
-        Date.parse(data.updates.latest_team_update) + 5 >
+        Date.parse(data.updates.latest_team_update) >
         Date.parse(localStorage.getItem("playerTeamDataUpdate"))
       ) {
         console.log("Update team data...");
         getTeams();
       }
       if (
-        Date.parse(data.updates.latest_rules_update) + 5 >
+        Date.parse(data.updates.latest_rules_update) >
         Date.parse(localStorage.getItem("rulesUpdate"))
       ) {
         console.log("Update rules data...");
         getRules();
       }
       if (
-        Date.parse(data.updates.latest_forum_update) + 5 >
+        Date.parse(data.updates.latest_forum_update) >
         Date.parse(localStorage.getItem("forumUpdate"))
       ) {
         console.log("Update forum data...");
