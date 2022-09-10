@@ -10,7 +10,7 @@ import Emoji from "../Emoji";
 import { Route, Switch, Redirect, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import NewDraftTab from "../Tabs/AdminTab/NewDraftTab";
-import TradeTab from "../Tabs/TradeTab/TradeTab";
+// import TradeTab from "../Tabs/TradeTab/TradeTab";
 
 export default function Navbar({
   isRegisteredLeague,
@@ -80,12 +80,12 @@ export default function Navbar({
                 <div>Pick Tracker</div>
               </NavLink>
             </li>
-            <li className="navtab hide-small-width">
+            {/* <li className="navtab hide-small-width">
               <NavLink to="/trade" activeClassName="active">
                 <Emoji navbar={true} emoji="🤝" />
                 <div>Trade</div>
               </NavLink>
-            </li>
+            </li> */}
             {user?.role === "admin" && (
               <li className="navtab hide-small-width">
                 <NavLink to="/admin" activeClassName="active">
@@ -172,9 +172,9 @@ export default function Navbar({
             <Route path="/pick-tracker">
               <PickTrackerTab />
             </Route>
-            <Route path="/trade">
+            {/* <Route path="/trade">
               <TradeTab />
-            </Route>
+            </Route> */}
             {user?.role === "admin" && (
               <Route path="/admin">
                 <AdminTab />
