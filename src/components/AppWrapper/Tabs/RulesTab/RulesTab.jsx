@@ -38,7 +38,7 @@ export default function RulesTab({ getLatestData }) {
   }, [viewModalOpen]);
 
   useEffect(() => {
-    const localStorageRules = localStorage.getItem('rulesData')
+    const localStorageRules = localStorage.getItem('rulesData');
     if (localStorageRules) {
       setRules(localStorageRules);
     } else {

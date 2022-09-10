@@ -8,3 +8,18 @@
 .errorText {
   color: var(--error);
 }
+
+.errorBannerFixed {
+  position: fixed;
+  top: 0;
+  left: calc(50% - 250px);
+  max-width: 600px;
+  max-height: 60px;
+  margin: 50px auto;
+  background-color: var(--error);
+  color: black;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 10px;
+  z-index: 10;
+}
