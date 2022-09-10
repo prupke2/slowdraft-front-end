@@ -2,19 +2,17 @@ import React, { useEffect, useState } from "react";
 import Loading from "../../../Loading/Loading";
 import Table from "../../../Table/Table";
 import { getTeams } from "../../../../util/requests";
-import { teamIdToLogo, teamIdToUserName, teamsMap } from "../../../../util/util";
+import { teamIdToLogo, teamsMap } from "../../../../util/util";
 import "./TeamsTab.css";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import { useLocation } from "react-router-dom";
 
 export default function TeamTab({
   draftingNow,
-  getLatestData,
 }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const [teams, setTeams] = useState([]);
   const teamInfo = JSON.parse(localStorage.getItem("teams"));
-  // const [teamInfo, setTeamInfo] = useState([]);
   const [teamFilter, setTeamFilter] = useState(user?.team_name);
   const location = useLocation();
   const teamIdParam = parseInt(location?.state?.teamId, 10) || null;
@@ -22,37 +20,48 @@ export default function TeamTab({
   const [teamPlayerCount, setTeamPlayerCount] = useState(
     teams.filter((team) => team.username === teamFilter).length
   );
+  const [paramUsed, setParamUsed] = useState(false);
 
   useEffect(() => {
     const localStorageTeams = JSON.parse(localStorage.getItem('teams'));
-    if (teamIdParam) {
+    // This accomodates clicking on a team name link from another tab.
+    // This updates the team filter and scrolls to the top of the page
+    if (teamIdParam && !paramUsed) {
       const selectedTeam = teamIdParam
         ? localStorageTeams.filter((team) => team.yahoo_team_id === teamIdParam)
         : null;
 
       if (selectedTeam) {
         setTeamFilter(selectedTeam[0]?.team_name);
+        setParamUsed(true);
+        const mainWindow = document.querySelector("main");
+        mainWindow.scrollTop = 0;
       }
     }
-  }, [teamIdParam, teamInfo]);
+  }, [teamIdParam, teamInfo, paramUsed]);
 
   useEffect(() => {
     setIsLoading(true);
     // setTimeout(function () {}, 1500) // set a delay so that the localStorage is available
-    const localStorageTeams = JSON.parse(localStorage.getItem('teams'));
+    const localStorageTeams = JSON.parse(localStorage.getItem('playerTeamData'));
     if (localStorageTeams) {
       console.log("setting team info");
-      setTeams(teamInfo);
+      setTeams(localStorageTeams);
     } else {
       getTeams();
     }
-    
     setTeamId(teamIdParam || user?.yahoo_team_id);
-    
     setIsLoading(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTeams]);
+
+  useEffect(() => {
+    const localStorageTeams = JSON.parse(localStorage.getItem('playerTeamData'));
+    if (localStorageTeams) {
+      setTeams(localStorageTeams);
+    }
+  }, [teamFilter]);
 
   function multiSelectPositionsFilter(rows) {
     return rows.filter((row) => row.original.position !== "G");
@@ -365,7 +374,6 @@ export default function TeamTab({
                 src={teamIdToLogo(teamId)}
                 alt="logo"
               />
-              <div>{teamIdToUserName(teamId)}</div>
             </div>
             <div className="team-filter-wrapper">
               <select
