@@ -184,7 +184,8 @@ export default function DraftTab({
         return (
           <PlayerCell 
             cell={cell} 
-            draftingNow={draftingNow} 
+            draftingNow={draftingNow}
+            // timestamp={cell.row.values.draft_pick_timestamp}
           />
         );
       },
