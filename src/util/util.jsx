@@ -64,7 +64,7 @@ export const teamIdToKey = (teamId) => {
 
 export const teamIdToLogo = (teamId) => {
   const teams = JSON.parse(localStorage.getItem("teams"));
-  return teamId ? teams[teamId - 1].team_logo : null;
+  return teams && teamId ? teams[teamId - 1].team_logo : null;
 };
 
 export const teamIdToUserName = (teamId) => {
