@@ -3,7 +3,6 @@ import { ToastsStore } from "react-toasts";
 import { getHeaders, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 import { SelectTeamFilter } from "../../../Table/FilterTypes/FilterTypes";
-import { offsetSeconds } from "../../../../util/requests";
 
 export default function AddPlayerToDBTab() {
   localStorage.setItem("adminTab", "add-player");
@@ -33,7 +32,7 @@ export default function AddPlayerToDBTab() {
 
   const updateTimestamp = (positions) => {
     const fieldToUpdate = positions === ["G"] ? 'goalieDBUpdate' : 'playerDBUpdate';
-    localStorage.setItem(fieldToUpdate, new Date() - offsetSeconds);
+    localStorage.setItem(fieldToUpdate, new Date());
   }
 
   function addPlayerToDb(e) {
