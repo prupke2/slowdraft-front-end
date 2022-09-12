@@ -6,7 +6,34 @@ export const getOptions = {
   headers: getHeaders(),
 }
 
-export const offsetSeconds = new Date().getTimezoneOffset() * 60;
+export const offsetMilliseconds = new Date().getTimezoneOffset() * 60000;
+
+export const healthCheck = (setHealthStatus) => {
+  try {
+    fetch(`${API_URL}/health`, {
+      method: "GET"
+    }).then(async (response) => {
+      if (!response.ok) {
+        return false;
+      }
+      const data = await response.json();
+      console.log(`data: ${data}`);
+      if (data === 200) {
+        setHealthStatus('up');
+      } else {
+        setHealthStatus('down');
+      }
+    }).then(
+      setTimeout(healthCheck(setHealthStatus), 5000)
+    ).catch((error) => {
+      console.log(`Error reaching health endpoint: ${error}`);
+      setHealthStatus('down');
+    });
+  } catch {
+    console.log("Error reaching health endpoint.");
+    setHealthStatus('down');
+  }
+}
 
 export function getDraft(setCurrentPick, setDraftingNow) {
   fetch(`${API_URL}/get_draft`, {
@@ -17,7 +44,7 @@ export function getDraft(setCurrentPick, setDraftingNow) {
     if (data.success === true) {
       localStorage.setItem("picks", JSON.stringify(data.picks));
       localStorage.setItem("draftData", JSON.stringify(data.draft));
-      localStorage.setItem("draftDataUpdate", new Date() - offsetSeconds);
+      localStorage.setItem("draftDataUpdate", new Date());
       localStorage.setItem("currentPick", JSON.stringify(data.current_pick));
       localStorage.setItem("liveDraft", binaryToBoolean(data.draft.is_live));
       localStorage.setItem("draftIsOver", binaryToBoolean(data.draft.is_over));
@@ -39,7 +66,7 @@ export function getDBPlayers() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("playerDBData", JSON.stringify(data.players));
-      localStorage.setItem("playerDBUpdate", new Date() - offsetSeconds);
+      localStorage.setItem("playerDBUpdate", new Date());
     } else {
       ToastsStore.error("Error getting players.");
       const error = (data && data.message) || response.status;
@@ -57,7 +84,7 @@ export function getDBGoalies() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("goalieDBData", JSON.stringify(data.players));
-      localStorage.setItem("goalieDBUpdate", new Date() - offsetSeconds);
+      localStorage.setItem("goalieDBUpdate", new Date());
     } else {
       ToastsStore.error("Error getting goalies.");
       const error = data?.message || response.status;
@@ -75,7 +102,7 @@ export function getTeams() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("playerTeamData", JSON.stringify(data.teams));
-      localStorage.setItem("playerTeamDataUpdate", new Date() - offsetSeconds);
+      localStorage.setItem("playerTeamDataUpdate", new Date());
     } else {
       ToastsStore.error("Error getting teams.");
       const error = (data && data.message) || response.status;
@@ -92,7 +119,8 @@ export function getRules() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("rulesData", JSON.stringify(data.rules));
-      localStorage.setItem("rulesUpdate", new Date() - offsetSeconds);
+      localStorage.setItem("rulesUpdate", new Date());
+      return data;
     } else {
       ToastsStore.error("Error getting rules.");
       const error = (data && data.message) || response.status;
@@ -109,7 +137,7 @@ export function getForumPosts() {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("forumData", JSON.stringify(data.posts));
-      localStorage.setItem("forumUpdate", new Date() - offsetSeconds);
+      localStorage.setItem("forumUpdate", new Date());
     } else {
       ToastsStore.error("Error getting forum posts.");
       const error = (data && data.message) || response.status;
@@ -175,6 +203,18 @@ export function checkForUpdates(
   //   return
   // }
 
+  function updateNeeded(localStorageUpdateItem, latestUpdate) {
+    const localStorageUpdateString = localStorage.getItem(localStorageUpdateItem);
+    localStorage.setItem(localStorageUpdateItem, new Date());
+    if (!localStorageUpdateString) {
+      return true;
+    }
+    const lastUpdateLocalStorage = new Date(localStorageUpdateString) - 1;
+    const latestUpdateWithOffset = new Date(latestUpdate) - offsetMilliseconds;
+
+    return latestUpdateWithOffset > lastUpdateLocalStorage;
+  }
+
   fetch(`${API_URL}/check_for_updates`, {
     method: "GET",
     headers: getHeaders(),
@@ -187,45 +227,27 @@ export function checkForUpdates(
     if (data.updates) {
       setDraftingNow(data.drafting_now);
 
-      if (
-        Date.parse(data.updates.latest_draft_update) >
-        Date.parse(localStorage.getItem("draftDataUpdate"))
-      ) {
+      if (updateNeeded("draftDataUpdate", data.updates.latest_draft_update)) {
         console.log("Update draft data...");
         getDraft(setCurrentPick, setDraftingNow);
       }
-      if (
-        Date.parse(data.updates.latest_player_db_update) >
-        Date.parse(localStorage.getItem("playerDBUpdate"))
-      ) {
+      if (updateNeeded("playerDBUpdate", data.updates.latest_player_db_update)) {
         console.log("Update player DB data...");
         getDBPlayers();
       }
-      if (
-        Date.parse(data.updates.latest_goalie_db_update) + 5 >
-        Date.parse(localStorage.getItem("goalieDBUpdate"))
-      ) {
+      if (updateNeeded("goalieDBUpdate", data.updates.latest_goalie_db_update)) {
         console.log("Update goalie DB data...");
         getDBGoalies();
       }
-      if (
-        Date.parse(data.updates.latest_team_update) >
-        Date.parse(localStorage.getItem("playerTeamDataUpdate"))
-      ) {
+      if (updateNeeded("playerTeamDataUpdate", data.updates.latest_team_update)) {
         console.log("Update team data...");
         getTeams();
       }
-      if (
-        Date.parse(data.updates.latest_rules_update) >
-        Date.parse(localStorage.getItem("rulesUpdate"))
-      ) {
+      if (updateNeeded("rulesUpdate", data.updates.latest_rules_update)) {
         console.log("Update rules data...");
         getRules();
       }
-      if (
-        Date.parse(data.updates.latest_forum_update) >
-        Date.parse(localStorage.getItem("forumUpdate"))
-      ) {
+      if (updateNeeded("forumUpdate", data.updates.latest_forum_update)) {
         console.log("Update forum data...");
         getForumPosts();
       }
