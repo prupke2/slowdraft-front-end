@@ -33,7 +33,7 @@ export default function DraftModal({
   function draftPlayer(data) {
     setIsLoading(true);
     const isGoalie = data.position === "G" ? true : false;
-    const msg = playerDraftedAnnouncement(user.team_name, data);
+    const msg = playerDraftedAnnouncement(user.team_name, data.name, data.position, data.team);
     fetch(`${API_URL}/draft/${data.player_id}`, {
       method: "GET",
       headers: getHeaders(),

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ToastsStore } from "react-toasts";
 import SelectPlayer from "./SelectPlayer";
-import { getHeaders, teamIdToKey, teamsMap, API_URL } from "../../../../util/util";
+import { getHeaders, teamIdToKey, teamsMap, API_URL, teamIdToUserName } from "../../../../util/util";
 import Emoji from "../../Emoji";
+import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 
-export default function MakePickTab() {
+export default function MakePickTab({ ws }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const [teamId, setTeamId] = useState(user.yahoo_team_id);
   const [playerId, setPlayerId] = useState(null);
@@ -37,7 +38,16 @@ export default function MakePickTab() {
       })
       .then((data) => {
         if (data.success === true) {
-          ToastsStore.success(`👍 Success!`);
+          const user = teamIdToUserName(teamId);
+          const player = data.player[0];
+          const position = data.player[1];
+          const team = data.player[2];
+          ToastsStore.success(`👍 Success! Drafted ${player}, ${position} - ${team} for ${user}`);
+          console.log(`data: ${JSON.stringify(data, null, 4)}`);
+          // const {player, position, team} = {data.player[0], data.player[1], data.player[2]}
+          const msg = playerDraftedAnnouncement(user, player, position, team);
+
+          ws.send(msg);
         } else {
           ToastsStore.error(
             `There was an error making this pick. ${
