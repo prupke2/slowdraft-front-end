@@ -7,7 +7,7 @@ import AddDraftPickTab from "./AddDraftPickTab";
 import { Switch, Route, Redirect, NavLink } from "react-router-dom";
 import NewDraftTab from "./NewDraftTab";
 
-export default function AdminTab() {
+export default function AdminTab({ ws }) {
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const cachedAdminTab = localStorage.getItem("adminTab");
   const defaultTabRoute = cachedAdminTab
@@ -52,7 +52,7 @@ export default function AdminTab() {
             <AddKeeperTab userInfo={userInfo} />
           </Route>
           <Route path="/admin/make-pick">
-            <MakePickTab userInfo={userInfo} />
+            <MakePickTab ws={ws} />
           </Route>
           <Route path="/admin/add-pick">
             <AddDraftPickTab userInfo={userInfo} />

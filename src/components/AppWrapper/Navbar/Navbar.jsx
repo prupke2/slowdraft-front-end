@@ -177,7 +177,9 @@ export default function Navbar({
             </Route> */}
             {user?.role === "admin" && (
               <Route path="/admin">
-                <AdminTab />
+                <AdminTab 
+                  ws={ws}
+                />
               </Route>
             )}
             <Redirect from="*" to="/draft" />
