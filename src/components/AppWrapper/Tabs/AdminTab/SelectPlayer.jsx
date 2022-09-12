@@ -46,7 +46,13 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
     filters: [
       {
         id: "user",
-        value: "null",
+        value: null,
+      },
+    ],
+    sortBy: [
+      {
+        id: "3",
+        desc: true,
       },
     ],
   };
