@@ -108,8 +108,12 @@ export default function ForumTab({
 
   useEffect(() => {
     if (needToUpdate === true) {
+      getForumPosts();
       setTimeout(() => {
-        getForumPosts();
+        const posts = JSON.parse(localStorage.getItem("forumData"));
+        if (posts) {
+          setPosts(posts);
+        }
       }, 1000);
       setNeedToUpdate(false);
     }

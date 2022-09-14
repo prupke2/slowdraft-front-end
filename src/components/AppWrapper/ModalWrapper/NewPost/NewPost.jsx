@@ -8,7 +8,6 @@ export default function NewPost({
   parentPostId,
   setIsOpen,
   postType,
-  user,
   post,
 }) {
   const [title, setTitle] = useState(post?.title || "");
@@ -41,7 +40,6 @@ export default function NewPost({
       body: JSON.stringify({
         id: postId || null,
         parent_id: parentPostId || post?.parent_id || null,
-        user: user,
         title: title || null,
         body: body,
       }),

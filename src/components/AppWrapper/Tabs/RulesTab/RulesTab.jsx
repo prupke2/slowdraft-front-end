@@ -96,8 +96,12 @@ export default function RulesTab({ getLatestData }) {
 
   useEffect(() => {
     if (needToUpdate === true) {
+      getRules();
       setTimeout(() => {
-        getRules();
+        const rules = JSON.parse(localStorage.getItem("rulesData"));
+        if (rules) {
+          setRules(rules);
+        }
       }, 1000);
       setNeedToUpdate(false);
     }
@@ -117,8 +121,8 @@ export default function RulesTab({ getLatestData }) {
       let data = JSON.parse(rulesData);
       setRules(data);
     } else {
-      console.log("Getting new forum data");
       if (user) {
+        console.log("Getting new rules data");
         getRules();
       }
     }
@@ -134,7 +138,7 @@ export default function RulesTab({ getLatestData }) {
           {user?.role === "admin" && (
             <>
               <button
-                className="new-rules-button margin-15"
+                className="margin-15"
                 onClick={() => setCreateModalOpen(true)}
               >
                 New rule
