@@ -8,7 +8,7 @@ import {
   getTeams,
 } from "../../../../util/requests";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
-import { teamsMap, getHeaders, teamIdToKey, API_URL, mobileCheck } from "../../../../util/util";
+import { teamsMap, getHeaders, teamIdToKey, API_URL, } from "../../../../util/util";
 import { ToastsStore } from "react-toasts";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import NewDraftTab from "../AdminTab/NewDraftTab";
@@ -37,8 +37,8 @@ export default function DraftTab({
     localStorage.getItem("registeredLeague") === "true";
   const [page, setPage] = useState(null);
 
-  const isMobile = mobileCheck();
-  console.log(`isMobile: ${isMobile}`);
+  // const isMobile = mobileCheck();
+  // console.log(`isMobile: ${isMobile}`);
 
   useEffect(() => {
     const localStoragePicks = JSON.parse(localStorage.getItem("picks"));
@@ -334,7 +334,7 @@ export default function DraftTab({
           setCurrentPick={setCurrentPick}
           setDraftingNow={setDraftingNow}
           sendChatAnnouncement={sendChatAnnouncement}
-          defaultPage={page || currentPick.round}
+          defaultPage={page || currentPick?.round - 1 || 0}
           pageSize={12}
           isLiveDraft={isLiveDraft}
           paginationTop

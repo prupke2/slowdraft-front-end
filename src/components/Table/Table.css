@@ -1,8 +1,6 @@
 table {
-  box-shadow: -3px -3px 5px var(--main-even);;
   border-spacing: 0;
   text-align: left;
-  border-radius: 4px;
   padding: 0; 
   font-size: 0.9rem;
   margin: 0;
@@ -10,6 +8,10 @@ table {
   max-width: 100%;
   padding-right: 22vw;
   column-width: auto;
+}
+
+.table thead {
+  font-variant: small-caps;
 }
 
 .table thead th {

@@ -178,10 +178,6 @@ textarea {
   max-height: 300px;
 }
 
-.new-rules-button {
-  margin-bottom: -25px;
-}
-
 @media (max-width: 800px) {
   main {
     width: 100vw;
