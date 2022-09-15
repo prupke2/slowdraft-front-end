@@ -128,7 +128,7 @@ export default function DraftTab({
         const unusedPick = cell.row.original.draft_pick_timestamp === null;
         const disabledPick = cell.row.original.disabled === 1;
 
-        if (!isAdmin || !unusedPick || !isLiveDraft) {
+        if (!isAdmin || !unusedPick) {
           return cell.value;
         }
         return (
