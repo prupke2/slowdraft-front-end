@@ -6,6 +6,7 @@ import {
   getDBGoalies,
   getDBPlayers,
   getTeams,
+  offsetMilliseconds,
 } from "../../../../util/requests";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import { teamsMap, getHeaders, teamIdToKey, API_URL, } from "../../../../util/util";
@@ -237,9 +238,9 @@ export default function DraftTab({
         <div>
           {row.cell.row.values.draft_pick_timestamp && (
             <span className="draftPickTimestamp">
-              {new Date(
-                row.cell.row.values.draft_pick_timestamp
-              ).toLocaleString()}
+              {new Date(new Date(
+                (row.cell.row.values.draft_pick_timestamp)
+              ) - offsetMilliseconds).toLocaleString()}
             </span>
           )}
         </div>

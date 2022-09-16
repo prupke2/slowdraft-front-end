@@ -10,7 +10,7 @@ export default function Chat({ websocket, getLatestData }) {
   const [messages, setMessages] = useState(cachedMessages || []);
   const [chatStatus, setChatStatus] = useState("connecting");
   const [reconnectChat, setReconnectChat] = useState(false);
-  const firefoxUser = navigator.userAgent.includes("Firefox");
+  // const firefoxUser = navigator.userAgent.includes("Firefox");
   const user = JSON.parse(localStorage.getItem("user"));
 
   function sendMessage(msg) {
@@ -24,10 +24,17 @@ export default function Chat({ websocket, getLatestData }) {
     websocket.current.send(chatMessage);
   }
 
-  const getNewWebSocket = () => new WebSocket(
-    `${WEBSOCKET_URL}?user=${user?.team_name}`,
-    ['appProtocol', 'chat']
-  );
+  function getNewWebSocket() {
+    console.log("Getting new ws...")
+    const wsNew = new WebSocket(
+      `${WEBSOCKET_URL}?user=${user?.team_name}`,
+      ['appProtocol', 'chat']
+    )
+    console.log(`wsNew: ${wsNew}`);
+
+    setChatStatus(wsNew ? "online" : "offline");
+    return wsNew
+  }
 
   
 	useEffect(() => {
@@ -43,7 +50,9 @@ export default function Chat({ websocket, getLatestData }) {
     websocket.current = getNewWebSocket();
     
     const websocketCurrent = websocket.current;
-    
+    if (!websocketCurrent) {
+      setChatStatus("offline");
+    }
     websocketCurrent.onopen = () => {
       console.log("Chat opened");
       setChatStatus("online");
@@ -57,7 +66,8 @@ export default function Chat({ websocket, getLatestData }) {
       //   console.log("reconnecting...")
       //   setReconnectChat(true);
       // }
-      websocket.current = null
+      websocket.current = null;
+      setChatStatus("connecting");
       setTimeout(getNewWebSocket, 5000)
     }
     websocketCurrent.onerror = (error) => {
@@ -103,8 +113,8 @@ export default function Chat({ websocket, getLatestData }) {
 
   const chatBackgroundColor = chatStatus === "online" ? 'white' : '#dbdbdb';
   const chatStatusToMessageMap = {
-    'connecting': 'Connecting to chat...',
-    'offline': firefoxUser ? 'Error loading chat.' : 'Chat and live sync disconnected. Please refresh the page.',
+    'connecting': 'Reconnecting to chat...',
+    'offline': 'Error loading chat.',
   } 
 
   return (
@@ -114,7 +124,7 @@ export default function Chat({ websocket, getLatestData }) {
         { chatStatus !== 'online' &&
           <div className='chat-status-message'>
             {chatStatusToMessageMap[chatStatus]}
-            { (chatStatus === 'offline' && firefoxUser) &&
+            { (chatStatus === 'offline') &&
               <button 
                 className='button-large'
                 onClick={setReconnectChat}
