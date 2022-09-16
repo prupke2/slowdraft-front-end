@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import "./CountdownTimer.css";
 import { useEffect } from "react";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
+import { offsetMilliseconds } from "../../../../util/requests";
 
 export default function CountdownTimer({ currentPick, expiryDate, draftingNow, draftCountdown }) {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const expiry = Date.parse(expiryDate);
-  const timeLeft = expiry - currentTime;
+  const timeLeft = expiry - currentTime - offsetMilliseconds;
 
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   const hours = draftCountdown ? Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) :
