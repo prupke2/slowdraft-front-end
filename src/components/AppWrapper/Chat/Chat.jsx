@@ -79,7 +79,7 @@ export default function Chat({ websocket, getLatestData }) {
       websocketCurrent.close();
     };
     // eslint-disable-next-line
-	}, [websocket, reconnectChat]);
+	}, [reconnectChat]);
 
 	useEffect(() => {
     websocket.current.onmessage = e => {
