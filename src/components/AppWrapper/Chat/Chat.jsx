@@ -66,10 +66,10 @@ export default function Chat({ websocket, getLatestData }) {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
     }
 
-    // return () => {
-    //   console.log("Closing websocket...")
-    //   websocketCurrent.close();
-    // };
+    return () => {
+      console.log("Closing websocket...")
+      websocketCurrent.close();
+    };
     // eslint-disable-next-line
 	}, [reconnectChat]);
 
