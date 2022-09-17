@@ -34,9 +34,11 @@ export default function Chat({ websocket, getLatestData }) {
 
     setChatStatus('connecting');
 
-    websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
+    if (!websocket.current) {
+      websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
       ['appProtocol', 'chat']
-    );
+      );
+    }
     
     const websocketCurrent = websocket.current;
     if (!websocketCurrent) {
@@ -64,10 +66,10 @@ export default function Chat({ websocket, getLatestData }) {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
     }
 
-    return () => {
-      console.log("Closing websocket...")
-      websocketCurrent.close();
-    };
+    // return () => {
+    //   console.log("Closing websocket...")
+    //   websocketCurrent.close();
+    // };
     // eslint-disable-next-line
 	}, [reconnectChat]);
 
