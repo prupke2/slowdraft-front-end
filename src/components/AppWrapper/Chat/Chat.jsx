@@ -55,9 +55,10 @@ export default function Chat({ websocket, getLatestData }) {
       // console.log("reconnecting...")
       // setReconnectChat(true);
       // }
-      // websocket.current = null;
-      setChatStatus("connecting");
+      console.log("Closing websocket...")
+      websocketCurrent.close();
       setTimeout(setReconnectChat(true), 3000)
+      return
     }
     websocketCurrent.onerror = (error) => {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
