@@ -24,19 +24,6 @@ export default function Chat({ websocket, getLatestData }) {
     websocket.current.send(chatMessage);
   }
 
-  function getNewWebSocket() {
-    console.log("Getting new ws...")
-    const wsNew = new WebSocket(
-      `${WEBSOCKET_URL}?user=${user?.team_name}`,
-      ['appProtocol', 'chat']
-    )
-    console.log(`wsNew: ${wsNew}`);
-
-    setChatStatus(wsNew ? "online" : "offline");
-    return wsNew
-  }
-
-  
 	useEffect(() => {
     console.log(`chatStatus: ${chatStatus}`);
 
@@ -47,7 +34,9 @@ export default function Chat({ websocket, getLatestData }) {
 
     setChatStatus('connecting');
 
-    websocket.current = getNewWebSocket();
+    websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
+      ['appProtocol', 'chat']
+    );
     
     const websocketCurrent = websocket.current;
     if (!websocketCurrent) {
@@ -63,12 +52,12 @@ export default function Chat({ websocket, getLatestData }) {
       setChatStatus("offline");
       // Chrome does not reconnect very well, better to have the user refresh
       // if (firefoxUser) {
-      //   console.log("reconnecting...")
-      //   setReconnectChat(true);
+      // console.log("reconnecting...")
+      // setReconnectChat(true);
       // }
       // websocket.current = null;
       setChatStatus("connecting");
-      setTimeout(setReconnectChat(true), 5000)
+      setTimeout(setReconnectChat(true), 3000)
     }
     websocketCurrent.onerror = (error) => {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
