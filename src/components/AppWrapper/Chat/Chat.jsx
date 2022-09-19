@@ -88,6 +88,8 @@ export default function Chat({ websocket, getLatestData }) {
     }
     websocketCurrent.onerror = (error) => {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
+      console.log(`Code: ${error.code}`);
+      console.log(`Reason: ${error.reason}`);
     }
 
     return () => {
