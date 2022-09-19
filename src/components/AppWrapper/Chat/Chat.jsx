@@ -59,8 +59,7 @@ export default function Chat({ websocket, getLatestData }) {
     console.log(`connecting...`);
 
     setChatStatus('connecting');
-    console.log(`websocket.current: ${websocket.current}`);
-
+    console.log(`websocket.current: ${JSON.stringify(websocket.current, null, 4)}`);
     if (!websocket.current) {
       websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
       ['appProtocol', 'chat']
@@ -75,8 +74,9 @@ export default function Chat({ websocket, getLatestData }) {
       console.log("Chat opened");
       setChatStatus("online");
     }
-    websocketCurrent.onclose = () => {
+    websocketCurrent.onclose = (e) => {
       console.log("websocket closed.");
+      console.log(`details: ${JSON.stringify(e, null, 4)}`);
 
       setChatStatus("offline");
       // Chrome does not reconnect very well, better to have the user refresh
