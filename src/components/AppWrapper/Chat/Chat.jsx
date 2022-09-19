@@ -74,9 +74,10 @@ export default function Chat({ websocket, getLatestData }) {
       console.log("Chat opened");
       setChatStatus("online");
     }
-    websocketCurrent.onclose = (e) => {
+    websocketCurrent.onclose = (error) => {
       console.log("websocket closed.");
-      console.log(`details: ${JSON.stringify(e, null, 4)}`);
+      console.log(`Code: ${error?.code}`);
+      console.log(`Reason: ${error?.reason}`);
 
       setChatStatus("offline");
       // Chrome does not reconnect very well, better to have the user refresh
@@ -88,8 +89,8 @@ export default function Chat({ websocket, getLatestData }) {
     }
     websocketCurrent.onerror = (error) => {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
-      console.log(`Code: ${error.code}`);
-      console.log(`Reason: ${error.reason}`);
+      console.log(`Code: ${error?.code}`);
+      console.log(`Reason: ${error?.reason}`);
     }
 
     return () => {
