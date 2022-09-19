@@ -13,6 +13,32 @@ export default function Chat({ websocket, getLatestData }) {
   // const firefoxUser = navigator.userAgent.includes("Firefox");
   const user = JSON.parse(localStorage.getItem("user"));
 
+  // function sleep(ms) {
+  //   return new Promise(resolve => setTimeout(resolve, ms));
+  // }
+
+  // async function pingChat() {
+  //   const pingMessage = {
+  //     "user": user.team_name,
+  //     "color": user.color, 
+  //     "message": "ping"
+  //   }
+  //   console.log(pingMessage);
+  //   // if (websocket.current) {
+  //   //   await websocket.current.send(pingMessage);
+  //   // }
+  //   console.log('Sent!');
+  // }
+  // console.log(`In useEffect. chatStatus: ${chatStatus}`);
+
+  // setInterval(() => {
+  //   if (chatStatus === 'online') {
+  //     pingChat();
+  //   }
+  // }, 5000);
+
+
+
   function sendMessage(msg) {
     const chatMessage = JSON.stringify(
       {
@@ -28,11 +54,12 @@ export default function Chat({ websocket, getLatestData }) {
     console.log(`chatStatus: ${chatStatus}`);
 
     if (chatStatus === 'online') {
-      return null
+      return
     }
     console.log(`connecting...`);
 
     setChatStatus('connecting');
+    console.log(`websocket.current: ${websocket.current}`);
 
     if (!websocket.current) {
       websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
@@ -57,10 +84,7 @@ export default function Chat({ websocket, getLatestData }) {
       // console.log("reconnecting...")
       // setReconnectChat(true);
       // }
-      console.log("Closing websocket...")
-      websocketCurrent.close();
-      setTimeout(setReconnectChat(true), 3000)
-      return
+      setTimeout(setReconnectChat(true), 5000)
     }
     websocketCurrent.onerror = (error) => {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
@@ -71,7 +95,7 @@ export default function Chat({ websocket, getLatestData }) {
       websocketCurrent.close();
     };
     // eslint-disable-next-line
-	}, [reconnectChat]);
+	}, [reconnectChat, websocket]);
 
 	useEffect(() => {
     websocket.current.onmessage = e => {
