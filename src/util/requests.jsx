@@ -59,7 +59,7 @@ export function getDraft(setCurrentPick, setDraftingNow) {
 }
 
 export function getDBPlayers() {
-  fetch(`${API_URL}/get_db_players`, {
+  fetch(`${API_URL}/get_db_players_new`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -77,7 +77,7 @@ export function getDBPlayers() {
 }
 
 export function getDBGoalies() {
-  fetch(`${API_URL}/get_db_players?position=G`, {
+  fetch(`${API_URL}/get_db_players_new?position=G`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
