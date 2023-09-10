@@ -50,7 +50,7 @@ export const ViewForumPost = ({
         <UsernameStyled
           username={post.username}
           color={post.color}
-          teamId={post.yahoo_team_id}
+          teamKey={post.team_key}
         />
         &nbsp;
         <div className="modal-forum-date">{timeSince(post.create_date)}</div>
@@ -65,7 +65,7 @@ export const ViewForumPost = ({
                 <UsernameStyled
                   username={reply.username}
                   color={reply.color}
-                  teamId={reply.yahoo_team_id}
+                  teamKey={reply.team_key}
                 />
                 <div className="date-and-edit-button-wrapper">
                   <div className="modal-forum-date">
@@ -91,7 +91,7 @@ export const ViewForumPost = ({
       <NewPost
         parentPostId={post.id}
         setIsOpen={setIsOpen}
-        postType="new_forum_post"
+        postType="create_post"
         user={user}
       />
     </Modal>
