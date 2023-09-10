@@ -54,6 +54,14 @@ export const validateTeamParam = (teams) => {
   return validTeamId;
 };
 
+export const teamKeyToID = (teamKey) => {
+  const teams = JSON.parse(localStorage.getItem("teams"));
+  const targetTeam = teams.find(
+    (team) => team.team_key === teamKey
+  );
+  return targetTeam ? targetTeam.yahoo_team_id : null;
+}
+
 export const teamIdToKey = (teamId) => {
   const teams = JSON.parse(localStorage.getItem("teams"));
   const targetTeam = teams.find(
