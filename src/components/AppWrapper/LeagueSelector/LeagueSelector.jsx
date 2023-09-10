@@ -11,9 +11,9 @@ export default function LeagueSelector({
   setCurrentPick,
   setDraftingNow,
 }) {
-  const fetchLeague = (leagueKey) => {
+  const fetchLeague = (leagueKey, registeredLeague) => {
     setIsLoading(true);
-    selectLeague(leagueKey, setCurrentPick, setDraftingNow);
+    selectLeague(leagueKey, setCurrentPick, setDraftingNow, registeredLeague);
     setTimeout(() => {
       setSingleLeagueSelected(true);
     }, 2000);
@@ -39,7 +39,7 @@ export default function LeagueSelector({
         <div className="league-selector-wrapper">
           <div className="instructions league-selector-instructions">
             <p>
-              You are in more than one Yahoo league. Please select the one you
+              Please select the league you
               would like to login to with SlowDraft.
             </p>
             <p>
@@ -52,7 +52,7 @@ export default function LeagueSelector({
               const registeredEmoji = league.registered ? "✅" : "❌";
               return (
                 <li key={league.league_key}>
-                  <button onClick={(e) => fetchLeague(league.league_key)}>
+                  <button onClick={(e) => fetchLeague(league.league_key, league.registered)}>
                     <div>
                       <Emoji emoji={registeredEmoji} />
                     </div>
