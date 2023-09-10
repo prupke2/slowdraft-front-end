@@ -49,13 +49,12 @@ export default function CountdownTimer({ currentPick, expiryDate, draftingNow, d
           </div>
         </div>
       }
-      {currentPick?.user_id && (
+      {currentPick?.team_key && (
         <div className={`drafting-now drafting-${draftingNow}`}>
           <p>Drafting:&nbsp;</p>
           <UsernameStyled
             username={currentPick.username}
-            color={currentPick.color}
-            teamId={currentPick.yahoo_team_id}
+            teamKey={currentPick.team_key}
           />
           <p className="countdown-timer" id="countdown">
             {countdownClock || ""}
