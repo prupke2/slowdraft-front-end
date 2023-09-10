@@ -37,13 +37,13 @@ export default function Chat({ websocket, getLatestData }) {
   //   }
   // }, 5000);
 
-
-
   function sendMessage(msg) {
     const chatMessage = JSON.stringify(
       {
         "user": user.team_name,
-        "color": user.color, 
+        "username": user.team_name, 
+        "teamKey": user.team_key,
+        "color": user.color,
         "message": msg
       }
     )
@@ -104,7 +104,7 @@ export default function Chat({ websocket, getLatestData }) {
     websocket.current.onmessage = e => {
       const message = JSON.parse(e.data);
 
-      // If the user opens multiple tabs, don't accounce each time they open and close them
+      // If the user opens multiple tabs, don't announce each time they open and close them
       if (message?.status && userList.includes(message.user)) {
         return
       }
