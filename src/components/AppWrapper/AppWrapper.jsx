@@ -7,6 +7,7 @@ import { useCallback } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
 import { useEffect } from "react";
+// import ErrorBanner from "../Errors/ErrorBanner";
 
 export default function AppWrapper({
   logout,
@@ -21,6 +22,8 @@ export default function AppWrapper({
   const leagueList = JSON.parse(localStorage.getItem("leagueList"));
 	const websocket = useRef(null);
   const ws = websocket.current;
+
+  // const [healthStatus, setHealthStatus] = useState("up");
   // function getRegisteredLeagueCount() {
   //   let count = 0;
   //   leagueList.forEach((league) => {
@@ -30,6 +33,23 @@ export default function AppWrapper({
   //   });
   //   return count;
   // }
+  // const safeHealthCheck = useCallback(() => {
+  //   healthCheck(setHealthStatus);
+  // }, [
+  //   setHealthStatus
+  // ]);
+
+  // useEffect(() => {
+  //   let status = healthCheck(setHealthStatus);
+  //   console.log(`status: ${status}`);
+
+  //   setHealthStatus(status === 200 ? 'up' : 'down');
+
+
+  //    console.log(`healthStatus: ${healthStatus}`);
+ 
+  //   return () => clearTimeout(timeout);  
+  // }, [healthStatus]);
 
 
   const teamsInLocalStorage = localStorage.getItem("teams");
@@ -39,10 +59,12 @@ export default function AppWrapper({
     checkForUpdates(
       setCurrentPick,
       setDraftingNow,
+      logout
     );
   }, [
     setCurrentPick,
     setDraftingNow,
+    logout
   ]);
 
   function sendChatAnnouncement(message) {
@@ -72,12 +94,15 @@ export default function AppWrapper({
     if (isRegisteredLeague) {
       console.log("getting data");
       const data = getLatestData();
-      console.log(`data: ${JSON.stringify(data, null, 4)}`);
+      console.log('latest data:', data);
     }
   }, [getLatestData, isRegisteredLeague]);
 
   return (
     <>
+      {/* {healthStatus === 'down' &&
+        <ErrorBanner />
+      } */}
       {!singleLeagueSelected && (
         <Switch>
           <Route path="/league-select">

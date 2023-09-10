@@ -72,7 +72,7 @@ export default function ForumTab({
         <UsernameStyled
           username={cell.row.original.username}
           color={cell.row.original.color}
-          teamId={cell.row.original.yahoo_team_id}
+          teamKey={cell.row.original.team_key}
         />
       ),
     },

@@ -139,8 +139,4 @@ li.navtab a.active,
   .tab-wrapper > div:last-child {
     margin-bottom: 70px;
   }
-
-  th {
-    width: auto;
-  }
 }
