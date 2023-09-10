@@ -1,19 +1,11 @@
 import React from "react";
+import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 // import { offsetMilliseconds } from "../../../../util/requests";
 
-const PlayerCell = ({ cell, draftingNow }) => {
+const PlayerCell = ({ cell, playerListPage }) => {
   const takenPlayer = cell.row.original.user !== null;
-  // const now = new Date();
-  // console.log(`timestamp: ${timestamp}`);
-  // console.log(`new Date(timestamp - 10000): ${new Date(Date.parse(timestamp) - offsetMilliseconds - 100000)}`);
-  // console.log(`now: ${now}`);
-  // console.log(`timestamp && new Date(timestamp - 10000) < now: ${timestamp && new Date(Date.parse(timestamp) - 10000) < now}`);
-
-  // const newPick = timestamp && new Date(Date.parse(timestamp) - offsetMilliseconds) > now ? 'newPick' : null;
-  // // console.log(`now: ${now}`);
-  // // console.log(`timestamp: ${timestamp}`);
-  // console.log(`newPick: ${newPick}`);
-
+  const teamKey = cell.row.original.team_key;
+  const ir = cell.row.original.ir;
 
   return (
     <div className={`player-name newPick`}>
@@ -21,6 +13,7 @@ const PlayerCell = ({ cell, draftingNow }) => {
         <div className="player-name-and-headshot">
           <img className="headshot" src={cell.row.original.headshot} alt="" />
           <span>
+            {ir && <span className='ir'>{ir}</span>}
             <a
               href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
               target="_blank"
@@ -44,10 +37,13 @@ const PlayerCell = ({ cell, draftingNow }) => {
               )}
               {cell.value}
             </a>
-            {takenPlayer && !draftingNow && (
-              <div className="small-username">
-                &nbsp;{cell.row.original.user}
-              </div>
+            {(takenPlayer && playerListPage) && (
+              <UsernameStyled
+                username={cell.row.original.user}
+                teamKey={teamKey}
+                color={"black"}
+                small={true}
+              />
             )}
           </span>
         </div>
