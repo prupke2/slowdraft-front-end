@@ -60,23 +60,27 @@ export default function Login({
             setLoggedIn(true);
             setIsLoading(false);
           } else {
-            if (localStorage.getItem('user') === null) {
+            setLoggedIn(false);
+            setIsLoading(false);
+            // if (localStorage.getItem('user') === null) {
               ToastsStore.error(
                 "There was an error logging into Yahoo. Please try again."
               );
-            }
+            // }
           }
         })
         .catch((error) => {
+          console.log('error:', error);
+
           ToastsStore.error(
             `There was an error connecting to the server. Please try again later.`
           );
-          console.log(`error: ${JSON.stringify(error.text, null, 4)}`);
+          console.log(`error text: ${JSON.stringify(error.text, null, 4)}`);
           setLoggedIn(false);
         });
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      // setTimeout(() => {
+      //   setIsLoading(false);
+      // }, 1000);
     }
     const now = new Date();
 
