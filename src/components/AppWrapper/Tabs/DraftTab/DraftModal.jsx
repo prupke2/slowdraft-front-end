@@ -34,40 +34,47 @@ export default function DraftModal({
     setIsLoading(true);
     const isGoalie = data.position === "G" ? true : false;
     const msg = playerDraftedAnnouncement(user.team_name, data.name, data.position, data.team);
-    fetch(`${API_URL}/draft/${data.player_id}`, {
-      method: "GET",
-      headers: getHeaders(),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          ToastsStore.error(`An error occurred. Please try again later.`);
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-        return response.json();
+    try {
+      fetch(`${API_URL}/draft/${data.player_id}`, {
+        method: "GET",
+        headers: getHeaders(),
       })
-      .then((data) => {
-        const draftingAgain =
-          data.drafting_again === true ? "You're up again!" : "";
-        ws.send(msg);
-        getDraft(setCurrentPick, setDraftingNow);
-        getTeams();
-        isGoalie && getDBGoalies();
-        !isGoalie && getDBPlayers();
-        if (data.success !== true) {
-          ToastsStore.error(`Error: ${data.error}`);
-        } else {
-          ToastsStore.success(
-            `You have drafted ${data.player}. ${draftingAgain}`
-          );
-          const draftTab = document.querySelector('.navtab-list .navtab:first-child a');
-          setTimeout(() => {
-            draftTab.click();
-          }, 500);
-        }
+        .then((response) => {
+          if (!response.ok) {
+            ToastsStore.error(`An error occurred. Please try again later.`);
+            const error = (data && data.message) || response.status;
+            return Promise.reject(error);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const draftingAgain =
+            data.drafting_again === true ? "You're up again!" : "";
+          ws.send(msg);
+          getDraft(setCurrentPick, setDraftingNow);
+          getTeams();
+          isGoalie && getDBGoalies();
+          !isGoalie && getDBPlayers();
+          if (data.success !== true) {
+            ToastsStore.error(`${data.error}`);
+          } else {
+            ToastsStore.success(
+              `You have drafted ${data.player}. ${draftingAgain}`
+            );
+            const draftTab = document.querySelector('.navtab-list .navtab:first-child a');
+            setTimeout(() => {
+              draftTab.click();
+            }, 500);
+          }
+          setIsOpen(false);
+          setIsLoading(false);
+        });
+      } catch (err) {
+        console.log('Error:', err);
+        ToastsStore.error(`There was an error: ${err}. Please change tabs to see if the pick was saved before trying again.`);
         setIsOpen(false);
         setIsLoading(false);
-      });
+      }
   }
 
   if (modalType === "draftPlayer") {
