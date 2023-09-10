@@ -39,8 +39,10 @@
 }
 
 .chat-name {
-  background: var(--main-light);
-  text-shadow: 1px 1px 1px var(--main-very-dark);
+  font-weight: 700;
+  background: var(--main-even2);
+  border: 1px solid var(--main-light);
+  border-left: 0;
   border-radius: 0 4px 4px 0;
   padding: 8px 4px 8px 0;
   position: relative;

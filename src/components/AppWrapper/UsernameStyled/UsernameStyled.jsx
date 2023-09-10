@@ -1,7 +1,7 @@
 import React from "react";
 import "./UsernameStyled.css";
 import { Link } from "react-router-dom";
-import { teamKeyToID } from "../../../util/util";
+import { teamKeyToID, firstLetterOfEachWord } from "../../../util/util";
 
 export default function UsernameStyled({ username, color, teamKey, small, message }) {
   const teams = JSON.parse(localStorage.getItem("teams"));
@@ -10,6 +10,7 @@ export default function UsernameStyled({ username, color, teamKey, small, messag
   const teamId = teamKeyToID(teamKey);
   const teamLogo = teams[teamId - 1]?.team_logo;
   const name = teams[teamId - 1]?.user;
+  const nameAcronym = username ? firstLetterOfEachWord(username) : name;
 
   return (
     <div className={`user-wrapper ${smallUsernameStyling} ${autoHeight}`}>
@@ -44,8 +45,8 @@ export default function UsernameStyled({ username, color, teamKey, small, messag
         <div className="chat-message">
           <span 
             className="chat-name"
-            style={{ color: color }}
-          >{name}</span>
+            title={`${username} (${name})`}
+          >{nameAcronym}</span>
           : {message}
         </div> 
       )}
