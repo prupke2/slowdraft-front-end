@@ -90,7 +90,7 @@ export function SelectTeamFilter({
       {!disableAll && <option value="">All</option>}
       {disableAll && <option value="">Select a team</option>}
 
-      <option value="Anh">Anaheim</option>
+      <option value="Ana">Anaheim</option>
       <option value="Ari">Arizona</option>
       <option value="Bos">Boston</option>
       <option value="Buf">Buffalo</option>
@@ -98,14 +98,14 @@ export function SelectTeamFilter({
       <option value="Car">Carolina</option>
       <option value="Chi">Chicago</option>
       <option value="Col">Colorado</option>
-      <option value="Cls">Columbus</option>
+      <option value="Cbj">Columbus</option>
       <option value="Dal">Dallas</option>
       <option value="Det">Detroit</option>
       <option value="Edm">Edmonton</option>
       <option value="Fla">Florida</option>
       <option value="LA">L.A.</option>
       <option value="Min">Minnesota</option>
-      <option value="Mon">Montreal</option>
+      <option value="Mtl">Montreal</option>
       <option value="Nsh">Nashville</option>
       <option value="NJ">New Jersey</option>
       <option value="NYI">NY Islanders</option>
@@ -120,7 +120,7 @@ export function SelectTeamFilter({
       <option value="TB">Tampa Bay</option>
       <option value="Van">Vancouver</option>
       <option value="VGK">Vegas</option>
-      <option value="Was">Washington</option>
+      <option value="Wsh">Washington</option>
       <option value="Wpg">Winnipeg</option>
 
       {/* {options.map((option, i) => (
