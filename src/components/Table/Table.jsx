@@ -71,6 +71,7 @@ export default function Table({
     {
       columns,
       data,
+      autoResetPage: true,
       defaultColumnFilter,
       filterTypes,
       initialState: tableState,
