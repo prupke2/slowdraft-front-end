@@ -76,6 +76,7 @@ export default function Table({
       filterTypes,
       initialState: tableState,
       disableSortRemove: true,
+      autoResetSortBy: true,
     },
     useFilters,
     useSortBy,
