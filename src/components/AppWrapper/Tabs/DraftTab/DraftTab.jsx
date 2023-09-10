@@ -126,15 +126,19 @@ export default function DraftTab({
       sortDescFirst: false,
       disableSortBy: true,
       Cell: (cell) => {
-        const unusedPick = cell.row.original.draft_pick_timestamp === null;
+        const usedPick = cell.row.original.draft_pick_timestamp !== null;
         const disabledPick = cell.row.original.disabled === 1;
+        const isCurrentPick = cell.value === currentPick.overall_pick ;
 
-        if (!isAdmin || !unusedPick) {
-          return cell.value;
+        if (!isAdmin || usedPick) {
+          return <div className={`pick-number ${isCurrentPick}`}>{cell.value}</div>
         }
         return (
           <div className="admin-column" width="20px">
-            <div>{cell.value}</div>
+            <div 
+              className={`pick-number ${isCurrentPick && 'current-pick'}`}
+              title={isCurrentPick && 'Current pick'}
+            >{cell.value}</div>
             <select
               defaultValue={cell.row.original.yahoo_team_id}
               className="change-user-dropdown"
@@ -171,8 +175,7 @@ export default function DraftTab({
       Cell: (cell) => (
         <UsernameStyled
           username={cell.value}
-          color={cell.row.original.color}
-          teamId={cell.row.original.yahoo_team_id}
+          teamKey={cell.row.original.team_key}
         />
       ),
     },
@@ -185,7 +188,6 @@ export default function DraftTab({
         return (
           <PlayerCell 
             cell={cell} 
-            draftingNow={draftingNow}
             // timestamp={cell.row.values.draft_pick_timestamp}
           />
         );
