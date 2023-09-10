@@ -105,6 +105,11 @@ export function substringInString(string, substring) {
   return string.indexOf(substring) !== -1;
 }
 
+export const firstLetterOfEachWord = str => {
+  const matches = str.match(/\b(\w)/g);
+  return matches ? matches.join('') : str;
+}
+
 export function localEnvironment() {
   return (
     window.location.hostname === "localhost" ||
