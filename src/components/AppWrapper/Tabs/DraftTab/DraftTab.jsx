@@ -188,7 +188,6 @@ export default function DraftTab({
         return (
           <PlayerCell 
             cell={cell} 
-            // timestamp={cell.row.values.draft_pick_timestamp}
           />
         );
       },

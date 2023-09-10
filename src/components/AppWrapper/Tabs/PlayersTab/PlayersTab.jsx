@@ -42,7 +42,7 @@ export default function PlayersTab({
     if (prospectDropdown === "all") {
       return rows;
     }
-    return rows.filter((row) => row.original.prospect === prospectDropdown);
+    return rows.filter(row => String(row.original.prospect) === prospectDropdown);
   }
 
   function availabilityFilter(rows) {
@@ -377,8 +377,8 @@ export default function PlayersTab({
                 }}
               >
                 <option value={"all"}>All</option>
-                <option value="0">Non-prospects</option>
-                <option value="1">Prospects</option>
+                <option value={"0"}>Non-prospects</option>
+                <option value={"1"}>Prospects</option>
               </select>
             </div>
             <div>

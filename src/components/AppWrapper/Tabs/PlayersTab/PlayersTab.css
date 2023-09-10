@@ -25,11 +25,11 @@ h3 {
 }
 
 .ir {
-  background-color: tomato;
+  background-color: red;
   color: white;
   font-weight: 800;
   font-size: 0.8rem;
-  border: 2px solid black;
+  border: 1px solid grey;
   border-radius: 4px;
   padding: 2px;
   margin-right: 4px;

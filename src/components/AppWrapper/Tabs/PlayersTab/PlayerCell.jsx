@@ -19,7 +19,7 @@ const PlayerCell = ({ cell, playerListPage }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {cell.row.original.prospect === "1" && (
+              {cell.row.original.prospect === 1 && (
                 <span>
                   <span className="prospect" title="Prospect">
                     P
