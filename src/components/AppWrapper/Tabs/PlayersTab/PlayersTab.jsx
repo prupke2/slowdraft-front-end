@@ -8,7 +8,6 @@ import Table from "../../../Table/Table";
 import { getDBPlayers, getDBGoalies } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 import DraftModal from "../DraftTab/DraftModal";
-import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import PlayerCell from "./PlayerCell";
 import "./PlayersTab.css";
 
@@ -205,13 +204,6 @@ export default function PlayersTab({
           return (
             <div className="player-wrapper">
               <div className="draft-button-cell">
-                {takenPlayer && (
-                  <UsernameStyled
-                    username={cell.row.original.user}
-                    color={cell.row.original.owner_color}
-                    teamId={cell.row.original.yahoo_team_id}
-                  />
-                )}
                 {!takenPlayer && isLiveDraft && (
                   <div>
                     <button onClick={() => draftModal(cell.row.original)}>
@@ -235,11 +227,21 @@ export default function PlayersTab({
                   </div>
                 )}
               </div>
-              <PlayerCell cell={cell} draftingNow={draftingNow} />
+              <PlayerCell 
+                cell={cell} 
+                draftingNow={draftingNow}
+                playerListPage={true}
+              />
             </div>
           );
         } else {
-          return <PlayerCell cell={cell} draftingNow={draftingNow} />;
+          return (
+            <PlayerCell 
+              cell={cell}
+              draftingNow={draftingNow} 
+              playerListPage={true}
+            />
+          );
         }
       },
     },
