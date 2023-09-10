@@ -150,7 +150,8 @@ export function getForumPosts() {
 export function selectLeague(
   leagueKey,
   setCurrentPick,
-  setDraftingNow
+  setDraftingNow,
+  registeredLeague
 ) {
   const requestParams = {
     method: "POST",
@@ -173,7 +174,9 @@ export function selectLeague(
         localStorage.setItem("liveDraft", binaryToBoolean(data.is_live));
         localStorage.setItem("draftIsOver", binaryToBoolean(data.is_over));
         localStorage.setItem("user", JSON.stringify(user));
-        getDraft(setCurrentPick, setDraftingNow);
+        if (registeredLeague) {
+          getDraft(setCurrentPick, setDraftingNow);
+        }
       } else if (data.error === "INVALID_REFRESH_TOKEN") {
         localStorage.clear();
         ToastsStore.error(
@@ -196,6 +199,7 @@ export function selectLeague(
 export function checkForUpdates(
   setCurrentPick,
   setDraftingNow,
+  logout,
 ) {
   // const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
 
@@ -224,7 +228,12 @@ export function checkForUpdates(
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
-    if (data.updates) {
+    if (data.success === false && data?.error === 'expired_token') {
+      ToastsStore.error('Your login has expired. Please log in again.')
+      logout();
+      return;
+    }
+    if (data?.updates) {
       setDraftingNow(data.drafting_now);
 
       if (updateNeeded("draftDataUpdate", data.updates.latest_draft_update)) {
@@ -252,6 +261,13 @@ export function checkForUpdates(
         getForumPosts();
       }
     } else {
+      console.log('data:', data);
+
+      if (data?.error) {
+        if (data?.status === 401 || data?.status === 403)
+        console.log("Logging out");
+        return Promise.reject("Your login has expired.");
+      }
       console.log(`No updates.`);
     }
   });
