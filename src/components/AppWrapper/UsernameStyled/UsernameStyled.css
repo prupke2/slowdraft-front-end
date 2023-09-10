@@ -32,3 +32,21 @@
   background: var(--main-light);
   cursor: pointer;
 }
+
+.chat-message {
+  margin: 6px 2px;
+  line-height: 1.2rem;
+}
+
+.chat-name {
+  background: var(--main-light);
+  text-shadow: 1px 1px 1px var(--main-very-dark);
+  border-radius: 0 4px 4px 0;
+  padding: 8px 4px 8px 0;
+  position: relative;
+  right: 2px;
+}
+
+.auto-height {
+  height: auto;
+}
