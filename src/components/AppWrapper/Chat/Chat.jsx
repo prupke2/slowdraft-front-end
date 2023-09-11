@@ -3,19 +3,16 @@ import MessageLog from "./MessageLog/MessageLog";
 import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
 import { WEBSOCKET_URL } from "../../../util/util.jsx";
+import { isEmpty } from "lodash";
+import Loading from "../../Loading/Loading";
 
 export default function Chat({ websocket, getLatestData }) {
   const [userList, setUserList] = useState([]);
   const cachedMessages = JSON.parse(localStorage.getItem("chatMessages"));
   const [messages, setMessages] = useState(cachedMessages || []);
   const [chatStatus, setChatStatus] = useState("connecting");
-  const [reconnectChat, setReconnectChat] = useState(false);
   // const firefoxUser = navigator.userAgent.includes("Firefox");
   const user = JSON.parse(localStorage.getItem("user"));
-
-  // function sleep(ms) {
-  //   return new Promise(resolve => setTimeout(resolve, ms));
-  // }
 
   // async function pingChat() {
   //   const pingMessage = {
@@ -59,15 +56,13 @@ export default function Chat({ websocket, getLatestData }) {
     console.log(`connecting...`);
 
     setChatStatus('connecting');
-    console.log(`websocket.current: ${JSON.stringify(websocket.current, null, 4)}`);
     if (!websocket.current) {
       websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
       ['appProtocol', 'chat']
       );
     }
-    
     const websocketCurrent = websocket.current;
-    if (!websocketCurrent) {
+    if (!websocketCurrent || isEmpty(websocketCurrent)) {
       setChatStatus("offline");
     }
     websocketCurrent.onopen = () => {
@@ -80,12 +75,39 @@ export default function Chat({ websocket, getLatestData }) {
       console.log(`Reason: ${error?.reason}`);
 
       setChatStatus("offline");
-      // Chrome does not reconnect very well, better to have the user refresh
-      // if (firefoxUser) {
-      // console.log("reconnecting...")
-      // setReconnectChat(true);
-      // }
-      setTimeout(setReconnectChat(true), 5000)
+
+      console.log('websocketCurrent at close:', websocketCurrent);
+      const reconnect = () => {
+        for (let attempt = 1; attempt <= 3; attempt += 1 ) {
+          setTimeout(() => {
+            if (websocket.current.readyState === 1) {
+              setChatStatus("online");
+              console.log("connected!")
+              return
+            } else {
+              console.log(`reconnecting... attempt # ${attempt}`);
+              console.log('websocket.current:', websocket?.current);
+              console.log('websocket.readyState:', websocket?.readyState);
+              websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
+              ['appProtocol', 'chat']
+              );
+            }
+            websocket.current.onmessage = e => {
+              const message = JSON.parse(e.data);
+              console.log('websocket.current on connect:', websocket.current);
+              if (message?.users) {
+                setUserList(message.users)
+              }
+              setChatStatus("online");
+              console.log("connected!")
+              return;
+            }           
+          }, 10000 * attempt);
+        }
+      }
+      setTimeout(() => {}, 1000);
+      setChatStatus('reconnecting');
+      reconnect();
     }
     websocketCurrent.onerror = (error) => {
       console.log(`websocket error: ${JSON.stringify(error, null, 4)}`);
@@ -98,7 +120,7 @@ export default function Chat({ websocket, getLatestData }) {
       websocketCurrent.close();
     };
     // eslint-disable-next-line
-	}, [reconnectChat, websocket]);
+	}, [websocket]);
 
 	useEffect(() => {
     websocket.current.onmessage = e => {
@@ -130,9 +152,10 @@ export default function Chat({ websocket, getLatestData }) {
 
   const uniqueUserList = userList.filter((e, i) => userList.indexOf(e) === i);
 
-  const chatBackgroundColor = chatStatus === "online" ? 'white' : '#dbdbdb';
+  const chatBackgroundColor = chatStatus === "offline" ? '#dbdbdb' : 'white';
   const chatStatusToMessageMap = {
-    'connecting': 'Reconnecting to chat...',
+    'connecting': 'Connecting to chat...',
+    'reconnecting': 'Attempting to reconnect to chat...',
     'offline': 'Error loading chat.',
   } 
 
@@ -140,19 +163,17 @@ export default function Chat({ websocket, getLatestData }) {
     <ErrorBoundary>
       <aside id="chatbox" style={{backgroundColor: chatBackgroundColor}}>
 
-        { chatStatus !== 'online' &&
+        { chatStatus === 'offline' &&
           <div className='chat-status-message'>
             {chatStatusToMessageMap[chatStatus]}
-            { (chatStatus === 'offline') &&
-              <button 
-                className='button-large'
-                onClick={setReconnectChat}
-              >Reconnect  
-              </button>
-            }
           </div>
         }
-
+        { ['connecting', 'reconnecting'].includes(chatStatus) && (
+          <Loading 
+            alt
+            text={chatStatusToMessageMap[chatStatus]}
+          />
+        )}
         { chatStatus === 'online' &&
           <>
             <div id="user-list">

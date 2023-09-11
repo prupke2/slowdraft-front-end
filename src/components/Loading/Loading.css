@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: transparent;
+  background: white;
   transition: background 0.15s ease;
   height: 100vh;
   width: calc(100vw - 250px);
@@ -16,6 +16,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.loading-text {
+  color: black;
 }
 
 .absolute {
