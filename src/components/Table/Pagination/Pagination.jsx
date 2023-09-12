@@ -60,16 +60,22 @@ export default function Pagination({
           <span className="page-link page-last">Last</span>
         </div>
       </li>
-      <li className="pagination-goto-page">
-        <span className="page-link page-or-round">
-          {pageOrRound}
-          <div className="page-of-page">
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
-          </div>
-        </span>
-      </li>
+      { pageCount > 0 && (
+        <li className="pagination-goto-page">
+          <span className="page-link page-or-round">
+            {pageOrRound}
+            <div className="page-of-page">
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>{" "}
+            </div>
+          </span>
+        </li>
+      )}
+      { pageCount === 0 && (
+        <li />
+      )
+      }
     </ul>
   );
 }

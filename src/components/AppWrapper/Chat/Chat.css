@@ -133,23 +133,25 @@
   .chatbox {
     width: 100vw;
     top: 40px;
-    height: 71vh;
+    height: calc(100vh - 120px);
   }
   .chatMessages {
     top: 105px;
     width: auto;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 210px);
   }
   #messageInput {
     bottom: 60px;
     right: 0;
     width: 100vw;
+    height: 40px;
   }
   .openChatButton {
     display: flex;
     position: fixed;
-    top: 48px;
-    right: 3px;
+    box-shadow: -1px -1px black;
+    bottom: 62px;
+    right: 2px;
     background-color: var(--main-even);
     color: var(--main-very-dark);
   }
