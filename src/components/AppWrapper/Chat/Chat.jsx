@@ -5,14 +5,17 @@ import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
 import { WEBSOCKET_URL } from "../../../util/util.jsx";
 import { isEmpty } from "lodash";
 import Loading from "../../Loading/Loading";
+import CloseModalButton from "../ModalWrapper/CloseModalButton/CloseModalButton";
+import Emoji from "../Emoji";
 
 export default function Chat({ websocket, getLatestData }) {
   const [userList, setUserList] = useState([]);
   const cachedMessages = JSON.parse(localStorage.getItem("chatMessages"));
   const [messages, setMessages] = useState(cachedMessages || []);
   const [chatStatus, setChatStatus] = useState("connecting");
-  // const firefoxUser = navigator.userAgent.includes("Firefox");
   const user = JSON.parse(localStorage.getItem("user"));
+  const screenWidth = window.screen.availWidth;
+  const [chatOpen, setChatOpen] = useState(screenWidth > 800);
 
   // async function pingChat() {
   //   const pingMessage = {
@@ -157,40 +160,57 @@ export default function Chat({ websocket, getLatestData }) {
     'connecting': 'Connecting to chat...',
     'reconnecting': 'Attempting to reconnect to chat...',
     'offline': 'Error loading chat.',
-  } 
+  }
 
   return (
     <ErrorBoundary>
-      <aside id="chatbox" style={{backgroundColor: chatBackgroundColor}}>
-
-        { chatStatus === 'offline' &&
-          <div className='chat-status-message'>
-            {chatStatusToMessageMap[chatStatus]}
-          </div>
-        }
-        { ['connecting', 'reconnecting'].includes(chatStatus) && (
-          <Loading 
-            alt
-            text={chatStatusToMessageMap[chatStatus]}
+      { !chatOpen && 
+        <button
+          className="openChatButton"
+          onClick={() => setChatOpen(true)}
+        >
+          <Emoji 
+            emoji="💬"
           />
-        )}
-        { chatStatus === 'online' &&
-          <>
-            <div id="user-list">
-              Online: <span>{uniqueUserList.join(", ")}</span>{" "}
+          &nbsp;Open chat
+        </button>
+      }
+      { chatOpen && (
+        <aside className="chatbox" style={{backgroundColor: chatBackgroundColor}}>
+
+          { chatStatus === 'offline' &&
+            <div className='chat-status-message'>
+              {chatStatusToMessageMap[chatStatus]}
             </div>
-            <MessageLog 
-              messages={messages} 
-              uniqueUserList={uniqueUserList}
-            /> 
-            <input
-              placeholder="Enter a message..."
-              id="messageInput"
-              onKeyDown={handleKeyDown}
+          }
+          { ['connecting', 'reconnecting'].includes(chatStatus) && (
+            <Loading 
+              alt
+              text={chatStatusToMessageMap[chatStatus]}
             />
-          </>
-        }
-      </aside>
+          )}
+          { chatStatus === 'online' &&
+            <>
+                  <div id="user-list">
+                    Online: <span>{uniqueUserList.join(", ")}</span>{" "}
+                    <CloseModalButton 
+                      classes="closeChatButton"
+                      setIsOpen={setChatOpen}
+                    />
+                  </div>
+                  <MessageLog 
+                    messages={messages} 
+                    uniqueUserList={uniqueUserList}
+                  /> 
+                  <input
+                    placeholder="Enter a message..."
+                    id="messageInput"
+                    onKeyDown={handleKeyDown}
+                  />
+            </>
+          }
+        </aside>
+      )}
     </ErrorBoundary>
   );
 }

@@ -130,8 +130,13 @@ td.Pick {
   margin-bottom: 150px;
 }
 
+.admin-column-wrapper {
+  display: flex;
+}
+
 .admin-column {
   display: flex;
+  margin-left: 20px;
 }
 
 .pick-number {

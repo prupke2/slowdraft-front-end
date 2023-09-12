@@ -15,9 +15,10 @@ export default function Pagination({
 }) {
   const pageOrRound = tableType === "draftPicks" ? "Round" : "Page";
   const isLiveDraft = JSON.parse(localStorage.getItem("liveDraft")) === "true";
+  const extraPadding = tableType === "draftPicks" && 'draftTabPaddingTop';
 
   return (
-    <ul className="pagination">
+    <ul className={`pagination ${extraPadding}`}>
       {/* <pre>
         <code>
           {JSON.stringify({ pageIndex, pageCount, canNextPage, canPreviousPage}, null, 2)}

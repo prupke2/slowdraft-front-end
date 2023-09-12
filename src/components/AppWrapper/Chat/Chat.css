@@ -1,5 +1,12 @@
+.openChatButton {
+  display: none;
+}
 
-#chatbox {
+.closeChatButton {
+  display: none;
+}
+
+.chatbox {
   position: fixed;
   display: flex;
   justify-content: left;
@@ -9,12 +16,12 @@
   padding: 10px;
   border-left: 2px solid var(--main-very-dark);
   border-top: 2px solid var(--main-very-dark);  
-  height: calc(100vh - 45px);
+  height: calc(100vh - 140px);
   width: 270px;
   background-color: whitesmoke;
 }
 
-#chat-messages {
+.chatMessages {
   position: fixed;
   display: flex;
   justify-content: left;
@@ -22,14 +29,14 @@
   top: 160px;
   right: 0;
   width: 270px;
-  height: calc(100vh - 220px);
+  height: calc(100vh - 192px);
   padding: 5px;
   margin: 2px;
   word-wrap: break-word;
   overflow: scroll;
 }
 
-#chat-messages > li > div {
+#chatMessages > li > div {
   margin-left: 10px;
 }
 
@@ -47,7 +54,7 @@
   font-size: 0.7rem;
   text-align: left;
   border-bottom: 1px solid grey;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #user-list > span {
@@ -70,7 +77,6 @@
   font-size: 0.7rem;
   margin: 4px;
   padding: 4px;
-  background: var(--gradient3);
 }
 
 .user-in-chat {
@@ -124,7 +130,30 @@
 
 
 @media (max-width: 800px) {
-  #chatbox {
-    display: none;
+  .chatbox {
+    width: 100vw;
+    top: 40px;
+    height: 71vh;
+  }
+  .chatMessages {
+    top: 105px;
+    width: auto;
+    height: calc(100vh - 200px);
+  }
+  #messageInput {
+    bottom: 60px;
+    right: 0;
+    width: 100vw;
+  }
+  .openChatButton {
+    display: flex;
+    position: fixed;
+    top: 48px;
+    right: 3px;
+    background-color: var(--main-even);
+    color: var(--main-very-dark);
+  }
+  .closeChatButton {
+    display: flex;
   }
 }

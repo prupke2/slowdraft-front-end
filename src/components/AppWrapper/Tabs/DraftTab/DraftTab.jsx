@@ -131,38 +131,45 @@ export default function DraftTab({
         const isCurrentPick = cell.value === currentPick.overall_pick ;
 
         if (!isAdmin || usedPick) {
-          return <div className={`pick-number ${isCurrentPick}`}>{cell.value}</div>
-        }
-        return (
-          <div className="admin-column" width="20px">
+          return (
             <div 
               className={`pick-number ${isCurrentPick && 'current-pick'}`}
               title={isCurrentPick && 'Current pick'}
             >{cell.value}</div>
-            <select
-              defaultValue={cell.row.original.yahoo_team_id}
-              className="change-user-dropdown"
-              onChange={(event) =>
-                updatePick(
-                  event,
-                  cell.row.original.round,
-                  cell.row.original.overall_pick
-                )
-              }
-            >
-              {!disabledPick && (
-                <>
-                  {teamsMap(teams)}
-                  <option value={0}>DISABLE PICK</option>
-                </>
-              )}
-              {disabledPick && (
-                <>
-                  <option value={null}>(DISABLED)</option>
-                  <option value={0}>ENABLE PICK</option>
-                </>
-              )}
-            </select>
+          );
+        }
+        return (
+          <div className='admin-column-wrapper'>
+            <div 
+              className={`pick-number ${isCurrentPick && 'current-pick'}`}
+              title={isCurrentPick && 'Current pick'}
+            >{cell.value}</div>
+            <div className="admin-column" width="20px">
+              <select
+                defaultValue={cell.row.original.yahoo_team_id}
+                className="change-user-dropdown"
+                onChange={(event) =>
+                  updatePick(
+                    event,
+                    cell.row.original.round,
+                    cell.row.original.overall_pick
+                  )
+                }
+              >
+                {!disabledPick && (
+                  <>
+                    {teamsMap(teams)}
+                    <option value={0}>DISABLE PICK</option>
+                  </>
+                )}
+                {disabledPick && (
+                  <>
+                    <option value={null}>(DISABLED)</option>
+                    <option value={0}>ENABLE PICK</option>
+                  </>
+                )}
+              </select>
+            </div>
           </div>
         );
       },

@@ -59,6 +59,7 @@
 		border: none;
 		justify-content: left;
 		padding-left: 10px;
+		height: 35px;
 	}
 
 	.drafting-now :first-child {

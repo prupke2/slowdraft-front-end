@@ -64,7 +64,7 @@ export default function Navbar({
             </li>
             <li className="navtab">
               <NavLink to="/forum" activeClassName="active">
-                <Emoji navbar={true} emoji="💬" />
+                <Emoji navbar={true} emoji="✍🏼" />
                 <div>Forum</div>
               </NavLink>
             </li>
