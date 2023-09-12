@@ -152,6 +152,7 @@
     box-shadow: -1px -1px black;
     bottom: 62px;
     right: 2px;
+    height: 30px;
     background-color: var(--main-even);
     color: var(--main-very-dark);
   }

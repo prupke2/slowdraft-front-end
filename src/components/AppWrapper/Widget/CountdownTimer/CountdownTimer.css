@@ -53,13 +53,15 @@
 
 @media (max-width: 800px) {
   .drafting-now {
+		position: fixed;
+		bottom: 0;
+		left: 0;
 		flex-direction: row;
     width: 100vw;
     display: flex;
 		border: none;
 		justify-content: left;
 		padding-left: 10px;
-		height: 35px;
 	}
 
 	.drafting-now :first-child {
