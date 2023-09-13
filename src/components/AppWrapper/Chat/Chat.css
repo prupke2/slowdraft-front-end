@@ -10,7 +10,7 @@
   position: fixed;
   display: flex;
   justify-content: left;
-  top: 95px;
+  top: 90px;
   right: 0;
   margin: 0 0 0 10px;
   padding: 10px;
@@ -132,18 +132,23 @@
 @media (max-width: 800px) {
   .chatbox {
     width: 100vw;
-    top: 40px;
-    height: calc(100vh - 120px);
+    top: 0;
+    height: calc(100vh - 90px);
+  }
+
+  #user-list {
+    max-height: 85px;
+    padding-right: 40px;
   }
 
   .chatMessages {
     top: 105px;
     width: 98vw;
-    height: calc(100vh - 210px);
+    height: calc(100vh - 195px);
   }
 
   #messageInput {
-    bottom: 60px;
+    bottom: 55px;
     right: 0;
     width: 100vw;
     height: 40px;
@@ -167,5 +172,8 @@
 
   .closeChatButton {
     display: flex;
+  }
+  .closeChatButton > button {
+    padding: 8px 10px;
   }
 }

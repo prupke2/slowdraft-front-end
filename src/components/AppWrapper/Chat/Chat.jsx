@@ -200,11 +200,11 @@ export default function Chat({ websocket, getLatestData }) {
             <>
               <div id="user-list">
                 Online: <span>{uniqueUserList.join(", ")}</span>{" "}
-                <CloseModalButton 
-                  classes="closeChatButton"
-                  setIsOpen={setChatOpen}
-                />
               </div>
+              <CloseModalButton 
+                classes="closeChatButton"
+                setIsOpen={setChatOpen}
+              />
               <MessageLog 
                 messages={messages} 
                 uniqueUserList={uniqueUserList}
