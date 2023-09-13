@@ -134,7 +134,7 @@ export default function DraftTab({
           return (
             <div 
               className={`pick-number ${isCurrentPick && 'current-pick'}`}
-              title={isCurrentPick && 'Current pick'}
+              title={isCurrentPick ? 'Current pick' : null}
             >{cell.value}</div>
           );
         }
@@ -142,7 +142,7 @@ export default function DraftTab({
           <div className='admin-column-wrapper'>
             <div 
               className={`pick-number ${isCurrentPick && 'current-pick'}`}
-              title={isCurrentPick && 'Current pick'}
+              title={isCurrentPick ? 'Current pick' : null}
             >{cell.value}</div>
             <div className="admin-column" width="20px">
               <select
