@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MessageLog from "./MessageLog/MessageLog";
 import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
-import { WEBSOCKET_URL } from "../../../util/util.jsx";
+import { WEBSOCKET_URL, sleep } from "../../../util/util.jsx";
 import { isEmpty } from "lodash";
 import Loading from "../../Loading/Loading";
 import CloseModalButton from "../ModalWrapper/CloseModalButton/CloseModalButton";
@@ -65,9 +65,7 @@ export default function Chat({ websocket, getLatestData }) {
       );
     }
     const websocketCurrent = websocket.current;
-    if (!websocketCurrent || isEmpty(websocketCurrent)) {
-      setChatStatus("offline");
-    }
+
     websocketCurrent.onopen = () => {
       console.log("Chat opened");
       setChatStatus("online");
@@ -81,20 +79,22 @@ export default function Chat({ websocket, getLatestData }) {
 
       console.log('websocketCurrent at close:', websocketCurrent);
       const reconnect = () => {
-        for (let attempt = 1; attempt <= 3; attempt += 1 ) {
-          setTimeout(() => {
+        for (let attempt = 0; attempt <= 3; attempt += 1 ) {
+          // setTimeout(() => {
+          sleep(attempt * 5000).then(() => {
             if (websocket.current.readyState === 1) {
               setChatStatus("online");
               console.log("connected!")
               return
             } else {
-              console.log(`reconnecting... attempt # ${attempt}`);
+              console.log(`reconnecting... attempt # ${attempt + 1}`);
               console.log('websocket.current:', websocket?.current);
               console.log('websocket.readyState:', websocket?.readyState);
               websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
               ['appProtocol', 'chat']
               );
             }
+            
             websocket.current.onmessage = e => {
               const message = JSON.parse(e.data);
               console.log('websocket.current on connect:', websocket.current);
@@ -104,8 +104,12 @@ export default function Chat({ websocket, getLatestData }) {
               setChatStatus("online");
               console.log("connected!")
               return;
-            }           
-          }, 10000 * attempt);
+            }       
+          });
+          if (attempt >= 3 && websocket?.current.readyState !== 1) {
+            console.log(`setting offline. attempt ${attempt}`)
+            setChatStatus("offline");
+          }
         }
       }
       setTimeout(() => {}, 1000);

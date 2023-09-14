@@ -26,7 +26,7 @@
   display: flex;
   justify-content: left;
   text-align: left;
-  top: 160px;
+  top: 155px;
   right: 0;
   width: 270px;
   height: calc(100vh - 192px);
@@ -77,11 +77,6 @@
   font-size: 0.7rem;
   margin: 4px;
   padding: 4px;
-}
-
-.user-in-chat {
-  margin: 0 4px 0 0;
-  padding: 3px 3px 2px;
 }
 
 .user-icon {
@@ -142,7 +137,7 @@
   }
 
   .chatMessages {
-    top: 105px;
+    top: 95px;
     width: 98vw;
     height: calc(100vh - 195px);
   }

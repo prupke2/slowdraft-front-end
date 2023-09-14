@@ -104,7 +104,7 @@ export default function DraftModal({
           )}
         </div>
         <div className="button-group">
-          {isLoading && <Loading alt={true} text="Drafting..." />}
+          {isLoading && <Loading alt small text="Drafting..." />}
           {!isLoading && (
             <>
               <button
