@@ -3,7 +3,6 @@ import MessageLog from "./MessageLog/MessageLog";
 import "./Chat.css";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary.jsx";
 import { WEBSOCKET_URL, sleep } from "../../../util/util.jsx";
-import { isEmpty } from "lodash";
 import Loading from "../../Loading/Loading";
 import CloseModalButton from "../ModalWrapper/CloseModalButton/CloseModalButton";
 import Emoji from "../Emoji";
