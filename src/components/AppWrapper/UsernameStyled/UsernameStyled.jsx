@@ -25,7 +25,7 @@ export default function UsernameStyled({ username, color, teamKey, small, messag
             className="user-logo"
             src={teamLogo || null}
             alt="👤"
-            title={username}
+            title={`${username} (${name})`}
           />
         )}
         {!teamId && (

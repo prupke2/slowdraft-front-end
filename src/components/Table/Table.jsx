@@ -119,6 +119,7 @@ export default function Table({
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
                         )}
+                        title={column.canSort ? `Sort by ${column.render("Header")}` : ""}
                       >
                         {column.render("Header")}
                         <span>
@@ -168,6 +169,7 @@ export default function Table({
                     return (
                       <td
                         className={cell.column.Header}
+                        
                         {...cell.getCellProps()}
                       >
                         {cell.render("Cell")}
