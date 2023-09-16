@@ -16,25 +16,43 @@ export default function Chat({ websocket, getLatestData }) {
   const mobileUser = window.screen.availWidth <= 800;
   const [chatOpen, setChatOpen] = useState(!mobileUser);
 
-  // async function pingChat() {
-  //   const pingMessage = {
-  //     "user": user.team_name,
-  //     "color": user.color, 
-  //     "message": "ping"
-  //   }
-  //   console.log(pingMessage);
-  //   // if (websocket.current) {
-  //   //   await websocket.current.send(pingMessage);
-  //   // }
-  //   console.log('Sent!');
-  // }
-  // console.log(`In useEffect. chatStatus: ${chatStatus}`);
-
-  // setInterval(() => {
-  //   if (chatStatus === 'online') {
-  //     pingChat();
-  //   }
-  // }, 5000);
+  const reconnect = async () => {
+    const retry = () => {
+      if (websocket?.current?.readyState === 1) {
+        setChatStatus("online");
+        console.log("connected!")
+        return;
+      } else {
+        console.log(`attempting to reconnect...`);
+        console.log('websocket.current:', websocket?.current);
+        console.log('websocket.readyState:', websocket?.readyState);
+        websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
+        ['appProtocol', 'chat']
+        );
+      }
+      
+      websocket.current.onmessage = e => {
+        const message = JSON.parse(e.data);
+        console.log('websocket.current on connect:', websocket.current);
+        if (message?.users) {
+          setUserList(message.users)
+        }
+        setChatStatus("online");
+        console.log("connected!")
+        return;
+      }
+    }
+    retry();
+    await sleep(5000);
+    retry();
+    await sleep(10000);
+    retry();
+    await sleep(20000);
+    retry();
+    await sleep(40000);
+    retry();
+    setChatStatus("offline");
+  };
 
   function sendMessage(msg) {
     const chatMessage = JSON.stringify(
@@ -77,40 +95,7 @@ export default function Chat({ websocket, getLatestData }) {
       setChatStatus("offline");
 
       console.log('websocketCurrent at close:', websocketCurrent);
-      const reconnect = () => {
-        for (let attempt = 0; attempt <= 3; attempt += 1 ) {
-          // setTimeout(() => {
-          sleep(attempt * 5000).then(() => {
-            if (websocket.current.readyState === 1) {
-              setChatStatus("online");
-              console.log("connected!")
-              return
-            } else {
-              console.log(`reconnecting... attempt # ${attempt + 1}`);
-              console.log('websocket.current:', websocket?.current);
-              console.log('websocket.readyState:', websocket?.readyState);
-              websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
-              ['appProtocol', 'chat']
-              );
-            }
-            
-            websocket.current.onmessage = e => {
-              const message = JSON.parse(e.data);
-              console.log('websocket.current on connect:', websocket.current);
-              if (message?.users) {
-                setUserList(message.users)
-              }
-              setChatStatus("online");
-              console.log("connected!")
-              return;
-            }       
-          });
-          if (attempt >= 3 && websocket?.current.readyState !== 1) {
-            console.log(`setting offline. attempt ${attempt}`)
-            setChatStatus("offline");
-          }
-        }
-      }
+
       setTimeout(() => {}, 1000);
       setChatStatus('reconnecting');
       reconnect();

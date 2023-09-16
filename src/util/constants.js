@@ -1,3 +1,4 @@
+// These are the ids for yahoo's stats
 export const statIdToNameMap = {
 	'careerGP': 'career GP',
 	'name': 'Player',

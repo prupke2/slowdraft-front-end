@@ -115,10 +115,6 @@ export default function Table({
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => {
                   const title = statIdToNameMap[column?.id] || '';
-                  console.log('column:', column);
-                  console.log('title:', title);
-
-
                   return (
                     <th key={column.id} width={column.width}>
                       <span
@@ -137,7 +133,7 @@ export default function Table({
                         </span>
                       </span>
                       <div>
-                        {column.canFilter ? column.render("Filter") : null}
+                        {column.canFilter && column.render("Filter")}
                       </div>
                     </th>
                   );

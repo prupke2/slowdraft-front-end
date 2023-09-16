@@ -126,6 +126,4 @@ export const binaryToBoolean = (binary) => {
   return binary === 1 || binary === "1" || binary === "true";
 };
 
-export function sleep(milliseconds) {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
-}
+export const sleep = (delayInMilliseconds) => new Promise((resolve) => setTimeout(resolve, delayInMilliseconds));
