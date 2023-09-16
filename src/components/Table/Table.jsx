@@ -4,6 +4,7 @@ import { matchSorter } from "match-sorter";
 import "./Table.css";
 import Pagination from "./Pagination/Pagination";
 import Loading from "../Loading/Loading";
+import { statIdToNameMap } from "../../util/constants";
 
 export default function Table({
   columns,
@@ -113,13 +114,18 @@ export default function Table({
             {headerGroups.map((headerGroup, i) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => {
+                  const title = statIdToNameMap[column?.id] || '';
+                  console.log('column:', column);
+                  console.log('title:', title);
+
+
                   return (
                     <th key={column.id} width={column.width}>
                       <span
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
                         )}
-                        title={column.canSort ? `Sort by ${column.render("Header")}` : ""}
+                        title={column.canSort ? `Sort by ${title || ''}` : column.render("Header")}
                       >
                         {column.render("Header")}
                         <span>
