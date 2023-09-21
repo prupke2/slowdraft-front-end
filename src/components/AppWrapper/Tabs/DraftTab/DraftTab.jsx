@@ -128,48 +128,43 @@ export default function DraftTab({
       Cell: (cell) => {
         const usedPick = cell.row.original.draft_pick_timestamp !== null;
         const disabledPick = cell.row.original.disabled === 1;
-        const isCurrentPick = cell.value === currentPick.overall_pick ;
+        const isCurrentPick = cell.value === currentPick.overall_pick;
+        const showAdminFeatures = isAdmin && !usedPick;
 
-        if (!isAdmin || usedPick) {
-          return (
-            <div 
-              className={`pick-number ${isCurrentPick && 'current-pick'}`}
-              title={isCurrentPick ? 'Current pick' : null}
-            >{cell.value}</div>
-          );
-        }
         return (
-          <div className='admin-column-wrapper'>
+          <div className='pick-column-wrapper'>
             <div 
               className={`pick-number ${isCurrentPick && 'current-pick'}`}
               title={isCurrentPick ? 'Current pick' : null}
             >{cell.value}</div>
-            <div className="admin-column" width="20px">
-              <select
-                defaultValue={cell.row.original.yahoo_team_id}
-                className="change-user-dropdown"
-                onChange={(event) =>
-                  updatePick(
-                    event,
-                    cell.row.original.round,
-                    cell.row.original.overall_pick
-                  )
-                }
-              >
-                {!disabledPick && (
-                  <>
-                    {teamsMap(teams)}
-                    <option value={0}>DISABLE PICK</option>
-                  </>
-                )}
-                {disabledPick && (
-                  <>
-                    <option value={null}>(DISABLED)</option>
-                    <option value={0}>ENABLE PICK</option>
-                  </>
-                )}
-              </select>
-            </div>
+            {showAdminFeatures && (
+              <div className="admin-column" width="20px">
+                <select
+                  defaultValue={cell.row.original.yahoo_team_id}
+                  className="change-user-dropdown"
+                  onChange={(event) =>
+                    updatePick(
+                      event,
+                      cell.row.original.round,
+                      cell.row.original.overall_pick
+                    )
+                  }
+                >
+                  {!disabledPick && (
+                    <>
+                      {teamsMap(teams)}
+                      <option value={0}>DISABLE PICK</option>
+                    </>
+                  )}
+                  {disabledPick && (
+                    <>
+                      <option value={null}>(DISABLED)</option>
+                      <option value={0}>ENABLE PICK</option>
+                    </>
+                  )}
+                </select>
+              </div>
+              )}
           </div>
         );
       },

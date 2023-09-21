@@ -144,14 +144,8 @@ export default function Table({
           <tbody {...getTableBodyProps()}>
             {page.map((row, i) => {
               prepareRow(row);
-              const pickDisabled =
-                row.cells[0].row.original.disabled === 1
-                  ? "disabled-pick"
-                  : null;
-              const takenPlayer =
-                tableType === "draft" && row.cells[0].row.original.user !== null
-                  ? "taken-player"
-                  : null;
+              const pickDisabled = row.cells[0].row.original.disabled === true ? "disabled-pick" : null;
+              const takenPlayer = tableType === "draft" && row.cells[0].row.original.user !== null ? "taken-player" : null;
 
               const currentPickRow =
                 isLiveDraft &&

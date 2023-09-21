@@ -76,7 +76,7 @@ table tr:last-child td {
 }
 
 .taken-player {
-  background-color: #b69d9d !important;
+  background-color: rgb(162, 163, 165) !important;
 }
 
 .current-pick-row {
@@ -130,7 +130,7 @@ td.Pick {
   margin-bottom: 150px;
 }
 
-.admin-column-wrapper {
+.pick-column-wrapper {
   display: flex;
 }
 

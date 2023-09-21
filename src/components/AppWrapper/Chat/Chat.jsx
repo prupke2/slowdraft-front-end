@@ -22,13 +22,17 @@ export default function Chat({ websocket, getLatestData }) {
         setChatStatus("online");
         console.log("connected!")
         return;
-      } else {
+      } else if (websocket?.current?.readyState === 3) {
         console.log(`attempting to reconnect...`);
         console.log('websocket.current:', websocket?.current);
         console.log('websocket.readyState:', websocket?.readyState);
         websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
         ['appProtocol', 'chat']
         );
+      } else if (websocket?.current?.readyState === 0) {
+        console.log(`websocket is connecting still, will wait before retrying.`);
+      } else if (websocket?.current?.readyState === 2) {
+        console.log(`old websocket is closing still, will wait before retrying.`);
       }
       
       websocket.current.onmessage = e => {
@@ -76,7 +80,7 @@ export default function Chat({ websocket, getLatestData }) {
     console.log(`connecting...`);
 
     setChatStatus('connecting');
-    if (!websocket.current) {
+    if (!websocket.current || websocket?.current?.readyState === 3) {
       websocket.current = new WebSocket(`${WEBSOCKET_URL}?user=${user?.team_name}`,
       ['appProtocol', 'chat']
       );

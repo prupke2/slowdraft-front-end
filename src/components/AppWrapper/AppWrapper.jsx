@@ -92,9 +92,7 @@ export default function AppWrapper({
 
   useEffect(() => {
     if (isRegisteredLeague) {
-      console.log("getting data");
-      const data = getLatestData();
-      console.log('latest data:', data);
+      getLatestData();
     }
   }, [getLatestData, isRegisteredLeague]);
 
