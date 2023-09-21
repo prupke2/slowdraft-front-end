@@ -209,13 +209,11 @@ export function checkForUpdates(
 
   function updateNeeded(localStorageUpdateItem, latestUpdate) {
     const localStorageUpdateString = localStorage.getItem(localStorageUpdateItem);
-    localStorage.setItem(localStorageUpdateItem, new Date());
     if (!localStorageUpdateString) {
       return true;
     }
-    const lastUpdateLocalStorage = new Date(localStorageUpdateString) - 1;
+    const lastUpdateLocalStorage = new Date(localStorageUpdateString);
     const latestUpdateWithOffset = new Date(latestUpdate) - offsetMilliseconds;
-
     return latestUpdateWithOffset > lastUpdateLocalStorage;
   }
 
@@ -238,26 +236,32 @@ export function checkForUpdates(
 
       if (updateNeeded("draftDataUpdate", data.updates.latest_draft_update)) {
         console.log("Update draft data...");
+        localStorage.setItem("draftDataUpdate", new Date());
         getDraft(setCurrentPick, setDraftingNow);
       }
       if (updateNeeded("playerDBUpdate", data.updates.latest_player_db_update)) {
         console.log("Update player DB data...");
+        localStorage.setItem("playerDBUpdate", new Date());
         getDBPlayers();
       }
       if (updateNeeded("goalieDBUpdate", data.updates.latest_goalie_db_update)) {
         console.log("Update goalie DB data...");
+        localStorage.setItem("goalieDBUpdate", new Date());
         getDBGoalies();
       }
       if (updateNeeded("playerTeamDataUpdate", data.updates.latest_team_update)) {
         console.log("Update team data...");
+        localStorage.setItem("playerTeamDataUpdate", new Date());
         getTeams();
       }
       if (updateNeeded("rulesUpdate", data.updates.latest_rules_update)) {
         console.log("Update rules data...");
+        localStorage.setItem("rulesUpdate", new Date());
         getRules();
       }
       if (updateNeeded("forumUpdate", data.updates.latest_forum_update)) {
         console.log("Update forum data...");
+        localStorage.setItem("forumUpdate", new Date());
         getForumPosts();
       }
     } else {
