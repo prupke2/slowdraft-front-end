@@ -122,14 +122,10 @@ export default function Chat({ websocket, getLatestData }) {
       const message = JSON.parse(e.data);
 
       // If the user opens multiple tabs, don't announce each time they open and close them
-      if (message?.status && userList.includes(message.user)) {
-        return
-      }
-      if (message?.event === 'pickUpdated' || message?.event === 'playerDrafted') {
+      if (message?.status || message?.users) {
+        setUserList(message.users);
+      } else if (message?.event === 'pickUpdated' || message?.event === 'playerDrafted') {
         getLatestData();
-      }
-      if (message?.users) {
-        setUserList(message.users)
       }
       setMessages((messages) => messages.concat(message));
       localStorage.setItem("chatMessages", JSON.stringify(messages))
