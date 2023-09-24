@@ -75,9 +75,9 @@ export const teamIdToLogo = (teamId) => {
   return teams && teamId ? teams[teamId - 1].team_logo : null;
 };
 
-export const teamIdToUserName = (teamId) => {
+export const teamIdToTeamName = (teamId) => {
   const teams = JSON.parse(localStorage.getItem("teams"));
-  return teamId ? teams[teamId - 1].user : null;
+  return teamId ? teams[teamId - 1].team_name : null;
 };
 
 export const teamsMap = (teams, returnType = "yahoo_team_id") => {

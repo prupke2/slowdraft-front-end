@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToastsStore } from "react-toasts";
 import SelectPlayer from "./SelectPlayer";
-import { getHeaders, teamIdToKey, teamsMap, API_URL, teamIdToUserName } from "../../../../util/util";
+import { getHeaders, teamIdToKey, teamsMap, API_URL, teamIdToTeamName } from "../../../../util/util";
 import Emoji from "../../Emoji";
 import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 
@@ -38,7 +38,7 @@ export default function MakePickTab({ ws }) {
       })
       .then((data) => {
         if (data.success === true) {
-          const user = teamIdToUserName(teamId);
+          const user = teamIdToTeamName(teamId);
           const player = data.player[0];
           const position = data.player[1];
           const team = data.player[2];
