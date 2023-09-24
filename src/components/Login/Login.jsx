@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Errors from "../Errors/Errors";
 import "./Login.css";
 import { ToastsStore } from "react-toasts";
-import { getDraft, getForumPosts, getRules } from "../../util/requests";
+import { getDraft, getForumPosts, getRules, getWatchlistIds } from "../../util/requests";
 import { localEnvironment, binaryToBoolean, API_URL } from "../../util/util";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useState } from "react";
@@ -54,6 +54,7 @@ export default function Login({
             );
             if (user) {
               getDraft(setCurrentPick, setDraftingNow);
+              getWatchlistIds();
               getForumPosts();
               getRules();
             }
