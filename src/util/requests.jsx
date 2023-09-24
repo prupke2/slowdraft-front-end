@@ -112,13 +112,13 @@ export function getTeams() {
 }
 
 export function getWatchlistIds() {
-  fetch(`${API_URL}/get_watchlist_ids`, {
+  fetch(`${API_URL}/get_watchlist`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
     const data = await response.json();
     if (data.success === true) {
-      localStorage.setItem("watchlist", JSON.stringify(data.teams));
+      localStorage.setItem("watchlist", JSON.stringify(data.players));
     } else {
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
