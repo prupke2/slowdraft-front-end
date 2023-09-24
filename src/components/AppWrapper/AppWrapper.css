@@ -2,6 +2,11 @@
   display: none;
 }
 
+.empty-star {
+  color: black;
+  width: 20px;
+}
+
 @media screen and (max-width: 800px) { 
   .navbar-emoji {
     display: flex;
