@@ -111,6 +111,21 @@ export function getTeams() {
   });
 }
 
+export function getWatchlistIds() {
+  fetch(`${API_URL}/get_watchlist_ids`, {
+    method: "GET",
+    headers: getHeaders(),
+  }).then(async (response) => {
+    const data = await response.json();
+    if (data.success === true) {
+      localStorage.setItem("watchlist", JSON.stringify(data.teams));
+    } else {
+      const error = (data && data.message) || response.status;
+      return Promise.reject(error);
+    }
+  });
+}
+
 export function getRules() {
   fetch(`${API_URL}/get_all_rules`, {
     method: "GET",
@@ -267,6 +282,56 @@ export function checkForUpdates(
         return Promise.reject("Your login has expired.");
       }
       console.log(`No updates.`);
+    }
+  });
+}
+
+export function addToWatchlist(playerId) {
+  fetch(`${API_URL}/add_to_watchlist`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({
+      player_id: playerId,
+    }),
+  }).then(async (response) => {
+    const data = await response.json();
+    if (data.success === true) {
+      const currentWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+      const newWatchlist = [...currentWatchlist, playerId];
+      localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
+      return true;
+    } else {
+      ToastsStore.error("Error updating watchlist - please try again later.");
+      const error = (data && data.message) || response.status;
+      return Promise.reject(error);
+    }
+  });
+}
+
+export function removeFromWatchlist(playerId) {
+  fetch(`${API_URL}/remove_from_watchlist`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({
+      player_id: playerId
+    }),
+  }).then(async (response) => {
+    const data = await response.json();
+    if (data.success === true) {
+      const currentWatchlist = JSON.parse(localStorage.getItem("watchlist"));
+      console.log('currentWatchlist:', currentWatchlist);
+
+      if (!currentWatchlist) {
+        return true;
+      }
+      const newWatchlist = currentWatchlist.filter(p => p !== playerId);
+      console.log('newWatchlist:', newWatchlist);
+
+      localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
+    } else {
+      ToastsStore.error("Error updating watchlist - please try again later.");
+      const error = (data && data.message) || response.status;
+      return Promise.reject(error);
     }
   });
 }
