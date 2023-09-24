@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: white;
+  background: transparent;
   transition: background 0.15s ease;
   height: 100vh;
   width: calc(100vw - 250px);
