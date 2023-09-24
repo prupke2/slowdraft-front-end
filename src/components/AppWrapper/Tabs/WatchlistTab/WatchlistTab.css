@@ -1,0 +1,23 @@
+.watchlistWrapper {
+	margin: 50px 10px 10px;
+	min-height: 85vh;
+}
+
+.emptyVerbiage {
+	font-style: italic;
+	margin: 30px 10px;
+}
+
+.watchlistWrapper > h2 {
+	margin-top: 20px;
+}
+
+.watchlist-wrapper, .watchlist-wrapper:focus {
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  outline: none;
+  width: 20px;
+}

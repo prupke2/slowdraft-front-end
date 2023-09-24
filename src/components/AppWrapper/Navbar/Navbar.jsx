@@ -5,6 +5,7 @@ import ForumTab from "../Tabs/ForumTab/ForumTab";
 import DraftTab from "../Tabs/DraftTab/DraftTab";
 import RulesTab from "../Tabs/RulesTab/RulesTab";
 import AdminTab from "../Tabs/AdminTab/AdminTab";
+import WatchlistTab from "../Tabs/WatchlistTab/WatchlistTab";
 import PickTrackerTab from "../Tabs/PickTrackerTab/PickTrackerTab";
 import Emoji from "../Emoji";
 import { Route, Switch, Redirect, NavLink } from "react-router-dom";
@@ -60,6 +61,12 @@ export default function Navbar({
               <NavLink to="/teams" activeClassName="active">
                 <Emoji navbar={true} emoji="🏒" />
                 <div>Teams</div>
+              </NavLink>
+            </li>
+            <li className="navtab">
+              <NavLink to="/watchlist" activeClassName="active">
+                <Emoji navbar={true} emoji="👀" />
+                <div>Watchlist</div>
               </NavLink>
             </li>
             <li className="navtab">
@@ -150,6 +157,11 @@ export default function Navbar({
             <Route path="/teams">
               <TeamsTab
                 draftingNow={draftingNow}
+                getLatestData={getLatestData}
+              />
+            </Route>
+            <Route path="/watchlist">
+              <WatchlistTab
                 getLatestData={getLatestData}
               />
             </Route>
