@@ -9,7 +9,7 @@ import { getDBPlayers, getDBGoalies } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 import DraftModal from "../DraftTab/DraftModal";
 import PlayerCell from "./PlayerCell";
-import { skaterStatColumns, goalieStatColumns, getTableStateWithoutFilters } from "./PlayerColumns";
+import { skaterStatColumns, goalieStatColumns } from "./PlayerColumns";
 import "./PlayersTab.css";
 
 export default function PlayersTab({
@@ -171,7 +171,31 @@ export default function PlayersTab({
     }
   ];
 
-  const tableState = {...getTableStateWithoutFilters(playerType), filters}
+  const hiddenColumns = ["player_id", "player_key", "careerGP", "prospect", "user"];
+
+  const skaterTableState = {
+    hiddenColumns: hiddenColumns,
+    sortBy: [
+      {
+        id: "3",
+        desc: true,
+      },
+    ],
+    filters,
+  };
+  
+  const goalieTableState = {
+    hiddenColumns: [...hiddenColumns, "position"],
+    sortBy: [
+      {
+        id: "19",
+        desc: true,
+      },
+    ],
+    filters,
+  };
+
+  const tableState = playerType === "skaters" ? skaterTableState : goalieTableState;
   
   useEffect(() => {
     setIsLoading(true);

@@ -134,6 +134,30 @@ export const goalieStatColumns = [
 	},
 ];
 
+const overallPickColumn = {
+	Header: "Overall Pick",
+	accessor: "overall_pick",
+	disableFilters: true,
+	Cell: (cell) => cell.value || "-",
+	width: "20px",
+}
+
+const playerColumn = {
+	Header: "Player",
+	accessor: "name",
+	disableFilters: true,
+	disableSortBy: true,
+	Cell: (cell) => <PlayerCell cell={cell} />,
+}
+
+const playerColumnWithWatchlist = {
+	Header: "Player",
+	accessor: "name",
+	disableFilters: true,
+	disableSortBy: true,
+	Cell: (cell) => <PlayerCell cell={cell} showWatchlist />,
+}
+
 const staticTeamColumn = {
 	Header: "Team",
 	accessor: "team",
@@ -154,51 +178,17 @@ const staticTeamColumn = {
 	),
 }
 
-const playerColumnWithWatchlist = {
-	Header: "Player",
-	accessor: "name",
+const positionColumn = {
+	Header: "Pos",
+	accessor: "position",
+	width: "30px",
+	filter: multiSelectPositionsFilter,
 	disableFilters: true,
 	disableSortBy: true,
-	Cell: (cell) => <PlayerCell cell={cell} showWatchlist />,
 }
 
-const hiddenColumns = ["player_id", "player_key", "careerGP", "prospect", "user"]
-
-const skaterTableState = {
-	hiddenColumns: hiddenColumns,
-	sortBy: [
-		{
-			id: "3",
-			desc: true,
-		},
-	],
-};
-
-const goalieTableState = {
-	hiddenColumns: [...hiddenColumns, "position"],
-	sortBy: [
-		{
-			id: "19",
-			desc: true,
-		},
-	],
-};
-
-export const getTableStateWithoutFilters = playerType => playerType === "skaters" ? skaterTableState : goalieTableState;
-
-export const watchlistSkaterColumns = [
-	staticTeamColumn,
-	playerColumnWithWatchlist,
+const skaterAccessors = [
 	{
-    Header: "Pos",
-    accessor: "position",
-    width: "30px",
-    filter: multiSelectPositionsFilter,
-    disableFilters: true,
-    disableSortBy: true,
-  },
-	...skaterStatColumns,
-  {
     accessor: "username",
   },
   {
@@ -212,62 +202,41 @@ export const watchlistSkaterColumns = [
   },
 ];
 
-export const watchlistGoalieColumns = [
-	staticTeamColumn,
-	playerColumnWithWatchlist,
-	{
-		Header: "GS",
-		accessor: "18",
-		disableFilters: true,
-		sortType: "alphanumeric",
-		width: "30px",
-		sortDescFirst: true,
-	},
-	{
-		Header: "W",
-		accessor: "19",
-		disableFilters: true,
-		sortType: "alphanumeric",
-		width: "30px",
-		sortDescFirst: true,
-	},
-	{
-		Header: "GAA",
-		accessor: "23",
-		disableFilters: true,
-		width: "30px",
-		sortType: "alphanumeric",
-	},
-	{
-		Header: "SV",
-		accessor: "25",
-		disableFilters: true,
-		sortType: "alphanumeric",
-		width: "30px",
-		sortDescFirst: true,
-	},
-	{
-		Header: "SV%",
-		accessor: "26",
-		disableFilters: true,
-		sortType: "alphanumeric",
-		width: "30px",
-		sortDescFirst: true,
-	},
-	{
-		accessor: "username",
-	},
+const goalieAccessors = [
+	...skaterAccessors, 
 	{
 		accessor: "position",
 	},
-	{
-		accessor: "player_id",
-	},
-	{
-		accessor: "is_keeper",
-	},
-	{
-		accessor: "prospect",
-	},
 ];
 
+export const teamSkaterColumns = [
+	overallPickColumn,
+	playerColumn,
+	staticTeamColumn,
+	positionColumn,
+	...skaterStatColumns,
+  ...skaterAccessors
+];
+
+export const teamGoalieColumns = [
+	overallPickColumn,
+	playerColumn,
+	staticTeamColumn,
+	...goalieStatColumns,
+	...goalieAccessors
+];
+
+export const watchlistSkaterColumns = [
+	playerColumnWithWatchlist,
+	staticTeamColumn,
+	positionColumn,
+	...skaterStatColumns,
+  ...skaterAccessors
+];
+
+export const watchlistGoalieColumns = [
+	playerColumnWithWatchlist,
+	staticTeamColumn,
+	...goalieStatColumns,
+	...goalieAccessors
+];
