@@ -1,8 +1,9 @@
 import React from "react";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
+import WatchlistButton from "../WatchlistTab/WatchlistButton";
 // import { offsetMilliseconds } from "../../../../util/requests";
 
-const PlayerCell = ({ cell, playerListPage }) => {
+const PlayerCell = ({ cell, showWatchlist }) => {
   const takenPlayer = cell.row.original.user !== null;
   const teamKey = cell.row.original.team_key;
   const ir = cell.row.original.ir;
@@ -11,6 +12,7 @@ const PlayerCell = ({ cell, playerListPage }) => {
     <div className={`player-name newPick`}>
       {cell.row.original.player_id && (
         <div className="player-name-and-headshot">
+          {showWatchlist && <WatchlistButton cell={cell} /> }
           <img className="headshot" src={cell.row.original.headshot} alt="" />
           <span>
             {ir && <span className='ir'>{ir}</span>}
@@ -37,7 +39,7 @@ const PlayerCell = ({ cell, playerListPage }) => {
               )}
               {cell.value}
             </a>
-            {(takenPlayer && playerListPage) && (
+            {(takenPlayer && showWatchlist) && (
               <UsernameStyled
                 username={cell.row.original.user}
                 teamKey={teamKey}
