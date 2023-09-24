@@ -1,15 +1,35 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
 import Table from "../../../Table/Table";
 import "./WatchlistTab.css";
 import { watchlistSkaterColumns, watchlistGoalieColumns } from "../PlayersTab/PlayerColumns";
+import { getWatchlistIds } from "../../../../util/requests";
+import Loading from "../../../Loading/Loading";
+import { sleep } from "../../../../util/util";
 
 export default function WatchlistTab() {
   const skaters = JSON.parse(localStorage.getItem('playerDBData'));
   const goalies = JSON.parse(localStorage.getItem('goalieDBData'));
-  const watchlist = JSON.parse(localStorage.getItem('watchlist'));
-  const watchedSkaters = skaters.filter(s => watchlist.includes(s.player_id));
-  const watchedGoalies = goalies.filter(g => watchlist.includes(g.player_id));
+  const watchlistLocalStorage = JSON.parse(localStorage.getItem('watchlist'));
+  const [isLoading, setIsLoading] = useState(watchlistLocalStorage === null)
+  const [watchlist, setWatchlist] = useState(watchlistLocalStorage || []);
+
+  const watchedSkaters = skaters?.filter(s => watchlist?.includes(s.player_id));
+  const watchedGoalies = goalies?.filter(g => watchlist?.includes(g.player_id));
   const user = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    async function fetchWatchlist() {
+      getWatchlistIds();
+      await sleep(2000);
+      const newWatchlist = JSON.parse(localStorage.getItem('watchlist'));
+      setWatchlist(newWatchlist);
+      setIsLoading(false);
+      return
+    }
+    if (!watchlistLocalStorage) {
+      fetchWatchlist();
+    }
+  }, [watchlistLocalStorage]);
 
   const skaterTableState = {
     hiddenColumns: [
@@ -59,6 +79,12 @@ export default function WatchlistTab() {
   const EmptyVerbiage = object => (
     <div className="emptyVerbiage">You have not added any {object} to your watchlist yet.</div>
   );
+
+  if (isLoading) {
+    return (
+      <Loading text="Getting watchlist..." />
+    )
+  }
 
   if (!watchedSkaters?.length && !watchedGoalies?.length) {
     return (
