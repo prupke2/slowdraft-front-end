@@ -27,9 +27,11 @@ export default function WatchlistTab() {
       return
     }
     if (!watchlistLocalStorage) {
-      fetchWatchlist();
+      setIsLoading(true);
     }
-  }, [watchlistLocalStorage]);
+    fetchWatchlist();
+    // eslint-disable-next-line 
+  }, []);
 
   const skaterTableState = {
     hiddenColumns: [
