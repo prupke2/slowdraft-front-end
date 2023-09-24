@@ -17,9 +17,10 @@ export default function App() {
   const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(true);
 
-  const [currentPick, setCurrentPick] = useState({ user_id: null });
+  const currentPickLocalStorage = JSON.parse(localStorage.getItem('currentPick'));
+  const [currentPick, setCurrentPick] = useState(currentPickLocalStorage);
   const [picks, setPicks] = useState([]);
-  const [draftingNow, setDraftingNow] = useState([]);
+  const [draftingNow, setDraftingNow] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const queryParams = qs.parse(window.location.search);
