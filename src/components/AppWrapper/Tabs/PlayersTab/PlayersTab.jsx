@@ -9,6 +9,7 @@ import { getDBPlayers, getDBGoalies } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 import DraftModal from "../DraftTab/DraftModal";
 import PlayerCell from "./PlayerCell";
+import { skaterStatColumns, goalieStatColumns, getTableStateWithoutFilters } from "./PlayerColumns";
 import "./PlayersTab.css";
 
 export default function PlayersTab({
@@ -30,12 +31,12 @@ export default function PlayersTab({
   const [prospectDropdown, setProspectDropdown] = useState("all");
   const [availabilityDropdown, setAvailabilityDropdown] = useState("available");
   const [modalOpen, setModalOpen] = useState(false);
-  const [playerDrafted, setPlayerDrafted] = useState("");
+  const [playerToDraft, setPlayerToDraft] = useState("");
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
 
-  function draftModal(player) {
+  function openDraftModal(player) {
     setModalOpen(true);
-    setPlayerDrafted(player);
+    setPlayerToDraft(player);
   }
 
   function prospectFilter(rows) {
@@ -52,145 +53,7 @@ export default function PlayersTab({
     return rows.filter((row) => row.original.user === null);
   }
 
-  const goalieStatColumns = [
-    {
-      Header: "GS",
-      accessor: "18",
-      disableFilters: true,
-      sortType: "alphanumeric",
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "W",
-      accessor: "19",
-      disableFilters: true,
-      sortType: "alphanumeric",
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "GAA",
-      accessor: "23",
-      disableFilters: true,
-      sortType: "alphanumeric",
-      width: "30px",
-    },
-    {
-      Header: "SV",
-      accessor: "25",
-      disableFilters: true,
-      sortType: "alphanumeric",
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "SV%",
-      accessor: "26",
-      disableFilters: true,
-      sortType: "alphanumeric",
-      width: "30px",
-      sortDescFirst: true,
-    },
-  ];
-
-  const skaterStatColumns = [
-    {
-      Header: "Pos",
-      accessor: "position",
-      Filter: SelectPositionColumnFilter,
-      width: "30px",
-    },
-    {
-      Header: "GP",
-      accessor: "0",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "G",
-      accessor: "1",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "A",
-      accessor: "2",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "P",
-      accessor: "3",
-      disableFilters: true,
-      sortDescFirst: true,
-      width: "30px",
-    },
-    {
-      Header: "+/-",
-      accessor: "4",
-      disableFilters: true,
-      sortDescFirst: true,
-      width: "30px",
-    },
-    {
-      Header: "PIM",
-      accessor: "5",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "PPP",
-      accessor: "8",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "SOG",
-      accessor: "14",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "S%",
-      accessor: "15",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "FW",
-      accessor: "16",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "HIT",
-      accessor: "31",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-    {
-      Header: "BLK",
-      accessor: "32",
-      disableFilters: true,
-      width: "30px",
-      sortDescFirst: true,
-    },
-  ];
-
-  const statColumns =
-    playerType === "skaters" ? skaterStatColumns : goalieStatColumns;
-
-  const columns = [
+  const sharedColumns = [
     {
       Header: "Player",
       accessor: "name",
@@ -198,21 +61,20 @@ export default function PlayersTab({
       sortType: "alphanumeric",
       width: "100px",
       Cell: (cell) => {
-        const takenPlayer =
-          cell.row.original.user !== null ? "taken-player" : null;
-        if (draftingNow) {
-          return (
-            <div className="player-wrapper">
+        const takenPlayer = cell.row.original.user !== null ? "taken-player" : null;
+        return (
+          <div className="player-wrapper">
+            { draftingNow && (
               <div className="draft-button-cell">
                 {!takenPlayer && isLiveDraft && (
                   <div>
-                    <button onClick={() => draftModal(cell.row.original)}>
+                    <button onClick={() => openDraftModal(cell.row.original)}>
                       Draft
                     </button>
                     <DraftModal
                       modalIsOpen={modalOpen}
                       setIsOpen={setModalOpen}
-                      data={playerDrafted}
+                      data={playerToDraft}
                       modalType="draftPlayer"
                       sendChatAnnouncement={sendChatAnnouncement}
                       setPicks={setPicks}
@@ -227,22 +89,14 @@ export default function PlayersTab({
                   </div>
                 )}
               </div>
-              <PlayerCell 
-                cell={cell} 
-                draftingNow={draftingNow}
-                playerListPage={true}
-              />
-            </div>
-          );
-        } else {
-          return (
+            )}
             <PlayerCell 
-              cell={cell}
-              draftingNow={draftingNow} 
-              playerListPage={true}
+              cell={cell} 
+              draftingNow={draftingNow}
+              showWatchlist
             />
-          );
-        }
+          </div>
+        );
       },
     },
     {
@@ -263,7 +117,6 @@ export default function PlayersTab({
         </div>
       ),
     },
-    ...statColumns,
     {
       accessor: "careerGP",
     },
@@ -283,6 +136,24 @@ export default function PlayersTab({
     },
   ];
 
+  const skaterColumns = [
+    ...sharedColumns,
+    {
+      Header: "Pos",
+      accessor: "position",
+      Filter: SelectPositionColumnFilter,
+      width: "30px",
+    },
+    ...skaterStatColumns,
+  ];
+
+  const goalieColumns = [
+    ...sharedColumns,
+    ...goalieStatColumns,
+  ]
+
+  const columns = playerType === "skaters" ? skaterColumns : goalieColumns;
+
   const filters = [
     {
       id: "userColumn",
@@ -294,41 +165,14 @@ export default function PlayersTab({
     {
       id: "user",
     },
+    {
+      id: "team",
+      value: "",
+    }
   ];
 
-  const goalieTableState = {
-    hiddenColumns: [
-      "position",
-      "player_id",
-      "player_key",
-      "careerGP",
-      "prospect",
-      "user",
-    ],
-    sortBy: [
-      {
-        id: "19",
-        desc: true,
-      },
-    ],
-    filters: filters,
-  };
-
-  const skaterTableState = {
-    hiddenColumns: ["player_id", "player_key", "careerGP", "prospect", "user"],
-    sortBy: [
-      {
-        id: "3",
-        desc: true,
-      },
-    ],
-    filters: filters,
-  };
-
-  const tableState =
-    playerType === "skaters" ? skaterTableState : goalieTableState;
+  const tableState = {...getTableStateWithoutFilters(playerType), filters}
   
-
   useEffect(() => {
     setIsLoading(true);
     getLatestData();
