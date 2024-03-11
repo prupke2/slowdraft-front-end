@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import Table from "../../../Table/Table";
 import "./WatchlistTab.css";
-import { watchlistSkaterColumns, watchlistGoalieColumns } from "../PlayersTab/PlayerColumns";
+import { watchlistTabSkaterColumns, watchlistTabGoalieColumns } from "../PlayersTab/PlayerColumns";
 import { getWatchlistIds } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 import { sleep } from "../../../../util/util";
@@ -102,7 +102,7 @@ export default function WatchlistTab() {
         <Table
           user={user}
           data={watchedSkaters}
-          columns={watchlistSkaterColumns}
+          columns={watchlistTabSkaterColumns}
           tableState={skaterTableState}
           defaultColumn="player_id"
           tableType="watchlist"
@@ -113,7 +113,7 @@ export default function WatchlistTab() {
         <Table
           user={user}
           data={watchedGoalies}
-          columns={watchlistGoalieColumns}
+          columns={watchlistTabGoalieColumns}
           tableState={goalieTableState}
           defaultColumn="player_id"
           tableType="watchlist"
