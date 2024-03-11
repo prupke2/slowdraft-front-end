@@ -3,7 +3,6 @@ import Table from "../../../Table/Table";
 import Loading from "../../../Loading/Loading";
 import {
   getDraft,
-  getDBGoalies,
   getDBPlayers,
   getTeams,
   offsetMilliseconds,
@@ -293,12 +292,8 @@ export default function DraftTab({
     }
     setIsLoading(false);
 
-    const localGoalieData = localStorage.getItem("goalieDBData");
     const localPlayerData = localStorage.getItem("playerDBData");
     const playerTeamData = localStorage.getItem("playerTeamData");
-    if (!localGoalieData) {
-      getDBGoalies();
-    }
     if (!localPlayerData) {
       getDBPlayers();
     }
