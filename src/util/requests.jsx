@@ -59,7 +59,7 @@ export function getDraft(setCurrentPick, setDraftingNow) {
 }
 
 export function getDBPlayers() {
-  fetch(`${API_URL}/get_db_players_new`, {
+  fetch(`${API_URL}/get_db_players`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -76,23 +76,23 @@ export function getDBPlayers() {
   });
 }
 
-export function getDBGoalies() {
-  fetch(`${API_URL}/get_db_players_new?position=G`, {
-    method: "GET",
-    headers: getHeaders(),
-  }).then(async (response) => {
-    const data = await response.json();
-    if (data.success === true) {
-      localStorage.setItem("goalieDBData", JSON.stringify(data.players));
-      localStorage.setItem("goalieDBUpdate", new Date());
-    } else {
-      ToastsStore.error("Error getting goalies.");
-      const error = data?.message || response.status;
-      console.log(`error: ${error}`);
-      return Promise.reject(error);
-    }
-  });
-}
+// export function getDBGoalies() {
+//   fetch(`${API_URL}/get_db_players_new?position=G`, {
+//     method: "GET",
+//     headers: getHeaders(),
+//   }).then(async (response) => {
+//     const data = await response.json();
+//     if (data.success === true) {
+//       localStorage.setItem("goalieDBData", JSON.stringify(data.players));
+//       localStorage.setItem("goalieDBUpdate", new Date());
+//     } else {
+//       ToastsStore.error("Error getting goalies.");
+//       const error = data?.message || response.status;
+//       console.log(`error: ${error}`);
+//       return Promise.reject(error);
+//     }
+//   });
+// }
 
 export function getTeams() {
   fetch(`${API_URL}/get_teams`, {
@@ -256,10 +256,6 @@ export function checkForUpdates(
       if (updateNeeded("playerDBUpdate", data.updates.latest_player_db_update)) {
         console.log("Update player DB data...");
         getDBPlayers();
-      }
-      if (updateNeeded("goalieDBUpdate", data.updates.latest_goalie_db_update)) {
-        console.log("Update goalie DB data...");
-        getDBGoalies();
       }
       if (updateNeeded("playerTeamDataUpdate", data.updates.latest_team_update)) {
         console.log("Update team data...");

@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import { ToastsStore } from "react-toasts";
 import {
   getDraft,
-  getDBGoalies,
   getDBPlayers,
   getTeams,
 } from "../../../../util/requests";
@@ -25,14 +24,12 @@ export default function DraftModal({
   setCurrentPick,
   setDraftingNow,
   setPlayers,
-  setGoalies,
   ws,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   function draftPlayer(data) {
     setIsLoading(true);
-    const isGoalie = data.position === "G" ? true : false;
     const msg = playerDraftedAnnouncement(user.team_name, data.name, data.position, data.team);
     try {
       fetch(`${API_URL}/draft/${data.player_id}`, {
@@ -53,8 +50,7 @@ export default function DraftModal({
           ws.send(msg);
           getDraft(setCurrentPick, setDraftingNow);
           getTeams();
-          isGoalie && getDBGoalies();
-          !isGoalie && getDBPlayers();
+          getDBPlayers();
           if (data.success !== true) {
             ToastsStore.error(`${data.error}`);
           } else {

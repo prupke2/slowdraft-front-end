@@ -1,5 +1,6 @@
 import React from "react";
 import PlayerCell from "./PlayerCell";
+import { SelectPositionColumnFilter } from "../../../Table/FilterTypes/FilterTypes";
 
 function multiSelectPositionsFilter(rows) {
   return rows.filter((row) => row.original.position !== "G");
@@ -209,7 +210,7 @@ const goalieAccessors = [
 	},
 ];
 
-export const teamSkaterColumns = [
+export const teamsTabSkaterColumns = [
 	overallPickColumn,
 	playerColumn,
 	staticTeamColumn,
@@ -218,7 +219,7 @@ export const teamSkaterColumns = [
   ...skaterAccessors
 ];
 
-export const teamGoalieColumns = [
+export const teamsTabGoalieColumns = [
 	overallPickColumn,
 	playerColumn,
 	staticTeamColumn,
@@ -226,7 +227,7 @@ export const teamGoalieColumns = [
 	...goalieAccessors
 ];
 
-export const watchlistSkaterColumns = [
+export const watchlistTabSkaterColumns = [
 	playerColumnWithWatchlist,
 	staticTeamColumn,
 	positionColumn,
@@ -234,9 +235,30 @@ export const watchlistSkaterColumns = [
   ...skaterAccessors
 ];
 
-export const watchlistGoalieColumns = [
+export const watchlistTabGoalieColumns = [
 	playerColumnWithWatchlist,
 	staticTeamColumn,
 	...goalieStatColumns,
 	...goalieAccessors
+];
+
+export const playersTabSkaterColumns = [
+	{
+		Header: "Pos",
+		accessor: "position",
+		Filter: SelectPositionColumnFilter,
+		width: "30px",
+	},
+	...skaterStatColumns,
+  // ...skaterAccessors
+];
+
+export const playersTabGoalieColumns = [
+	...goalieStatColumns,
+	{
+		Header: "Pos",
+		accessor: "position",
+		Filter: SelectPositionColumnFilter,
+		width: "30px",
+	},
 ];
