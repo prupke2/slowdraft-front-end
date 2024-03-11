@@ -5,7 +5,7 @@ import {
   SelectTeamFilter,
 } from "../../../Table/FilterTypes/FilterTypes";
 import Table from "../../../Table/Table";
-import { getDBPlayers, getDBGoalies } from "../../../../util/requests";
+import { getDBPlayers } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 import DraftModal from "../DraftTab/DraftModal";
 import PlayerCell from "./PlayerCell";
@@ -15,7 +15,6 @@ import "./PlayersTab.css";
 export default function PlayersTab({
   playerType,
   user,
-  setGoalies,
   draftingNow,
   setTeams,
   getLatestData,
@@ -82,7 +81,6 @@ export default function PlayersTab({
                       setCurrentPick={setCurrentPick}
                       setDraftingNow={setDraftingNow}
                       setPlayers={setPlayers}
-                      setGoalies={setGoalies}
                       setTeams={setTeams}
                       ws={ws}
                     />
@@ -201,32 +199,18 @@ export default function PlayersTab({
     setIsLoading(true);
     getLatestData();
     const playerDBData = localStorage.getItem("playerDBData");
-    const goalieDBData = localStorage.getItem("goalieDBData");
 
-    if (playerType === "skaters") {
-      if (playerDBData) {
-        console.log("Using cached data");
-        const data = JSON.parse(playerDBData);
-        setPlayers(data);
-        setIsLoading(false);
-      } else {
-        console.log("Getting new player DB data");
-        getDBPlayers(setPlayers);
-      }
-    }
-    if (playerType === "goalies") {
-      if (goalieDBData) {
-        console.log("Using cached data");
-        const data = JSON.parse(goalieDBData);
-        setPlayers(data);
-        setIsLoading(false);
-      } else {
-        console.log("Getting new player DB data");
-        getDBGoalies(setGoalies);
-      }
+    if (playerDBData) {
+      console.log("Using cached data");
+      const data = JSON.parse(playerDBData);
+      setPlayers(data);
+      setIsLoading(false);
+    } else {
+      console.log("Getting new player DB data");
+      getDBPlayers(setPlayers);
     }
     setIsLoading(false);
-  }, [setPlayers, setGoalies, getLatestData, playerType]);
+  }, [setPlayers, getLatestData, playerType]);
 
   return (
     <>
