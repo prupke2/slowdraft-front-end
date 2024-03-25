@@ -1,9 +1,9 @@
 import React from "react";
 import qs from "qs";
 
-export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://draft-api.onrender.com';
+export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://slowdraft-api.vercel.com';
 
-export const WEBSOCKET_URL = localEnvironment() ? 'ws://localhost:8000/chat' : 'wss://draft-api.onrender.com/chat';
+export const WEBSOCKET_URL = localEnvironment() ? 'ws://localhost:8000/chat' : 'wss://slowdraft-api.vercel.com/chat';
 
 export function updateUrlPath(path) {
   window.history.replaceState(null, null, path);
