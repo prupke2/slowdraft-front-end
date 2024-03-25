@@ -74,9 +74,9 @@ export default function Login({
           console.log('error:', error);
 
           ToastsStore.error(
-            `There was an error connecting to the server. Please try again later.`
+            `There was an error connecting to the server. Please try again later. Error: ${error?.text}`
           );
-          console.log(`error text: ${JSON.stringify(error.text, null, 4)}`);
+          console.log(`error text: ${JSON.stringify(error?.text, null, 4)}`);
           setLoggedIn(false);
         });
       // setTimeout(() => {
