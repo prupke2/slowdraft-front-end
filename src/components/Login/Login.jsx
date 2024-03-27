@@ -30,7 +30,7 @@ export default function Login({
       const headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": API_URL,
+        "Access-Control-Allow-Origin": `${API_URL}/login/`,
       }
       fetch(`${API_URL}/login/${code}`,{
         method: "GET",
