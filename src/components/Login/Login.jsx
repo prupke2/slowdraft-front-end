@@ -29,7 +29,7 @@ export default function Login({
       const headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": `${API_URL}/login`,
+        "Access-Control-Allow-Origin": API_URL,
       }
       fetch(`${API_URL}/login/${code}`,{
         method: "GET",
@@ -75,7 +75,7 @@ export default function Login({
           setLoggedIn(false);
         })
         .finally(() => {
-          setCode('');
+          setCode(undefined);
         });
       // setTimeout(() => {
       //   setIsLoading(false);
@@ -84,9 +84,7 @@ export default function Login({
     const now = new Date();
 
     if (typeof code !== "undefined" && !isLoading && (!lastLoginTimestamp || lastLoginTimestamp + 10 < now)) {
-      const newLoginDate = new Date();
-      setLastLoginTimestamp(newLoginDate);
-      setIsLoading(true);
+      setLastLoginTimestamp(now);
       loginUser();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
