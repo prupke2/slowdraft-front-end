@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Errors from "../Errors/Errors";
 import "./Login.css";
-import { ToastsStore } from "react-toasts";
 import { getDraft, getForumPosts, getRules, getWatchlistIds } from "../../util/requests";
 import { localEnvironment, binaryToBoolean, API_URL } from "../../util/util";
 import { Route, Redirect, Switch } from "react-router-dom";
@@ -18,8 +17,8 @@ export default function Login({
 }) {
   const client_id =
     "dj0yJmk9ZXVsUnFtMm9hSlRqJmQ9WVdrOU1rOU5jWGQzTkhNbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWQ1";
-  let errors = null;
-  const redirect_uri = localEnvironment() ? "oob" : "https://slowdraft.vercel.app/login";
+  const [errors, setErrors] = useState(null);
+  const redirect_uri = localEnvironment() ? "oob" : "https://slowdraft.vercel.app";
   const yahooLoginUrl =
     `https://api.login.yahoo.com/oauth2/request_auth?client_id=${client_id}` +
     `&redirect_uri=${redirect_uri}&response_type=code&language=en-us`;
@@ -65,18 +64,13 @@ export default function Login({
             setLoggedIn(false);
             setIsLoading(false);
             // if (localStorage.getItem('user') === null) {
-              ToastsStore.error(
-                "There was an error logging into Yahoo. Please try again."
-              );
+            setErrors("There was an error logging into Yahoo. Please try again.");
             // }
           }
         })
         .catch((error) => {
           console.log('error:', error);
-
-          ToastsStore.error(
-            `There was an error connecting to the server. Please try again later. Error: ${error?.text}`
-          );
+          setErrors(`There was an error connecting to the server. Please try again later. Error: ${error?.text}`);
           console.log(`error text: ${JSON.stringify(error?.text, null, 4)}`);
           setLoggedIn(false);
         })
