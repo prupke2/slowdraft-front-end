@@ -24,7 +24,7 @@ export default function App() {
 
   const [isLoading, setIsLoading] = useState(true);
   const queryParams = qs.parse(window.location.search);
-  const code = queryParams["code"];
+  const [code, setCode] = useState(queryParams["code"]);
 
   const [user, setUser] = useState({
     team_key: null,
@@ -61,6 +61,7 @@ export default function App() {
       {((!webToken || !loggedIn) && !isLoading) && (
         <Login
           code={code}
+          setCode={setCode}
           setLoggedIn={setLoggedIn}
           isLoading={isLoading}
           setIsLoading={setIsLoading}

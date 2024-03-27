@@ -9,6 +9,7 @@ import { useState } from "react";
 
 export default function Login({
   code,
+  setCode,
   setLoggedIn,
   isLoading,
   setIsLoading,
@@ -29,7 +30,7 @@ export default function Login({
       const headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": '*',
+        "Access-Control-Allow-Origin": API_URL,
       }
       fetch(`${API_URL}/login/${code}`,{
         method: "GET",
@@ -78,6 +79,9 @@ export default function Login({
           );
           console.log(`error text: ${JSON.stringify(error?.text, null, 4)}`);
           setLoggedIn(false);
+        })
+        .finally(() => {
+          setCode('');
         });
       // setTimeout(() => {
       //   setIsLoading(false);
