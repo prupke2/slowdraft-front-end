@@ -3,7 +3,7 @@
   height: 100vh;
   padding: 0;
   margin: 0;
-  background-image: url('/login_bg.jpg');
+  background-image: url('/src/assets/login_bg.jpg');
   background-repeat:no-repeat;
   background-position: center center;
 }

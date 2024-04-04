@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Login from "./components/Login/Login";
-import qs from "query-string";
+import qs from "qs";
 import AppWrapper from "./components/AppWrapper/AppWrapper";
 import Loading from "./components/Loading/Loading";
 import "./App.css";
