@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToastsStore } from "react-toasts";
+import { toast } from "react-toastify";
 import SelectPlayer from "./SelectPlayer";
 import { getHeaders, teamIdToKey, teamsMap, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
@@ -35,16 +35,16 @@ export default function AddKeeperTab({ singleTeam }) {
         .then((data) => {
           if (data.success === true) {
             setTimeout(function () {
-              ToastsStore.success("Keeper added successfully.");
+              toast("Keeper added successfully.");
             }, 500);
             setKeeperPlayerId(null);
           } else {
             setKeeperPlayerId([]);
-            ToastsStore.error("Error adding keeper.");
+            toast("Error adding keeper.");
           }
         });
     } else {
-      ToastsStore.error("Please fill out all the fields.");
+      toast("Please fill out all the fields.");
     }
   }
 

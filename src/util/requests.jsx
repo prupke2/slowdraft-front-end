@@ -1,4 +1,4 @@
-import { ToastsStore } from "react-toasts";
+import { toast } from "react-toastify";
 import { getHeaders, binaryToBoolean, API_URL } from "./util";
 
 export const getOptions = {
@@ -51,7 +51,7 @@ export function getDraft(setCurrentPick, setDraftingNow) {
       setCurrentPick(data.current_pick);
       setDraftingNow(data.drafting_now);
     } else {
-      ToastsStore.error("Error getting draft.");
+      toast("Error getting draft.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -68,7 +68,7 @@ export function getDBPlayers() {
       localStorage.setItem("playerDBData", JSON.stringify(data.players));
       localStorage.setItem("playerDBUpdate", new Date());
     } else {
-      ToastsStore.error("Error getting players.");
+      toast("Error getting players.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -86,7 +86,7 @@ export function getDBGoalies() {
       localStorage.setItem("goalieDBData", JSON.stringify(data.players));
       localStorage.setItem("goalieDBUpdate", new Date());
     } else {
-      ToastsStore.error("Error getting goalies.");
+      toast("Error getting goalies.");
       const error = data?.message || response.status;
       console.log(`error: ${error}`);
       return Promise.reject(error);
@@ -104,7 +104,7 @@ export function getTeams() {
       localStorage.setItem("playerTeamData", JSON.stringify(data.teams));
       localStorage.setItem("playerTeamDataUpdate", new Date());
     } else {
-      ToastsStore.error("Error getting teams.");
+      toast("Error getting teams.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -137,7 +137,7 @@ export function getRules() {
       localStorage.setItem("rulesUpdate", new Date());
       return data;
     } else {
-      ToastsStore.error("Error getting rules.");
+      toast("Error getting rules.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -154,7 +154,7 @@ export function getForumPosts() {
       localStorage.setItem("forumData", JSON.stringify(data.posts));
       localStorage.setItem("forumUpdate", new Date());
     } else {
-      ToastsStore.error("Error getting forum posts.");
+      toast("Error getting forum posts.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -194,17 +194,17 @@ export function selectLeague(
         }
       } else if (data.error === "INVALID_REFRESH_TOKEN") {
         localStorage.clear();
-        ToastsStore.error(
+        toast(
           "Your Yahoo connection has expired."
         );
       } else {
-        ToastsStore.error(
+        toast(
           "There was an error connecting to Yahoo. Please try again later."
         );
       }
     })
     .catch((error) => {
-      ToastsStore.error(
+      toast(
         `There was an error connecting to Yahoo. Please try again later.`
       );
       console.log(`Error: ${error.text}`);
@@ -242,7 +242,7 @@ export function checkForUpdates(
       return Promise.reject(error);
     }
     if (data.success === false && data?.error === 'expired_token') {
-      ToastsStore.error('Your login has expired. Please log in again.')
+      toast('Your login has expired. Please log in again.')
       logout();
       return;
     }
@@ -301,7 +301,7 @@ export function addToWatchlist(playerId) {
       localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
       return true;
     } else {
-      ToastsStore.error("Error updating watchlist - please try again later.");
+      toast("Error updating watchlist - please try again later.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -329,7 +329,7 @@ export function removeFromWatchlist(playerId) {
 
       localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
     } else {
-      ToastsStore.error("Error updating watchlist - please try again later.");
+      toast("Error updating watchlist - please try again later.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }

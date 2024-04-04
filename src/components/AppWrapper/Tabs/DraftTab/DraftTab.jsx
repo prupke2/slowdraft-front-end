@@ -10,7 +10,7 @@ import {
 } from "../../../../util/requests";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import { teamsMap, getHeaders, teamIdToKey, API_URL, } from "../../../../util/util";
-import { ToastsStore } from "react-toasts";
+import { toast } from "react-toastify";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import NewDraftTab from "../AdminTab/NewDraftTab";
 import CountdownTimer from "../../Widget/CountdownTimer/CountdownTimer";
@@ -78,10 +78,10 @@ export default function DraftTab({
             );
             getDraft(setCurrentPick, setDraftingNow);
             setTimeout(function () {
-              ToastsStore.success(`Pick ${overall_pick} ${data.status}.`);
+              toast(`Pick ${overall_pick} ${data.status}.`);
             }, 200);
           } else {
-            ToastsStore.error(`Error updating pick ${overall_pick}.`);
+            toast(`Error updating pick ${overall_pick}.`);
           }
         });
     } else {
@@ -108,10 +108,10 @@ export default function DraftTab({
               `The ${user.team_name} have updated pick ${overall_pick}.`
             );
             setTimeout(function () {
-              ToastsStore.success(`Pick ${overall_pick} updated.`);
+              toast(`Pick ${overall_pick} updated.`);
             }, 200);
           } else {
-            ToastsStore.error(`Error updating pick ${overall_pick}.`);
+            toast(`Error updating pick ${overall_pick}.`);
           }
         });
     }

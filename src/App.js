@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Login from "./components/Login/Login";
-import qs from "query-string";
+import qs from "qs";
 import AppWrapper from "./components/AppWrapper/AppWrapper";
 import Loading from "./components/Loading/Loading";
 import "./App.css";
 import {
-  ToastsContainer,
-  ToastsStore,
-  ToastsContainerPosition,
-} from "react-toasts";
+  ToastContainer,
+} from "react-toastify";
 import dummyIcon from "./assets/dummy_icon.png";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import { useLocation } from "react-router-dom";
@@ -76,9 +74,18 @@ export default function App() {
       )}
       {(webToken && !isLoading) && (
         <main className={!user ? 'full-width' : null}>
-          <ToastsContainer
-            store={ToastsStore}
-            position={ToastsContainerPosition.TOP_CENTER}
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition="Bounce"
           />
           <ErrorBoundary>
             <AppWrapper

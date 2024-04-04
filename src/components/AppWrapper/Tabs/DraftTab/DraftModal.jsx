@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { ToastsStore } from "react-toasts";
+import { toast } from "react-toastify";
 import {
   getDraft,
   getDBGoalies,
@@ -41,7 +41,7 @@ export default function DraftModal({
       })
         .then((response) => {
           if (!response.ok) {
-            ToastsStore.error(`An error occurred. Please try again later.`);
+            toast(`An error occurred. Please try again later.`);
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
@@ -56,9 +56,9 @@ export default function DraftModal({
           isGoalie && getDBGoalies();
           !isGoalie && getDBPlayers();
           if (data.success !== true) {
-            ToastsStore.error(`${data.error}`);
+            toast(`${data.error}`);
           } else {
-            ToastsStore.success(
+            toast(
               `You have drafted ${data.player}. ${draftingAgain}`
             );
             const draftTab = document.querySelector('.navtab-list .navtab:first-child a');
@@ -71,7 +71,7 @@ export default function DraftModal({
         });
       } catch (err) {
         console.log('Error:', err);
-        ToastsStore.error(`There was an error: ${err}. Please change tabs to see if the pick was saved before trying again.`);
+        toast(`There was an error: ${err}. Please change tabs to see if the pick was saved before trying again.`);
         setIsOpen(false);
         setIsLoading(false);
       }
