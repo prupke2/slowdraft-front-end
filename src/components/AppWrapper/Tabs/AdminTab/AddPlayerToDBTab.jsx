@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToastsStore } from "react-toasts";
+import { toast } from "react-toastify";
 import { getHeaders, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 import { SelectTeamFilter } from "../../../Table/FilterTypes/FilterTypes";
@@ -59,15 +59,15 @@ export default function AddPlayerToDBTab() {
         .then((data) => {
           if (data.success === true) {
             setTimeout(function () {
-              ToastsStore.success(`Player added successfully.`);
+              toast(`Player added successfully.`);
             }, 1000);
             updateTimestamp(positions);
           } else {
-            ToastsStore.error(`Error adding player.`);
+            toast(`Error adding player.`);
           }
         });
     } else {
-      ToastsStore.error(`Please fill out all the fields.`);
+      toast(`Please fill out all the fields.`);
     }
   }
 

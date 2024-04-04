@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { ToastsStore } from "react-toasts";
+import { toast } from "react-toastify";
 import { getHeaders, capitalizeFirstLetter, API_URL } from "../../../../util/util";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -27,11 +27,11 @@ export default function NewPost({
   function savePost(event, postType) {
     event.preventDefault();
     if (!body) {
-      ToastsStore.error("A message is required.");
+      toast("A message is required.");
       return;
     }
     if (!isReply && !title) {
-      ToastsStore.error("A title is required.");
+      toast("A title is required.");
       return;
     }
     const requestParams = {
@@ -53,9 +53,9 @@ export default function NewPost({
           return Promise.reject(error);
         }
         if (data.success === true) {
-          ToastsStore.success(`${capitalizeFirstLetter(post)} saved.`);
+          toast(`${capitalizeFirstLetter(post)} saved.`);
         } else {
-          ToastsStore.error(`Error saving ${post}.`);
+          toast(`Error saving ${post}.`);
         }
       })
       .then(setIsOpen(false));

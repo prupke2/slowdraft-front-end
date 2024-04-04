@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToastsStore } from "react-toasts";
+import { toast } from "react-toastify";
 import SelectPlayer from "./SelectPlayer";
 import { getHeaders, teamIdToKey, teamsMap, API_URL, teamIdToTeamName } from "../../../../util/util";
 import Emoji from "../../Emoji";
@@ -16,7 +16,7 @@ export default function MakePickTab({ ws }) {
   function draftPlayer(e) {
     e.preventDefault();
     if (!playerId) {
-      ToastsStore.error(`You forgot to select a player.`);
+      toast(`You forgot to select a player.`);
       return;
     }
     const requestParams = {
@@ -30,7 +30,7 @@ export default function MakePickTab({ ws }) {
     fetch(`${API_URL}/make_pick`, requestParams)
       .then((response) => {
         if (!response.ok) {
-          ToastsStore.error(`An error occurred. Please try again later.`);
+          toast(`An error occurred. Please try again later.`);
           const error = response.status;
           return Promise.reject(error);
         }
@@ -42,14 +42,14 @@ export default function MakePickTab({ ws }) {
           const player = data.player[0];
           const position = data.player[1];
           const team = data.player[2];
-          ToastsStore.success(`👍 Success! Drafted ${player}, ${position} - ${team} for ${user}`);
+          toast(`👍 Success! Drafted ${player}, ${position} - ${team} for ${user}`);
           console.log(`data: ${JSON.stringify(data, null, 4)}`);
           // const {player, position, team} = {data.player[0], data.player[1], data.player[2]}
           const msg = playerDraftedAnnouncement(user, player, position, team);
 
           ws.send(msg);
         } else {
-          ToastsStore.error(
+          toast(
             `There was an error making this pick. ${
               data.error ? data.error : null
             }`
