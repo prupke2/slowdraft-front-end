@@ -1,5 +1,5 @@
 import React from "react";
-import qs from "qs";
+import qs from "query-string";
 
 export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://slowdraft-api.vercel.app';
 
