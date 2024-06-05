@@ -5,7 +5,7 @@ import { checkForUpdates, getChatToken } from "../../util/requests";
 import { useCallback } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
-import { AblyProvider, ChannelProvider, useChannel } from 'ably/react';
+import { AblyProvider, ChannelProvider } from 'ably/react';
 import Chat from "./Chat/Chat";
 // import ErrorBanner from "../Errors/ErrorBanner";
 

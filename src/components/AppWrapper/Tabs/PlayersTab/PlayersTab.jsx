@@ -24,7 +24,7 @@ export default function PlayersTab({
   setCurrentPick,
   setDraftingNow,
   currentPick,
-  ws,
+  channel,
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState([]);
@@ -84,7 +84,7 @@ export default function PlayersTab({
                       setPlayers={setPlayers}
                       setGoalies={setGoalies}
                       setTeams={setTeams}
-                      ws={ws}
+                      channel={channel}
                     />
                   </div>
                 )}

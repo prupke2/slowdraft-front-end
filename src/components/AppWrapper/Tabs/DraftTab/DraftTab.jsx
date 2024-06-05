@@ -24,7 +24,7 @@ export default function DraftTab({
   draftingNow,
   setDraftingNow,
   getLatestData,
-  ws,
+  channel,
   sendChatAnnouncement,
 }) {
   const isAdmin = user?.role === "admin";
@@ -72,7 +72,7 @@ export default function DraftTab({
           if (data.success === true) {
             const msg = pickUpdatedAnnouncement(user.team_name, overall_pick);
 
-            ws.send(msg);
+            // ws.send(msg);
             sendChatAnnouncement(
               `The ${user.team_name} have updated pick ${overall_pick}.`
             );
@@ -103,7 +103,7 @@ export default function DraftTab({
             const msg = pickUpdatedAnnouncement(user.team_name, overall_pick);
             console.log(`msg: ${msg}`);
 
-            ws.send(msg);
+            // ws.send(msg);
             sendChatAnnouncement(
               `The ${user.team_name} have updated pick ${overall_pick}.`
             );

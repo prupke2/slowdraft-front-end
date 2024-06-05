@@ -21,9 +21,9 @@ export default function Navbar({
   setDraftingNow,
   sendChatAnnouncement,
   getLatestData,
-  ws,
+  channel,
 }) {
-
+  
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
@@ -124,7 +124,7 @@ export default function Navbar({
                 draftingNow={draftingNow}
                 setDraftingNow={setDraftingNow}
                 getLatestData={getLatestData}
-                ws={ws}
+                channel={channel}
                 sendChatAnnouncement={sendChatAnnouncement}
               />
             </Route>
@@ -138,7 +138,7 @@ export default function Navbar({
                 sendChatAnnouncement={sendChatAnnouncement}
                 getLatestData={getLatestData}
                 currentPick={currentPick}
-                ws={ws}
+                channel={channel}
               />
             </Route>
             <Route path="/goalies">
@@ -151,7 +151,7 @@ export default function Navbar({
                 sendChatAnnouncement={sendChatAnnouncement}
                 getLatestData={getLatestData}
                 currentPick={currentPick}
-                ws={ws}
+                channel={channel}
               />
             </Route>
             <Route path="/teams">
@@ -190,7 +190,7 @@ export default function Navbar({
             {user?.role === "admin" && (
               <Route path="/admin">
                 <AdminTab 
-                  ws={ws}
+                  channel={channel}
                 />
               </Route>
             )}

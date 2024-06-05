@@ -11,29 +11,27 @@ import { getHeaders, API_URL } from "../../../../util/util";
 import Loading from "../../../Loading/Loading";
 import CloseModalButton from "../../ModalWrapper/CloseModalButton/CloseModalButton";
 import "../../ModalWrapper/ModalWrappers.css";
-import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
+// import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 
 export default function DraftModal({
   modalIsOpen,
   setIsOpen,
   data,
   modalType,
-  sendChatAnnouncement,
   setTeams,
   setPicks,
   currentPick,
   setCurrentPick,
   setDraftingNow,
   setPlayers,
-  setGoalies,
-  ws,
+  channel,
 }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  
   const user = JSON.parse(localStorage.getItem("user"));
   function draftPlayer(data) {
     setIsLoading(true);
     const isGoalie = data.position === "G" ? true : false;
-    const msg = playerDraftedAnnouncement(user.team_name, data.name, data.position, data.team);
+    // const msg = playerDraftedAnnouncement(user.team_name, data.name, data.position, data.team);
     try {
       fetch(`${API_URL}/draft/${data.player_id}`, {
         method: "GET",
@@ -50,7 +48,7 @@ export default function DraftModal({
         .then((data) => {
           const draftingAgain =
             data.drafting_again === true ? "You're up again!" : "";
-          ws.send(msg);
+          // ws.send(msg);
           getDraft(setCurrentPick, setDraftingNow);
           getTeams();
           isGoalie && getDBGoalies();
