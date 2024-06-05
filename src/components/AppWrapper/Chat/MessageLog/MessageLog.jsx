@@ -18,13 +18,13 @@ export default function MessageLog({ messages, uniqueUserList }) {
         <div>
           {messages.map((item, index) => (
             <div key={index}>
-              {(!item?.event && item.message) && (
+              {(!item?.event && item.data.message) && (
                 <UsernameStyled
-                  username={item.username}
-                  teamKey={item.teamKey}
-                  color={item.color}
+                  username={item.name}
+                  teamKey={item.data.teamKey}
+                  color={item.data.color}
                   small={true}
-                  message={item.message}
+                  message={item.data.message}
                 />
               )}
               {item?.event && (

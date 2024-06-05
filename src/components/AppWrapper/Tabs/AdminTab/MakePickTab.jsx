@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 import SelectPlayer from "./SelectPlayer";
 import { getHeaders, teamIdToKey, teamsMap, API_URL, teamIdToTeamName } from "../../../../util/util";
 import Emoji from "../../Emoji";
-import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
+// import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 
-export default function MakePickTab({ ws }) {
+export default function MakePickTab({ channel }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const [teamId, setTeamId] = useState(user.yahoo_team_id);
   const [playerId, setPlayerId] = useState(null);
@@ -43,11 +43,11 @@ export default function MakePickTab({ ws }) {
           const position = data.player[1];
           const team = data.player[2];
           toast(`👍 Success! Drafted ${player}, ${position} - ${team} for ${user}`);
-          console.log(`data: ${JSON.stringify(data, null, 4)}`);
           // const {player, position, team} = {data.player[0], data.player[1], data.player[2]}
-          const msg = playerDraftedAnnouncement(user, player, position, team);
+          // const msg = playerDraftedAnnouncement(user, player, position, team);
 
-          ws.send(msg);
+          // channel
+          // ws.send(msg);
         } else {
           toast(
             `There was an error making this pick. ${
