@@ -35,6 +35,23 @@ export const healthCheck = (setHealthStatus) => {
   }
 }
 
+export const getChatToken = () => {
+  fetch(`${API_URL}/get_chat_token`, {
+    method: "GET",
+    headers: getHeaders(),
+  }).then(async (response) => {
+    if (!response.ok) {
+      return false;
+    }
+    const data = await response.json();
+    console.log('data: ', data);
+    
+    localStorage.setItem("chatToken", JSON.stringify(data.token));
+  }).catch((error) => {
+    console.log(`Error getting chat token: ${error}`);
+  });
+}
+
 export function getDraft(setCurrentPick, setDraftingNow) {
   fetch(`${API_URL}/get_draft`, {
     method: "GET",
