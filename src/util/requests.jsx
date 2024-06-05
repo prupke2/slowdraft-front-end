@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { getHeaders, binaryToBoolean, API_URL } from "./util";
+import * as Ably from 'ably';
 
 export const getOptions = {
   method: "GET",
@@ -35,7 +36,7 @@ export const healthCheck = (setHealthStatus) => {
   }
 }
 
-export const getChatToken = () => {
+export const getChatToken = (setChatClient) => {
   fetch(`${API_URL}/get_chat_token`, {
     method: "GET",
     headers: getHeaders(),
@@ -44,9 +45,12 @@ export const getChatToken = () => {
       return false;
     }
     const data = await response.json();
-    console.log('data: ', data);
-    
-    localStorage.setItem("chatToken", JSON.stringify(data.token));
+    localStorage.setItem("chatToken", data.token);
+    const client = new Ably.Realtime({ 
+      key: data.token, 
+      clientId: 'slowdraftchat',
+    });
+    setChatClient(client);
   }).catch((error) => {
     console.log(`Error getting chat token: ${error}`);
   });
