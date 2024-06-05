@@ -8,7 +8,7 @@ import CloseModalButton from '../ModalWrapper/CloseModalButton/CloseModalButton'
 import MessageLog from './MessageLog/MessageLog';
 import { useChannel } from 'ably/react';
 
-export default function Chat({ chatStatus, setChatStatus, chatMessages, setChatMessages }) {
+export default function Chat({ chatStatus, setChatStatus, setChannel, chatMessages, setChatMessages }) {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const chatBackgroundColor = chatStatus === "offline" ? '#dbdbdb' : 'white';
@@ -21,6 +21,7 @@ export default function Chat({ chatStatus, setChatStatus, chatMessages, setChatM
   const { channel } = useChannel(user.yahoo_league_id, user.team_name, (message) => {
     setChatMessages(previousMessages => [...previousMessages, message]);
   });
+  setChannel(channel);
 
   const uniqueUserList = [];
   const isMobileUser = window.screen.availWidth <= 800;
