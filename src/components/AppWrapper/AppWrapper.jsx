@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
-import Chat from "./Chat/Chat";
 import Widget from "./Widget/Widget";
-import { checkForUpdates } from "../../util/requests";
+import { checkForUpdates, getChatToken } from "../../util/requests";
 import { useCallback } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
-import { useEffect } from "react";
+import { AblyProvider, ChannelProvider, useChannel } from 'ably/react';
+import Chat from "./Chat/Chat";
 // import ErrorBanner from "../Errors/ErrorBanner";
 
 export default function AppWrapper({
@@ -20,10 +20,13 @@ export default function AppWrapper({
   const isRegisteredLeague =
     localStorage.getItem("registeredLeague") === "true";
   const leagueList = JSON.parse(localStorage.getItem("leagueList"));
-	const websocket = useRef(null);
-  const ws = websocket.current;
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatStatus, setChatStatus] = useState("connecting");
+  const [chatClient, setChatClient] = useState(null);
+  const [channel, setChannel] = useState(null)
 
-  // const [healthStatus, setHealthStatus] = useState("up");
+  const user = JSON.parse(localStorage.getItem("user"));
+
   // function getRegisteredLeagueCount() {
   //   let count = 0;
   //   leagueList.forEach((league) => {
@@ -38,19 +41,6 @@ export default function AppWrapper({
   // }, [
   //   setHealthStatus
   // ]);
-
-  // useEffect(() => {
-  //   let status = healthCheck(setHealthStatus);
-  //   console.log(`status: ${status}`);
-
-  //   setHealthStatus(status === 200 ? 'up' : 'down');
-
-
-  //    console.log(`healthStatus: ${healthStatus}`);
- 
-  //   return () => clearTimeout(timeout);  
-  // }, [healthStatus]);
-
 
   const teamsInLocalStorage = localStorage.getItem("teams");
   const [singleLeagueSelected, setSingleLeagueSelected] = useState(teamsInLocalStorage !== 'null')
@@ -67,28 +57,12 @@ export default function AppWrapper({
     logout
   ]);
 
-  function sendChatAnnouncement(message) {
-    // const messageObject = {
-    //   text: message,
-    //   uuid: "***",
-    // };
-    // const pubnub = new PubNub({
-    //   publishKey: pub,
-    //   subscribeKey: sub,
-    //   uuid: user.team_name,
-    // });
-    // pubnub.publish({
-    //   message: messageObject,
-    //   channel: channel,
-    // });
-  }
-
-  // useEffect(() => {
-  //   if (user !== null) {
-  //     console.log("getting data");
-  //     getLatestData();
-  //   }
-  // }, [user, getLatestData]);
+  useEffect(() => {
+    const chatToken = localStorage.getItem("chatToken");
+    if (!chatToken) {
+      getChatToken(setChatClient);
+    }
+  }, []);
 
   useEffect(() => {
     if (isRegisteredLeague) {
@@ -124,19 +98,27 @@ export default function AppWrapper({
             setCurrentPick={setCurrentPick}
             draftingNow={draftingNow}
             setDraftingNow={setDraftingNow}
-            sendChatAnnouncement={sendChatAnnouncement}
             getLatestData={getLatestData}
-            ws={ws}
+            channel={channel}
           />
           <Widget
             isRegisteredLeague={isRegisteredLeague}
             draftingNow={draftingNow}
             logout={logout}
           />
-          <Chat
-            websocket={websocket}
-            getLatestData={getLatestData}
-          />
+          { chatClient && (
+            <AblyProvider client={chatClient}>
+              <ChannelProvider channelName={user.yahoo_league_id}>
+                <Chat
+                  chatStatus={chatStatus}
+                  setChatStatus={setChatStatus}
+                  setChannel={setChannel}
+                  chatMessages={chatMessages}
+                  setChatMessages={setChatMessages}
+                />
+              </ChannelProvider>
+            </AblyProvider>
+          )}
         </>
       )}
     </>
