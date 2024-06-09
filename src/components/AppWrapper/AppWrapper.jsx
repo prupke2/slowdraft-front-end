@@ -7,7 +7,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
 import { AblyProvider, ChannelProvider } from 'ably/react';
 import Chat from "./Chat/Chat";
-// import ErrorBanner from "../Errors/ErrorBanner";
 
 export default function AppWrapper({
   logout,
@@ -59,10 +58,10 @@ export default function AppWrapper({
 
   useEffect(() => {
     const chatToken = localStorage.getItem("chatToken");
-    if (!chatToken) {
+    if (!chatToken || !chatClient) {
       getChatToken(setChatClient);
     }
-  }, []);
+  }, [chatClient]);
 
   useEffect(() => {
     if (isRegisteredLeague) {
@@ -72,9 +71,6 @@ export default function AppWrapper({
 
   return (
     <>
-      {/* {healthStatus === 'down' &&
-        <ErrorBanner />
-      } */}
       {!singleLeagueSelected && (
         <Switch>
           <Route path="/league-select">
