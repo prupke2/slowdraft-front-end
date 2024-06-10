@@ -47,9 +47,11 @@
 }
 
 #user-list {
+  display: flex;
+  justify-content: left;
   margin-right: 6px;
   margin-left: -2px;
-  max-height: 55px;
+  max-height: 75px;
   width: 100%;
   font-weight: 800;
   font-size: 0.7rem;

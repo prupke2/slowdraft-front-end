@@ -6,7 +6,9 @@ import Loading from "../../Loading/Loading";
 import Emoji from '../Emoji';
 import CloseModalButton from '../ModalWrapper/CloseModalButton/CloseModalButton';
 import MessageLog from './MessageLog/MessageLog';
-import { useChannel } from 'ably/react';
+import { useChannel, usePresenceListener } from 'ably/react';
+import UsernameStyled from '../UsernameStyled/UsernameStyled';
+import { removeDuplicatesUsers } from '../../../util/util';
 
 export default function Chat({ chatStatus, setChatStatus, setChannel, chatMessages, setChatMessages }) {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -22,15 +24,15 @@ export default function Chat({ chatStatus, setChatStatus, setChannel, chatMessag
     setChatMessages(previousMessages => [...previousMessages, message]);
   });
   setChannel(channel);
-
-  const uniqueUserList = [];
+  
+  const { presenceData } = usePresenceListener(user.yahoo_league_id);
+  const usersOnline = presenceData.map(msg => msg.data);
+  const uniqueUsersOnline = removeDuplicatesUsers(usersOnline);
   const isMobileUser = window.screen.availWidth <= 800;
   const mobileCloseChat = isMobileUser && chatStatus === 'offline';
   const [chatOpen, setChatOpen] = useState(!isMobileUser);
 
   function handleKeyDown(event) {
-    console.log('event: ', event);
-    
     if (event.target.id === "messageInput") {
       if (event.key === "Enter") {
         channel.publish(user.team_name, {
@@ -44,8 +46,22 @@ export default function Chat({ chatStatus, setChatStatus, setChannel, chatMessag
   }
 
   useConnectionStateListener('connected', () => {
-    console.log('Connected to Ably!');
+    console.log('Connected to chat!');
     setChatStatus("online");
+    channel.presence.subscribe('enter', (member) => {
+      console.log('Member entered the chat: ', member);
+    });
+    channel.presence.subscribe('update', (member) => {
+      console.log('Member update: ', member);
+    });
+    channel.presence.enter();
+    channel.presence.update({
+      name: user.team_name,
+      color: user.color, 
+      role: user.role, 
+      logo: user.logo,
+      teamKey: user.team_key,
+    });
   });
 
   return (
@@ -83,8 +99,15 @@ export default function Chat({ chatStatus, setChatStatus, setChannel, chatMessag
         { chatStatus === 'online' &&
           <>
             <div id="user-list">
-              {/* TODO: add user list */}
-              Online: <span>{uniqueUserList.join(", ")}</span>{" "}
+              {uniqueUsersOnline.map((u) => (
+                <UsernameStyled
+                  username={u.name}
+                  color={u.color}
+                  teamKey={u.teamKey}
+                  small
+                  logoAndShortName
+                />
+              ))}
             </div>
             <CloseModalButton
               classes="closeChatButton"
