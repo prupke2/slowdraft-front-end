@@ -33,6 +33,7 @@ li.navtab > a:hover {
   transition: background 0.2s ease;
   padding: 20px;
   margin-top: 0;
+  min-height: calc(100% - 35px);
 }
 
 .navtab a {

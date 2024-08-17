@@ -52,6 +52,12 @@
   color: white;
 }
 
+.empty-verbiage {
+  font-style: italic;
+  font-variant: small-caps;
+  margin-bottom: 80px;
+}
+
 @media screen and (max-width: 800px) { 
   .team-tab-header {
     width: auto;
