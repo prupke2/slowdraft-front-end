@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import SelectPlayer from "./SelectPlayer";
 import { getHeaders, teamIdToKey, teamsMap, API_URL, teamIdToTeamName } from "../../../../util/util";
 import Emoji from "../../Emoji";
+import { playerDraftedAnnouncement, publishToChat } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 // import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 
 export default function MakePickTab({ channel }) {
@@ -43,11 +44,8 @@ export default function MakePickTab({ channel }) {
           const position = data.player[1];
           const team = data.player[2];
           toast(`👍 Success! Drafted ${player}, ${position} - ${team} for ${user}`);
-          // const {player, position, team} = {data.player[0], data.player[1], data.player[2]}
-          // const msg = playerDraftedAnnouncement(user, player, position, team);
-
-          // channel
-          // ws.send(msg);
+          const msg = playerDraftedAnnouncement(user, player, position, team);
+          publishToChat(channel, user, msg);
         } else {
           toast(
             `There was an error making this pick. ${
