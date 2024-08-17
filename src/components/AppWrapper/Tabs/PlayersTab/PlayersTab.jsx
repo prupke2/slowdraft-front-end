@@ -19,7 +19,6 @@ export default function PlayersTab({
   draftingNow,
   setTeams,
   getLatestData,
-  sendChatAnnouncement,
   setPicks,
   setCurrentPick,
   setDraftingNow,
@@ -76,7 +75,6 @@ export default function PlayersTab({
                       setIsOpen={setModalOpen}
                       data={playerToDraft}
                       modalType="draftPlayer"
-                      sendChatAnnouncement={sendChatAnnouncement}
                       setPicks={setPicks}
                       currentPick={currentPick}
                       setCurrentPick={setCurrentPick}

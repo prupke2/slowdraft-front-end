@@ -114,8 +114,7 @@ export default function Chat({ chatStatus, setChatStatus, setChannel, chatMessag
               setIsOpen={setChatOpen}
             />
             <MessageLog 
-              messages={chatMessages} 
-              uniqueUserList={[]}
+              messages={chatMessages}
             /> 
             <input
               placeholder="Enter a message..."

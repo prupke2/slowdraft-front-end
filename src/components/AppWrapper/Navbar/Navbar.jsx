@@ -19,7 +19,6 @@ export default function Navbar({
   setCurrentPick,
   draftingNow,
   setDraftingNow,
-  sendChatAnnouncement,
   getLatestData,
   channel,
 }) {
@@ -125,7 +124,6 @@ export default function Navbar({
                 setDraftingNow={setDraftingNow}
                 getLatestData={getLatestData}
                 channel={channel}
-                sendChatAnnouncement={sendChatAnnouncement}
               />
             </Route>
             <Route path="/skaters">
@@ -135,7 +133,6 @@ export default function Navbar({
                 setCurrentPick={setCurrentPick}
                 draftingNow={draftingNow}
                 setDraftingNow={setDraftingNow}
-                sendChatAnnouncement={sendChatAnnouncement}
                 getLatestData={getLatestData}
                 currentPick={currentPick}
                 channel={channel}
@@ -148,7 +145,6 @@ export default function Navbar({
                 setCurrentPick={setCurrentPick}
                 draftingNow={draftingNow}
                 setDraftingNow={setDraftingNow}
-                sendChatAnnouncement={sendChatAnnouncement}
                 getLatestData={getLatestData}
                 currentPick={currentPick}
                 channel={channel}
