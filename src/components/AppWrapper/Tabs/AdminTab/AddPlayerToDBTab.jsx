@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { getHeaders, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 import { SelectTeamFilter } from "../../../Table/FilterTypes/FilterTypes";

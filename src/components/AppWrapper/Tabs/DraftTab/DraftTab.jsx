@@ -10,7 +10,7 @@ import {
 } from "../../../../util/requests";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import { teamsMap, getHeaders, teamIdToKey, API_URL, } from "../../../../util/util";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import NewDraftTab from "../AdminTab/NewDraftTab";
 import CountdownTimer from "../../Widget/CountdownTimer/CountdownTimer";
