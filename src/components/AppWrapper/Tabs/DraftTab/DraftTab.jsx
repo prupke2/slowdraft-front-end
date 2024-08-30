@@ -28,7 +28,7 @@ export default function DraftTab({
 }) {
   const isAdmin = user?.role === "admin";
   const teams = JSON.parse(localStorage.getItem("teams"));
-  const [picks, setPicks] = useState([]);  
+  const [picks, setPicks] = useState([]);
   const draft = JSON.parse(localStorage.getItem("draftData"));
   // set to "=== true" to make it a boolean, since localStorage can only be kept as strings
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
