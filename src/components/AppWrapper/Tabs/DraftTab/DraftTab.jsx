@@ -28,7 +28,7 @@ export default function DraftTab({
 }) {
   const isAdmin = user?.role === "admin";
   const teams = JSON.parse(localStorage.getItem("teams"));
-  const [picks, setPicks] = useState([]);
+  const [picks, setPicks] = useState([]);  
   const draft = JSON.parse(localStorage.getItem("draftData"));
   // set to "=== true" to make it a boolean, since localStorage can only be kept as strings
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
@@ -42,7 +42,7 @@ export default function DraftTab({
     if (localStoragePicks) {
       setPicks(localStoragePicks);
     } else {
-      getDraft(setCurrentPick, setDraftingNow);
+      getDraft(setCurrentPick, setDraftingNow, setPicks);
     }
   }, [setDraftingNow, setCurrentPick])
 
@@ -311,7 +311,7 @@ export default function DraftTab({
         />
       }
       {!isRegisteredLeague && <NewDraftTab />}
-      {!isLoading && isRegisteredLeague && picks && (
+      {!isLoading && isRegisteredLeague && (
         <Table
           data={picks}
           columns={columns}
@@ -321,7 +321,6 @@ export default function DraftTab({
           user={user}
           draftingNow={draftingNow}
           currentPick={currentPick}
-          setPicks={setPicks}
           setCurrentPick={setCurrentPick}
           setDraftingNow={setDraftingNow}
           defaultPage={page || currentPick?.round - 1 || 0}

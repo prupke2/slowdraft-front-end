@@ -56,7 +56,7 @@ export const getChatToken = (setChatClient) => {
   });
 }
 
-export function getDraft(setCurrentPick, setDraftingNow) {
+export function getDraft(setCurrentPick, setDraftingNow, setPicks=null) {
   fetch(`${API_URL}/get_draft`, {
     method: "GET",
     headers: getHeaders(),
@@ -71,6 +71,9 @@ export function getDraft(setCurrentPick, setDraftingNow) {
       localStorage.setItem("draftIsOver", binaryToBoolean(data.draft.is_over));
       setCurrentPick(data.current_pick);
       setDraftingNow(data.drafting_now);
+      if (setPicks) {
+        setPicks(data.picks);
+      };
     } else {
       toast("Error getting draft.");
       const error = (data && data.message) || response.status;
