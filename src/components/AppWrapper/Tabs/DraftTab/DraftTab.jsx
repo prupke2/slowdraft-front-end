@@ -10,7 +10,7 @@ import {
 } from "../../../../util/requests";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import { teamsMap, getHeaders, teamIdToKey, API_URL, } from "../../../../util/util";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import NewDraftTab from "../AdminTab/NewDraftTab";
 import CountdownTimer from "../../Widget/CountdownTimer/CountdownTimer";
@@ -42,7 +42,7 @@ export default function DraftTab({
     if (localStoragePicks) {
       setPicks(localStoragePicks);
     } else {
-      getDraft(setCurrentPick, setDraftingNow);
+      getDraft(setCurrentPick, setDraftingNow, setPicks);
     }
   }, [setDraftingNow, setCurrentPick])
 
@@ -311,7 +311,7 @@ export default function DraftTab({
         />
       }
       {!isRegisteredLeague && <NewDraftTab />}
-      {!isLoading && isRegisteredLeague && picks && (
+      {!isLoading && isRegisteredLeague && (
         <Table
           data={picks}
           columns={columns}
@@ -321,7 +321,6 @@ export default function DraftTab({
           user={user}
           draftingNow={draftingNow}
           currentPick={currentPick}
-          setPicks={setPicks}
           setCurrentPick={setCurrentPick}
           setDraftingNow={setDraftingNow}
           defaultPage={page || currentPick?.round - 1 || 0}

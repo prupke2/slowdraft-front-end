@@ -1,6 +1,6 @@
 import React from "react";
 import "./Errors.css";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function Errors({ error, errorInfo }) {
   if (error) {

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { getHeaders, capitalizeFirstLetter, API_URL } from "../../../../util/util";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";

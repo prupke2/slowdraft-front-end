@@ -4,9 +4,7 @@ import qs from "query-string";
 import AppWrapper from "./components/AppWrapper/AppWrapper";
 import Loading from "./components/Loading/Loading";
 import "./App.css";
-import {
-  ToastContainer,
-} from "react-toastify";
+import { Toaster } from "react-hot-toast";
 import dummyIcon from "./assets/dummy_icon.png";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import { useLocation } from "react-router-dom";
@@ -74,19 +72,7 @@ export default function App() {
       )}
       {(webToken && !isLoading) && (
         <main className={!user ? 'full-width' : null}>
-          <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            transition="Bounce"
-          />
+          <Toaster />
           <ErrorBoundary>
             <AppWrapper
               setLoggedIn={setLoggedIn}

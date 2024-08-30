@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import {
   getDraft,
   getDBGoalies,
