@@ -7,8 +7,9 @@ import Loading from "../../../Loading/Loading";
 import { sleep } from "../../../../util/util";
 
 export default function WatchlistTab() {
-  const skaters = JSON.parse(localStorage.getItem('playerDBData'));
-  const goalies = JSON.parse(localStorage.getItem('goalieDBData'));
+  const players = JSON.parse(localStorage.getItem("playerDBData"));
+  const skaters = players.filter(player => player.position !== "G");
+  const goalies = players.filter(player => player.position === "G")
   const watchlistLocalStorage = JSON.parse(localStorage.getItem('watchlist'));
   const [isLoading, setIsLoading] = useState(watchlistLocalStorage === null)
   const [watchlist, setWatchlist] = useState(watchlistLocalStorage || []);
