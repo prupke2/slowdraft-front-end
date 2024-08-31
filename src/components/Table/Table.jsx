@@ -44,7 +44,7 @@ export default function Table({
     return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
   }
 
-  tableState = {
+  const initialState = {
     ...tableState,
     pageIndex: defaultPage || 0,
     pageSize: pageSize || 25,
@@ -75,7 +75,7 @@ export default function Table({
       autoResetPage: true,
       defaultColumnFilter,
       filterTypes,
-      initialState: tableState,
+      initialState: initialState,
       disableSortRemove: true,
       autoResetSortBy: true,
     },
