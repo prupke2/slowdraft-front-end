@@ -22,7 +22,7 @@ export default function PlayersTabNew({
   setCurrentPick,
   setDraftingNow,
   currentPick,
-  ws,
+  channel,
 }) {
   const playersLocalStorage = JSON.parse(localStorage.getItem("playerDBData")) || [];
 
@@ -108,7 +108,7 @@ export default function PlayersTabNew({
                       setDraftingNow={setDraftingNow}
                       setPlayers={setPlayers}
                       setTeams={setTeams}
-                      ws={ws}
+                      channel={channel}
                     />
                   </div>
                 )}
