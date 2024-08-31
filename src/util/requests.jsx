@@ -277,10 +277,9 @@ export function checkForUpdates(
       }
     } else {
       console.log('data:', data);
-
-      if (data?.error) {
-        if (data?.status === 401 || data?.status === 403)
+      if (data?.status === 401 || data?.status === 403) {
         console.log("Logging out");
+        logout();
         return Promise.reject("Your login has expired.");
       }
       console.log(`No updates.`);
