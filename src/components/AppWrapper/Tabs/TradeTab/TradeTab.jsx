@@ -1,6 +1,6 @@
 import React from "react";
 
-// import { ToastsStore } from "react-toasts";
+// import toast from "react-hot-toast";
 
 export default function TradeTab() {
 

@@ -1,9 +1,9 @@
 import React from "react";
-import qs from "qs";
+import qs from "query-string";
 
-export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://draft-api.onrender.com';
+export const API_URL = localEnvironment() ? 'http://localhost:8000' : 'https://slowdraft-api.vercel.app';
 
-export const WEBSOCKET_URL = localEnvironment() ? 'ws://localhost:8000/chat' : 'wss://draft-api.onrender.com/chat';
+export const WEBSOCKET_URL = localEnvironment() ? 'ws://localhost:8000/chat' : 'wss://slowdraft-api.vercel.app/chat';
 
 export function updateUrlPath(path) {
   window.history.replaceState(null, null, path);
@@ -97,7 +97,7 @@ export const getHeaders = () => ({
   "Accept": "application/json",
   "Content-Type": "application/json",
   "Host": API_URL,
-  "Access-Control-Allow-Origin": localEnvironment() ? '*' : 'https://slowdraft.netlify.app',
+  "Access-Control-Allow-Origin": localEnvironment() ? '*' : 'https://slowdraft.vercel.app',
   "Authorization": localStorage.getItem("web_token"),
 });
 
@@ -125,5 +125,18 @@ export function capitalizeFirstLetter(str) {
 export const binaryToBoolean = (binary) => {
   return binary === 1 || binary === "1" || binary === "true";
 };
+
+export function removeDuplicatesUsers(arr) {
+  // If users log in more than once, prevent them from appearing twice in the user list
+  const uniqueUsers = [];
+  arr.reduce(function (acc, curr) {    
+    if (!acc.includes(curr.teamKey)) {
+      acc.push(curr.teamKey);
+      uniqueUsers.push(curr);
+    }
+    return acc;
+  }, []);
+  return uniqueUsers;
+}
 
 export const sleep = (delayInMilliseconds) => new Promise((resolve) => setTimeout(resolve, delayInMilliseconds));

@@ -4,11 +4,7 @@ import qs from "query-string";
 import AppWrapper from "./components/AppWrapper/AppWrapper";
 import Loading from "./components/Loading/Loading";
 import "./App.css";
-import {
-  ToastsContainer,
-  ToastsStore,
-  ToastsContainerPosition,
-} from "react-toasts";
+import { Toaster } from "react-hot-toast";
 import dummyIcon from "./assets/dummy_icon.png";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import { useLocation } from "react-router-dom";
@@ -24,7 +20,7 @@ export default function App() {
 
   const [isLoading, setIsLoading] = useState(true);
   const queryParams = qs.parse(window.location.search);
-  const code = queryParams["code"];
+  const [code, setCode] = useState(queryParams["code"]);
 
   const [user, setUser] = useState({
     team_key: null,
@@ -61,6 +57,7 @@ export default function App() {
       {((!webToken || !loggedIn) && !isLoading) && (
         <Login
           code={code}
+          setCode={setCode}
           setLoggedIn={setLoggedIn}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
@@ -75,10 +72,7 @@ export default function App() {
       )}
       {(webToken && !isLoading) && (
         <main className={!user ? 'full-width' : null}>
-          <ToastsContainer
-            store={ToastsStore}
-            position={ToastsContainerPosition.TOP_CENTER}
-          />
+          <Toaster />
           <ErrorBoundary>
             <AppWrapper
               setLoggedIn={setLoggedIn}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToastsStore } from "react-toasts";
+import toast from "react-hot-toast";
 import { getHeaders, teamIdToKey, teamsMap, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 
@@ -31,14 +31,14 @@ export default function AddDraftPickTab() {
         .then((data) => {
           if (data.success === true) {
             setTimeout(function () {
-              ToastsStore.success("Pick added successfully.");
+              toast("Pick added successfully.");
             }, 200);
           } else {
-            ToastsStore.error("Error adding pick.");
+            toast("Error adding pick.");
           }
         });
     } else {
-      ToastsStore.error("Please fill out all the fields.");
+      toast("Please fill out all the fields.");
     }
   }
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { ToastsStore } from "react-toasts";
+import toast from "react-hot-toast";
 import {
   getDraft,
   getDBPlayers,
@@ -10,23 +10,22 @@ import { getHeaders, API_URL } from "../../../../util/util";
 import Loading from "../../../Loading/Loading";
 import CloseModalButton from "../../ModalWrapper/CloseModalButton/CloseModalButton";
 import "../../ModalWrapper/ModalWrappers.css";
-import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
+import { playerDraftedAnnouncement, publishToChat } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 
 export default function DraftModal({
   modalIsOpen,
   setIsOpen,
   data,
   modalType,
-  sendChatAnnouncement,
   setTeams,
   setPicks,
   currentPick,
   setCurrentPick,
   setDraftingNow,
   setPlayers,
-  ws,
+  channel,
 }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  
   const user = JSON.parse(localStorage.getItem("user"));
   function draftPlayer(data) {
     setIsLoading(true);
@@ -38,23 +37,22 @@ export default function DraftModal({
       })
         .then((response) => {
           if (!response.ok) {
-            ToastsStore.error(`An error occurred. Please try again later.`);
+            toast(`An error occurred. Please try again later.`);
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
           return response.json();
         })
         .then((data) => {
-          const draftingAgain =
-            data.drafting_again === true ? "You're up again!" : "";
-          ws.send(msg);
+          const draftingAgain = data.drafting_again === true ? "You're up again!" : "";
+          publishToChat(channel, user, msg);
           getDraft(setCurrentPick, setDraftingNow);
           getTeams();
           getDBPlayers();
           if (data.success !== true) {
-            ToastsStore.error(`${data.error}`);
+            toast(`${data.error}`);
           } else {
-            ToastsStore.success(
+            toast(
               `You have drafted ${data.player}. ${draftingAgain}`
             );
             const draftTab = document.querySelector('.navtab-list .navtab:first-child a');
@@ -67,7 +65,7 @@ export default function DraftModal({
         });
       } catch (err) {
         console.log('Error:', err);
-        ToastsStore.error(`There was an error: ${err}. Please change tabs to see if the pick was saved before trying again.`);
+        toast(`There was an error: ${err}. Please change tabs to see if the pick was saved before trying again.`);
         setIsOpen(false);
         setIsLoading(false);
       }

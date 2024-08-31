@@ -9,11 +9,11 @@ import {
 } from "../../../../util/requests";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import { teamsMap, getHeaders, teamIdToKey, API_URL, } from "../../../../util/util";
-import { ToastsStore } from "react-toasts";
+import toast from "react-hot-toast";
 import PlayerCell from "../PlayersTab/PlayerCell";
 import NewDraftTab from "../AdminTab/NewDraftTab";
 import CountdownTimer from "../../Widget/CountdownTimer/CountdownTimer";
-import { pickUpdatedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
+import { pickUpdatedAnnouncement, publishToChat } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 // import { AddToHomepageModal } from "../../ModalWrapper/ModalWrappers";
 
 export default function DraftTab({
@@ -23,8 +23,7 @@ export default function DraftTab({
   draftingNow,
   setDraftingNow,
   getLatestData,
-  ws,
-  sendChatAnnouncement,
+  channel,
 }) {
   const isAdmin = user?.role === "admin";
   const teams = JSON.parse(localStorage.getItem("teams"));
@@ -37,17 +36,14 @@ export default function DraftTab({
     localStorage.getItem("registeredLeague") === "true";
   const [page, setPage] = useState(null);
 
-  // const isMobile = mobileCheck();
-  // console.log(`isMobile: ${isMobile}`);
-
   useEffect(() => {
     const localStoragePicks = JSON.parse(localStorage.getItem("picks"));
     if (localStoragePicks) {
       setPicks(localStoragePicks);
     } else {
-      getDraft(setCurrentPick, setDraftingNow);
+      getDraft(setCurrentPick, setDraftingNow, setPicks);
     }
-  }, [setDraftingNow, setCurrentPick, sendChatAnnouncement])
+  }, [setDraftingNow, setCurrentPick])
 
   function updatePick(event, round, overall_pick) {
     setPage(round - 1);
@@ -69,18 +65,14 @@ export default function DraftTab({
         })
         .then((data) => {
           if (data.success === true) {
-            const msg = pickUpdatedAnnouncement(user.team_name, overall_pick);
-
-            ws.send(msg);
-            sendChatAnnouncement(
-              `The ${user.team_name} have updated pick ${overall_pick}.`
-            );
+            const message = pickUpdatedAnnouncement(user.team_name, overall_pick);
+            publishToChat(channel, user, message);
             getDraft(setCurrentPick, setDraftingNow);
             setTimeout(function () {
-              ToastsStore.success(`Pick ${overall_pick} ${data.status}.`);
+              toast(`Pick ${overall_pick} ${data.status}.`);
             }, 200);
           } else {
-            ToastsStore.error(`Error updating pick ${overall_pick}.`);
+            toast(`Error updating pick ${overall_pick}.`);
           }
         });
     } else {
@@ -99,18 +91,13 @@ export default function DraftTab({
         .then((data) => {
           if (data.success === true) {
             getDraft(setCurrentPick, setDraftingNow);
-            const msg = pickUpdatedAnnouncement(user.team_name, overall_pick);
-            console.log(`msg: ${msg}`);
-
-            ws.send(msg);
-            sendChatAnnouncement(
-              `The ${user.team_name} have updated pick ${overall_pick}.`
-            );
+            const message = pickUpdatedAnnouncement(user.team_name, overall_pick);
+            publishToChat(channel, user, message);
             setTimeout(function () {
-              ToastsStore.success(`Pick ${overall_pick} updated.`);
+              toast(`Pick ${overall_pick} updated.`);
             }, 200);
           } else {
-            ToastsStore.error(`Error updating pick ${overall_pick}.`);
+            toast(`Error updating pick ${overall_pick}.`);
           }
         });
     }
@@ -319,7 +306,7 @@ export default function DraftTab({
         />
       }
       {!isRegisteredLeague && <NewDraftTab />}
-      {!isLoading && isRegisteredLeague && picks && (
+      {!isLoading && isRegisteredLeague && (
         <Table
           data={picks}
           columns={columns}
@@ -329,10 +316,8 @@ export default function DraftTab({
           user={user}
           draftingNow={draftingNow}
           currentPick={currentPick}
-          setPicks={setPicks}
           setCurrentPick={setCurrentPick}
           setDraftingNow={setDraftingNow}
-          sendChatAnnouncement={sendChatAnnouncement}
           defaultPage={page || currentPick?.round - 1 || 0}
           pageSize={12}
           isLiveDraft={isLiveDraft}

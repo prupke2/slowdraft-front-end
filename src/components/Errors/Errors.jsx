@@ -1,10 +1,10 @@
 import React from "react";
 import "./Errors.css";
-import { ToastsStore } from "react-toasts";
+import toast from "react-hot-toast";
 
 export default function Errors({ error, errorInfo }) {
   if (error) {
-    ToastsStore.error(`Oops an error occured. Please try again later.`);
+    toast(`Oops an error occured. Please try again later.`);
   }
   return (
     <div>

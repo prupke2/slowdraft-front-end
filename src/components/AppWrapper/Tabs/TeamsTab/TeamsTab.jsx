@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loading from "../../../Loading/Loading";
 import Table from "../../../Table/Table";
 import { getTeams } from "../../../../util/requests";
-import { teamIdToLogo, teamsMap } from "../../../../util/util";
+import { teamIdToLogo, teamIdToTeamName, teamsMap } from "../../../../util/util";
 import "./TeamsTab.css";
 import { useLocation } from "react-router-dom";
 import { teamsTabSkaterColumns, teamsTabGoalieColumns } from "../PlayersTab/PlayerColumns";
@@ -17,16 +17,19 @@ export default function TeamTab({
   const location = useLocation();
   const teamIdParam = parseInt(location?.state?.teamId, 10) || null;
   const [teamId, setTeamId] = useState(null);
-  const [teamPlayerCount, setTeamPlayerCount] = useState(
-    teams.filter((team) => team.username === teamFilter).length
-  );
+  const displayedTeam = teams.filter(team => team.username === teamFilter);
+  const [teamPlayerCount, setTeamPlayerCount] = useState(displayedTeam.length);
+  const teamHasGoalies = displayedTeam.filter(p => p.position === "G").length > 0;
+  const teamHasSkaters = displayedTeam.filter(p => p.position !== "G").length > 0;
+
   const [paramUsed, setParamUsed] = useState(false);
+  const currentTeamName = teamIdToTeamName(teamId);
 
   useEffect(() => {
     const localStorageTeams = JSON.parse(localStorage.getItem('teams'));
     // This accomodates clicking on a team name link from another tab.
     // This updates the team filter and scrolls to the top of the page
-    if (teamIdParam && !paramUsed) {
+    if (teamIdParam) {
       const selectedTeam = teamIdParam
         ? localStorageTeams.filter((team) => team.yahoo_team_id === teamIdParam)
         : null;
@@ -37,8 +40,8 @@ export default function TeamTab({
         const mainWindow = document.querySelector("main");
         mainWindow.scrollTop = 0;
       }
-    }
-  }, [teamIdParam, teamInfo, paramUsed]);
+    }    
+  }, [teamIdParam, teamInfo, paramUsed, location]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -54,21 +57,21 @@ export default function TeamTab({
     setIsLoading(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setTeams]);
+  }, [setTeams, location]);
 
   useEffect(() => {
     const localStorageTeams = JSON.parse(localStorage.getItem('playerTeamData'));
     if (localStorageTeams) {
       setTeams(localStorageTeams);
     }
-  }, [teamFilter]);
+  }, [teamFilter, location]);
 
   useEffect(() => {
     const teamPlayerCount = teams.filter(
       (team) => team.username === teamFilter
     ).length;
     setTeamPlayerCount(parseInt(teamPlayerCount, 10));
-  }, [teamFilter, teams]);
+  }, [teamFilter, teams, location]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -78,6 +81,9 @@ export default function TeamTab({
     const teamName =
       teamSelectFilter.options[teamSelectFilter.selectedIndex].text;
     setTeamFilter(teamName);
+    if (teamIdParam) {
+      location.state.teamId = `${e.target.value}`;
+    }
   }
 
   const playerTableState = {
@@ -162,28 +168,35 @@ export default function TeamTab({
             </div>
           </div>
         </div>
-        {teams && (
+        {displayedTeam.length === 0 && <div className="empty-verbiage full-margin-bottom">The {currentTeamName} have no players yet.</div>}
+        {displayedTeam.length > 0 && (
           <>
             <h2>Skaters</h2>
-            <Table
-              user={user}
-              data={teams}
-              columns={teamsTabSkaterColumns}
-              tableState={playerTableState}
-              defaultColumn="player_id"
-              draftingNow={draftingNow}
-              tableType="teams"
-            />
+            { !teamHasSkaters && <div className="empty-verbiage">The {currentTeamName} have no skaters yet.</div>}
+            { teamHasSkaters && (
+              <Table
+                user={user}
+                data={teams}
+                columns={teamSkaterColumns}
+                tableState={playerTableState}
+                defaultColumn="player_id"
+                draftingNow={draftingNow}
+                tableType="teams"
+              />
+            )}
             <h2>Goalies</h2>
-            <Table
-              user={user}
-              data={teams}
-              columns={teamsTabGoalieColumns}
-              tableState={goalieTableState}
-              defaultColumn="player_id"
-              draftingNow={draftingNow}
-              tableType="teams"
-            />
+            { !teamHasGoalies && <div className="empty-verbiage">The {currentTeamName} have no goalies yet.</div>}
+            { teamHasGoalies && (
+              <Table
+                user={user}
+                data={teams}
+                columns={teamGoalieColumns}
+                tableState={goalieTableState}
+                defaultColumn="player_id"
+                draftingNow={draftingNow}
+                tableType="teams"
+              />
+            )}
           </>
         )}
       </>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToastsStore } from "react-toasts";
+import toast from "react-hot-toast";
 import { getHeaders, API_URL } from "../../../../util/util";
 import Emoji from "../../Emoji";
 
@@ -30,7 +30,7 @@ export default function NewDraftTab() {
         if (!response?.ok) {
           const error = response.status;
           console.log(`error: ${JSON.stringify(error, null, 4)}`);
-          ToastsStore.error("Error creating draft.");
+          toast("Error creating draft.");
           return Promise.reject(error);
         }
         return response.json();
@@ -43,10 +43,10 @@ export default function NewDraftTab() {
           localStorage.setItem("registeredLeague", "true");
           localStorage.setItem("liveDraft", "true");
           setTimeout(function () {
-            ToastsStore.success("Draft created successfully.");
+            toast("Draft created successfully.");
           }, 200);
         } else {
-          ToastsStore.error("Error creating draft.");
+          toast("Error creating draft.");
         }
       });
   }

@@ -3,7 +3,7 @@ import "./UsernameStyled.css";
 import { Link } from "react-router-dom";
 import { teamKeyToID, firstLetterOfEachWord } from "../../../util/util";
 
-export default function UsernameStyled({ username, color, teamKey, small, message }) {
+export default function UsernameStyled({ username, color, teamKey, small, message, logoAndShortName }) {
   const teams = JSON.parse(localStorage.getItem("teams"));
   const smallUsernameStyling = small && 'small-username';
   const autoHeight = message && 'auto-height';
@@ -37,19 +37,21 @@ export default function UsernameStyled({ username, color, teamKey, small, messag
           >
           </span>
         )}
-        { !message &&
+        { !message && !logoAndShortName &&
           <span className="user-in-draft">{username}</span>
         }
       </Link>
-      { message && (
-        <div className="chat-message">
-          <span 
+      <div className="chat-message">
+        { (message || logoAndShortName) &&
+          <span
             className="chat-name"
             title={`${username} (${name})`}
-          >{nameAcronym}</span>
-          : {message}
-        </div> 
-      )}
+          >
+            {nameAcronym}
+          </span>
+        }
+        {message && message}
+      </div> 
     </div>
   );
 }

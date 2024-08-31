@@ -18,12 +18,11 @@ export default function PlayersTab({
   draftingNow,
   setTeams,
   getLatestData,
-  sendChatAnnouncement,
   setPicks,
   setCurrentPick,
   setDraftingNow,
   currentPick,
-  ws,
+  channel,
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState([]);
@@ -75,14 +74,13 @@ export default function PlayersTab({
                       setIsOpen={setModalOpen}
                       data={playerToDraft}
                       modalType="draftPlayer"
-                      sendChatAnnouncement={sendChatAnnouncement}
                       setPicks={setPicks}
                       currentPick={currentPick}
                       setCurrentPick={setCurrentPick}
                       setDraftingNow={setDraftingNow}
                       setPlayers={setPlayers}
                       setTeams={setTeams}
-                      ws={ws}
+                      channel={channel}
                     />
                   </div>
                 )}

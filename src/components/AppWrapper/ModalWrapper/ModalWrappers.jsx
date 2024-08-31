@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 import CloseModalButton from "./CloseModalButton/CloseModalButton";
 import NewPost from "./NewPost/NewPost";
 import { getHeaders, capitalizeFirstLetter, API_URL } from "../../../util/util";
@@ -45,7 +45,7 @@ export const ViewForumPost = ({
       ariaHideApp={false}
     >
       <CloseModalButton setIsOpen={setIsOpen} />
-      <div className="modal-title">{ReactHtmlParser(post.title)}</div>
+      <div className="modal-title">{parse(post.title)}</div>
       <span className="modal-forum-user">
         <UsernameStyled
           username={post.username}
@@ -55,7 +55,7 @@ export const ViewForumPost = ({
         &nbsp;
         <div className="modal-forum-date">{timeSince(post.create_date)}</div>
       </span>
-      <div className="modal-forum-text">{ReactHtmlParser(post.body)}</div>
+      <div className="modal-forum-text">{parse(post.body)}</div>
 
       {forumPostReplies && (
         <div className="replies">
@@ -82,7 +82,7 @@ export const ViewForumPost = ({
                 </div>
               </span>
               <div className="modal-forum-text">
-                {ReactHtmlParser(reply.body)}
+                {parse(reply.body)}
               </div>
             </div>
           ))}
@@ -159,8 +159,8 @@ export const ViewRuleModal = ({ modalIsOpen, setIsOpen, data }) => (
     ariaHideApp={false}
   >
     <CloseModalButton setIsOpen={setIsOpen} />
-    <div className="modal-title">{ReactHtmlParser(data?.title)}</div>
-    <div className="modal-forum-text">{ReactHtmlParser(data?.body)}</div>
+    <div className="modal-title">{parse(data?.title)}</div>
+    <div className="modal-forum-text">{parse(data?.body)}</div>
   </Modal>
 );
 
