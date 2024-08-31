@@ -83,7 +83,7 @@ export function getDraft(setCurrentPick, setDraftingNow, setPicks=null) {
 }
 
 export function getDBPlayers() {
-  fetch(`${API_URL}/get_db_players_new`, {
+  fetch(`${API_URL}/get_db_players`, {
     method: "GET",
     headers: getHeaders(),
   }).then(async (response) => {
@@ -97,24 +97,6 @@ export function getDBPlayers() {
       return Promise.reject(error);
     }
 
-  });
-}
-
-export function getDBGoalies() {
-  fetch(`${API_URL}/get_db_players_new?position=G`, {
-    method: "GET",
-    headers: getHeaders(),
-  }).then(async (response) => {
-    const data = await response.json();
-    if (data.success === true) {
-      localStorage.setItem("goalieDBData", JSON.stringify(data.players));
-      localStorage.setItem("goalieDBUpdate", new Date());
-    } else {
-      toast("Error getting goalies.");
-      const error = data?.message || response.status;
-      console.log(`error: ${error}`);
-      return Promise.reject(error);
-    }
   });
 }
 
@@ -281,10 +263,6 @@ export function checkForUpdates(
         console.log("Update player DB data...");
         getDBPlayers();
       }
-      if (updateNeeded("goalieDBUpdate", data.updates.latest_goalie_db_update)) {
-        console.log("Update goalie DB data...");
-        getDBGoalies();
-      }
       if (updateNeeded("playerTeamDataUpdate", data.updates.latest_team_update)) {
         console.log("Update team data...");
         getTeams();
@@ -299,10 +277,9 @@ export function checkForUpdates(
       }
     } else {
       console.log('data:', data);
-
-      if (data?.error) {
-        if (data?.status === 401 || data?.status === 403)
+      if (data?.status === 401 || data?.status === 403) {
         console.log("Logging out");
+        logout();
         return Promise.reject("Your login has expired.");
       }
       console.log(`No updates.`);

@@ -1,5 +1,4 @@
 import React from "react";
-import PlayersTab from "../Tabs/PlayersTab/PlayersTab";
 import TeamsTab from "../Tabs/TeamsTab/TeamsTab";
 import ForumTab from "../Tabs/ForumTab/ForumTab";
 import DraftTab from "../Tabs/DraftTab/DraftTab";
@@ -11,6 +10,7 @@ import Emoji from "../Emoji";
 import { Route, Switch, Redirect, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import NewDraftTab from "../Tabs/AdminTab/NewDraftTab";
+import PlayersTabNew from "../Tabs/PlayersTab/PlayersTabNew";
 // import TradeTab from "../Tabs/TradeTab/TradeTab";
 
 export default function Navbar({
@@ -127,7 +127,7 @@ export default function Navbar({
               />
             </Route>
             <Route path="/skaters">
-              <PlayersTab
+              <PlayersTabNew
                 playerType="skaters"
                 user={user}
                 setCurrentPick={setCurrentPick}
@@ -139,7 +139,7 @@ export default function Navbar({
               />
             </Route>
             <Route path="/goalies">
-              <PlayersTab
+              <PlayersTabNew
                 playerType="goalies"
                 user={user}
                 setCurrentPick={setCurrentPick}

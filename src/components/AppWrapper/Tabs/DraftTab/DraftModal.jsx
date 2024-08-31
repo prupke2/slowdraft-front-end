@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import toast from "react-hot-toast";
 import {
   getDraft,
-  getDBGoalies,
   getDBPlayers,
   getTeams,
 } from "../../../../util/requests";
@@ -30,7 +29,6 @@ export default function DraftModal({
   const user = JSON.parse(localStorage.getItem("user"));
   function draftPlayer(data) {
     setIsLoading(true);
-    const isGoalie = data.position === "G" ? true : false;
     const msg = playerDraftedAnnouncement(user.team_name, data.name, data.position, data.team);
     try {
       fetch(`${API_URL}/draft/${data.player_id}`, {
@@ -50,8 +48,7 @@ export default function DraftModal({
           publishToChat(channel, user, msg);
           getDraft(setCurrentPick, setDraftingNow);
           getTeams();
-          isGoalie && getDBGoalies();
-          !isGoalie && getDBPlayers();
+          getDBPlayers();
           if (data.success !== true) {
             toast(`${data.error}`);
           } else {

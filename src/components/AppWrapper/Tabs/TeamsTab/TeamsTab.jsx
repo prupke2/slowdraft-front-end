@@ -5,7 +5,7 @@ import { getTeams } from "../../../../util/requests";
 import { teamIdToLogo, teamIdToTeamName, teamsMap } from "../../../../util/util";
 import "./TeamsTab.css";
 import { useLocation } from "react-router-dom";
-import { teamSkaterColumns, teamGoalieColumns } from "../PlayersTab/PlayerColumns";
+import { teamsTabSkaterColumns, teamsTabGoalieColumns } from "../PlayersTab/PlayerColumns";
 
 export default function TeamTab({
   draftingNow,
@@ -177,7 +177,7 @@ export default function TeamTab({
               <Table
                 user={user}
                 data={teams}
-                columns={teamSkaterColumns}
+                columns={teamsTabSkaterColumns}
                 tableState={playerTableState}
                 defaultColumn="player_id"
                 draftingNow={draftingNow}
@@ -190,7 +190,7 @@ export default function TeamTab({
               <Table
                 user={user}
                 data={teams}
-                columns={teamGoalieColumns}
+                columns={teamsTabGoalieColumns}
                 tableState={goalieTableState}
                 defaultColumn="player_id"
                 draftingNow={draftingNow}
