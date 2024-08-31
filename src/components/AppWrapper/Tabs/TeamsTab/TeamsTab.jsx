@@ -177,7 +177,7 @@ export default function TeamTab({
               <Table
                 user={user}
                 data={teams}
-                columns={teamSkaterColumns}
+                columns={teamsTabSkaterColumns}
                 tableState={playerTableState}
                 defaultColumn="player_id"
                 draftingNow={draftingNow}
@@ -190,7 +190,7 @@ export default function TeamTab({
               <Table
                 user={user}
                 data={teams}
-                columns={teamGoalieColumns}
+                columns={teamsTabGoalieColumns}
                 tableState={goalieTableState}
                 defaultColumn="player_id"
                 draftingNow={draftingNow}
