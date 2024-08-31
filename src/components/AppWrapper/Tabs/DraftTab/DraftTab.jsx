@@ -45,12 +45,12 @@ export default function DraftTab({
     }
   }, [setDraftingNow, setCurrentPick])
 
-  function updatePickLocalStorage(overallPick, newPickStatus) {
-    const revisedPicks = picks;
-    revisedPicks[[overallPick - 1]].disabled = newPickStatus === "disabled";
-    setPicks(revisedPicks);
-    localStorage.setItem("picks", JSON.stringify(revisedPicks));
-  }
+  // function updatePickLocalStorage(overallPick, newPickStatus) {
+  //   const revisedPicks = picks;
+  //   revisedPicks[[overallPick - 1]].disabled = newPickStatus === "disabled";
+  //   setPicks(revisedPicks);
+  //   localStorage.setItem("picks", JSON.stringify(revisedPicks));
+  // }
 
   function updatePick(event, round, overallPick) {
     setPage(round - 1);
@@ -75,7 +75,7 @@ export default function DraftTab({
             const message = pickUpdatedAnnouncement(user.team_name, overallPick);
             publishToChat(channel, user, message);
             toast(`Pick ${overallPick} ${data.status}.`);
-            updatePickLocalStorage(overallPick, data.status);
+            getDraft(setCurrentPick, setDraftingNow, setPicks);
           } else {
             toast(`Error updating pick ${overallPick}.`);
           }
@@ -95,12 +95,10 @@ export default function DraftTab({
         })
         .then((data) => {
           if (data.success === true) {
-            getDraft(setCurrentPick, setDraftingNow);
             const message = pickUpdatedAnnouncement(user.team_name, overallPick);
             publishToChat(channel, user, message);
-            setTimeout(function () {
-              toast(`Pick ${overallPick} updated.`);
-            }, 200);
+            toast(`Pick ${overallPick} updated.`);
+            getDraft(setCurrentPick, setDraftingNow, setPicks);
           } else {
             toast(`Error updating pick ${overallPick}.`);
           }
