@@ -116,6 +116,7 @@ export default function PlayersTabNew({
               <PlayerCell 
                 cell={cell} 
                 playerListPage={true}
+                showWatchlist
               />
             </div>
           );
@@ -124,6 +125,7 @@ export default function PlayersTabNew({
             <PlayerCell 
               cell={cell} 
               playerListPage={true}
+              showWatchlist
             />
           );
         }
