@@ -7,8 +7,6 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
   const [player, setPlayer] = useState(null);
   const user = JSON.parse(localStorage.getItem("user"));
   const playerDBData = JSON.parse(localStorage.getItem("playerDBData"));
-  const goalieDBData = JSON.parse(localStorage.getItem("goalieDBData"));
-  const data = playerDBData.concat(goalieDBData);
   const dropdownState = player ? "closed" : "open";
   const button = player ? `Select ${player.name}` : null;
 
@@ -85,7 +83,7 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
         <div className={`player-list-wrapper ${dropdownState}`}>
           <Table
             user={user}
-            data={data}
+            data={playerDBData}
             columns={columns}
             tableState={tableState}
             defaultColumn="name"
