@@ -8,8 +8,9 @@ import { getDBPlayers } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 import DraftModal from "../DraftTab/DraftModal";
 import PlayerCell from "./PlayerCell";
-import "./PlayersTab.css";
 import { playersTabSkaterColumns, playersTabGoalieColumns } from "./PlayerColumns";
+import teamLogos from "../../../../util/teamLogos";
+import "./PlayersTab.css";
 
 export default function PlayersTabNew({
   playerType,
@@ -141,7 +142,7 @@ export default function PlayersTabNew({
           {row.value && (
             <img
               className="teamLogo"
-              src={`/teamLogos/${row.value}.png`}
+              src={`${teamLogos[row.value]}`}
               alt={row.value}
               title={row.value}
             />
