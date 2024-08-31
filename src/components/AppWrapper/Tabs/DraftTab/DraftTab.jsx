@@ -45,7 +45,14 @@ export default function DraftTab({
     }
   }, [setDraftingNow, setCurrentPick])
 
-  function updatePick(event, round, overall_pick) {
+  function updatePickLocalStorage(overallPick, newPickStatus) {
+    const revisedPicks = picks;
+    revisedPicks[[overallPick - 1]].disabled = newPickStatus === "disabled";
+    setPicks(revisedPicks);
+    localStorage.setItem("picks", JSON.stringify(revisedPicks));
+  }
+
+  function updatePick(event, round, overallPick) {
     setPage(round - 1);
     const requestParams = {
       method: "POST",
@@ -53,7 +60,7 @@ export default function DraftTab({
     };
     if (event.target.value === "0") {
       requestParams.body = JSON.stringify({
-        overall_pick: overall_pick,
+        overall_pick: overallPick,
       });
       fetch(`${API_URL}/update_pick_enablement`, requestParams)
         .then((response) => {
@@ -65,19 +72,17 @@ export default function DraftTab({
         })
         .then((data) => {
           if (data.success === true) {
-            const message = pickUpdatedAnnouncement(user.team_name, overall_pick);
+            const message = pickUpdatedAnnouncement(user.team_name, overallPick);
             publishToChat(channel, user, message);
-            getDraft(setCurrentPick, setDraftingNow);
-            setTimeout(function () {
-              toast(`Pick ${overall_pick} ${data.status}.`);
-            }, 200);
+            toast(`Pick ${overallPick} ${data.status}.`);
+            updatePickLocalStorage(overallPick, data.status);
           } else {
-            toast(`Error updating pick ${overall_pick}.`);
+            toast(`Error updating pick ${overallPick}.`);
           }
         });
     } else {
       requestParams.body = JSON.stringify({
-        overall_pick: overall_pick,
+        overall_pick: overallPick,
         team_key: teamIdToKey(event.target.value),
       });
       fetch(`${API_URL}/update_pick`, requestParams)
@@ -91,15 +96,16 @@ export default function DraftTab({
         .then((data) => {
           if (data.success === true) {
             getDraft(setCurrentPick, setDraftingNow);
-            const message = pickUpdatedAnnouncement(user.team_name, overall_pick);
+            const message = pickUpdatedAnnouncement(user.team_name, overallPick);
             publishToChat(channel, user, message);
             setTimeout(function () {
-              toast(`Pick ${overall_pick} updated.`);
+              toast(`Pick ${overallPick} updated.`);
             }, 200);
           } else {
-            toast(`Error updating pick ${overall_pick}.`);
+            toast(`Error updating pick ${overallPick}.`);
           }
-        });
+        }
+      );
     }
   }
 
@@ -113,7 +119,7 @@ export default function DraftTab({
       disableSortBy: true,
       Cell: (cell) => {
         const usedPick = cell.row.original.draft_pick_timestamp !== null;
-        const disabledPick = cell.row.original.disabled === 1;
+        const disabledPick = cell.row.original.disabled === true;
         const isCurrentPick = cell.value === currentPick.overall_pick;
         const showAdminFeatures = isAdmin && !usedPick;
 
