@@ -19,13 +19,14 @@ const WatchlistButton = ({ cell }) => {
 	const watchedTitle = isWatched ? 'Remove from watchlist' : 'Add to watchlist';
 	const onClickHandler = () => {
 		try {
+			setIsWatched(!isWatched);
 			if (isWatched) {
 				removeFromWatchlist(playerId);
 			} else {
 				addToWatchlist(playerId);
 			}
-			setIsWatched(!isWatched);
 		} catch {
+			setIsWatched(!isWatched);
 			console.log("Error updating watchlist.")
 		}
 	} 
