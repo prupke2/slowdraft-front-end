@@ -8,9 +8,19 @@ import CloseModalButton from '../ModalWrapper/CloseModalButton/CloseModalButton'
 import MessageLog from './MessageLog/MessageLog';
 import { useChannel, usePresenceListener } from 'ably/react';
 import UsernameStyled from '../UsernameStyled/UsernameStyled';
-import { removeDuplicatesUsers } from '../../../util/util';
+import { delayFunc, removeDuplicatesUsers } from '../../../util/util';
 
-export default function Chat({ chatStatus, setChatStatus, setChannel, chatMessages, setChatMessages }) {
+export default function Chat(
+  {
+    chatStatus, 
+    setChatStatus, 
+    setChannel, 
+    chatMessages, 
+    setChatMessages,
+    getLatestData,
+    setIsUpdating,
+  }
+) {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const chatBackgroundColor = chatStatus === "offline" ? '#dbdbdb' : 'white';
@@ -22,6 +32,13 @@ export default function Chat({ chatStatus, setChatStatus, setChannel, chatMessag
   const chatConnecting = ['connecting', 'reconnecting'].includes(chatStatus);
   const { channel } = useChannel(user.yahoo_league_id, user.team_name, (message) => {
     setChatMessages(previousMessages => [...previousMessages, message]);
+    if (message?.data?.event) {
+      setIsUpdating(true);
+      
+      // delay before fetching to make sure the new data is available
+      delayFunc(getLatestData, 1500);
+      delayFunc(() => setIsUpdating(false), 3000);
+    }
   });
   setChannel(channel);
   
