@@ -129,14 +129,22 @@ export const binaryToBoolean = (binary) => {
 export function removeDuplicatesUsers(arr) {
   // If users log in more than once, prevent them from appearing twice in the user list
   const uniqueUsers = [];
-  arr.reduce(function (acc, curr) {    
-    if (!acc.includes(curr.teamKey)) {
-      acc.push(curr.teamKey);
-      uniqueUsers.push(curr);
-    }
-    return acc;
-  }, []);
-  return uniqueUsers;
+  try {
+    arr.reduce(function (acc, curr) {    
+      if (!acc.includes(curr.teamKey)) {
+        acc.push(curr.teamKey);
+        uniqueUsers.push(curr);
+      }
+      return acc;
+    }, []);
+    return uniqueUsers;
+  } catch {
+    return arr;
+  }
 }
 
-export const sleep = (delayInMilliseconds) => new Promise((resolve) => setTimeout(resolve, delayInMilliseconds));
+export function delayFunc(func, delayInMs) {
+  setTimeout(function () {
+    func()
+  }, delayInMs);
+}
