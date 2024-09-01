@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import Table from "../../../Table/Table";
 import "./WatchlistTab.css";
 import { watchlistTabSkaterColumns, watchlistTabGoalieColumns } from "../PlayersTab/PlayerColumns";
-import { getWatchlistIds } from "../../../../util/requests";
+import { getWatchlistIds, removeFromWatchlist } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 
 export default function WatchlistTab() {
@@ -15,7 +15,27 @@ export default function WatchlistTab() {
 
   const watchedSkaters = skaters?.filter(s => watchlist?.includes(s.player_id));
   const watchedGoalies = goalies?.filter(g => watchlist?.includes(g.player_id));
+
+  const takenPlayers = [
+    ...watchedSkaters.filter(s => s.user !== null),
+    ...watchedGoalies.filter(g => g.user !== null)
+  ];
+  const untakenPlayers = [
+    ...watchedSkaters.filter(s => s.user === null),
+    ...watchedGoalies.filter(g => g.user === null)
+  ];
+  
   const user = JSON.parse(localStorage.getItem("user"));
+
+  function removeAllTakenPlayers() {
+    try {
+      takenPlayers.forEach(p => removeFromWatchlist(p.player_id))
+      const untakenPlayerIdList = untakenPlayers.map(p => p.player_id);
+      setWatchlist(untakenPlayerIdList);
+		} catch {
+			console.log("Error updating watchlist.")
+		}
+  }
 
   useEffect(() => {
     async function fetchWatchlist() {
@@ -96,6 +116,11 @@ export default function WatchlistTab() {
   }
   return (
     <div className="watchlistWrapper">
+      {takenPlayers?.length > 0 && (
+        <button onClick={removeAllTakenPlayers}>
+          Remove all taken players
+        </button>
+      )}
       <h2>Skaters</h2>
       {!watchedSkaters?.length ? EmptyVerbiage('skaters') : (
         <Table
