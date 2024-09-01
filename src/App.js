@@ -15,7 +15,6 @@ export default function App() {
 
   const currentPickLocalStorage = JSON.parse(localStorage.getItem('currentPick'));
   const [currentPick, setCurrentPick] = useState(currentPickLocalStorage);
-  const [picks, setPicks] = useState([]);
   const [draftingNow, setDraftingNow] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -63,7 +62,6 @@ export default function App() {
           setIsLoading={setIsLoading}
           user={user}
           setUser={setUser}
-          setPicks={setPicks}
           currentPick={currentPick}
           setCurrentPick={setCurrentPick}
           draftingNow={draftingNow}
@@ -79,8 +77,6 @@ export default function App() {
               logout={logout}
               setIsLoading={setIsLoading}
               user={user}
-              picks={picks}
-              setPicks={setPicks}
               currentPick={currentPick}
               setCurrentPick={setCurrentPick}
               draftingNow={draftingNow}
