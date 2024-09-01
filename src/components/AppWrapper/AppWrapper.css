@@ -7,6 +7,23 @@
   width: 20px;
 }
 
+.isUpdatingBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: fixed;
+  width: 150px;
+  bottom: 30px;
+  left: calc(50vw - 75px);
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: wait;
+}
+
 @media screen and (max-width: 800px) { 
   .navbar-emoji {
     display: flex;
