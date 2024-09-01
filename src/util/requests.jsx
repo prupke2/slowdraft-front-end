@@ -220,6 +220,7 @@ export function selectLeague(
 export function checkForUpdates(
   setCurrentPick,
   setDraftingNow,
+  setPicks,
   logout,
 ) {
   // const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
@@ -257,7 +258,7 @@ export function checkForUpdates(
 
       if (updateNeeded("draftDataUpdate", data.updates.latest_draft_update)) {
         console.log("Update draft data...");
-        getDraft(setCurrentPick, setDraftingNow);
+        getDraft(setCurrentPick, setDraftingNow, setPicks);
       }
       if (updateNeeded("playerDBUpdate", data.updates.latest_player_db_update)) {
         console.log("Update player DB data...");

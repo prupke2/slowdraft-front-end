@@ -23,6 +23,8 @@ export default function AppWrapper({
   const [chatStatus, setChatStatus] = useState("connecting");
   const [chatClient, setChatClient] = useState(null);
   const [channel, setChannel] = useState(null)
+  const [picks, setPicks] = useState([])
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -48,11 +50,13 @@ export default function AppWrapper({
     checkForUpdates(
       setCurrentPick,
       setDraftingNow,
+      setPicks,
       logout
     );
   }, [
     setCurrentPick,
     setDraftingNow,
+    setPicks,
     logout
   ]);
 
@@ -92,11 +96,18 @@ export default function AppWrapper({
             isRegisteredLeague={isRegisteredLeague}
             currentPick={currentPick}
             setCurrentPick={setCurrentPick}
+            picks={picks}
+            setPicks={setPicks}
             draftingNow={draftingNow}
             setDraftingNow={setDraftingNow}
             getLatestData={getLatestData}
             channel={channel}
           />
+          { isUpdating && (
+            <div className='isUpdatingBanner'>
+                Updating...
+            </div>
+          )}
           <Widget
             isRegisteredLeague={isRegisteredLeague}
             draftingNow={draftingNow}
@@ -111,6 +122,8 @@ export default function AppWrapper({
                   setChannel={setChannel}
                   chatMessages={chatMessages}
                   setChatMessages={setChatMessages}
+                  getLatestData={getLatestData}
+                  setIsUpdating={setIsUpdating}
                 />
               </ChannelProvider>
             </AblyProvider>

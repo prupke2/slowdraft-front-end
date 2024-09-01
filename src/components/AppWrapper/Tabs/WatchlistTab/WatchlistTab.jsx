@@ -4,7 +4,6 @@ import "./WatchlistTab.css";
 import { watchlistTabSkaterColumns, watchlistTabGoalieColumns } from "../PlayersTab/PlayerColumns";
 import { getWatchlistIds } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
-import { sleep } from "../../../../util/util";
 
 export default function WatchlistTab() {
   const players = JSON.parse(localStorage.getItem("playerDBData"));
@@ -21,7 +20,6 @@ export default function WatchlistTab() {
   useEffect(() => {
     async function fetchWatchlist() {
       getWatchlistIds();
-      await sleep(2000);
       const newWatchlist = JSON.parse(localStorage.getItem('watchlist'));
       setWatchlist(newWatchlist);
       setIsLoading(false);
