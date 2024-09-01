@@ -250,7 +250,6 @@ export const playersTabSkaterColumns = [
 		width: "30px",
 	},
 	...skaterStatColumns,
-  // ...skaterAccessors
 ];
 
 export const playersTabGoalieColumns = [

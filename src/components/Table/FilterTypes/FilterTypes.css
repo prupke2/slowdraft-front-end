@@ -1,6 +1,21 @@
+.search-filter-wrapper {
+  position: relative;
+}
+
 .search-filter {
   width: 100%;
   margin: 0;
+}
+
+.search-filter-clear {
+  position: absolute;
+  right: 6px;
+  bottom: 0;
+  color: gray;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 4px;
+  cursor: pointer;
 }
 
 .position-filter {

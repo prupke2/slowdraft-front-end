@@ -2,17 +2,25 @@ import React, { useMemo } from "react";
 import "./FilterTypes.css";
 
 export function SearchColumnFilter({ column: { filterValue, setFilter, id } }) {
+
   return (
-    <input
-      autoComplete="off"
-      className="search-filter"
-      id={`${id}-search-filter`}
-      value={filterValue || ""}
-      onChange={(event) => {
-        setFilter(event.target.value !== "" ? event.target.value : undefined);
-      }}
-      placeholder="Filter..."
-    />
+    <div className="search-filter-wrapper">
+      <input
+        autoComplete="off"
+        className="search-filter"
+        id={`${id}-search-filter`}
+        value={filterValue || ""}
+        onChange={(event) => {
+          setFilter(event.target.value !== "" ? event.target.value : undefined);
+        }}
+        placeholder="Filter..."
+      />
+      { filterValue && (
+        <div className="search-filter-clear" onClick={() => setFilter('')}>
+          x
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -91,7 +99,6 @@ export function SelectTeamFilter({
       {disableAll && <option value="">Select a team</option>}
 
       <option value="Ana">Anaheim</option>
-      <option value="Ari">Arizona</option>
       <option value="Bos">Boston</option>
       <option value="Buf">Buffalo</option>
       <option value="Cgy">Calgary</option>
@@ -119,6 +126,7 @@ export function SelectTeamFilter({
       <option value="Tor">Toronto</option>
       <option value="TB">Tampa Bay</option>
       <option value="Van">Vancouver</option>
+      <option value="UTA">Utah</option>
       <option value="VGK">Vegas</option>
       <option value="Wsh">Washington</option>
       <option value="Wpg">Winnipeg</option>
