@@ -17,6 +17,8 @@ export default function Navbar({
   isRegisteredLeague,
   currentPick,
   setCurrentPick,
+  picks,
+  setPicks,
   draftingNow,
   setDraftingNow,
   getLatestData,
@@ -120,6 +122,8 @@ export default function Navbar({
                 user={user}
                 currentPick={currentPick}
                 setCurrentPick={setCurrentPick}
+                picks={picks}
+                setPicks={setPicks}
                 draftingNow={draftingNow}
                 setDraftingNow={setDraftingNow}
                 getLatestData={getLatestData}
