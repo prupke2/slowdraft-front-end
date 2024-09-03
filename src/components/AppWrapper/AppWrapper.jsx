@@ -7,7 +7,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
 import { AblyProvider, ChannelProvider } from 'ably/react';
 import Chat from "./Chat/Chat";
-import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 export default function AppWrapper({
   logout,
@@ -109,13 +108,11 @@ export default function AppWrapper({
                 Updating...
             </div>
           )}
-          <ErrorBoundary customClass="widget-wrapper">
-            <Widget
-              isRegisteredLeague={isRegisteredLeague}
-              draftingNow={draftingNow}
-              logout={logout}
-            />
-          </ErrorBoundary>
+          <Widget
+            isRegisteredLeague={isRegisteredLeague}
+            draftingNow={draftingNow}
+            logout={logout}
+          />
           { chatClient && (
             <AblyProvider client={chatClient}>
               <ChannelProvider channelName={user.yahoo_league_id}>
