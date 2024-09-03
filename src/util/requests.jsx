@@ -36,6 +36,14 @@ export const healthCheck = (setHealthStatus) => {
   }
 }
 
+export const setChatClientWithToken = (token, setChatClient) => {
+  const client = new Ably.Realtime({ 
+    key: token, 
+    clientId: 'slowdraftchat',
+  });
+  setChatClient(client);
+};
+
 export const getChatToken = (setChatClient) => {
   fetch(`${API_URL}/get_chat_token`, {
     method: "GET",
@@ -46,11 +54,7 @@ export const getChatToken = (setChatClient) => {
     }
     const data = await response.json();
     localStorage.setItem("chatToken", data.token);
-    const client = new Ably.Realtime({ 
-      key: data.token, 
-      clientId: 'slowdraftchat',
-    });
-    setChatClient(client);
+    return data.token;
   }).catch((error) => {
     console.log(`Error getting chat token: ${error}`);
   });

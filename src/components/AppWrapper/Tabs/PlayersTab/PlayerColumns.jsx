@@ -1,6 +1,7 @@
 import React from "react";
 import PlayerCell from "./PlayerCell";
 import { SelectPositionColumnFilter } from "../../../Table/FilterTypes/FilterTypes";
+import teamLogos from "../../../../util/teamLogos";
 
 function multiSelectPositionsFilter(rows) {
   return rows.filter((row) => row.original.position !== "G");
@@ -170,7 +171,7 @@ const staticTeamColumn = {
 			{cell.value && (
 				<img
 					className="teamLogo"
-					src={`/teamLogos/${cell.value}.png`}
+					src={teamLogos[cell.value]}
 					alt={cell.value}
 					title={cell.value}
 				/>
