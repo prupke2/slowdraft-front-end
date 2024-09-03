@@ -7,7 +7,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
 import { AblyProvider, ChannelProvider } from 'ably/react';
 import Chat from "./Chat/Chat";
-import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 export default function AppWrapper({
   logout,
