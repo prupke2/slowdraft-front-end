@@ -11,6 +11,7 @@ import { Route, Switch, Redirect, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import NewDraftTab from "../Tabs/AdminTab/NewDraftTab";
 import PlayersTabNew from "../Tabs/PlayersTab/PlayersTabNew";
+import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 // import TradeTab from "../Tabs/TradeTab/TradeTab";
 
 export default function Navbar({
@@ -110,7 +111,9 @@ export default function Navbar({
         {!isRegisteredLeague && (
           <Switch>
             <Route path="/admin/new-draft">
-              <NewDraftTab />
+              <ErrorBoundary>
+                <NewDraftTab />
+              </ErrorBoundary>
             </Route>
             <Redirect to="/admin/new-draft" />
           </Switch>
@@ -118,80 +121,102 @@ export default function Navbar({
         {isRegisteredLeague && (
           <Switch>
             <Route path="/draft">
-              <DraftTab
-                user={user}
-                currentPick={currentPick}
-                setCurrentPick={setCurrentPick}
-                picks={picks}
-                setPicks={setPicks}
-                draftingNow={draftingNow}
-                setDraftingNow={setDraftingNow}
-                getLatestData={getLatestData}
-                channel={channel}
-              />
+              <ErrorBoundary>
+                <DraftTab
+                  user={user}
+                  currentPick={currentPick}
+                  setCurrentPick={setCurrentPick}
+                  picks={picks}
+                  setPicks={setPicks}
+                  draftingNow={draftingNow}
+                  setDraftingNow={setDraftingNow}
+                  getLatestData={getLatestData}
+                  channel={channel}
+                />
+              </ErrorBoundary>
             </Route>
             <Route path="/skaters">
-              <PlayersTabNew
-                playerType="skaters"
-                user={user}
-                setCurrentPick={setCurrentPick}
-                draftingNow={draftingNow}
-                setDraftingNow={setDraftingNow}
-                getLatestData={getLatestData}
-                currentPick={currentPick}
-                channel={channel}
-              />
+              <ErrorBoundary>
+
+                <PlayersTabNew
+                  playerType="skaters"
+                  user={user}
+                  setCurrentPick={setCurrentPick}
+                  draftingNow={draftingNow}
+                  setDraftingNow={setDraftingNow}
+                  getLatestData={getLatestData}
+                  currentPick={currentPick}
+                  channel={channel}
+                />
+              </ErrorBoundary>
             </Route>
             <Route path="/goalies">
-              <PlayersTabNew
-                playerType="goalies"
-                user={user}
-                setCurrentPick={setCurrentPick}
-                draftingNow={draftingNow}
-                setDraftingNow={setDraftingNow}
-                getLatestData={getLatestData}
-                currentPick={currentPick}
-                channel={channel}
-              />
+              <ErrorBoundary>
+                <PlayersTabNew
+                  playerType="goalies"
+                  user={user}
+                  setCurrentPick={setCurrentPick}
+                  draftingNow={draftingNow}
+                  setDraftingNow={setDraftingNow}
+                  getLatestData={getLatestData}
+                  currentPick={currentPick}
+                  channel={channel}
+                />
+              </ErrorBoundary>
             </Route>
             <Route path="/teams">
-              <TeamsTab
-                draftingNow={draftingNow}
-                getLatestData={getLatestData}
-              />
+              <ErrorBoundary>
+                <TeamsTab
+                  draftingNow={draftingNow}
+                  getLatestData={getLatestData}
+                />
+              </ErrorBoundary>
             </Route>
             <Route path="/watchlist">
-              <WatchlistTab
-                getLatestData={getLatestData}
-              />
+              <ErrorBoundary>
+                <WatchlistTab
+                  draftingNow={draftingNow}
+                  getLatestData={getLatestData}
+                />
+              </ErrorBoundary>
             </Route>
             <Route path="/forum">
-              <ForumTab
-                // user={user}
-                // posts={posts}
-                // setPosts={setPosts}
-                getLatestData={getLatestData}
-              />
+              <ErrorBoundary>
+                <ForumTab
+                  // user={user}
+                  // posts={posts}
+                  // setPosts={setPosts}
+                  getLatestData={getLatestData}
+                />
+              </ErrorBoundary>
             </Route>
             <Route path="/rules">
-              <RulesTab
-                // user={user}
-                // rules={rules}
-                // setRules={setRules}
-                getLatestData={getLatestData}
-              />
+              <ErrorBoundary>
+                <RulesTab
+                  // user={user}
+                  // rules={rules}
+                  // setRules={setRules}
+                  getLatestData={getLatestData}
+                />
+              </ErrorBoundary>
             </Route>
             <Route path="/pick-tracker">
-              <PickTrackerTab />
+              <ErrorBoundary>
+                <PickTrackerTab />
+              </ErrorBoundary>
             </Route>
             {/* <Route path="/trade">
-              <TradeTab />
+              <ErrorBoundary>
+                <TradeTab />
+              </ErrorBoundary>
             </Route> */}
             {user?.role === "admin" && (
               <Route path="/admin">
-                <AdminTab 
-                  channel={channel}
-                />
+                <ErrorBoundary>
+                  <AdminTab 
+                    channel={channel}
+                  />
+                </ErrorBoundary>
               </Route>
             )}
             <Redirect from="*" to="/draft" />

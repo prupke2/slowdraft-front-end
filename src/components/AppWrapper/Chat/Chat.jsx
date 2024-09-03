@@ -118,6 +118,7 @@ export default function Chat(
             <div id="user-list">
               {uniqueUsersOnline.map((u) => (
                 <UsernameStyled
+                  key={u.teamKey}
                   username={u.name}
                   color={u.color}
                   teamKey={u.teamKey}
