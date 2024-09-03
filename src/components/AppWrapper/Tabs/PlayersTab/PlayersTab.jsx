@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   SearchColumnFilter,
-  SelectPositionColumnFilter,
   SelectTeamFilter,
 } from "../../../Table/FilterTypes/FilterTypes";
 import Table from "../../../Table/Table";
@@ -9,32 +8,57 @@ import { getDBPlayers } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 import DraftModal from "../DraftTab/DraftModal";
 import PlayerCell from "./PlayerCell";
-import { skaterStatColumns, goalieStatColumns } from "./PlayerColumns";
+import { playersTabSkaterColumns, playersTabGoalieColumns } from "./PlayerColumns";
+import teamLogos from "../../../../util/teamLogos";
 import "./PlayersTab.css";
 
-export default function PlayersTab({
+export default function PlayersTabNew({
   playerType,
   user,
   draftingNow,
   setTeams,
   getLatestData,
+  sendChatAnnouncement,
   setPicks,
   setCurrentPick,
   setDraftingNow,
   currentPick,
   channel,
 }) {
+  const playersLocalStorage = JSON.parse(localStorage.getItem("playerDBData")) || [];
+
   const [isLoading, setIsLoading] = useState(true);
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState(playersLocalStorage || []);
+  const skaters = players.filter(p => p?.position !== 'G');
+  const goalies = players.filter(p => p?.position === 'G');
+  const playerList = playerType === 'skaters' ? skaters : goalies;
+
   const [prospectDropdown, setProspectDropdown] = useState("all");
   const [availabilityDropdown, setAvailabilityDropdown] = useState("available");
   const [modalOpen, setModalOpen] = useState(false);
-  const [playerToDraft, setPlayerToDraft] = useState("");
+  const [playerDrafted, setPlayerDrafted] = useState("");
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
 
-  function openDraftModal(player) {
+  useEffect(() => {
+    setIsLoading(true);
+    getLatestData();
+    const playerDBData = localStorage.getItem("playerDBData");
+
+    if (playerDBData) {
+      console.log("Using cached data");
+      const data = JSON.parse(playerDBData);
+      setPlayers(data);
+      setIsLoading(false);
+    } else {
+      console.log("Getting new player DB data");
+      getDBPlayers(setPlayers);
+    }
+    setIsLoading(false);
+  }, [setPlayers, getLatestData, playerType]);
+
+  function draftModal(player) {
     setModalOpen(true);
-    setPlayerToDraft(player);
+    setPlayerDrafted(player);
   }
 
   function prospectFilter(rows) {
@@ -51,7 +75,10 @@ export default function PlayersTab({
     return rows.filter((row) => row.original.user === null);
   }
 
-  const sharedColumns = [
+  const statColumns =
+    playerType === "skaters" ? playersTabSkaterColumns : playersTabGoalieColumns;
+
+  const columns = [
     {
       Header: "Player",
       accessor: "name",
@@ -59,21 +86,23 @@ export default function PlayersTab({
       sortType: "alphanumeric",
       width: "100px",
       Cell: (cell) => {
-        const takenPlayer = cell.row.original.user !== null ? "taken-player" : null;
-        return (
-          <div className="player-wrapper">
-            { draftingNow && (
+        const takenPlayer =
+          cell.row.original.user !== null ? "taken-player" : null;
+        if (draftingNow === true) {
+          return (
+            <div className="player-wrapper">
               <div className="draft-button-cell">
                 {!takenPlayer && isLiveDraft && (
                   <div>
-                    <button onClick={() => openDraftModal(cell.row.original)}>
+                    <button onClick={() => draftModal(cell.row.original)}>
                       Draft
                     </button>
                     <DraftModal
                       modalIsOpen={modalOpen}
                       setIsOpen={setModalOpen}
-                      data={playerToDraft}
+                      data={playerDrafted}
                       modalType="draftPlayer"
+                      sendChatAnnouncement={sendChatAnnouncement}
                       setPicks={setPicks}
                       currentPick={currentPick}
                       setCurrentPick={setCurrentPick}
@@ -85,14 +114,22 @@ export default function PlayersTab({
                   </div>
                 )}
               </div>
-            )}
+              <PlayerCell 
+                cell={cell} 
+                playerListPage={true}
+                showWatchlist
+              />
+            </div>
+          );
+        } else {
+          return (
             <PlayerCell 
               cell={cell} 
-              draftingNow={draftingNow}
+              playerListPage={true}
               showWatchlist
             />
-          </div>
-        );
+          );
+        }
       },
     },
     {
@@ -105,7 +142,7 @@ export default function PlayersTab({
           {row.value && (
             <img
               className="teamLogo"
-              src={`/teamLogos/${row.value}.png`}
+              src={`${teamLogos[row.value]}`}
               alt={row.value}
               title={row.value}
             />
@@ -113,6 +150,7 @@ export default function PlayersTab({
         </div>
       ),
     },
+    ...statColumns,
     {
       accessor: "careerGP",
     },
@@ -132,24 +170,6 @@ export default function PlayersTab({
     },
   ];
 
-  const skaterColumns = [
-    ...sharedColumns,
-    {
-      Header: "Pos",
-      accessor: "position",
-      Filter: SelectPositionColumnFilter,
-      width: "30px",
-    },
-    ...skaterStatColumns,
-  ];
-
-  const goalieColumns = [
-    ...sharedColumns,
-    ...goalieStatColumns,
-  ]
-
-  const columns = playerType === "skaters" ? skaterColumns : goalieColumns;
-
   const filters = [
     {
       id: "userColumn",
@@ -161,52 +181,64 @@ export default function PlayersTab({
     {
       id: "user",
     },
-    {
-      id: "team",
-      value: "",
-    }
   ];
 
-  const hiddenColumns = ["player_id", "player_key", "careerGP", "prospect", "user"];
-
-  const skaterTableState = {
-    hiddenColumns: hiddenColumns,
-    sortBy: [
-      {
-        id: "3",
-        desc: true,
-      },
-    ],
-    filters,
-  };
-  
   const goalieTableState = {
-    hiddenColumns: [...hiddenColumns, "position"],
+    hiddenColumns: [
+      "position",
+      "player_id",
+      "player_key",
+      "careerGP",
+      "prospect",
+      "user",
+    ],
     sortBy: [
       {
         id: "19",
         desc: true,
       },
     ],
-    filters,
+    filters: filters,
   };
 
-  const tableState = playerType === "skaters" ? skaterTableState : goalieTableState;
+  const skaterTableState = {
+    hiddenColumns: ["player_id", "player_key", "careerGP", "prospect", "user"],
+    sortBy: [
+      {
+        id: "3",
+        desc: true,
+      },
+    ],
+    filters: filters,
+  };
+
+  const tableState =
+    playerType === "skaters" ? skaterTableState : goalieTableState;
   
+  // useEffect(() => {
+  //   const players = JSON.parse(localStorage.getItem("playerDBData"));
+  //   setPlayers(players);
+  // }, [getDBPlayers])
+
   useEffect(() => {
     setIsLoading(true);
     getLatestData();
-    const playerDBData = localStorage.getItem("playerDBData");
+    // const players = JSON.parse(localStorage.getItem("playerDBData"));
 
-    if (playerDBData) {
-      console.log("Using cached data");
-      const data = JSON.parse(playerDBData);
-      setPlayers(data);
-      setIsLoading(false);
-    } else {
-      console.log("Getting new player DB data");
-      getDBPlayers(setPlayers);
-    }
+    // const goalieDBData = localStorage.getItem("goalieDBData");
+
+    // if (playerType === "skaters") {
+    //   setPlayers(players.filter(p => p.pos !== 'G'));
+    // } else {
+    //   console.log("Getting new player DB data");
+    //   getDBPlayers(setPlayers);
+    // }
+    // if (playerType === "goalies") {
+    //   setPlayers(players.filter(p => p.pos === 'G'));
+    // } else {
+    //   console.log("Getting new player DB data");
+    //   getDBPlayers(setPlayers);
+    // }
     setIsLoading(false);
   }, [setPlayers, getLatestData, playerType]);
 
@@ -246,7 +278,7 @@ export default function PlayersTab({
           </div>
           <Table
             user={user}
-            data={players || []}
+            data={playerList || []}
             columns={columns}
             tableState={tableState}
             defaultColumn="name"

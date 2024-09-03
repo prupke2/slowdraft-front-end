@@ -10,7 +10,7 @@ import Emoji from "../Emoji";
 import { Route, Switch, Redirect, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import NewDraftTab from "../Tabs/AdminTab/NewDraftTab";
-import PlayersTabNew from "../Tabs/PlayersTab/PlayersTabNew";
+import PlayersTab from "../Tabs/PlayersTab/PlayersTab";
 // import TradeTab from "../Tabs/TradeTab/TradeTab";
 
 export default function Navbar({
@@ -131,7 +131,7 @@ export default function Navbar({
               />
             </Route>
             <Route path="/skaters">
-              <PlayersTabNew
+              <PlayersTab
                 playerType="skaters"
                 user={user}
                 setCurrentPick={setCurrentPick}
@@ -143,7 +143,7 @@ export default function Navbar({
               />
             </Route>
             <Route path="/goalies">
-              <PlayersTabNew
+              <PlayersTab
                 playerType="goalies"
                 user={user}
                 setCurrentPick={setCurrentPick}
