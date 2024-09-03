@@ -12,7 +12,7 @@ import { playersTabSkaterColumns, playersTabGoalieColumns } from "./PlayerColumn
 import teamLogos from "../../../../util/teamLogos";
 import "./PlayersTab.css";
 
-export default function PlayersTabNew({
+export default function PlayersTab({
   playerType,
   user,
   draftingNow,
