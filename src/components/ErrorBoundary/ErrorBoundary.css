@@ -1,0 +1,13 @@
+.errorWrapper {
+  background: var(--disabled);
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex;
+  border-radius: 8px;
+}
+
+.errorWrapper > div {
+  padding: 20px;
+}
