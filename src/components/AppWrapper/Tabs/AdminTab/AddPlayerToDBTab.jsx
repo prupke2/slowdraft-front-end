@@ -30,9 +30,8 @@ export default function AddPlayerToDBTab() {
     setPositionsValid(newPositionsArray.length > 0);
   };
 
-  const updateTimestamp = (positions) => {
-    const fieldToUpdate = positions === ["G"] ? 'goalieDBUpdate' : 'playerDBUpdate';
-    localStorage.setItem(fieldToUpdate, new Date());
+  const updateTimestamp = () => {
+    localStorage.setItem('playerDBUpdate', new Date());
   }
 
   function addPlayerToDb(e) {
@@ -61,7 +60,7 @@ export default function AddPlayerToDBTab() {
             setTimeout(function () {
               toast(`Player added successfully.`);
             }, 1000);
-            updateTimestamp(positions);
+            updateTimestamp();
           } else {
             toast(`Error adding player.`);
           }
