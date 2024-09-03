@@ -1,11 +1,13 @@
 import React from "react";
 import Errors from "../Errors/Errors";
+import './ErrorBoundary.css';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       hasError: false,
+      error: null,
       errorInfo: null,
     };
   }
@@ -13,30 +15,44 @@ class ErrorBoundary extends React.Component {
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
     return {
-      hasError: true,
+      hasError: !!error,
       errorInfo: error,
     };
   }
   componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service
-    this.setState = {
+    // TODO: log the error to an error reporting service
+    this.setState({
+      hasError: !!error,
       error: error,
       errorInfo: errorInfo,
-    };
+    });
   }
+
+  resetErrorBoundary = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null
+    });
+  }
+  
   render() {
-    if (this.state.errorInfo) {
-      // You can render any custom fallback UI
+    if (this.state.hasError) {
       return (
-        <>
+        <div className={`errorWrapper ${this.props?.customClass}`}>
           <Errors
             error={this.state.error}
-            errorInfo={
-              this.state.error ? this.state.error : "Error connecting to server"
-            }
+            errorInfo={this.state.errorInfo}
+            positionAbsolute={!!this.props.positionAbsolute}
           />
-          {/* {this.state.error.toString()} */}
-        </>
+          <button
+            type="button"
+            onClick={this.resetErrorBoundary}
+            style={this.props.positionAbsolute && { position: 'absolute' }}
+          >
+            Refresh
+          </button>
+        </div>
       );
     }
     return this.props.children;
