@@ -45,10 +45,8 @@ export default function TeamTab({
 
   useEffect(() => {
     setIsLoading(true);
-    // setTimeout(function () {}, 1500) // set a delay so that the localStorage is available
     const localStorageTeams = JSON.parse(localStorage.getItem('playerTeamData'));
     if (localStorageTeams) {
-      console.log("setting team info");
       setTeams(localStorageTeams);
     } else {
       getTeams();
