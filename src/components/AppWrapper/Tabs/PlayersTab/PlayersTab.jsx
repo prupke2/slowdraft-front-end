@@ -215,30 +215,9 @@ export default function PlayersTab({
   const tableState =
     playerType === "skaters" ? skaterTableState : goalieTableState;
   
-  // useEffect(() => {
-  //   const players = JSON.parse(localStorage.getItem("playerDBData"));
-  //   setPlayers(players);
-  // }, [getDBPlayers])
-
   useEffect(() => {
     setIsLoading(true);
     getLatestData();
-    // const players = JSON.parse(localStorage.getItem("playerDBData"));
-
-    // const goalieDBData = localStorage.getItem("goalieDBData");
-
-    // if (playerType === "skaters") {
-    //   setPlayers(players.filter(p => p.pos !== 'G'));
-    // } else {
-    //   console.log("Getting new player DB data");
-    //   getDBPlayers(setPlayers);
-    // }
-    // if (playerType === "goalies") {
-    //   setPlayers(players.filter(p => p.pos === 'G'));
-    // } else {
-    //   console.log("Getting new player DB data");
-    //   getDBPlayers(setPlayers);
-    // }
     setIsLoading(false);
   }, [setPlayers, getLatestData, playerType]);
 
