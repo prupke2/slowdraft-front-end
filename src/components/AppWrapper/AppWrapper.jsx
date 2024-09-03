@@ -109,13 +109,11 @@ export default function AppWrapper({
                 Updating...
             </div>
           )}
-          <ErrorBoundary customClass="widget-wrapper">
-            <Widget
-              isRegisteredLeague={isRegisteredLeague}
-              draftingNow={draftingNow}
-              logout={logout}
-            />
-          </ErrorBoundary>
+          <Widget
+            isRegisteredLeague={isRegisteredLeague}
+            draftingNow={draftingNow}
+            logout={logout}
+          />
           { chatClient && (
             <AblyProvider client={chatClient}>
               <ChannelProvider channelName={user.yahoo_league_id}>
