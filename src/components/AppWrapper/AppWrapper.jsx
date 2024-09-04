@@ -62,10 +62,11 @@ export default function AppWrapper({
 
   useEffect(() => {
     let chatToken = localStorage.getItem("chatToken");
+    if (!chatClient && chatToken) {
+      setChatClientWithToken(chatToken, setChatClient);
+    }
     if (!chatToken) {
       chatToken = getChatToken();
-    }
-    if (!chatClient && chatToken) {
       setChatClientWithToken(chatToken, setChatClient);
     }
   }, [chatClient]);
