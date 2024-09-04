@@ -283,9 +283,8 @@ export function checkForUpdates(
     } else {
       console.log('data:', data);
       if (data?.status === 401 || data?.status === 403) {
-        console.log("Logging out");
-        logout();
-        return Promise.reject("Your login has expired.");
+        console.log("Unauthorized response from Yahoo - your token may be expired.");
+        return Promise.reject(`Yahoo returned an error - if this persists, try logging out and back in. Error: ${JSON.stringify(data)}` );
       }
       console.log(`No updates.`);
     }
