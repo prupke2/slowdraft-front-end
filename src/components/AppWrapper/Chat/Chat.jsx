@@ -40,11 +40,11 @@ export default function Chat(
       delayFunc(() => setIsUpdating(false), 3000);
     }
   });
+
+  setChannel(channel);
   
   const { presenceData } = usePresenceListener(user.yahoo_league_id);
   const usersOnline = presenceData.map(msg => msg.data);
-  console.log('usersOnline: ', usersOnline);
-  
   const uniqueUsersOnline = removeDuplicatesUsers(usersOnline);
   const isMobileUser = window.screen.availWidth <= 800;
   const mobileCloseChat = isMobileUser && chatStatus === 'offline';
