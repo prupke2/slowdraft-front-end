@@ -44,7 +44,7 @@ export const setChatClientWithToken = (token, setChatClient) => {
   setChatClient(client);
 };
 
-export const getChatToken = (setChatClient) => {
+export const getChatTokenAndSetChatClient = (setChatClient) => {
   fetch(`${API_URL}/get_chat_token`, {
     method: "GET",
     headers: getHeaders(),
@@ -54,7 +54,7 @@ export const getChatToken = (setChatClient) => {
     }
     const data = await response.json();
     localStorage.setItem("chatToken", data.token);
-    return data.token;
+    setChatClientWithToken(data.token, setChatClient);
   }).catch((error) => {
     console.log(`Error getting chat token: ${error}`);
   });

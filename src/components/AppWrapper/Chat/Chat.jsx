@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useConnectionStateListener } from 'ably/react';
 import "./Chat.css";
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
@@ -40,17 +40,11 @@ export default function Chat(
       delayFunc(() => setIsUpdating(false), 3000);
     }
   });
-  useEffect(() => {
-    console.log('channel: ', channel);
-
-    if (!channel) {
-      setChannel(channel);
-    }
-  }, [channel, setChannel])
-  setChannel(channel);
   
   const { presenceData } = usePresenceListener(user.yahoo_league_id);
   const usersOnline = presenceData.map(msg => msg.data);
+  console.log('usersOnline: ', usersOnline);
+  
   const uniqueUsersOnline = removeDuplicatesUsers(usersOnline);
   const isMobileUser = window.screen.availWidth <= 800;
   const mobileCloseChat = isMobileUser && chatStatus === 'offline';

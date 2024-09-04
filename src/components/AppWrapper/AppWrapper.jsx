@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
 import Widget from "./Widget/Widget";
-import { checkForUpdates, getChatToken, setChatClientWithToken } from "../../util/requests";
+import { checkForUpdates, getChatTokenAndSetChatClient, setChatClientWithToken } from "../../util/requests";
 import { useCallback } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
@@ -62,12 +62,14 @@ export default function AppWrapper({
 
   useEffect(() => {
     let chatToken = localStorage.getItem("chatToken");
+    console.log('chatToken: ', chatToken);
+    
     if (!chatClient && chatToken) {
+      console.log('using chatToken: ', chatToken);
       setChatClientWithToken(chatToken, setChatClient);
     }
     if (!chatToken) {
-      chatToken = getChatToken();
-      setChatClientWithToken(chatToken, setChatClient);
+      getChatTokenAndSetChatClient(setChatClient);
     }
   }, [chatClient]);
 
