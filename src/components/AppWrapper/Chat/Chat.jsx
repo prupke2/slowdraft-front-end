@@ -32,12 +32,13 @@ export default function Chat(
   const chatConnecting = ['connecting', 'reconnecting'].includes(chatStatus);
   const { channel } = useChannel(user.yahoo_league_id, user.team_name, (message) => {
     setChatMessages(previousMessages => [...previousMessages, message]);
+    // if an "event" is set to chat, we need to check for updates
     if (message?.data?.event) {
       setIsUpdating(true);
       
       // delay before fetching to make sure the new data is available
       delayFunc(getLatestData, 1500);
-      delayFunc(() => setIsUpdating(false), 3000);
+      delayFunc(() => setIsUpdating(false), 2000);
     }
   });
 

@@ -25,7 +25,7 @@ export default function Navbar({
   getLatestData,
   channel,
 }) {
-  
+
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
