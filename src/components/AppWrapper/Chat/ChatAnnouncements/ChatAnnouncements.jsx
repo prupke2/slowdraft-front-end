@@ -9,7 +9,11 @@ export const playerDraftedAnnouncement = (user, player, position, team) => ({
 });
 
 export const publishToChat = (channel, user, message) => {
-	const msg = typeof(message) === "string" ? { message } : message; 
+	if (!channel) {
+		return null;
+	}
+	const msg = typeof(message) === "string" ? { message } : message;
+
 	return (
 		channel.publish(
 			user.team_name,
