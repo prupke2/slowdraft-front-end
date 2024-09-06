@@ -72,15 +72,18 @@ export default function Chat(
     });
     channel.presence.subscribe('update', (member) => {
       console.log('Member update: ', member);
+      console.log('user: ', user);
     });
     channel.presence.enter();
-    channel.presence.update({
-      name: user.team_name,
-      color: user.color, 
-      role: user.role, 
-      logo: user.logo,
-      teamKey: user.team_key,
-    });
+    if (user?.team_name) {
+      channel.presence.update({
+        name: user.team_name,
+        color: user.color, 
+        role: user.role, 
+        logo: user.logo,
+        teamKey: user.team_key,
+      });
+    }
   });
 
   return (
