@@ -7,6 +7,20 @@ function multiSelectPositionsFilter(rows) {
   return rows.filter((row) => row.original.position !== "G");
 }
 
+function sortPointsPerGame(rowA, rowB, id, desc) {
+	let a = Number.parseFloat(rowA.values[id]);
+	let b = Number.parseFloat(rowB.values[id]);
+	if (Number.isNaN(a)) {
+			a = desc ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+	}
+	if (Number.isNaN(b)) {
+			b = desc ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+	}
+	if (a > b) return 1; 
+	if (a < b) return -1;
+	return 0;
+}
+
 export const skaterStatColumns = [
 	{
 		Header: "GP",
@@ -35,6 +49,15 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		sortDescFirst: true,
 		width: "30px",
+	},
+	{
+		Header: "P/G",
+		accessor: row => row["3"] / row["0"],
+		disableFilters: true,
+		sortDescFirst: true,
+		sortType: sortPointsPerGame,
+		width: "30px",
+		Cell: cell => isNaN(cell.value) ? '' : cell?.value.toFixed(3),
 	},
 	{
 		Header: "+/-",

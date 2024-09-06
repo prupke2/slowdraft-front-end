@@ -4,6 +4,7 @@ export const statIdToNameMap = {
 	'name': 'Player',
 	'team': 'Team',
 	'position': 'Position',
+	'P/G': "Points Per Game",
 	'0': 'Games Played',
 	'1': 'Goals',
 	'2': 'Assists',
