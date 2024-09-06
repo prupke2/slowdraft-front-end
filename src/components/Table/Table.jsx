@@ -114,14 +114,16 @@ export default function Table({
             {headerGroups.map((headerGroup, i) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => {
-                  const title = statIdToNameMap[column?.id] || '';
+                  const statHeaderName = statIdToNameMap[column?.id];
+                  const headerName = column.id === 'draft_pick_timestamp' ? 'Pick Timestamp' : statHeaderName || column.Header;
+                  const title = column.canSort ? `Sort by ${headerName || ''}` : headerName;
                   return (
                     <th key={column.id} width={column.width}>
                       <span
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
                         )}
-                        title={column.canSort ? `Sort by ${title || ''}` : column.render("Header")}
+                        title={title}
                       >
                         {column.render("Header")}
                         <span>
@@ -164,7 +166,7 @@ export default function Table({
                   {row.cells.map((cell) => {
                     return (
                       <td
-                        className={cell.column.Header}
+                        // className={cell.column.Header}
                         
                         {...cell.getCellProps()}
                       >
