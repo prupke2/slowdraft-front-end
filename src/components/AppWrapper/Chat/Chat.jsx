@@ -64,9 +64,7 @@ export default function Chat(
     }
   }
 
-  useConnectionStateListener('connected', () => {
-    console.log('Connected to chat!');
-    setChatStatus("online");
+  const subscribeToChannel = () => {
     channel.presence.subscribe('enter', (member) => {
       console.log('Member entered the chat: ', member);
     });
@@ -83,6 +81,26 @@ export default function Chat(
         logo: user.logo,
         teamKey: user.team_key,
       });
+    }
+  }
+
+  useConnectionStateListener((stateChange) => {
+    switch (stateChange.current) {
+      case 'initialized':
+      case 'connecting':
+        setChatStatus("connecting");
+        break;
+      case 'connected':
+        setChatStatus("online");
+        subscribeToChannel();
+        break;
+      case 'disconnected':
+        setChatStatus("offline");
+        console.log("Chat disconnected: ", stateChange);
+        break;
+      default:
+        console.log("Chat changed state: ", stateChange);
+        break;
     }
   });
 
