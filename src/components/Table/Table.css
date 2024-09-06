@@ -97,9 +97,10 @@ table tr:last-child td {
 
 .headshot {
   height: 35px;
-  width: auto;
+  width: 27px;
   margin: 0 10px 0 0; 
   border-radius: 12px;
+  background: url('/src/assets/emptyHeadshot.png') no-repeat scroll 0 0;
 }
 
 .timezoneInWords {
