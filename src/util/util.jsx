@@ -137,7 +137,9 @@ export function removeDuplicatesUsers(arr) {
       }
       return acc;
     }, []);
-    return uniqueUsers.filter(user => user !== undefined);
+    console.log('uniqueUsers: ', uniqueUsers);
+
+    return uniqueUsers.filter(user => user?.name !== undefined);
   } catch {
     return arr;
   }
