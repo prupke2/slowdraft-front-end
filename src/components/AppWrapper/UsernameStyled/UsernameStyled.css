@@ -4,6 +4,15 @@
   margin: 10px;
 }
 
+.user-wrapper:hover {
+  color: var(--main-even2);
+  cursor: pointer;
+}
+
+.user-wrapper:hover span  {
+  color: white;
+}
+
 .user-wrapper a {
   display: flex;
 }
@@ -28,11 +37,7 @@
   width: auto;
   border-radius: 8px 0 0 8px;
   border: 1px solid var(--main-light);
-}
-
-.user-in-draft:hover, .user-logo:hover {
-  background: var(--main-light);
-  cursor: pointer;
+  padding: 0;
 }
 
 .chat-message {
