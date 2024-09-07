@@ -32,9 +32,7 @@ export default function Chat(
   const chatConnecting = ['connecting', 'reconnecting'].includes(chatStatus);
   const { channel } = useChannel(
     { channelName: user.yahoo_league_id, options: { params: { rewind: 10 } } 
-  }, (message) => {
-    console.log('message: ', message);
-    
+  }, (message) => {    
     setChatMessages(previousMessages => [...previousMessages, message]);
     // if an "event" is set to chat, we need to check for updates
     if (message?.data?.event) {
@@ -60,6 +58,7 @@ export default function Chat(
   function handleKeyDown(event) {
     if (event.target.id === "messageInput") {
       if (event.key === "Enter") {
+        event.preventDefault();
         publish(
           user.yahoo_league_id,
           {
@@ -167,8 +166,9 @@ export default function Chat(
             <MessageLog 
               messages={chatMessages}
             /> 
-            <input
+            <textarea
               placeholder="Enter a message..."
+              rows="5"
               id="messageInput"
               onKeyDown={handleKeyDown}
             />
