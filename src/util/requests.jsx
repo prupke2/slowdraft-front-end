@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { getHeaders, binaryToBoolean, API_URL } from "./util";
+import { getHeaders, binaryToBoolean, API_URL, delayFunc } from "./util";
 import * as Ably from 'ably';
 
 export const getOptions = {
@@ -225,6 +225,7 @@ export function checkForUpdates(
   setCurrentPick,
   setDraftingNow,
   setPicks,
+  setIsUpdating,
   logout,
 ) {
   // const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
@@ -262,24 +263,30 @@ export function checkForUpdates(
 
       if (updateNeeded("draftDataUpdate", data.updates.latest_draft_update)) {
         console.log("Update draft data...");
+        setIsUpdating(true);
         getDraft(setCurrentPick, setDraftingNow, setPicks);
       }
       if (updateNeeded("playerDBUpdate", data.updates.latest_player_db_update)) {
         console.log("Update player DB data...");
+        setIsUpdating(true);
         getDBPlayers();
       }
       if (updateNeeded("playerTeamDataUpdate", data.updates.latest_team_update)) {
         console.log("Update team data...");
+        setIsUpdating(true);
         getTeams();
       }
       if (updateNeeded("rulesUpdate", data.updates.latest_rules_update)) {
         console.log("Update rules data...");
+        setIsUpdating(true);
         getRules();
       }
       if (updateNeeded("forumUpdate", data.updates.latest_forum_update)) {
         console.log("Update forum data...");
+        setIsUpdating(true);
         getForumPosts();
       }
+      delayFunc(() => setIsUpdating(false), 2000)
     } else {
       console.log('data:', data);
       if (data?.status === 401 || data?.status === 403) {
