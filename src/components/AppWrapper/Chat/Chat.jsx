@@ -30,7 +30,11 @@ export default function Chat(
     'offline': 'Error loading chat.',
   }
   const chatConnecting = ['connecting', 'reconnecting'].includes(chatStatus);
-  const { channel } = useChannel(user.yahoo_league_id, user.team_name, (message) => {
+  const { channel } = useChannel(
+    { channelName: user.yahoo_league_id, options: { params: { rewind: 10 } } 
+  }, (message) => {
+    console.log('message: ', message);
+    
     setChatMessages(previousMessages => [...previousMessages, message]);
     // if an "event" is set to chat, we need to check for updates
     if (message?.data?.event) {
@@ -51,14 +55,20 @@ export default function Chat(
   const mobileCloseChat = isMobileUser && chatStatus === 'offline';
   const [chatOpen, setChatOpen] = useState(!isMobileUser);
 
+  const { publish } = useChannel({ channelName: user.yahoo_league_id })
+
   function handleKeyDown(event) {
     if (event.target.id === "messageInput") {
       if (event.key === "Enter") {
-        channel.publish(user.team_name, {
-          message: event.target.value,
-          teamKey: user.team_key,
-          color: user.color,
-        });
+        publish(
+          user.yahoo_league_id,
+          {
+            message: event.target.value,
+            teamKey: user.team_key,
+            name: user.team_name,
+            color: user.color,
+          }
+        );
         event.target.value = ""
       }
     }

@@ -11,6 +11,7 @@ export default function MessageLog({ messages }) {
       chatbox.scrollTop = chatbox.scrollHeight;
     }
   });
+  
   return (
     <ul className="chatMessages">
       <li>
@@ -19,7 +20,7 @@ export default function MessageLog({ messages }) {
             <div key={index}>
               {(!item?.data.event && item.data.message) && (
                 <UsernameStyled
-                  username={item.name}
+                  username={item.data?.name}
                   teamKey={item.data.teamKey}
                   color={item.data.color}
                   small={true}
