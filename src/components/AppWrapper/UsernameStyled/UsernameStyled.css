@@ -4,17 +4,17 @@
   margin: 10px;
 }
 
-.user-wrapper:hover {
-  color: var(--main-even2);
+.user-wrapper span:hover, .user-wrapper img:hover {
   cursor: pointer;
 }
 
-.user-wrapper:hover span  {
+.user-wrapper a:hover {
   color: white;
 }
 
 .user-wrapper a {
   display: flex;
+  height: 30px;
 }
 
 .user-in-draft {
