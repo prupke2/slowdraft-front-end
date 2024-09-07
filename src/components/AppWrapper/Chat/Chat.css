@@ -15,7 +15,7 @@
   margin: 0 0 0 10px;
   padding: 10px;
   border: 2px solid var(--main-very-dark);
-  height: calc(100vh - 125px);
+  height: calc(100vh - 191px);
   width: 270px;
   background-color: whitesmoke;
 }
