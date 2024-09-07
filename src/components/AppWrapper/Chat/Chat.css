@@ -28,7 +28,7 @@
   top: 175px;
   right: 0;
   width: 270px;
-  height: calc(100vh - 180px);
+  height: calc(100% - 280px);
   padding: 5px 10px 0;
   margin: 2px;
   word-wrap: break-word;
