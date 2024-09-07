@@ -51,6 +51,7 @@ export default function AppWrapper({
       setCurrentPick,
       setDraftingNow,
       setPicks,
+      setIsUpdating,
       logout
     );
   }, [
@@ -118,7 +119,10 @@ export default function AppWrapper({
           />
           { chatClient && (
             <AblyProvider client={chatClient}>
-              <ChannelProvider channelName={user.yahoo_league_id}>
+              <ChannelProvider
+                channelName={user.yahoo_league_id}
+                options={{ params: { rewind: 10 }}}
+              >
                 <Chat
                   chatStatus={chatStatus}
                   setChatStatus={setChatStatus}
