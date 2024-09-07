@@ -40,7 +40,7 @@ export default function UsernameStyled({ username, color, teamKey, small, messag
         { !message && !logoAndShortName &&
           <span className="user-in-draft">{username}</span>
         }
-        { (message ||logoAndShortName) &&
+        { (message || logoAndShortName) &&
           <span
             className="chat-name"
             title={`${username} (${name})`}
