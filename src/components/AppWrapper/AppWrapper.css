@@ -11,15 +11,16 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  z-index: 10;
   position: fixed;
-  width: 150px;
+  width: 120px;
   bottom: 30px;
-  left: calc(50vw - 75px);
-  background-color: black;
+  left: calc(50vw - 60px);
+  background-color: rgba(0, 0, 0, 0.75);
   color: white;
   text-align: center;
   padding: 5px 0;
-  border-radius: 8px;
+  border-radius: 4px;
   transition: background-color 0.2s ease;
   cursor: wait;
 }
@@ -27,5 +28,8 @@
 @media screen and (max-width: 800px) { 
   .navbar-emoji {
     display: flex;
+  }
+  .isUpdatingBanner {
+    bottom: 40px;
   }
 }
