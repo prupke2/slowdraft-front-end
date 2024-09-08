@@ -4,11 +4,11 @@
   margin: 10px;
 }
 
-.user-wrapper span:hover, .user-wrapper img:hover {
+.user-wrapper span:hover, .user-wrapper img:hover, .user-in-draft:hover {
   cursor: pointer;
 }
 
-.user-wrapper a:hover {
+.user-wrapper > a:hover span {
   color: white;
 }
 
@@ -22,6 +22,7 @@
   height: 30px;
   width: 100px;
   align-items: center;
+  justify-content: center;
   font-size: 0.7rem;
   border-radius: 0 8px 8px 0;
   padding: 0 4px;
