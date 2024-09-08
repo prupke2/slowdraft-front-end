@@ -139,11 +139,8 @@ export default function Navbar({
                 <PlayersTab
                   playerType="skaters"
                   user={user}
-                  setCurrentPick={setCurrentPick}
                   draftingNow={draftingNow}
-                  setDraftingNow={setDraftingNow}
                   getLatestData={getLatestData}
-                  currentPick={currentPick}
                   channel={channel}
                 />
               </ErrorBoundary>
@@ -153,11 +150,8 @@ export default function Navbar({
                 <PlayersTab
                   playerType="goalies"
                   user={user}
-                  setCurrentPick={setCurrentPick}
                   draftingNow={draftingNow}
-                  setDraftingNow={setDraftingNow}
                   getLatestData={getLatestData}
-                  currentPick={currentPick}
                   channel={channel}
                 />
               </ErrorBoundary>
@@ -174,7 +168,7 @@ export default function Navbar({
               <ErrorBoundary>
                 <WatchlistTab
                   draftingNow={draftingNow}
-                  getLatestData={getLatestData}
+                  channel={channel}
                 />
               </ErrorBoundary>
             </Route>

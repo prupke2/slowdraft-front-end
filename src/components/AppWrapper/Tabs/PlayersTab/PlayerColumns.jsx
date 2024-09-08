@@ -175,14 +175,6 @@ const playerColumn = {
 	Cell: (cell) => <PlayerCell cell={cell} />,
 }
 
-const playerColumnWithWatchlist = {
-	Header: "Player",
-	accessor: "name",
-	disableFilters: true,
-	disableSortBy: true,
-	Cell: (cell) => <PlayerCell cell={cell} showWatchlist />,
-}
-
 const staticTeamColumn = {
 	Header: "Team",
 	accessor: "team",
@@ -252,7 +244,6 @@ export const teamsTabGoalieColumns = [
 ];
 
 export const watchlistTabSkaterColumns = [
-	playerColumnWithWatchlist,
 	staticTeamColumn,
 	positionColumn,
 	...skaterStatColumns,
@@ -260,7 +251,6 @@ export const watchlistTabSkaterColumns = [
 ];
 
 export const watchlistTabGoalieColumns = [
-	playerColumnWithWatchlist,
 	staticTeamColumn,
 	...goalieStatColumns,
 	...goalieAccessors

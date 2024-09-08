@@ -4,11 +4,18 @@ import "./WatchlistTab.css";
 import { watchlistTabSkaterColumns, watchlistTabGoalieColumns } from "../PlayersTab/PlayerColumns";
 import { getWatchlistIds, removeFromWatchlist } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
+import { SearchColumnFilter } from "../../../Table/FilterTypes/FilterTypes";
+import DraftModal from "../DraftTab/DraftModal";
+import PlayerCell from "../PlayersTab/PlayerCell";
 
-export default function WatchlistTab() {
+export default function WatchlistTab({ 
+  draftingNow,
+  channel,
+}) {
+  const isLiveDraft = localStorage.getItem("liveDraft") === "true";
   const players = JSON.parse(localStorage.getItem("playerDBData"));
   const skaters = players.filter(player => player.position !== "G");
-  const goalies = players.filter(player => player.position === "G")
+  const goalies = players.filter(player => player.position === "G");
   const watchlistLocalStorage = JSON.parse(localStorage.getItem('watchlist'));
   const [isLoading, setIsLoading] = useState(watchlistLocalStorage === null)
   const [watchlist, setWatchlist] = useState(watchlistLocalStorage || []);
@@ -114,6 +121,44 @@ export default function WatchlistTab() {
       </div>
     ) 
   }
+
+  const playerColumn = {
+    Header: "Player",
+    accessor: "name",
+    Filter: SearchColumnFilter,
+    sortType: "alphanumeric",
+    width: "100px",
+    Cell: (cell) => {
+      const takenPlayer = cell.row.original.user !== null ? "taken-player" : null;
+      if (draftingNow === true) {
+        return (
+          <div className="player-wrapper">
+            <div className="draft-button-cell">
+              {!takenPlayer && isLiveDraft && (
+                <DraftModal
+                  player={cell.row.original}
+                  channel={channel}
+                />
+              )}
+            </div>
+            <PlayerCell
+              cell={cell} 
+              playerListPage={true}
+              showWatchlist
+            />
+          </div>
+        );
+      }
+      return (
+        <PlayerCell 
+          cell={cell} 
+          playerListPage={true}
+          showWatchlist
+        />
+      );
+    },
+  }
+
   return (
     <div className="watchlistWrapper">
       {takenPlayers?.length > 0 && (
@@ -126,7 +171,7 @@ export default function WatchlistTab() {
         <Table
           user={user}
           data={watchedSkaters}
-          columns={watchlistTabSkaterColumns}
+          columns={[playerColumn, ...watchlistTabSkaterColumns]}
           tableState={skaterTableState}
           defaultColumn="player_id"
           tableType="watchlist"
@@ -137,7 +182,7 @@ export default function WatchlistTab() {
         <Table
           user={user}
           data={watchedGoalies}
-          columns={watchlistTabGoalieColumns}
+          columns={[playerColumn, ...watchlistTabGoalieColumns]}
           tableState={goalieTableState}
           defaultColumn="player_id"
           tableType="watchlist"
