@@ -1,6 +1,5 @@
 import React from "react";
 import TeamsTab from "../Tabs/TeamsTab/TeamsTab";
-import ForumTab from "../Tabs/ForumTab/ForumTab";
 import DraftTab from "../Tabs/DraftTab/DraftTab";
 import RulesTab from "../Tabs/RulesTab/RulesTab";
 import AdminTab from "../Tabs/AdminTab/AdminTab";
@@ -71,12 +70,12 @@ export default function Navbar({
                 <div>Watchlist</div>
               </NavLink>
             </li>
-            <li className="navtab">
+            {/* <li className="navtab">
               <NavLink to="/forum" activeClassName="active">
                 <Emoji navbar={true} emoji="✍🏼" />
                 <div>Forum</div>
               </NavLink>
-            </li>
+            </li> */}
             <li className="navtab">
               <NavLink to="/rules" activeClassName="active">
                 <Emoji navbar={true} emoji="📖" />
@@ -179,22 +178,16 @@ export default function Navbar({
                 />
               </ErrorBoundary>
             </Route>
-            <Route path="/forum">
+            {/* <Route path="/forum">
               <ErrorBoundary>
                 <ForumTab
-                  // user={user}
-                  // posts={posts}
-                  // setPosts={setPosts}
                   getLatestData={getLatestData}
                 />
               </ErrorBoundary>
-            </Route>
+            </Route> */}
             <Route path="/rules">
               <ErrorBoundary>
                 <RulesTab
-                  // user={user}
-                  // rules={rules}
-                  // setRules={setRules}
                   getLatestData={getLatestData}
                 />
               </ErrorBoundary>
