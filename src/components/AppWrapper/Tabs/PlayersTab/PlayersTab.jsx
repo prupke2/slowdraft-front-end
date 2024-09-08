@@ -16,17 +16,11 @@ export default function PlayersTab({
   playerType,
   user,
   draftingNow,
-  setTeams,
   getLatestData,
-  sendChatAnnouncement,
-  setPicks,
-  setCurrentPick,
-  setDraftingNow,
-  currentPick,
   channel,
 }) {
   const playersLocalStorage = JSON.parse(localStorage.getItem("playerDBData")) || [];
-
+  
   const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState(playersLocalStorage || []);
   const skaters = players.filter(p => p?.position !== 'G');
@@ -35,10 +29,8 @@ export default function PlayersTab({
 
   const [prospectDropdown, setProspectDropdown] = useState("all");
   const [availabilityDropdown, setAvailabilityDropdown] = useState("available");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [playerDrafted, setPlayerDrafted] = useState("");
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
-
+  
   useEffect(() => {
     setIsLoading(true);
     getLatestData();
@@ -55,11 +47,6 @@ export default function PlayersTab({
     }
     setIsLoading(false);
   }, [setPlayers, getLatestData, playerType]);
-
-  function draftModal(player) {
-    setModalOpen(true);
-    setPlayerDrafted(player);
-  }
 
   function prospectFilter(rows) {
     if (prospectDropdown === "all") {
@@ -93,25 +80,10 @@ export default function PlayersTab({
             <div className="player-wrapper">
               <div className="draft-button-cell">
                 {!takenPlayer && isLiveDraft && (
-                  <div>
-                    <button onClick={() => draftModal(cell.row.original)}>
-                      Draft
-                    </button>
-                    <DraftModal
-                      modalIsOpen={modalOpen}
-                      setIsOpen={setModalOpen}
-                      data={playerDrafted}
-                      modalType="draftPlayer"
-                      sendChatAnnouncement={sendChatAnnouncement}
-                      setPicks={setPicks}
-                      currentPick={currentPick}
-                      setCurrentPick={setCurrentPick}
-                      setDraftingNow={setDraftingNow}
-                      setPlayers={setPlayers}
-                      setTeams={setTeams}
-                      channel={channel}
-                    />
-                  </div>
+                  <DraftModal
+                    player={cell.row.original}
+                    channel={channel}
+                  />
                 )}
               </div>
               <PlayerCell 
