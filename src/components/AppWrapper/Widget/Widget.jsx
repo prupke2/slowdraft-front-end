@@ -1,5 +1,6 @@
 import React from "react";
 import CountdownTimer from "./CountdownTimer/CountdownTimer";
+import UsernameStyled from "../UsernameStyled/UsernameStyled";
 import "./Widget.css";
 
 export default function Widget({
@@ -20,9 +21,13 @@ export default function Widget({
         />
       )}
       <div className="logo-and-logout-wrapper">
-        <div className="logo-wrapper">
-          <img className="logo" src={user ? user.logo : null} alt="icon" />
-        </div>
+        <UsernameStyled
+          username={user.team_name}
+          teamKey={user.team_key}
+          color={user.color}
+          small
+          logoAndShortName
+        />
         <button id="logout" onClick={logout}>
           Logout
         </button>

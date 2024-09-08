@@ -23,7 +23,7 @@ export default function MessageLog({ messages }) {
                   username={item.data?.name}
                   teamKey={item.data.teamKey}
                   color={item.data.color}
-                  small={true}
+                  small
                   message={item.data.message}
                 />
               )}

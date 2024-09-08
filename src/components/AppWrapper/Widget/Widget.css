@@ -29,8 +29,14 @@
 .logo-wrapper {
   display: flex;
   align-items: center;
+  border: 1px solid transparent;
+  border-radius: 2px;
   top: 35px;
   right: 28px;
+}
+
+.logo-wrapper:hover {
+  border: 1px solid black;
 }
 
 .logo {
