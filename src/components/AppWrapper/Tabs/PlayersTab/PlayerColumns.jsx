@@ -21,6 +21,15 @@ function sortPointsPerGame(rowA, rowB, id, desc) {
 	return 0;
 }
 
+function formatAsFloat(value, digits) {
+	if (!value || isNaN(value)) {
+		return '';
+	}
+	console.log('value: ', value);
+	
+	return parseFloat(value, digits).toFixed(digits);
+}
+
 export const skaterStatColumns = [
 	{
 		Header: "GP",
@@ -93,6 +102,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		Cell: cell => formatAsFloat(cell.value, 3),
 	},
 	{
 		Header: "FW",
@@ -156,6 +166,7 @@ export const goalieStatColumns = [
 		sortType: "alphanumeric",
 		width: "30px",
 		sortDescFirst: true,
+		Cell: cell => formatAsFloat(cell.value, 3),
 	},
 ];
 
