@@ -72,13 +72,10 @@ export default function Chat(
       return List;
     } catch (err) {
       console.log('err: ', err);
-      return (
-        <span>
-          Error connecting to the chat. Please refresh the page.
-        </span>
-      );
+      setChatStatus("reconnecting");
+      return null;
     }
-  }, [uniqueUsersOnline]);
+  }, [uniqueUsersOnline, setChatStatus]);
 
   const { publish } = useChannel({ channelName: user.yahoo_league_id })
 
