@@ -31,14 +31,14 @@ export default function AddDraftPickTab() {
         .then((data) => {
           if (data.success === true) {
             setTimeout(function () {
-              toast("Pick added successfully.");
+              toast.success("Pick added successfully.");
             }, 200);
           } else {
-            toast("Error adding pick.");
+            toast.error("Error adding pick.");
           }
         });
     } else {
-      toast("Please fill out all the fields.");
+      toast.error("Please fill out all the fields.");
     }
   }
 

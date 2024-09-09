@@ -35,16 +35,16 @@ export default function AddKeeperTab({ singleTeam }) {
         .then((data) => {
           if (data.success === true) {
             setTimeout(function () {
-              toast("Keeper added successfully.");
+              toast.success("Keeper added successfully.");
             }, 500);
             setKeeperPlayerId(null);
           } else {
             setKeeperPlayerId([]);
-            toast("Error adding keeper.");
+            toast.error("Error adding keeper.");
           }
         });
     } else {
-      toast("Please fill out all the fields.");
+      toast.error("Please fill out all the fields.");
     }
   }
 

@@ -79,7 +79,7 @@ export function getDraft(setCurrentPick, setDraftingNow, setPicks=null) {
         setPicks(data.picks);
       };
     } else {
-      toast("Error getting draft.");
+      toast.error("Error getting draft.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -96,7 +96,7 @@ export function getDBPlayers() {
       localStorage.setItem("playerDBData", JSON.stringify(data.players));
       localStorage.setItem("playerDBUpdate", new Date());
     } else {
-      toast("Error getting players.");
+      toast.error("Error getting players.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -114,7 +114,7 @@ export function getTeams() {
       localStorage.setItem("playerTeamData", JSON.stringify(data.teams));
       localStorage.setItem("playerTeamDataUpdate", new Date());
     } else {
-      toast("Error getting teams.");
+      toast.error("Error getting teams.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -147,7 +147,7 @@ export function getRules() {
       localStorage.setItem("rulesUpdate", new Date());
       return data;
     } else {
-      toast("Error getting rules.");
+      toast.error("Error getting rules.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -164,7 +164,7 @@ export function getForumPosts() {
       localStorage.setItem("forumData", JSON.stringify(data.posts));
       localStorage.setItem("forumUpdate", new Date());
     } else {
-      toast("Error getting forum posts.");
+      toast.error("Error getting forum posts.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -204,17 +204,17 @@ export function selectLeague(
         }
       } else if (data.error === "INVALID_REFRESH_TOKEN") {
         localStorage.clear();
-        toast(
+        toast.error(
           "Your Yahoo connection has expired."
         );
       } else {
-        toast(
+        toast.error(
           "There was an error connecting to Yahoo. Please try again later."
         );
       }
     })
     .catch((error) => {
-      toast(
+      toast.error(
         `There was an error connecting to Yahoo. Please try again later.`
       );
       console.log(`Error: ${error.text}`);
@@ -253,7 +253,7 @@ export function checkForUpdates(
       return Promise.reject(error);
     }
     if (data.success === false && data?.error === 'expired_token') {
-      toast('Your login has expired. Please log in again.')
+      toast.error('Your login has expired. Please log in again.')
       logout();
       return;
     }
@@ -306,7 +306,7 @@ export function addToWatchlist(playerId) {
       localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
       return true;
     } else {
-      toast("Error updating watchlist - please try again later.");
+      toast.error("Error updating watchlist - please try again later.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
@@ -334,7 +334,7 @@ export function removeFromWatchlist(playerId) {
 
       localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
     } else {
-      toast("Error updating watchlist - please try again later.");
+      toast.error("Error updating watchlist - please try again later.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }

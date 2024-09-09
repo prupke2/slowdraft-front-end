@@ -17,7 +17,7 @@ export default function MakePickTab({ channel }) {
   function draftPlayer(e) {
     e.preventDefault();
     if (!playerId) {
-      toast(`You forgot to select a player.`);
+      toast.error(`You forgot to select a player.`);
       return;
     }
     const requestParams = {
@@ -31,7 +31,7 @@ export default function MakePickTab({ channel }) {
     fetch(`${API_URL}/make_pick`, requestParams)
       .then((response) => {
         if (!response.ok) {
-          toast(`An error occurred. Please try again later.`);
+          toast.error(`An error occurred. Please try again later.`);
           const error = response.status;
           return Promise.reject(error);
         }
@@ -43,13 +43,13 @@ export default function MakePickTab({ channel }) {
           const player = data.player[0];
           const position = data.player[1];
           const team = data.player[2];
-          toast(`👍 Success! Drafted ${player}, ${position} - ${team} for ${user}`);
+          toast.success(`👍 Success! Drafted ${player}, ${position} - ${team} for ${user}`);
           const msg = playerDraftedAnnouncement(user, player, position, team);
           publishToChat(channel, user, msg);
         } else {
-          toast(
+          toast.error(
             `There was an error making this pick. ${
-              data.error ? data.error : null
+              data?.error ? data.error : null
             }`
           );
         }

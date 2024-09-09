@@ -24,7 +24,7 @@ export default function DraftModal({
       })
         .then((response) => {
           if (!response.ok) {
-            toast(`An error occurred. Please try again later.`);
+            toast.error(`An error occurred. Please try again later.`);
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
@@ -34,9 +34,9 @@ export default function DraftModal({
           const draftingAgain = data.drafting_again === true ? "You're up again!" : "";
           publishToChat(channel, user, msg);
           if (data.success !== true) {
-            toast(`${data.error}`);
+            toast.error(`${data.error}`);
           } else {
-            toast(
+            toast.success(
               `You have drafted ${data.player}. ${draftingAgain}`
             );
             const draftTab = document.querySelector('.navtab-list .navtab:first-child a');
@@ -49,7 +49,7 @@ export default function DraftModal({
         });
       } catch (err) {
         console.log('Error:', err);
-        toast(`There was an error: ${err}. Please change tabs to see if the pick was saved before trying again.`);
+        toast.error(`There was an error: ${err}. Please change tabs to see if the pick was saved before trying again.`);
         setIsOpen(false);
         setIsLoading(false);
       }

@@ -27,11 +27,11 @@ export default function NewPost({
   function savePost(event, postType) {
     event.preventDefault();
     if (!body) {
-      toast("A message is required.");
+      toast.error("A message is required.");
       return;
     }
     if (!isReply && !title) {
-      toast("A title is required.");
+      toast.error("A title is required.");
       return;
     }
     const requestParams = {
@@ -53,9 +53,9 @@ export default function NewPost({
           return Promise.reject(error);
         }
         if (data.success === true) {
-          toast(`${capitalizeFirstLetter(post)} saved.`);
+          toast.success(`${capitalizeFirstLetter(post)} saved.`);
         } else {
-          toast(`Error saving ${post}.`);
+          toast.error(`Error saving ${post}.`);
         }
       })
       .then(setIsOpen(false));

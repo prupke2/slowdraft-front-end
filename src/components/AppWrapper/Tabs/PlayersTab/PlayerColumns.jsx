@@ -24,9 +24,7 @@ function sortPointsPerGame(rowA, rowB, id, desc) {
 function formatAsFloat(value, digits) {
 	if (!value || isNaN(value)) {
 		return '';
-	}
-	console.log('value: ', value);
-	
+	}	
 	return parseFloat(value, digits).toFixed(digits);
 }
 

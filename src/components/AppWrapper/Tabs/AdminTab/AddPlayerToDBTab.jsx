@@ -30,10 +30,6 @@ export default function AddPlayerToDBTab() {
     setPositionsValid(newPositionsArray.length > 0);
   };
 
-  const updateTimestamp = () => {
-    localStorage.setItem('playerDBUpdate', new Date());
-  }
-
   function addPlayerToDb(e) {
     e.preventDefault();
     let requestParams = {
@@ -57,16 +53,13 @@ export default function AddPlayerToDBTab() {
         })
         .then((data) => {
           if (data.success === true) {
-            setTimeout(function () {
-              toast(`Player added successfully.`);
-            }, 1000);
-            updateTimestamp();
+            toast.success(`Player added successfully.`);
           } else {
-            toast(`Error adding player.`);
+            toast.error(`Error adding player.`);
           }
         });
     } else {
-      toast(`Please fill out all the fields.`);
+      toast.error(`Please fill out all the fields.`);
     }
   }
 

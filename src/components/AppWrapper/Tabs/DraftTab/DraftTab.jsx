@@ -76,10 +76,10 @@ export default function DraftTab({
           if (data.success === true) {
             const message = pickUpdatedAnnouncement(user.team_name, overallPick);
             publishToChat(channel, user, message);
-            toast(`Pick ${overallPick} ${data.status}.`);
+            toast.success(`Pick ${overallPick} ${data.status}.`);
             getDraft(setCurrentPick, setDraftingNow, setPicks);
           } else {
-            toast(`Error updating pick ${overallPick}.`);
+            toast.error(`Error updating pick ${overallPick}.`);
           }
         });
     } else {
@@ -99,10 +99,10 @@ export default function DraftTab({
           if (data.success === true) {
             const message = pickUpdatedAnnouncement(user.team_name, overallPick);
             publishToChat(channel, user, message);
-            toast(`Pick ${overallPick} updated.`);
+            toast.success(`Pick ${overallPick} updated.`);
             getDraft(setCurrentPick, setDraftingNow, setPicks);
           } else {
-            toast(`Error updating pick ${overallPick}.`);
+            toast.error(`Error updating pick ${overallPick}.`);
           }
         }
       );

@@ -30,7 +30,7 @@ export default function NewDraftTab() {
         if (!response?.ok) {
           const error = response.status;
           console.log(`error: ${JSON.stringify(error, null, 4)}`);
-          toast("Error creating draft.");
+          toast.error("Error creating draft.");
           return Promise.reject(error);
         }
         return response.json();
@@ -43,10 +43,10 @@ export default function NewDraftTab() {
           localStorage.setItem("registeredLeague", "true");
           localStorage.setItem("liveDraft", "true");
           setTimeout(function () {
-            toast("Draft created successfully.");
+            toast.success("Draft created successfully.");
           }, 200);
         } else {
-          toast("Error creating draft.");
+          toast.error("Error creating draft.");
         }
       });
   }
