@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useConnectionStateListener } from 'ably/react';
 import "./Chat.css";
 import Loading from "../../Loading/Loading";
@@ -56,6 +56,29 @@ export default function Chat(
   const isMobileUser = window.screen.availWidth <= 800;
   const mobileCloseChat = isMobileUser && chatStatus === 'offline';
   const [chatOpen, setChatOpen] = useState(!isMobileUser);
+
+  const userList = useCallback(() => {
+    try {    
+      const List = uniqueUsersOnline.map((u) => (
+        <UsernameStyled
+          key={u.teamKey}
+          username={u.name}
+          color={u.color}
+          teamKey={u.teamKey}
+          small
+          logoAndShortName
+        />
+      ))
+      return List;
+    } catch (err) {
+      console.log('err: ', err);
+      return (
+        <span>
+          Error connecting to the chat. Please refresh the page.
+        </span>
+      );
+    }
+  }, [uniqueUsersOnline]);
 
   const { publish } = useChannel({ channelName: user.yahoo_league_id })
 
@@ -152,16 +175,7 @@ export default function Chat(
         { chatStatus === 'online' &&
           <>
             <div id="user-list">
-              {uniqueUsersOnline.map((u) => (
-                <UsernameStyled
-                  key={u.teamKey}
-                  username={u.name}
-                  color={u.color}
-                  teamKey={u.teamKey}
-                  small
-                  logoAndShortName
-                />
-              ))}
+              {userList()}
             </div>
             <CloseModalButton
               classes="closeChatButton"
