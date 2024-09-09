@@ -7,14 +7,14 @@ function multiSelectPositionsFilter(rows) {
   return rows.filter((row) => row.original.position !== "G");
 }
 
-function sortPointsPerGame(rowA, rowB, id, desc) {
+function sortNumbersUndefinedLast(rowA, rowB, id, desc) {
 	let a = Number.parseFloat(rowA.values[id]);
 	let b = Number.parseFloat(rowB.values[id]);
 	if (Number.isNaN(a)) {
-			a = desc ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+		a = desc ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
 	}
 	if (Number.isNaN(b)) {
-			b = desc ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+		b = desc ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
 	}
 	if (a > b) return 1; 
 	if (a < b) return -1;
@@ -22,7 +22,8 @@ function sortPointsPerGame(rowA, rowB, id, desc) {
 }
 
 function formatAsFloat(value, digits) {
-	if (!value || isNaN(value)) {
+	// we want to keep zero values but not nulls
+	if (value !== 0 && (!value || isNaN(value))) {
 		return '';
 	}	
 	return parseFloat(value, digits).toFixed(digits);
@@ -35,6 +36,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "G",
@@ -42,6 +44,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "A",
@@ -49,20 +52,22 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "P",
 		accessor: "3",
 		disableFilters: true,
-		sortDescFirst: true,
 		width: "30px",
+		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "P/G",
 		accessor: row => row["3"] / row["0"],
 		disableFilters: true,
 		sortDescFirst: true,
-		sortType: sortPointsPerGame,
+		sortType: sortNumbersUndefinedLast,
 		width: "30px",
 		Cell: cell => isNaN(cell.value) ? '' : cell?.value.toFixed(3),
 	},
@@ -71,6 +76,7 @@ export const skaterStatColumns = [
 		accessor: "4",
 		disableFilters: true,
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 		width: "30px",
 	},
 	{
@@ -79,6 +85,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "PPP",
@@ -86,6 +93,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "SOG",
@@ -93,6 +101,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "S%",
@@ -100,6 +109,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 		Cell: cell => formatAsFloat(cell.value, 3),
 	},
 	{
@@ -108,6 +118,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "HIT",
@@ -115,6 +126,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "BLK",
@@ -122,6 +134,7 @@ export const skaterStatColumns = [
 		disableFilters: true,
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 ];
 
@@ -130,38 +143,39 @@ export const goalieStatColumns = [
 		Header: "GS",
 		accessor: "18",
 		disableFilters: true,
-		sortType: "alphanumeric",
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "W",
 		accessor: "19",
 		disableFilters: true,
-		sortType: "alphanumeric",
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "GAA",
 		accessor: "23",
 		disableFilters: true,
-		sortType: "alphanumeric",
+		sortType: sortNumbersUndefinedLast,
 		width: "30px",
+		Cell: cell => formatAsFloat(cell.value, 2),
 	},
 	{
 		Header: "SV",
 		accessor: "25",
 		disableFilters: true,
-		sortType: "alphanumeric",
 		width: "30px",
 		sortDescFirst: true,
+		sortType: sortNumbersUndefinedLast,
 	},
 	{
 		Header: "SV%",
 		accessor: "26",
 		disableFilters: true,
-		sortType: "alphanumeric",
+		sortType: sortNumbersUndefinedLast,
 		width: "30px",
 		sortDescFirst: true,
 		Cell: cell => formatAsFloat(cell.value, 3),
