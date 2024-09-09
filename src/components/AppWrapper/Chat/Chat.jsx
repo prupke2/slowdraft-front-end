@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useConnectionStateListener } from 'ably/react';
 import "./Chat.css";
-import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
 import Loading from "../../Loading/Loading";
 import Emoji from '../Emoji';
 import CloseModalButton from '../ModalWrapper/CloseModalButton/CloseModalButton';
@@ -9,6 +8,7 @@ import MessageLog from './MessageLog/MessageLog';
 import { useChannel, usePresenceListener } from 'ably/react';
 import UsernameStyled from '../UsernameStyled/UsernameStyled';
 import { delayFunc, removeDuplicatesUsers } from '../../../util/util';
+import toast from 'react-hot-toast';
 
 export default function Chat(
   {
@@ -44,7 +44,11 @@ export default function Chat(
     }
   });
 
-  setChannel(channel);
+  if (!channel) {
+    toast.error("Unable to connect - please refresh the page.")
+  } else {
+    setChannel(channel);
+  }
   
   const { presenceData } = usePresenceListener(user.yahoo_league_id);
   const usersOnline = presenceData.map(msg => msg.data);
@@ -114,7 +118,7 @@ export default function Chat(
   });
 
   return (
-    <ErrorBoundary>
+    <>
     { !chatOpen && chatStatus === 'online' && 
       <button
         className="openChatButton"
@@ -176,6 +180,6 @@ export default function Chat(
         }
       </aside>
     )}
-    </ErrorBoundary>
+    </>
   );
 }
