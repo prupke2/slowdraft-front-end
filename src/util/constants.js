@@ -37,5 +37,7 @@ export const statIdToNameMap = {
 	'29' : '',
 	'30' : '',
 	'31': 'Hits',
-	'32': 'Blocks'
+	'32': 'Blocks',
+	'percent_drafted': '% Drafted',
+	'average_pick': 'Average Pick',
 }
