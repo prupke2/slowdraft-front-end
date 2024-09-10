@@ -74,7 +74,7 @@ export default function Chat(
       console.log('err: ', err);
       return null;
     }
-  }, [uniqueUsersOnline, setChatStatus]);
+  }, [uniqueUsersOnline]);
 
   const { publish } = useChannel({ channelName: user.yahoo_league_id })
 
