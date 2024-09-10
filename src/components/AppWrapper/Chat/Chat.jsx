@@ -72,7 +72,6 @@ export default function Chat(
       return List;
     } catch (err) {
       console.log('err: ', err);
-      setChatStatus("reconnecting");
       return null;
     }
   }, [uniqueUsersOnline, setChatStatus]);
