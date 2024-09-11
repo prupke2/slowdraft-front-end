@@ -76,7 +76,7 @@ table tr:last-child td {
 }
 
 .taken-player {
-  background-color: rgba(0, 0, 0, 0.15) !important;
+  background-color: rgba(110, 140, 140, 0.5) !important;
 }
 
 .current-pick-row {

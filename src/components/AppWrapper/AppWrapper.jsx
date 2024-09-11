@@ -28,6 +28,20 @@ export default function AppWrapper({
 
   const user = JSON.parse(localStorage.getItem("user"));
 
+  useEffect(() => {
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+    if (draftingNow) {
+      link.href = 'https://slowdraft.vercel.app/hockey_icon.ico';
+    } else {
+      link.href = 'https://slowdraft.vercel.app/hockey_icon_drafting.ico';
+    }
+  }, [draftingNow])
+
   // function getRegisteredLeagueCount() {
   //   let count = 0;
   //   leagueList.forEach((league) => {
