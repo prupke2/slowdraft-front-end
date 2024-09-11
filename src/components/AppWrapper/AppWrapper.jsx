@@ -36,9 +36,9 @@ export default function AppWrapper({
       document.getElementsByTagName('head')[0].appendChild(link);
     }
     if (draftingNow) {
-      link.href = 'https://slowdraft.vercel.app/hockey_icon.ico';
-    } else {
       link.href = 'https://slowdraft.vercel.app/hockey_icon_drafting.ico';
+    } else {
+      link.href = 'https://slowdraft.vercel.app/hockey_icon.ico';
     }
   }, [draftingNow])
 
@@ -65,14 +65,11 @@ export default function AppWrapper({
       setCurrentPick,
       setDraftingNow,
       setPicks,
+      setIsUpdating,
       logout
     );
-  }, [
-    setCurrentPick,
-    setDraftingNow,
-    setPicks,
-    logout
-  ]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     let chatToken = localStorage.getItem("chatToken");
@@ -122,7 +119,7 @@ export default function AppWrapper({
           />
           { isUpdating && (
             <div className='isUpdatingBanner'>
-                Updating...
+              Updating...
             </div>
           )}
           <Widget

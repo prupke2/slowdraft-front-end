@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { getHeaders, binaryToBoolean, API_URL } from "./util";
+import { getHeaders, binaryToBoolean, API_URL, delayFunc } from "./util";
 import * as Ably from 'ably';
 
 export const getOptions = {
@@ -225,6 +225,7 @@ export function checkForUpdates(
   setCurrentPick,
   setDraftingNow,
   setPicks,
+  setIsUpdating,
   logout,
 ) {
   // const isRegisteredLeague = localStorage.getItem('registeredLeague') === 'true';
@@ -240,7 +241,11 @@ export function checkForUpdates(
     }
     const lastUpdateLocalStorage = new Date(localStorageUpdateString);
     const latestUpdateWithOffset = new Date(latestUpdate) - offsetMilliseconds;
-    return latestUpdateWithOffset > lastUpdateLocalStorage;
+    if (latestUpdateWithOffset > lastUpdateLocalStorage) {
+      setIsUpdating(true);
+      return true;
+    }
+    return false
   }
 
   fetch(`${API_URL}/check_for_updates`, {
@@ -280,6 +285,7 @@ export function checkForUpdates(
         console.log("Update forum data...");
         getForumPosts();
       }
+      delayFunc(() => setIsUpdating(false), 1500);
     } else {
       console.log('data:', data);
       if (data?.status === 401 || data?.status === 403) {
