@@ -29,16 +29,7 @@ function formatAsFloat(value, digits) {
 	return parseFloat(value, digits).toFixed(digits);
 }
 
-const averagePickAndDraftPercentColumns = [
-	{
-		Header: "Draft %",
-		accessor: "percent_drafted",
-		disableFilters: true,
-		width: "30px",
-		sortDescFirst: true,
-		sortType: sortNumbersUndefinedLast,
-		Cell: cell => cell?.value ? parseFloat(cell.value, 2) * 100 : '',
-	},
+const averagePickColumn = [
 	{
 		Header: "Avg. Pick",
 		accessor: "average_pick",
@@ -157,7 +148,7 @@ export const skaterStatColumns = [
 		sortDescFirst: true,
 		sortType: sortNumbersUndefinedLast,
 	},
-	...averagePickAndDraftPercentColumns,
+	...averagePickColumn,
 ];
 
 export const goalieStatColumns = [
@@ -202,7 +193,7 @@ export const goalieStatColumns = [
 		sortDescFirst: true,
 		Cell: cell => formatAsFloat(cell.value, 3),
 	},
-	...averagePickAndDraftPercentColumns,
+	...averagePickColumn,
 ];
 
 const overallPickColumn = {
