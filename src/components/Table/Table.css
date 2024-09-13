@@ -243,5 +243,7 @@ td.Pick {
   .pick-number {
     font-size: 1.2rem;
     width: 30px;
+    padding-right: 0;
+    text-align: center;
   }
 }
