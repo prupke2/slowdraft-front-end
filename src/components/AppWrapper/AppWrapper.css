@@ -16,7 +16,7 @@
   width: 120px;
   bottom: 30px;
   left: calc(50vw - 60px);
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
   text-align: center;
   padding: 5px 0;
@@ -30,6 +30,7 @@
     display: flex;
   }
   .isUpdatingBanner {
-    bottom: 40px;
+    bottom: 60px;
+    z-index: 20;
   }
 }

@@ -118,9 +118,9 @@ export default function AppWrapper({
             channel={channel}
           />
           { isUpdating && (
-            <div className='isUpdatingBanner'>
+            <span className='isUpdatingBanner'>
               Updating...
-            </div>
+            </span>
           )}
           <Widget
             isRegisteredLeague={isRegisteredLeague}
