@@ -60,3 +60,10 @@
 .auto-height {
   height: auto;
 }
+
+@media screen and (max-width: 800px) {
+  .user-in-draft {
+    font-size: 0.55rem;
+    width: 70px;
+  }
+}

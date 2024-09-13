@@ -240,4 +240,8 @@ td.Pick {
     font-size: 0.7rem;
     padding: 2px 3px;
   }
+  .pick-number {
+    font-size: 1.2rem;
+    width: 30px;
+  }
 }
