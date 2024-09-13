@@ -64,7 +64,15 @@
   display: flex;
   justify-content: space-around;
   margin: 80px auto;
-} 
+}
+
+.draft-button-modal {
+  background-color: rgba(4, 122, 4, 0.9);
+}
+
+.cancel-button {
+  background-color: rgba(180, 31, 31, 0.9);
+}
 
 .modal-forum-text {
   border: 1px solid gainsboro;
