@@ -238,7 +238,6 @@ const positionColumn = {
 	width: "30px",
 	filter: multiSelectPositionsFilter,
 	disableFilters: true,
-	disableSortBy: true,
 }
 
 const skaterAccessors = [
