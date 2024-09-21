@@ -16,7 +16,6 @@
 
   --link: var(--main-very-dark);
 
-
   /* --alt-bg: #637282;
   --h1-color: var(--alt-text);
   --header-bg: var(--main-dark);
@@ -43,18 +42,12 @@ main {
   overflow-y: scroll;
   max-height: 95%;
   background: var(--main-light);
-  /* grid-template-columns: minmax(100%, 10%); */
   text-align: center;
   font-family: 'Karla', 'Rubik', sans-serif;
-  /* position: relative; */
   margin: 0;
   width: 100vw;
-  /* padding-right: 22vw; */
   min-width: 600px;
-  /* margin: 0 auto; */
   padding: 0;
-
-  /* font-family: 'Rubik', sans-serif; */
 }
 
 .full-width {

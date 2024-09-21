@@ -4,17 +4,12 @@ ul {
 }
 
 li.navtab {
-  /* position: relative; */
-  /* border: 1px solid var(--gradient1); */
   border-bottom: none;
   cursor: pointer;
   background: rgb(215, 235, 245);
   background: var(--main-light);
   font-variant: small-caps;
   font-weight: 900;
-  /* -webkit-box-shadow: 0 0 0 2px var(--main-even);
-  -moz-box-shadow: 0 0 0 2px var(--main-even);
-  box-shadow: 0 0 2px 2px var(--main-dark); */
 }
 
 li.navtab > a {
@@ -46,7 +41,6 @@ li.navtab > a:hover {
 
 li.navtab a.active {
   background: var(--main-dark);
-  border: 1px solid var(--main-dark);
   border-bottom: none;
   font-weight: bold;
   color: rgb(245, 245, 245);
