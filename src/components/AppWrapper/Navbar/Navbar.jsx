@@ -43,57 +43,17 @@ export default function Navbar({
         )}
         {isRegisteredLeague && (
           <>
-            <li className="navtab">
-              <NavLink to="/draft" activeClassName="active">
-                <NavHeader emoji="⚔️" text="Draft" />
-              </NavLink>
-            </li>
-            <li className="navtab">
-              <NavLink to="/skaters" activeClassName="active">
-                <NavHeader emoji="⛸" text="Skaters" />
-              </NavLink>
-            </li>
-            <li className="navtab">
-              <NavLink to="/goalies" activeClassName="active">
-                <NavHeader emoji="🥅" text="Goalies" />
-              </NavLink>
-            </li>
-            <li className="navtab">
-              <NavLink to="/teams" activeClassName="active">
-                <NavHeader emoji="🏒" text="Teams" />
-              </NavLink>
-            </li>
-            <li className="navtab">
-              <NavLink to="/watchlist" activeClassName="active">
-                <NavHeader emoji="👀" text="Watchlist" />
-              </NavLink>
-            </li>
-            {/* <li className="navtab">
-              <NavLink to="/forum" activeClassName="active">
-                <NavHeader emoji="✍🏼" text="Forum" />
-              </NavLink>
-            </li> */}
-            <li className="navtab">
-              <NavLink to="/rules" activeClassName="active">
-                <NavHeader emoji="📖" text="Rules" />
-              </NavLink>
-            </li>
-            <li className="navtab hide-small-width">
-              <NavLink to="/pick-tracker" activeClassName="active">
-                <NavHeader emoji="⛏️" text="Pick&nbsp;Tracker" />
-              </NavLink>
-            </li>
-            {/* <li className="navtab hide-small-width">
-              <NavLink to="/trade" activeClassName="active">
-                <NavHeader emoji="🤝" text="Trade" />
-              </NavLink>
-            </li> */}
+            <NavHeader emoji="⚔️" text="Draft" link="/draft" />
+            <NavHeader emoji="⛸" text="Skaters" link="/skaters" />
+            <NavHeader emoji="🥅" text="Goalies" link="/goalies" />
+            <NavHeader emoji="🏒" text="Teams" link="/teams" />
+            <NavHeader emoji="👀" text="Watchlist" link="/watchlist" />
+            {/* <NavHeader emoji="✍🏼" text="Forum" link="/forum" /> */}
+            <NavHeader emoji="📖" text="Rules" link="/rules" />
+            <NavHeader emoji="⛏️" text="Pick&nbsp;Tracker" link="/pick-tracker" />
+            {/* <NavHeader emoji="🤝" text="Trade" /> */}
             {user?.role === "admin" && (
-              <li className="navtab hide-small-width">
-                <NavLink to="/admin" activeClassName="active">
-                  <NavHeader emoji="✨" text="Admin" />
-                </NavLink>
-              </li>
+              <NavHeader emoji="✨" text="Admin" link="/admin" />
             )}
           </>
         )}
