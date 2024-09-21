@@ -22,11 +22,12 @@ export default function Navbar({
   draftingNow,
   setDraftingNow,
   getLatestData,
+  useWideScreen,
   channel,
 }) {
 
   const user = JSON.parse(localStorage.getItem("user"));
-
+  const wideScreenStyling = useWideScreen ? "wide-screen" : undefined;
   return (
     <div className="navbar-tabs">
       <ul className="navtab-list">
@@ -106,7 +107,7 @@ export default function Navbar({
         )}
       </ul>
 
-      <div className="tab-wrapper">
+      <div className={`tab-wrapper ${wideScreenStyling}`}>
         {!isRegisteredLeague && (
           <Switch>
             <Route path="/admin/new-draft">
