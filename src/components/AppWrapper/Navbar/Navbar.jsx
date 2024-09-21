@@ -143,7 +143,6 @@ export default function Navbar({
                   draftingNow={draftingNow}
                   getLatestData={getLatestData}
                   channel={channel}
-                  useWideScreen={useWideScreen}
                 />
               </ErrorBoundary>
             </Route>

@@ -18,7 +18,6 @@ export default function Table({
   currentPick,
   paginationTop,
   paginationBottom,
-  useWideScreen,
 }) {
   const isLiveDraft = JSON.parse(localStorage.getItem("liveDraft")) === "true";
   const filterTypes = React.useMemo(
@@ -88,7 +87,7 @@ export default function Table({
   const emptyTablePadding = page.length === 0 ? "empty-text" : null;
 
   return (
-    <div className={`${paginationTop && useWideScreen ? 'pagination-and-table-wrapper' : undefined}`}>
+    <div>
       {paginationTop && (
         <Pagination
           currentRound={currentPick ? currentPick.round - 1 : null}
