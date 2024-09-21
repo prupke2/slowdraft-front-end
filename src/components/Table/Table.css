@@ -20,7 +20,7 @@ table {
   padding: 4px;
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 45px;
   bottom: 0;
   background-color: var(--main-even);
 }
@@ -186,7 +186,7 @@ td.Pick {
   font-weight: 700;
 }
 
-@media screen and (max-width: 800px) { 
+@media screen and (max-width: 900px) { 
   table {
     min-width: 350px;
     max-width: 100vw;

@@ -66,7 +66,7 @@
   margin: 0 4px;
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 900px) {
   .pagination {
     padding-right: 0;
     margin-right: 0;

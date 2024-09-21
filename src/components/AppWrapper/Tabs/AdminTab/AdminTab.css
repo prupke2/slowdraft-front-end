@@ -184,7 +184,7 @@ a.active {
   padding: 2px;
 }
 
-@media screen and (max-width: 800px) { 
+@media screen and (max-width: 900px) { 
   .new-draft-form {
     max-width: 90vw;
     margin-left: 40%;
