@@ -6,6 +6,7 @@
   top: 0;
   right: 0;
   width: 270px;
+  height: 45px;
 }
 
 #logout {
@@ -15,15 +16,14 @@
   z-index: 99;
 }
 
-.logo-and-logout-wrapper {
+.logout-wrapper {
   background-color: whitesmoke;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
-  height: 90px;
   width: 35%;
   align-items: center;
-  margin-right: 5px;
+  margin-right: 0;
 }
 
 .logo-wrapper {
@@ -44,7 +44,7 @@
   height: auto;
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 900px) {
   .widget-wrapper {
     height: 120px;
     width: auto;
@@ -52,7 +52,7 @@
     top: calc(100vh - 60px);
 	}
   
-  .logo-and-logout-wrapper {
+  .logout-wrapper {
     display: relative;
     width: 0;
   }
