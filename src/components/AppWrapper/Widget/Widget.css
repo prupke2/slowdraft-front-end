@@ -17,7 +17,7 @@
 }
 
 .logout-wrapper {
-  background-color: whitesmoke;
+  background-color: var(--main-light);;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
