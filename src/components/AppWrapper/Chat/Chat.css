@@ -41,10 +41,10 @@
   display: flex;
   justify-content: left;
   text-align: left;
-  top: 175px;
+  top: 125px;
   right: 0;
   width: 270px;
-  height: calc(100% - 282px);
+  height: calc(100% - 232px);
   padding: 5px 10px 0;
   margin: 2px;
   word-wrap: break-word;
