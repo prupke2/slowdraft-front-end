@@ -15,7 +15,7 @@ export default function AdminTab({ channel }) {
     : "/admin/add-player";
   return (
     <div className="navbar-tabs inner-navbar-tabs">
-      <ul className="navtab-list">
+      <ul className="admin-navtab-list">
         <li className="navtab">
           <NavLink to="/admin/add-player" activeClassName="active">
             <div className="inner-tab">Add player to DB</div>
