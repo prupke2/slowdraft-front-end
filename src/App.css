@@ -48,7 +48,7 @@ main {
   font-family: 'Karla', 'Rubik', sans-serif;
   /* position: relative; */
   margin: 0;
-  width: calc(100vw - 270px);
+  width: 100vw;
   /* padding-right: 22vw; */
   min-width: 600px;
   /* margin: 0 auto; */
@@ -178,7 +178,7 @@ textarea {
   max-height: 300px;
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 900px) {
   main {
     width: 100vw;
     min-width: 350px;
