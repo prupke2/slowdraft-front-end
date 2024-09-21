@@ -16,7 +16,6 @@
 
   --link: var(--main-very-dark);
 
-
   /* --alt-bg: #637282;
   --h1-color: var(--alt-text);
   --header-bg: var(--main-dark);
@@ -42,19 +41,13 @@ main {
   height: 100vh;
   overflow-y: scroll;
   max-height: 95%;
-  background: var(--main-light);
-  /* grid-template-columns: minmax(100%, 10%); */
+  background: var(--main-dark);
   text-align: center;
   font-family: 'Karla', 'Rubik', sans-serif;
-  /* position: relative; */
   margin: 0;
-  width: calc(100vw - 270px);
-  /* padding-right: 22vw; */
+  width: 100vw;
   min-width: 600px;
-  /* margin: 0 auto; */
   padding: 0;
-
-  /* font-family: 'Rubik', sans-serif; */
 }
 
 .full-width {
@@ -178,11 +171,10 @@ textarea {
   max-height: 300px;
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 900px) {
   main {
     width: 100vw;
     min-width: 350px;
-    overflow-x: hidden;
   }
 
   main > div {

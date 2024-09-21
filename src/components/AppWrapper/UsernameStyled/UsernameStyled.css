@@ -61,7 +61,7 @@
   height: auto;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
   .user-in-draft {
     font-size: 0.55rem;
     width: 70px;

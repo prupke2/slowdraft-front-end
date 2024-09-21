@@ -126,7 +126,7 @@
   flex-direction: column;
 }
 
-@media screen and (max-width: 800px) { 
+@media screen and (max-width: 900px) { 
   .ReactModal__Content {
     width: calc(100vw - 90px) !important;
     min-width: 300px !important;

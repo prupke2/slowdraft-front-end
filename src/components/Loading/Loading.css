@@ -30,7 +30,7 @@
   position: absolute;
 }
 
-@media screen and (max-width: 800px) {   
+@media screen and (max-width: 900px) {   
   .loading-wrapper {
     width: auto;
   }

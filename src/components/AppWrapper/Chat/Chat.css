@@ -2,20 +2,36 @@
   display: none;
 }
 
-.closeChatButton {
-  display: none;
+.openChatButton {
+  display: flex;
+  position: fixed;
+  box-shadow: -1px -1px black;
+  bottom: 10px;
+  right: 10px;
+  height: 30px;
+  background-color: var(--main-even);
+  color: var(--main-very-dark);
 }
+
+.openChatButton > div {
+  margin-left: 5px;
+  font-variant: small-caps;
+}
+
+/* .closeChatButton {
+  display: none;
+} */
 
 .chatbox {
   position: fixed;
   display: flex;
   justify-content: left;
-  top: 90px;
+  top: 45px;
   right: 0;
   margin: 0 0 0 10px;
   padding: 10px;
   border: 2px solid var(--main-very-dark);
-  height: calc(100vh - 191px);
+  height: calc(100vh - 148px);
   width: 270px;
   background-color: whitesmoke;
 }
@@ -127,7 +143,7 @@
 }
 
 
-@media (max-width: 800px) {
+@media screen and (max-width: 900px) {
   .chatbox {
     width: 100vw;
     top: 0;
@@ -153,19 +169,8 @@
   }
 
   .openChatButton {
-    display: flex;
-    position: fixed;
-    box-shadow: -1px -1px black;
     bottom: 62px;
     right: 2px;
-    height: 30px;
-    background-color: var(--main-even);
-    color: var(--main-very-dark);
-  }
-
-  .openChatButton > div {
-    margin-left: 5px;
-    font-variant: small-caps;
   }
 
   .closeChatButton {

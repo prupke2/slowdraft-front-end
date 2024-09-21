@@ -1,28 +1,26 @@
 #countdown {
 	color: red;
-	border: none;
-	border-radius: 8px;
 	background-color: whitesmoke;
 	position: relative;
-	right: 2px;
-	bottom: 10px;
-	padding: 0 5px;
+	top: 8px;
+	right: 0;
+	padding: 2px 5px 0 20px;
+	border-radius: 4px;
 	font-weight: bold;
 	font-size: 1.4rem;
+	width: 100px;
+	height: 30px;
 }
 
 .drafting-now {
 	background: rgba(255,255,255, 0.9);
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	border-right: 2px solid grey;
-  border-left: 2px solid var(--main-very-dark);
 	width: 65%;
 	min-width: 140px;
-  border-bottom: none;
-	padding: 5px 0 0 5px;
+	padding: 0;
 	text-align: left;
 	z-index: 50;
 }
@@ -31,18 +29,12 @@
 	background-color: rgba(126,242,11,0.9);
 }
 
-.drafting-now :first-child {
-  font-weight: bold;
-  margin: 0;
-}
-
 .draft-countdown {
 	font-size: 1.1rem;
 	font-variant: small-caps;
 }
 
 .draft-countdown > div {
-	border: 1px solid var(--main-very-dark);
 	background-color: white;
 	color: black;
 	border-radius: 4px;
@@ -51,17 +43,12 @@
 	margin: 0 auto;
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 900px) {
   .drafting-now {
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		flex-direction: row;
     width: 100vw;
-    display: flex;
-		border: none;
-		justify-content: left;
-		padding-left: 10px;
 	}
 
 	.drafting-now :first-child {
@@ -70,7 +57,7 @@
 	
 	#countdown {
 		position: static;
-		min-width: 90px;
-		max-width: 110px;
+		margin-top: 16px;
+		height: 30px;
 	}
 }

@@ -58,7 +58,7 @@
   margin-bottom: 80px;
 }
 
-@media screen and (max-width: 800px) { 
+@media screen and (max-width: 900px) { 
   .team-tab-header {
     width: auto;
     flex-direction: column;

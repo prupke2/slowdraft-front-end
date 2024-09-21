@@ -3,17 +3,18 @@
   padding: 0;
   min-height: calc(100vh - 120px);
   position: relative;
-  right: 20px;
+  right: 10px;
+  top: -20px;
   border-top: 1px solid var(--main-dark);
-}
-
-a.active {
-  box-shadow: 0 0 2px 1px var(--main-light);
 }
 
 .admin-tab-wrapper {
   margin: 0;
   padding: 0;
+}
+
+.admin-navtab-list {
+  position: relative;
 }
 
 .new-draft-tab > a.active {
@@ -24,7 +25,7 @@ a.active {
   background: var(--main-dark);
   min-height: 700px;
   margin: 0 30px 30px;
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px 8px 0 0;
   padding: 60px 0 0;
   position: relative;
   z-index: 1;
@@ -184,7 +185,7 @@ a.active {
   padding: 2px;
 }
 
-@media screen and (max-width: 800px) { 
+@media screen and (max-width: 900px) { 
   .new-draft-form {
     max-width: 90vw;
     margin-left: 40%;

@@ -1,6 +1,5 @@
 import React from "react";
 import CountdownTimer from "./CountdownTimer/CountdownTimer";
-import UsernameStyled from "../UsernameStyled/UsernameStyled";
 import "./Widget.css";
 
 export default function Widget({
@@ -8,7 +7,6 @@ export default function Widget({
   draftingNow,
   logout,
 }) {
-  const user = JSON.parse(localStorage.getItem("user"));
   const currentPick = JSON.parse(localStorage.getItem("currentPick"));
 
   return (
@@ -20,14 +18,7 @@ export default function Widget({
           draftingNow={draftingNow}
         />
       )}
-      <div className="logo-and-logout-wrapper">
-        <UsernameStyled
-          username={user.team_name}
-          teamKey={user.team_key}
-          color={user.color}
-          small
-          logoAndShortName
-        />
+      <div className="logout-wrapper">
         <button id="logout" onClick={logout}>
           Logout
         </button>
