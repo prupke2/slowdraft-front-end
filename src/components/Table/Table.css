@@ -1,3 +1,7 @@
+.pagination-and-table-wrapper {
+  overflow-x: scroll;
+}
+
 table {
   border-spacing: 0;
   text-align: left;
@@ -20,7 +24,7 @@ table {
   padding: 4px;
   position: -webkit-sticky;
   position: sticky;
-  top: 45px;
+  top: 44px;
   bottom: 0;
   background-color: var(--main-even);
 }
@@ -198,6 +202,17 @@ td.Pick {
   }
   .table thead th {
     top: 45px;
+    z-index: 5;
+  }
+  .table tbody tr td.Player {
+    position: sticky;
+    left: 0;
+    background: var(--main-even2);
+    z-index: 1;
+  }
+
+  .table tbody tr:nth-child(odd) td.Player {
+    background: var(--main-even);
   }
   .table thead th, .table td {
     font-size: 0.7rem;

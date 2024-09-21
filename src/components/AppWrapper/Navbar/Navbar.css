@@ -41,9 +41,8 @@ li.navtab > a:hover {
 
 li.navtab a.active {
   background: var(--main-dark);
-  border-bottom: none;
+  border-bottom: 1px solid var(--main-dark);
   font-weight: bold;
-  color: rgb(245, 245, 245);
 }
 
 li.navtab a.active:hover {
@@ -126,7 +125,7 @@ li.navtab a.active,
 
   .tab-wrapper {
     padding: 10px 0;
-    margin: 35px 0 50px;
+    margin: 25px 0 50px;
   }
 
   .tab-wrapper > div:last-child {

@@ -18,6 +18,7 @@ export default function PlayersTab({
   draftingNow,
   getLatestData,
   channel,
+  useWideScreen,
 }) {
   const playersLocalStorage = JSON.parse(localStorage.getItem("playerDBData")) || [];
   
@@ -236,6 +237,7 @@ export default function PlayersTab({
             tableType="draft"
             paginationTop
             paginationBottom
+            useWideScreen={useWideScreen}
           />
         </>
       )}
