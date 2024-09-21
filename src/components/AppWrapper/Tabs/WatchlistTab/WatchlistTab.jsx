@@ -46,9 +46,7 @@ export default function WatchlistTab({
 
   useEffect(() => {
     async function fetchWatchlist() {
-      getWatchlistIds();
-      const newWatchlist = JSON.parse(localStorage.getItem('watchlist'));
-      setWatchlist(newWatchlist);
+      getWatchlistIds(setWatchlist);
       setIsLoading(false);
       return
     }
