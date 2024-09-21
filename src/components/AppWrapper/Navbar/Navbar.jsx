@@ -11,6 +11,7 @@ import "./Navbar.css";
 import NewDraftTab from "../Tabs/AdminTab/NewDraftTab";
 import PlayersTab from "../Tabs/PlayersTab/PlayersTab";
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
+import NavHeader from "./NavHeader";
 // import TradeTab from "../Tabs/TradeTab/TradeTab";
 
 export default function Navbar({
@@ -28,6 +29,7 @@ export default function Navbar({
 
   const user = JSON.parse(localStorage.getItem("user"));
   const wideScreenStyling = useWideScreen ? "wide-screen" : undefined;
+
   return (
     <div className="navbar-tabs">
       <ul className="navtab-list">
@@ -43,63 +45,53 @@ export default function Navbar({
           <>
             <li className="navtab">
               <NavLink to="/draft" activeClassName="active">
-                <Emoji navbar={true} emoji="⚔️" />
-                <div>Draft</div>
+                <NavHeader emoji="⚔️" text="Draft" />
               </NavLink>
             </li>
             <li className="navtab">
               <NavLink to="/skaters" activeClassName="active">
-                <Emoji navbar={true} emoji="⛸" />
-                <div>Skaters</div>
+                <NavHeader emoji="⛸" text="Skaters" />
               </NavLink>
             </li>
             <li className="navtab">
               <NavLink to="/goalies" activeClassName="active">
-                <Emoji navbar={true} emoji="🥅" />
-                <div>Goalies</div>
+                <NavHeader emoji="🥅" text="Goalies" />
               </NavLink>
             </li>
             <li className="navtab">
               <NavLink to="/teams" activeClassName="active">
-                <Emoji navbar={true} emoji="🏒" />
-                <div>Teams</div>
+                <NavHeader emoji="🏒" text="Teams" />
               </NavLink>
             </li>
             <li className="navtab">
               <NavLink to="/watchlist" activeClassName="active">
-                <Emoji navbar={true} emoji="👀" />
-                <div>Watchlist</div>
+                <NavHeader emoji="👀" text="Watchlist" />
               </NavLink>
             </li>
             {/* <li className="navtab">
               <NavLink to="/forum" activeClassName="active">
-                <Emoji navbar={true} emoji="✍🏼" />
-                <div>Forum</div>
+                <NavHeader emoji="✍🏼" text="Forum" />
               </NavLink>
             </li> */}
             <li className="navtab">
               <NavLink to="/rules" activeClassName="active">
-                <Emoji navbar={true} emoji="📖" />
-                <div>Rules</div>
+                <NavHeader emoji="📖" text="Rules" />
               </NavLink>
             </li>
             <li className="navtab hide-small-width">
               <NavLink to="/pick-tracker" activeClassName="active">
-                <Emoji navbar={true} emoji="⛏️" />
-                <div>Pick Tracker</div>
+                <NavHeader emoji="⛏️" text="Pick&nbsp;Tracker" />
               </NavLink>
             </li>
             {/* <li className="navtab hide-small-width">
               <NavLink to="/trade" activeClassName="active">
-                <Emoji navbar={true} emoji="🤝" />
-                <div>Trade</div>
+                <NavHeader emoji="🤝" text="Trade" />
               </NavLink>
             </li> */}
             {user?.role === "admin" && (
               <li className="navtab hide-small-width">
                 <NavLink to="/admin" activeClassName="active">
-                  <Emoji navbar={true} emoji="✨" />
-                  <div>Admin</div>
+                  <NavHeader emoji="✨" text="Admin" />
                 </NavLink>
               </li>
             )}

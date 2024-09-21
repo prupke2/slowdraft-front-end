@@ -43,7 +43,7 @@ export default function AppWrapper({
     } else {
       link.href = 'https://slowdraft.vercel.app/hockey_icon.ico';
     }
-  }, [draftingNow])
+  }, [draftingNow]);
 
   // function getRegisteredLeagueCount() {
   //   let count = 0;
