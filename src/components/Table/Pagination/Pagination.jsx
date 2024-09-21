@@ -2,6 +2,7 @@ import React from "react";
 import "./Pagination.css";
 
 export default function Pagination({
+  currentRound,
   tableType,
   gotoPage,
   canPreviousPage,
@@ -11,11 +12,11 @@ export default function Pagination({
   pageCount,
   pageIndex,
   pageOptions,
-  currentRound,
 }) {
   const pageOrRound = tableType === "draftPicks" ? "Round" : "Page";
-  const isLiveDraft = JSON.parse(localStorage.getItem("liveDraft")) === "true";
+  const isLiveDraft = localStorage.getItem("liveDraft") === "true";
   const extraPadding = tableType === "draftPicks" && 'draftTabPaddingTop';
+  const showCurrentRoundButton = isLiveDraft && typeof currentRound === 'number';
 
   return (
     <ul className={`pagination ${extraPadding}`}>
@@ -39,7 +40,7 @@ export default function Pagination({
         >
           <span className="page-link">{"<"}</span>
         </div>
-        {isLiveDraft && currentRound && (
+        {showCurrentRoundButton && (
           <div
             className="page-item"
             onClick={() => gotoPage(currentRound)}
