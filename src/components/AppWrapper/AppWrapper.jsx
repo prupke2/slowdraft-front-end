@@ -18,10 +18,13 @@ export default function AppWrapper({
 }) {
   const isRegisteredLeague =
     localStorage.getItem("registeredLeague") === "true";
+  const isMobileUser = window.screen.availWidth <= 800;
+
   const leagueList = JSON.parse(localStorage.getItem("leagueList"));
   const [chatMessages, setChatMessages] = useState([]);
   const [chatStatus, setChatStatus] = useState("connecting");
   const [chatClient, setChatClient] = useState(null);
+  const [chatOpen, setChatOpen] = useState(!isMobileUser);
   const [channel, setChannel] = useState(null)
   const [picks, setPicks] = useState([])
   const [isUpdating, setIsUpdating] = useState(false);
@@ -115,6 +118,7 @@ export default function AppWrapper({
             draftingNow={draftingNow}
             setDraftingNow={setDraftingNow}
             getLatestData={getLatestData}
+            useWideScreen={!chatOpen && !isMobileUser}
             channel={channel}
           />
           { isUpdating && (
@@ -137,7 +141,8 @@ export default function AppWrapper({
                   chatMessages={chatMessages}
                   setChatMessages={setChatMessages}
                   getLatestData={getLatestData}
-                  setIsUpdating={setIsUpdating}
+                  chatOpen={chatOpen}
+                  setChatOpen={setChatOpen}
                 />
               </ChannelProvider>
             </AblyProvider>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useConnectionStateListener } from 'ably/react';
 import "./Chat.css";
 import Loading from "../../Loading/Loading";
@@ -18,7 +18,8 @@ export default function Chat(
     chatMessages, 
     setChatMessages,
     getLatestData,
-    setIsUpdating,
+    chatOpen,
+    setChatOpen,
   }
 ) {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -50,9 +51,6 @@ export default function Chat(
   const { presenceData } = usePresenceListener(user.yahoo_league_id);
   const usersOnline = presenceData.map(msg => msg.data);
   const uniqueUsersOnline = removeDuplicatesUsers(usersOnline);
-  const isMobileUser = window.screen.availWidth <= 800;
-  const mobileCloseChat = isMobileUser && chatStatus === 'offline';
-  const [chatOpen, setChatOpen] = useState(!isMobileUser);
 
   const userList = useCallback(() => {
     try {    
@@ -147,7 +145,7 @@ export default function Chat(
         <div>chat</div>
       </button>
     }
-    { chatOpen && !mobileCloseChat && (
+    { chatOpen && (
       <aside className="chatbox" style={{backgroundColor: chatBackgroundColor}}>
 
         { chatStatus === 'offline' &&
