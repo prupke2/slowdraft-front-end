@@ -118,8 +118,7 @@ li.navtab a.active,
     padding-bottom: 30px;
   }
 
-  li.navtab > a > div,
-  .hide-small-width {
+  .nav-text {
     display: none;
   }
 

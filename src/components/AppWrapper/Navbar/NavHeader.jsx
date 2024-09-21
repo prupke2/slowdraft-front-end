@@ -1,14 +1,13 @@
-import { Fragment } from "react"
 import Emoji from "../Emoji";
 
 const NavHeader = ({ emoji, text }) => {
   const mainWindow = document.querySelector("main");
   const goToTop = () => mainWindow.scrollTop = 0;
   return (
-    <Fragment>
+    <span onClick={goToTop}>
       <Emoji navbar={true} emoji={emoji} />
-      <div onClick={goToTop}>{text}</div>
-    </Fragment>
+      <div className="nav-text">{text}</div>
+    </span>
   );
 }
 
