@@ -88,7 +88,6 @@ export default function PlayersTab({
               </div>
               <PlayerCell 
                 cell={cell} 
-                playerListPage={true}
                 showWatchlist
               />
             </div>
@@ -96,8 +95,7 @@ export default function PlayersTab({
         } else {
           return (
             <PlayerCell 
-              cell={cell} 
-              playerListPage={true}
+              cell={cell}
               showWatchlist
             />
           );
