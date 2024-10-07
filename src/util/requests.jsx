@@ -128,8 +128,9 @@ export function getWatchlistIds(setWatchlist) {
   }).then(async (response) => {
     const data = await response.json();
     if (data.success === true) {
-      localStorage.setItem("watchlist", JSON.stringify(data.players));
-      setWatchlist(data.players);
+      const watchlist = {players: data.players, autodraft: data.autodraft_list};
+      localStorage.setItem("watchlist", JSON.stringify(watchlist));
+      setWatchlist(watchlist);
     } else {
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
@@ -309,8 +310,8 @@ export function addToWatchlist(playerId) {
     const data = await response.json();
     if (data.success === true) {
       const currentWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-      const newWatchlist = [...currentWatchlist, playerId];
-      localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
+      currentWatchlist.players = [...currentWatchlist?.players, playerId];
+      localStorage.setItem("watchlist", JSON.stringify(currentWatchlist));
       return true;
     } else {
       toast.error("Error updating watchlist - please try again later.");
@@ -336,12 +337,44 @@ export function removeFromWatchlist(playerId) {
       if (!currentWatchlist) {
         return true;
       }
-      const newWatchlist = currentWatchlist.filter(p => p !== playerId);
+      const newWatchlist = currentWatchlist.players.filter(p => p !== playerId);
       console.log('newWatchlist:', newWatchlist);
 
       localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
     } else {
       toast.error("Error updating watchlist - please try again later.");
+      const error = (data && data.message) || response.status;
+      return Promise.reject(error);
+    }
+  });
+}
+
+export function toggleAutodraft(playerId, action) {
+  fetch(`${API_URL}/toggle_autodraft`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({
+      player_id: playerId,
+      action
+    }),
+  }).then(async (response) => {
+    const data = await response.json();
+    if (data.success === true) {
+      const currentWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+      let autodraftList = currentWatchlist.autodraft;
+      if (action === "add") {
+        autodraftList = [...autodraftList, playerId];
+      } else {
+        autodraftList = autodraftList.filter(p => p.id === playerId);
+      }
+      const newWatchlist = {
+        players: currentWatchlist.players,
+        autodraft: autodraftList,
+      }
+      localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
+      return true;
+    } else {
+      toast.error("Error updating autodraft - please try again later.");
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
     }
