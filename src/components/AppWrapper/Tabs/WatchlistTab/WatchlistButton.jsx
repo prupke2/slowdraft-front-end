@@ -10,7 +10,7 @@ const WatchlistButton = ({ cell }) => {
 	const playerId = cell.row.original.player_id;
 	const watchListIdsLocalStorage = JSON.parse(localStorage.getItem('watchlist'));
 	if (watchListIdsLocalStorage) {
-		watched = watchListIdsLocalStorage.includes(playerId);
+		watched = watchListIdsLocalStorage?.players?.includes(playerId);
 	} 
 
 	const [isWatched, setIsWatched] = useState(watched);
