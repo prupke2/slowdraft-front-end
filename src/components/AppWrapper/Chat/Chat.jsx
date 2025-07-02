@@ -97,7 +97,6 @@ export default function Chat(
     });
     channel.presence.subscribe('update', (member) => {
       console.log('Member update: ', member);
-      console.log('user: ', user);
     });
     channel.presence.enter();
     if (user?.team_name) {

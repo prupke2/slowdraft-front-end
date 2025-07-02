@@ -9,6 +9,8 @@ export function updateUrlPath(path) {
   window.history.replaceState(null, null, path);
 }
 
+export const isMobileUser = window.screen.availWidth <= 900;
+
 export const mobileCheck = () => {
 
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {

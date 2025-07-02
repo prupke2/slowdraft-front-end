@@ -212,7 +212,7 @@ const playerColumn = {
 	Cell: (cell) => <PlayerCell cell={cell} />,
 }
 
-const staticTeamColumn = {
+export const staticTeamColumn = {
 	Header: "Team",
 	accessor: "team",
 	width: "50px",
@@ -232,7 +232,7 @@ const staticTeamColumn = {
 	),
 }
 
-const positionColumn = {
+export const positionColumn = {
 	Header: "Pos",
 	accessor: "position",
 	width: "30px",

@@ -4,7 +4,6 @@ import SelectPlayer from "./SelectPlayer";
 import { getHeaders, teamIdToKey, teamsMap, API_URL, teamIdToTeamName } from "../../../../util/util";
 import Emoji from "../../Emoji";
 import { playerDraftedAnnouncement, publishToChat } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
-// import { playerDraftedAnnouncement } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 
 export default function MakePickTab({ channel }) {
   const user = JSON.parse(localStorage.getItem("user"));

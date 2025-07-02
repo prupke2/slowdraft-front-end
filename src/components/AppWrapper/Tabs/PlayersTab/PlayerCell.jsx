@@ -2,9 +2,10 @@ import React from "react";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import WatchlistButton from "../WatchlistTab/WatchlistButton";
 import emptyHeadshot from "../../../../assets/emptyHeadshot.png";
+import AutodraftButton from "../WatchlistTab/Autodraft/AutodraftButton";
 // import { offsetMilliseconds } from "../../../../util/requests";
 
-const PlayerCell = ({ cell, showWatchlist }) => {
+const PlayerCell = ({ cell, showWatchlist, showAutodraft, setWatchlist, setAutodraftTableRows }) => {
   const takenPlayer = cell.row.original.user !== null;
   const teamKey = cell.row.original.team_key;
   const ir = cell.row.original.ir;
@@ -15,7 +16,8 @@ const PlayerCell = ({ cell, showWatchlist }) => {
     <div className={`player-name newPick`}>
       {cell.row.original.player_id && (
         <div className="player-name-and-headshot">
-          {showWatchlist && <WatchlistButton cell={cell} /> }
+          {showAutodraft && <AutodraftButton cell={cell} setWatchlist={setWatchlist} setAutodraftTableRows={setAutodraftTableRows} /> }
+          {showWatchlist && <WatchlistButton cell={cell} setWatchlist={setWatchlist} setAutodraftTableRows={setAutodraftTableRows} /> }
           <img className="headshot" src={noHeadshot ? emptyHeadshot : headshot} alt="" />
           <span>
             {ir && <span className='ir'>{ir}</span>}
