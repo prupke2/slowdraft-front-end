@@ -129,7 +129,9 @@ export function getWatchlistIds(setWatchlist) {
     const data = await response.json();
     if (data.success === true) {
       localStorage.setItem("watchlist", JSON.stringify(data.players));
-      setWatchlist(data.players);
+      if (setWatchlist) {
+        setWatchlist(data.players);
+      }
     } else {
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
