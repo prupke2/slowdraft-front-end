@@ -114,7 +114,7 @@ export default function RulesTab({ getLatestData }) {
   useEffect(() => {
     setIsLoading(true);
     getLatestData();
-    setTimeout(function () {}, 1500); // set a delay so that the localStorage is available
+    setTimeout(function () {}, 1500);
     const rulesData = localStorage.getItem("rulesData");
     if (rulesData && user) {
       console.log("Using cached data");
