@@ -14,8 +14,6 @@ export default function AutodraftTable({
   autodraftTableRows,
   setAutodraftTableRows,
 }) {
-  // const isLiveDraft = JSON.parse(localStorage.getItem("liveDraft")) === "true";
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -47,18 +45,16 @@ export default function AutodraftTable({
     )
   }, [setAutodraftTableRows]);
 
-  const renderPlayerRow = useCallback((row, index, takenPlayer) => {
-    return (
-      <AutodraftRow
-        key={row.id}
-        index={index}
-        id={row.id}
-        row={row}
-        takenPlayer={takenPlayer}
-        moveCard={moveRow}
-      />
-    )
-  }, [moveRow])
+  const renderPlayerRow = useCallback((row, index, takenPlayer) => (
+    <AutodraftRow
+      key={row.id}
+      index={index}
+      id={row.id}
+      row={row}
+      takenPlayer={takenPlayer}
+      moveCard={moveRow}
+    />
+  ), [moveRow])
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -72,6 +68,7 @@ export default function AutodraftTable({
             {headerGroups.map((headerGroup, i) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 <th /> {/* empty header for drag icon */}
+                {/* <th /> empty header for draft index */}
                 {headerGroup.headers.map((column) => {
                   return (
                     <th key={column.id} width={column.width}>
@@ -88,35 +85,7 @@ export default function AutodraftTable({
             {autodraftTableRows.map((row, i) => {
               prepareRow(row);
               const takenPlayer = row.cells[0].row.original.user !== null ? "taken-player" : null;
-              renderPlayerRow(row, i, takenPlayer);
-              return (
-                <AutodraftRow
-                  key={row.id}
-                  index={i}
-                  id={row.id}
-                  row={row}
-                  takenPlayer={takenPlayer}
-                  moveCard={moveRow}
-                />
-              )
-              // return (
-              //   <tr
-              //     key={row.id}
-              //     {...row.getRowProps()}
-              //     className={takenPlayer}
-              //   >
-              //     {row.cells.map(
-              //       cell => (
-              //         <td
-              //           className={cell.column.Header}
-              //           {...cell.getCellProps()}
-              //         >
-              //           {cell.render("Cell")}
-              //         </td>
-              //       )
-              //     )}
-              //   </tr>
-              // );
+              return renderPlayerRow(row, i, takenPlayer);
             })}
           </tbody>
         </table>

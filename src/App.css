@@ -59,7 +59,7 @@ a {
 }
 
 a:hover {
-  color: var(--main-dark);
+  color: blue;
   text-decoration: none;
 }
 

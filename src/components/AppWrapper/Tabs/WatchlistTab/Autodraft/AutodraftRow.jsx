@@ -24,8 +24,7 @@ export const AutodraftRow = ({ index, id, row, takenPlayer, moveCard }) => {
       // Determine rectangle on screen
       const hoverBoundingRect = ref.current?.getBoundingClientRect()
       // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       // Determine mouse position
       const clientOffset = monitor.getClientOffset()
       // Get pixels to the top
@@ -67,7 +66,10 @@ export const AutodraftRow = ({ index, id, row, takenPlayer, moveCard }) => {
         {...row.getRowProps()}
         className={takenPlayer}
     >
-      <td className='dragEmoji'>≡</td>
+      <td>
+        <span className='dragEmoji'>≡</span>
+        <span className='dragIndex'>{index + 1}</span>
+      </td>
       {row.cells.map(
         cell => (
           <td

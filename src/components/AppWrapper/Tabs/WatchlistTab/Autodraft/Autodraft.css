@@ -1,6 +1,12 @@
 .dragEmoji {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 600;
-  padding: 10px 20px;
-  cursor: pointer;
+  padding: 10px 20px 10px 0;
+  cursor: move;
+  justify-content: space-between;
+}
+
+.dragIndex {
+  font-size: 2rem;
+  float: right;
 }

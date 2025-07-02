@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useCallback} from "react";
 import Table from "../../../Table/Table";
 import "./WatchlistTab.css";
 import {
@@ -26,26 +26,35 @@ export default function WatchlistTab({
   const watchlistLocalStorage = JSON.parse(localStorage.getItem('watchlist'));
   const [isLoading, setIsLoading] = useState(watchlistLocalStorage === null)
   const [watchlist, setWatchlist] = useState(watchlistLocalStorage || []);
+  console.log('watchlist: ', watchlist);
 
-  const autodraftIds = watchlistLocalStorage?.autodraft || [];
+  const autodraftIds = watchlist?.autodraft || [];
   const [autodraftTableRows, setAutodraftTableRows] = useState([]);
 
   // const [watchedSkaters, setWatchedSkaters] = useState(skaters?.filter(s => watchlist?.players?.includes(s.player_id)));
 
   const watchedSkaters = skaters.filter(s => watchlist.players?.includes(s.player_id));
+  console.log('watchedSkaters: ', watchedSkaters);
+  
   const watchedGoalies = goalies.filter(g => watchlist.players?.includes(g.player_id));
 
-  const autodraftPlayers = players.filter(p => autodraftIds.includes(p.player_id));
-
+  console.log('watchlist: ', watchlist);
+  
+  const autodraftPlayers = players.filter(p => watchlist.autodraft?.includes(p.player_id));
+  console.log('autodraftPlayers: ', autodraftPlayers);
+  
   const fullList = [...watchlist?.players, ...watchlist?.autodraft];
   const takenPlayers = [fullList.filter(p => p.user !== null)];
   const untakenPlayers = [fullList.filter(p => p.user === null)];
   
   const user = JSON.parse(localStorage.getItem("user"));
+  console.log('takenPlayers: ', takenPlayers);
 
   function removeAllTakenPlayers() {
     try {
-      takenPlayers.forEach(p => removeFromWatchlist(p.player_id))
+      if (takenPlayers?.length) {
+        takenPlayers.forEach(p => removeFromWatchlist(p.player_id))
+      }
       const untakenPlayerIdList = untakenPlayers.map(p => p.player_id);
       setWatchlist(untakenPlayerIdList);
 		} catch {
@@ -55,14 +64,18 @@ export default function WatchlistTab({
 
   useEffect(() => {
     async function fetchWatchlist() {
-      getWatchlistIds(setWatchlist);
-      setIsLoading(false);
-      return
+      try {
+        await getWatchlistIds(setWatchlist);
+      } catch {
+        toast('There was an error getting your watchlist. Please try again later.')
+      } finally {
+        setIsLoading(false);
+        return
+      }
     }
-    if (!watchlistLocalStorage) {
-      setIsLoading(true);
+    if (!watchlist) {
+      fetchWatchlist();
     }
-    fetchWatchlist();
     // eslint-disable-next-line 
   }, []);
 
@@ -174,25 +187,24 @@ export default function WatchlistTab({
     },
   }
 
-
   const autodraftPlayerColumn = {
     Header: "Player",
-    accessor: "name",
+    accessor: null,
     disableSort: true,
     disableFilters: true,
     width: "100px",
     Cell: (cell) => {
-      return (
+      const playerCellCallback = useCallback(() => (
         <PlayerCell 
           cell={cell}
           showAutodraft
           setWatchlist={setWatchlist}
           setAutodraftTableRows={setAutodraftTableRows}
         />
-      )
+      ), [cell]);
+      return playerCellCallback();
     },
   };
-
 
   const autodraftColumns = [
     autodraftPlayerColumn,
@@ -200,6 +212,7 @@ export default function WatchlistTab({
     positionColumn,
   ];
 
+  console.log('autodraftIds: ', autodraftIds);
 
   return (
     <div className="watchlistWrapper">

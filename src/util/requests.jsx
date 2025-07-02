@@ -130,7 +130,9 @@ export function getWatchlistIds(setWatchlist) {
     if (data.success === true) {
       const watchlist = {players: data.players, autodraft: data.autodraft_list};
       localStorage.setItem("watchlist", JSON.stringify(watchlist));
-      setWatchlist(watchlist);
+      if (setWatchlist) {
+        setWatchlist(watchlist);
+      }
     } else {
       const error = (data && data.message) || response.status;
       return Promise.reject(error);
@@ -337,10 +339,9 @@ export function removeFromWatchlist(playerId) {
       if (!currentWatchlist) {
         return true;
       }
-      const newWatchlist = currentWatchlist.players.filter(p => p !== playerId);
-      console.log('newWatchlist:', newWatchlist);
-
-      localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
+      // const newWatchlist = currentWatchlist.players.filter(p => p !== playerId);
+      // console.log('newWatchlist:', newWatchlist);
+      // localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
     } else {
       toast.error("Error updating watchlist - please try again later.");
       const error = (data && data.message) || response.status;
