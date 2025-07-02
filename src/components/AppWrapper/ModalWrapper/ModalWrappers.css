@@ -37,6 +37,8 @@
 .close-modal {
   display: flex;
   position: fixed;
+  padding: 4px 7px 5px;
+  border-radius: 25px;
 }
 
 .modal-title {
