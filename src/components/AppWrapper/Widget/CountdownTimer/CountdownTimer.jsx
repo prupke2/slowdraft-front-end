@@ -3,12 +3,12 @@ import "./CountdownTimer.css";
 import { useEffect } from "react";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import { offsetMilliseconds } from "../../../../util/requests";
+import { isMobileUser } from "../../../../util/util";
 
 export default function CountdownTimer({ currentPick, expiryDate, draftingNow, draftCountdown }) {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const expiry = Date.parse(expiryDate);
   const timeLeft = expiry - currentTime - offsetMilliseconds;
-
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   const hours = draftCountdown ? Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) :
     Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) +
@@ -51,11 +51,12 @@ export default function CountdownTimer({ currentPick, expiryDate, draftingNow, d
       }
       {currentPick?.team_key && (
         <div className={`drafting-now drafting-${draftingNow}`}>
+          <div className="drafting-verbiage">Drafting: </div>
           <UsernameStyled
             username={currentPick.username}
             teamKey={currentPick.team_key}
             small
-            logoAndShortName
+            logoAndShortName={!isMobileUser}
           />
           <p className="countdown-timer" id="countdown">
             {countdownClock || ""}
