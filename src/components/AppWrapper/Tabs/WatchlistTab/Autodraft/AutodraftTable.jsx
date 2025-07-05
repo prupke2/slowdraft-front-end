@@ -67,8 +67,7 @@ export default function AutodraftTable({
           <thead>
             {headerGroups.map((headerGroup, i) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
-                <th /> {/* empty header for drag icon */}
-                {/* <th /> empty header for draft index */}
+                <th width="100px" /> {/* empty header for drag icon and index */}
                 {headerGroup.headers.map((column) => {
                   return (
                     <th key={column.id} width={column.width}>
