@@ -43,9 +43,9 @@ export default function WatchlistTab({
   const autodraftPlayers = players.filter(p => watchlist.autodraft?.includes(p.player_id));
   console.log('autodraftPlayers: ', autodraftPlayers);
   
-  const fullList = [...watchlist?.players, ...watchlist?.autodraft];
-  const takenPlayers = [fullList.filter(p => p.user !== null)];
-  const untakenPlayers = [fullList.filter(p => p.user === null)];
+  const fullList = !watchlist?.length ? [] : [...watchlist?.players, ...watchlist?.autodraft];
+  const takenPlayers = fullList.filter(p => p.user !== null);
+  const untakenPlayers = fullList.filter(p => p.user === null);
   
   const user = JSON.parse(localStorage.getItem("user"));
   console.log('takenPlayers: ', takenPlayers);
@@ -67,7 +67,7 @@ export default function WatchlistTab({
       try {
         await getWatchlistIds(setWatchlist);
       } catch {
-        toast('There was an error getting your watchlist. Please try again later.')
+        toast.error('There was an error getting your watchlist. Please try again later.');
       } finally {
         setIsLoading(false);
         return
@@ -150,6 +150,7 @@ export default function WatchlistTab({
   }
 
   const watchedPlayerColumn = {
+    id: "watched_player",
     Header: "Player",
     accessor: "name",
     Filter: SearchColumnFilter,
@@ -188,16 +189,16 @@ export default function WatchlistTab({
   }
 
   const autodraftPlayerColumn = {
+    id: "autodraft_player",
     Header: "Player",
-    accessor: null,
+    accessor: "name",
     disableSort: true,
     disableFilters: true,
-    width: "100px",
+    width: "200px",
     Cell: (cell) => {
       const playerCellCallback = useCallback(() => (
         <PlayerCell 
           cell={cell}
-          showAutodraft
           setWatchlist={setWatchlist}
           setAutodraftTableRows={setAutodraftTableRows}
         />
@@ -206,13 +207,36 @@ export default function WatchlistTab({
     },
   };
 
+  const removeAutodraftButton = {
+    id: "remove_autodraft",
+    className: "transparent-table-cell",
+    accessor: null,
+    disableSort: true,
+    disableFilters: true,
+    width: "40px",
+    Cell: (cell) => {
+      const playerCellCallback = useCallback(() => (
+        <PlayerCell 
+          cell={cell}
+          showAutodraft
+          setWatchlist={setWatchlist}
+          setAutodraftTableRows={setAutodraftTableRows}
+          autodraftOnly
+        />
+      ), [cell]);
+      return playerCellCallback();
+    },
+  }
+
   const autodraftColumns = [
     autodraftPlayerColumn,
     staticTeamColumn,
     positionColumn,
+    removeAutodraftButton,
   ];
 
   console.log('autodraftIds: ', autodraftIds);
+  console.log('takenPlayers: ', takenPlayers);
 
   return (
     <div className="watchlistWrapper">
@@ -223,7 +247,7 @@ export default function WatchlistTab({
       )}
       {!autodraftIds?.length ? null : (
         <>
-          <h2>Autodraft list</h2>
+          <h2>Autodraft {autodraftIds.length > 1 && <span>list</span>}</h2>
           <AutodraftTable
             data={autodraftPlayers}
             columns={autodraftColumns}

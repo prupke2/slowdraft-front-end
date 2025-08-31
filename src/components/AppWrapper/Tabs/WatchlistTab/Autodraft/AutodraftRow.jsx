@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import './Autodraft.css';
 
-export const AutodraftRow = ({ index, id, row, takenPlayer, moveCard }) => {
+export const AutodraftRow = ({ index, id, row, takenPlayer, moveCard, rowCount }) => {
   const ref = useRef(null)
   const [{ handlerId }, drop] = useDrop({
     accept: 'player_id',
@@ -60,20 +60,23 @@ export const AutodraftRow = ({ index, id, row, takenPlayer, moveCard }) => {
   })
   const opacity = isDragging ? 0 : 1
   drag(drop(ref))
-  
+  console.log('rowCount: ', rowCount);
+
   return (
     <tr ref={ref} key={row.id} style={{ opacity }} data-handler-id={handlerId}
         {...row.getRowProps()}
         className={takenPlayer}
     >
-      <td>
-        <span className='dragEmoji'>≡</span>
-        <span className='dragIndex'>{index + 1}</span>
-      </td>
+      { rowCount > 1 && (
+        <td width="60px" className="semi-transparent-table-cell">
+          <span className='dragEmoji'>≡</span>
+          <span className='dragIndex'>{index + 1}</span>
+        </td>
+      )}
       {row.cells.map(
         cell => (
           <td
-            className={cell.column.Header}
+            className={cell.column.className ?? cell.column.Header}
             {...cell.getCellProps()}
           >
             {cell.render("Cell")}

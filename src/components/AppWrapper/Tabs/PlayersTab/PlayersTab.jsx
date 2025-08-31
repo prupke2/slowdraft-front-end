@@ -89,6 +89,7 @@ export default function PlayersTab({
               <PlayerCell 
                 cell={cell} 
                 showWatchlist
+                showAutodraft={!draftingNow}
               />
             </div>
           );
@@ -97,6 +98,7 @@ export default function PlayersTab({
             <PlayerCell 
               cell={cell}
               showWatchlist
+              showAutodraft={!draftingNow}
             />
           );
         }

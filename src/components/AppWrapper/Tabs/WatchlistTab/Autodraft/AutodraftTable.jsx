@@ -29,10 +29,14 @@ export default function AutodraftTable({
       autoResetSortBy: true,
     },
   );
+  const rowCount = rows.length;
+  console.log('rows in autodraftTable: ', rows);
+  console.log('autodraftTableRows: ', autodraftTableRows);
 
-  if (!autodraftTableRows.length) {
+  if (!rowCount) {
     setAutodraftTableRows(rows);
   }
+
   
   const moveRow = useCallback((dragIndex, hoverIndex) => {
     setAutodraftTableRows((prevRows) =>
@@ -53,8 +57,9 @@ export default function AutodraftTable({
       row={row}
       takenPlayer={takenPlayer}
       moveCard={moveRow}
+      rowCount={rowCount}
     />
-  ), [moveRow])
+  ), [moveRow, rowCount]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -67,13 +72,13 @@ export default function AutodraftTable({
           <thead>
             {headerGroups.map((headerGroup, i) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
-                <th width="100px" /> {/* empty header for drag icon and index */}
+                { rowCount > 1 && (
+                  <th width="60px" className="transparent-table-cell" /> /* set column width for drag icon and index */
+                )}
                 {headerGroup.headers.map((column) => {
                   return (
-                    <th key={column.id} width={column.width}>
-                      <span>
-                        {column.render("Header")}
-                      </span>
+                    <th className={column.className} key={column.id} width={column.width}>
+                      {column.render("Header")}
                     </th>
                   );
                 })}
@@ -81,7 +86,7 @@ export default function AutodraftTable({
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {autodraftTableRows.map((row, i) => {
+            {rows.map((row, i) => {
               prepareRow(row);
               const takenPlayer = row.cells[0].row.original.user !== null ? "taken-player" : null;
               return renderPlayerRow(row, i, takenPlayer);

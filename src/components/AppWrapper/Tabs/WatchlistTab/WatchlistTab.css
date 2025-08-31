@@ -17,24 +17,26 @@
 }
 
 .watchlist-wrapper, .watchlist-wrapper:focus {
+  position: relative !important;
   display: flex;
   justify-content: center;
-  margin: 5px;
+  margin-left: 5px;
   background-color: transparent;
   border: 1px solid transparent;
   outline: none;
   width: 20px;
+  height: auto;
 }
 
 .remove-autodraft {
   cursor: pointer;
   font-weight: 900;
   font-variant: small-caps;
-  font-size: 2rem;
-  border-radius: 100%;
-  color: red;
-  padding: 0 12px 2px;
-  margin-right: 20px;
+  border: 1px solid transparent;
+  font-size: 1.2rem;
+  border-radius: 25px;
+  background-color: transparent;
+  padding: 0 2px;
 }
 
 .remove-autodraft:hover {

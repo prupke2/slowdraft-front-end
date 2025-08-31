@@ -1,11 +1,18 @@
-import React from "react";
+import React, { Fragment } from "react";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
 import WatchlistButton from "../WatchlistTab/WatchlistButton";
 import emptyHeadshot from "../../../../assets/emptyHeadshot.png";
 import AutodraftButton from "../WatchlistTab/Autodraft/AutodraftButton";
 // import { offsetMilliseconds } from "../../../../util/requests";
 
-const PlayerCell = ({ cell, showWatchlist, showAutodraft, setWatchlist, setAutodraftTableRows }) => {
+const PlayerCell = ({
+  cell,
+  showWatchlist,
+  showAutodraft,
+  setWatchlist,
+  setAutodraftTableRows,
+  autodraftOnly = false,
+}) => {
   const takenPlayer = cell.row.original.user !== null;
   const teamKey = cell.row.original.team_key;
   const ir = cell.row.original.ir;
@@ -15,45 +22,50 @@ const PlayerCell = ({ cell, showWatchlist, showAutodraft, setWatchlist, setAutod
   return (
     <div className={`player-name newPick`}>
       {cell.row.original.player_id && (
-        <div className="player-name-and-headshot">
-          {showAutodraft && <AutodraftButton cell={cell} setWatchlist={setWatchlist} setAutodraftTableRows={setAutodraftTableRows} /> }
-          {showWatchlist && <WatchlistButton cell={cell} setWatchlist={setWatchlist} setAutodraftTableRows={setAutodraftTableRows} /> }
-          <img className="headshot" src={noHeadshot ? emptyHeadshot : headshot} alt="" />
-          <span>
-            {ir && <span className='ir'>{ir}</span>}
-            <a
-              href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {cell.row.original.prospect === 1 && (
-                <span>
-                  <span className="prospect" title="Prospect">
-                    P
-                  </span>
-                  &nbsp;
-                </span>
-              )}
-              {cell.row.original.is_keeper === 1 && (
-                <span>
-                  <span className="keeper" title="Keeper">
-                    K
-                  </span>
-                  &nbsp;
-                </span>
-              )}
-              {cell.value}
-            </a>
-            {(takenPlayer && showWatchlist) && (
-              <UsernameStyled
-                username={cell.row.original.user}
-                teamKey={teamKey}
-                color={"black"}
-                small={true}
-              />
-            )}
-          </span>
-        </div>
+        <Fragment>
+          {autodraftOnly && <AutodraftButton cell={cell} setWatchlist={setWatchlist} largerIcon setAutodraftTableRows={setAutodraftTableRows} />}
+          {!autodraftOnly && (
+            <div className="player-name-and-headshot">
+              {showAutodraft && <AutodraftButton cell={cell} setWatchlist={setWatchlist} setAutodraftTableRows={setAutodraftTableRows} showToastOnAutodraft={!setWatchlist} /> }
+              {showWatchlist && <WatchlistButton cell={cell} setWatchlist={setWatchlist} setAutodraftTableRows={setAutodraftTableRows} /> }
+              <img className="headshot" src={noHeadshot ? emptyHeadshot : headshot} alt="" />
+              <span>
+                {ir && <span className='ir'>{ir}</span>}
+                <a
+                  href={`https://sports.yahoo.com/nhl/players/${cell.row.original.player_id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cell.row.original.prospect === 1 && (
+                    <span>
+                      <span className="prospect" title="Prospect">
+                        P
+                      </span>
+                      &nbsp;
+                    </span>
+                  )}
+                  {cell.row.original.is_keeper === 1 && (
+                    <span>
+                      <span className="keeper" title="Keeper">
+                        K
+                      </span>
+                      &nbsp;
+                    </span>
+                  )}
+                  {cell.value}
+                </a>
+                {(takenPlayer && showWatchlist) && (
+                  <UsernameStyled
+                    username={cell.row.original.user}
+                    teamKey={teamKey}
+                    color={"black"}
+                    small={true}
+                  />
+                )}
+              </span>
+            </div>
+          )}
+        </Fragment>
       )}
       {!cell.row.original.player_id && <span>{cell.value}</span>}
     </div>
