@@ -35,10 +35,16 @@
 }
 
 .close-modal {
-  display: flex;
   position: fixed;
-  padding: 4px 7px 5px;
-  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  background-color: var(--main-light);
+  border: 1px solid transparent;
+  border-radius: 15px;
+  margin: 5px;
+  padding: 3px 6px;
+  outline: none;
+  width: 25px;
 }
 
 .modal-title {

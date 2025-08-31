@@ -29,6 +29,15 @@ table {
   background-color: var(--main-even);
 }
 
+.narrow-table {
+  max-width: 800px;
+  margin: auto;
+}
+
+.narrow-table thead th {
+  position: inherit;
+}
+
 .table td {
   padding: 4px;
   vertical-align: inherit;
