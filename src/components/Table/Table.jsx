@@ -135,7 +135,7 @@ export default function Table({
                         )}
                         title={title}
                       >
-                        {column.render("Header")}b
+                        {column.render("Header")}
                         <span>
                           {column.isSorted && tableType !== "draftPicks"
                             ? column.isSortedDesc
