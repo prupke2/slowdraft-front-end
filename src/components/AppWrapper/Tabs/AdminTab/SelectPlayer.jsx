@@ -12,7 +12,7 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
 
   const columns = [
     {
-      Header: "",
+      Header: null,
       accessor: "name",
       Filter: SearchColumnFilter,
       sortType: "alphanumeric",
@@ -39,6 +39,7 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
       accessor: "user",
     },
   ];
+
   const tableState = {
     hiddenColumns: ["team", "position", "player_id", "player_key", "user"],
     filters: [
@@ -49,8 +50,8 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
     ],
     sortBy: [
       {
-        id: "3",
-        desc: true,
+        id: "name",
+        desc: false,
       },
     ],
   };

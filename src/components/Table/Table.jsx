@@ -117,6 +117,16 @@ export default function Table({
                   const statHeaderName = statIdToNameMap[column?.id];
                   const headerName = column.id === 'draft_pick_timestamp' ? 'Pick Timestamp' : statHeaderName || column.Header;
                   const title = column.canSort ? `Sort by ${headerName || ''}` : headerName;
+                  
+                  // For the SelectPlayer table
+                  if (!column.Header) {
+                    return (
+                      <div className="select-player-header">
+                        {column.canFilter && column.render("Filter")}
+                      </div>
+                    );
+                  }
+
                   return (
                     <th key={column.id} width={column.width}>
                       <span
@@ -125,7 +135,7 @@ export default function Table({
                         )}
                         title={title}
                       >
-                        {column.render("Header")}
+                        {column.render("Header")}b
                         <span>
                           {column.isSorted && tableType !== "draftPicks"
                             ? column.isSortedDesc

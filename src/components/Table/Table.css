@@ -199,6 +199,10 @@ td.Pick {
   font-weight: 700;
 }
 
+.select-player-header input {
+  height: 36px;
+}
+
 @media screen and (max-width: 900px) { 
   table {
     min-width: 350px;
