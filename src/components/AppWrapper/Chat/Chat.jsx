@@ -35,7 +35,7 @@ export default function Chat(
     { channelName: user.yahoo_league_id, options: { params: { rewind: 10 } } 
   }, (message) => {    
     setChatMessages(previousMessages => [...previousMessages, message]);
-    // if an "event" is set to chat, we need to check for updates
+    // if an "event" is sent to chat, we need to check for updates
     if (message?.data?.event) {      
       // delay before fetching to make sure the new data is available
       delayFunc(getLatestData, 1500);
