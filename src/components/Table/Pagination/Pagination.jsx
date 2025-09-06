@@ -20,6 +20,10 @@ export default function Pagination({
   const scrollLeftClass = !canPreviousPage ? 'disabled-pagination' : '';
   const scrollRightClass = !canNextPage ? 'disabled-pagination' : '';
 
+  if (!canNextPage && !canPreviousPage) {
+    return null;
+  }
+
   return (
     <ul className={`pagination ${extraPadding}`}>
       {/* <pre>
