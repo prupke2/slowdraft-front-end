@@ -17,6 +17,8 @@ export default function Pagination({
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
   const extraPadding = tableType === "draftPicks" && 'draftTabPaddingTop';
   const showCurrentRoundButton = isLiveDraft && typeof currentRound === 'number';
+  const scrollLeftClass = !canPreviousPage ? 'disabled-pagination' : '';
+  const scrollRightClass = !canNextPage ? 'disabled-pagination' : '';
 
   return (
     <ul className={`pagination ${extraPadding}`}>
@@ -27,14 +29,14 @@ export default function Pagination({
       </pre> */}
       <li className="pagination-arrows">
         <div
-          className="page-item"
+          className={`page-item ${scrollLeftClass}`}
           onClick={() => gotoPage(0)}
           disabled={!canPreviousPage}
         >
           <span className="page-link page-first">First</span>
         </div>
         <div
-          className="page-item"
+          className={`page-item ${scrollLeftClass}`}
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
         >
@@ -42,7 +44,7 @@ export default function Pagination({
         </div>
         {showCurrentRoundButton && (
           <div
-            className="page-item"
+            className={`page-item ${scrollLeftClass}`}
             onClick={() => gotoPage(currentRound)}
             disabled={!canPreviousPage}
           >
@@ -51,11 +53,11 @@ export default function Pagination({
             </span>
           </div>
         )}
-        <div className="page-item" onClick={() => canNextPage && nextPage()}>
+        <div className={`page-item ${scrollRightClass}`} onClick={() => canNextPage && nextPage()}>
           <span className="page-link">{">"}</span>
         </div>
         <div
-          className="page-item"
+          className={`page-item ${scrollRightClass}`}
           onClick={() => canNextPage && gotoPage(pageCount - 1)}
         >
           <span className="page-link page-last">Last</span>

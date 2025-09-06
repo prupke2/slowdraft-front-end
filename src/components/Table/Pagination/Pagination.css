@@ -20,8 +20,20 @@
   cursor: pointer;
 }
 
+.disabled-pagination {
+  cursor: default;
+}
+
 .pagination-arrows span {
-  color: #000 !important;
+  color: #000;
+}
+
+.disabled-pagination span.page-link {
+  color: var(--disabled);
+}
+
+.disabled-pagination span.page-link:hover {
+  background-color: white;
 }
 
 .pagination select {

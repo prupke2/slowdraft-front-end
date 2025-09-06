@@ -23,7 +23,7 @@
 
   --header-text: #ffffff;
   --button-bg: var(--main-dark);
-  --disabled:rgba(87, 87, 128, 0.5);
+  --disabled:rgba(107, 107, 107, 0.6);
   --success: #00ff99;
   --success-hover: #1cba7b;
   --error: rgba(238, 11, 11, 0.651);
