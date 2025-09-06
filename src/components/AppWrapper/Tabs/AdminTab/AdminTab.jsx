@@ -6,16 +6,21 @@ import MakePickTab from "./MakePickTab";
 import AddDraftPickTab from "./AddDraftPickTab";
 import { Switch, Route, Redirect, NavLink } from "react-router-dom";
 import NewDraftTab from "./NewDraftTab";
+import AdminHomeTab from "./AdminHomeTab";
 
 export default function AdminTab({ channel }) {
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const cachedAdminTab = localStorage.getItem("adminTab");
-  const defaultTabRoute = cachedAdminTab
-    ? `/admin/${cachedAdminTab}`
-    : "/admin/add-player";
+  const defaultTabRoute = cachedAdminTab ? `/admin/${cachedAdminTab}` : "/admin/home";
+
   return (
     <div className="navbar-tabs inner-navbar-tabs">
       <ul className="admin-navtab-list">
+        <li className="navtab">
+          <NavLink to="/admin/home" activeClassName="active">
+            <div className="inner-tab">Home</div>
+          </NavLink>
+        </li>
         <li className="navtab">
           <NavLink to="/admin/add-player" activeClassName="active">
             <div className="inner-tab">Add player to DB</div>
@@ -45,6 +50,9 @@ export default function AdminTab({ channel }) {
       <div className="admin-tab-wrapper">
         <Switch>
           {userInfo.role !== "admin" && <Redirect to="draft" />}
+          <Route path="/admin/home">
+            <AdminHomeTab userInfo={userInfo} />
+          </Route>
           <Route path="/admin/add-player">
             <AddPlayerToDBTab />
           </Route>

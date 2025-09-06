@@ -146,10 +146,12 @@
 .instructions {
   background: white;
   max-width: 500px;
+  font-size: 1.1rem;
   margin: -35px auto 15px;
   padding: 10px 5px;
   border-radius: 8px;
   color: var(--main-very-dark);
+  font-style: oblique;
 }
 
 .flex-direction-column {
