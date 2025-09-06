@@ -290,7 +290,6 @@ export function checkForUpdates(
       }
       delayFunc(() => setIsUpdating(false), 1500);
     } else {
-      console.log('data:', data);
       if (data?.status === 401 || data?.status === 403) {
         console.log("Unauthorized response from Yahoo - your token may be expired.");
         return Promise.reject(`Yahoo returned an error - if this persists, try logging out and back in. Error: ${JSON.stringify(data)}` );

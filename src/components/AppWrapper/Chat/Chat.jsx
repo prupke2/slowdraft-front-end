@@ -7,7 +7,7 @@ import CloseModalButton from '../ModalWrapper/CloseModalButton/CloseModalButton'
 import MessageLog from './MessageLog/MessageLog';
 import { useChannel, usePresenceListener } from 'ably/react';
 import UsernameStyled from '../UsernameStyled/UsernameStyled';
-import { delayFunc, removeDuplicatesUsers } from '../../../util/util';
+import { delayFunc, removeDuplicateUsers } from '../../../util/util';
 import toast from 'react-hot-toast';
 
 export default function Chat(
@@ -50,7 +50,7 @@ export default function Chat(
   
   const { presenceData } = usePresenceListener(user.yahoo_league_id);
   const usersOnline = presenceData.map(msg => msg.data);
-  const uniqueUsersOnline = removeDuplicatesUsers(usersOnline);
+  const uniqueUsersOnline = removeDuplicateUsers(usersOnline);
 
   const userList = useCallback(() => {
     try {    

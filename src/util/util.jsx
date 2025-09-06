@@ -126,7 +126,7 @@ export const binaryToBoolean = (binary) => {
   return binary === 1 || binary === "1" || binary === "true";
 };
 
-export function removeDuplicatesUsers(arr) {
+export function removeDuplicateUsers(arr) {
   // If users log in more than once, prevent them from appearing twice in the user list
   const uniqueUsers = [];
   try {
