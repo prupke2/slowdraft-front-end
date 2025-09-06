@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { API_URL, getHeaders } from "../../../../util/util";
 import Emoji from "../../Emoji";
 
 export default function AdminHomeTab() {
   localStorage.setItem("adminTab", "home");
-
+  const [isSpinning, setIsSpinning] = useState(false);
   const refreshData = (e) => {
+    setIsSpinning(true);
     e.preventDefault();
     const requestParams = {
       method: "GET",
@@ -14,6 +15,10 @@ export default function AdminHomeTab() {
     }
     fetch(`${API_URL}/refresh_timestamps`, requestParams)
       .then((response) => {
+        // Remove spinning class after animation completes
+        setTimeout(() => {
+          setIsSpinning(false);
+        }, 1000);
         if (!response.ok) {
           toast.error(`An error occurred. Please try again later.`);
           const error = response.status;
@@ -39,14 +44,19 @@ export default function AdminHomeTab() {
       <div className="instructions">
         <div>
           <Emoji emoji="✨" />&nbsp;
-          Use the refresh button if users are reporting not seeing the latest data.
+          Use the refresh button below if users are reporting not seeing the latest data.
           This will force the draft, team, and player data to update the next time they change tabs.
         </div>
       </div>
       <br />
-      <button onClick={refreshData}>
-        <Emoji emoji="🔄" />&nbsp;
-        Refresh
+      <button
+        className={`refresh-button ${isSpinning ? 'spinning' : ''}`}
+        onClick={refreshData}
+        disabled={isSpinning}
+      >
+        <div>
+          <Emoji emoji="🔄" />
+        </div>
       </button>
     </form>
   );
