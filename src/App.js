@@ -74,6 +74,7 @@ export default function App() {
             position="bottom-center"
             reverseOrder={false}
             toastOptions={{
+              duration: 3000,
               style: {
                 fontSize: "0.8rem",
                 fontFamily: "Verdana, sans-serif",

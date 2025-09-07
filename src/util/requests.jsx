@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { getHeaders, binaryToBoolean, API_URL, delayFunc } from "./util";
 import * as Ably from 'ably';
+import { draftNotificationSound } from "./sounds";
 
 export const getOptions = {
   method: "GET",
@@ -267,8 +268,10 @@ export function checkForUpdates(
     }
     if (data?.updates) {
       setDraftingNow(data.drafting_now);
-
       if (updateNeeded("draftDataUpdate", data.updates.latest_draft_update)) {
+        if (data.drafting_now && (localStorage.getItem("soundPreferences") === "enabled")) {
+          draftNotificationSound.play();
+        }
         console.log("Update draft data...");
         getDraft(setCurrentPick, setDraftingNow, setPicks);
       }
