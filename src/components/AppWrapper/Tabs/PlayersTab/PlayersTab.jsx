@@ -88,17 +88,17 @@ export default function PlayersTab({
               </div>
               <PlayerCell 
                 cell={cell} 
-                playerListPage={true}
                 showWatchlist
+                showAutodraft={!draftingNow}
               />
             </div>
           );
         } else {
           return (
             <PlayerCell 
-              cell={cell} 
-              playerListPage={true}
+              cell={cell}
               showWatchlist
+              showAutodraft={!draftingNow}
             />
           );
         }

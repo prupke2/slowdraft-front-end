@@ -1,0 +1,25 @@
+.dragEmoji {
+  font-size: 2rem;
+  font-weight: 600;
+  padding: 10px 20px 10px 0;
+  cursor: move;
+  justify-content: space-between;
+}
+
+.dragIndex {
+  font-size: 2rem;
+  float: right;
+}
+
+.transparent-table-cell {
+  background-color: var(--main-dark) !important;
+  border: var(--main-dark) !important;;
+  padding: 0;
+}
+
+.semi-transparent-table-cell {
+  /* background-color: var(--main-dark) !important; */
+  border: var(--main-dark) !important;
+  padding: 0;
+  opacity: 0.5;
+}

@@ -30,6 +30,7 @@ table {
 }
 
 .narrow-table {
+  width: 340px;
   max-width: 800px;
   margin: auto;
 }

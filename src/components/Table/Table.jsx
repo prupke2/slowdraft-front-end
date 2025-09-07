@@ -84,7 +84,7 @@ export default function Table({
     usePagination
   );
 
-  const emptyTablePadding = page.length === 0 ? "empty-text" : null;
+  const emptyTablePadding = page.length === 0 && "empty-text";
 
   return (
     <div>
@@ -107,7 +107,7 @@ export default function Table({
       {!loading && (
         <table 
           autoComplete="off" 
-          className={`table ${emptyTablePadding}`}
+          className={`table ${emptyTablePadding || ''}`}
           {...getTableProps()}
         >
           <thead>
@@ -157,7 +157,7 @@ export default function Table({
             {page.map((row, i) => {
               prepareRow(row);
               const pickDisabled = row.cells[0].row.original.disabled === true ? "disabled-pick" : null;
-              const takenPlayer = (tableType === "draft" || tableType === "watchlist") && row.cells[0].row.original.user !== null ? "taken-player" : null;
+              const takenPlayer = (["draft", "watchlist"].includes(tableType)) && row.cells[0].row.original.user !== null ? "taken-player" : null;
 
               const currentPickRow =
                 isLiveDraft &&
