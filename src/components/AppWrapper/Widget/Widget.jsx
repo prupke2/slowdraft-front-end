@@ -28,6 +28,7 @@ export default function Widget({
   return (
     <div className="widget-wrapper">
       <div
+        id="sound-preference"
         className="widget-inner sound-preference-wrapper"
         onClick={toggleSoundPreference}
         title={soundPreferenceTitle}

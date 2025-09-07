@@ -78,6 +78,17 @@
     display: none;
   }
 
+  #sound-preference {
+    position: fixed !important;
+    bottom: 7px;
+    left: 0;
+    font-variant: small-caps;
+    font-size: 2.5rem;
+    z-index: 1000;
+    background: transparent !important;
+    border: none;
+  }
+
   #logout {
     position: fixed !important;
     top: 5px;
