@@ -187,7 +187,28 @@
   padding: 2px;
 }
 
-@media screen and (max-width: 900px) { 
+@media screen and (max-width: 900px) {
+  .tab-wrapper > .inner-navbar-tabs {
+    right: 0;
+    top: 0;
+    min-height: calc(100vh - 160px);
+    border-top: none;
+    border-left: 1px solid var(--main-dark);
+    font-size: 0.9rem;
+  }
+
+  .inner-tab {
+    height: 40px;
+  }
+
+  .admin-form {
+    margin: 0 10px 10px;
+    padding-top: 40px;
+    min-height: 600px;
+    border-radius: 0;
+    padding: 5px;
+  }
+
   .new-draft-form {
     max-width: 90vw;
     margin-left: 40%;
@@ -196,5 +217,11 @@
   .instructions {
     max-width: 400px;
     margin: 10px auto;
+  }
+  .admin-form > div {
+    margin-left: auto;
+  }
+  .new-draft-tab {
+    display: none;
   }
 }
