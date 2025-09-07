@@ -19,6 +19,7 @@ export default function Pagination({
   const showCurrentRoundButton = isLiveDraft && typeof currentRound === 'number';
   const scrollLeftClass = !canPreviousPage ? 'disabled-pagination' : '';
   const scrollRightClass = !canNextPage ? 'disabled-pagination' : '';
+  const currentRoundClass = pageIndex === currentRound ? 'disabled-pagination' : '';
 
   if (!canNextPage && !canPreviousPage) {
     return null;
@@ -48,9 +49,9 @@ export default function Pagination({
         </div>
         {showCurrentRoundButton && (
           <div
-            className={`page-item ${scrollLeftClass}`}
+            className={`page-item ${currentRoundClass}`}
             onClick={() => gotoPage(currentRound)}
-            disabled={!canPreviousPage}
+            disabled={pageIndex === currentRound}
           >
             <span className="page-link">
               <span className="current-round-button">current round</span>

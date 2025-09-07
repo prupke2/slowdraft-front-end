@@ -28,7 +28,7 @@
   color: #000;
 }
 
-.disabled-pagination span.page-link {
+.disabled-pagination span.page-link, .disabled-pagination .current-round-button {
   color: var(--disabled);
 }
 
