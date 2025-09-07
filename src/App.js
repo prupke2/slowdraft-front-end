@@ -70,7 +70,17 @@ export default function App() {
       )}
       {(webToken && !isLoading) && (
         <main className={!user ? 'full-width' : null}>
-          <Toaster />
+          <Toaster 
+            position="bottom-center"
+            reverseOrder={false}
+            toastOptions={{
+              duration: 3000,
+              style: {
+                fontSize: "0.8rem",
+                fontFamily: "Verdana, sans-serif",
+              },
+            }}
+          />
           <ErrorBoundary>
             <AppWrapper
               setLoggedIn={setLoggedIn}

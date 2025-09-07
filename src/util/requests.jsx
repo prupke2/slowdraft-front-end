@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { getHeaders, binaryToBoolean, API_URL, delayFunc } from "./util";
 import * as Ably from 'ably';
+import { draftNotificationSound } from "./sounds";
 
 export const getOptions = {
   method: "GET",
@@ -268,8 +269,10 @@ export function checkForUpdates(
     }
     if (data?.updates) {
       setDraftingNow(data.drafting_now);
-
       if (updateNeeded("draftDataUpdate", data.updates.latest_draft_update)) {
+        if (data.drafting_now && (localStorage.getItem("soundPreferences") === "enabled")) {
+          draftNotificationSound.play();
+        }
         console.log("Update draft data...");
         getDraft(setCurrentPick, setDraftingNow, setPicks);
       }
@@ -291,7 +294,6 @@ export function checkForUpdates(
       }
       delayFunc(() => setIsUpdating(false), 1500);
     } else {
-      console.log('data:', data);
       if (data?.status === 401 || data?.status === 403) {
         console.log("Unauthorized response from Yahoo - your token may be expired.");
         return Promise.reject(`Yahoo returned an error - if this persists, try logging out and back in. Error: ${JSON.stringify(data)}` );

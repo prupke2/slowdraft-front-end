@@ -23,7 +23,7 @@
 
   --header-text: #ffffff;
   --button-bg: var(--main-dark);
-  --disabled:rgba(87, 87, 128, 0.5);
+  --disabled:rgba(107, 107, 107, 0.6);
   --success: #00ff99;
   --success-hover: #1cba7b;
   --error: rgba(238, 11, 11, 0.651);
@@ -149,6 +149,38 @@ button:not(:disabled):hover {
   background: var(--main-even);
   border: 1px solid var(--main-even);
   color: var(--main-very-dark);
+}
+
+.refresh-button {
+  display: flex;
+  justify-content: center;
+  background: var(--success);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 2rem;
+  align-items: center;
+  margin: auto;
+  box-shadow: 2px -2px 5px 2px #1cba7b;
+  transition: transform 0.1s ease;
+}
+
+.refresh-button:hover {
+  background: var(--success-hover);
+  box-shadow: -2px 2px 5px 2px #1cba7b;
+}
+
+.refresh-button.spinning {
+  animation: spin 0.5s ease-in-out;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .hidden {

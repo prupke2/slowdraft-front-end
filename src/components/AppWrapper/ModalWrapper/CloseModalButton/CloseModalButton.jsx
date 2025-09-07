@@ -1,4 +1,5 @@
 import React from "react";
+import Emoji from "../../Emoji";
 
 export default function CloseModalButton({ setIsOpen, classes }) {
   function closeModal() {
@@ -7,7 +8,7 @@ export default function CloseModalButton({ setIsOpen, classes }) {
   return (
     <div className={`close-button-wrapper ${classes}`}>
       <button className="close-modal" onClick={closeModal}>
-        x
+        <Emoji emoji="❌" />
       </button>
     </div>
   );

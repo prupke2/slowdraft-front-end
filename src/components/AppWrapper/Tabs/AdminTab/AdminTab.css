@@ -29,7 +29,7 @@
   background: var(--main-dark);
   min-height: 700px;
   margin: 0 30px 30px;
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
   padding: 60px 0 0;
   position: relative;
   z-index: 1;
@@ -150,10 +150,12 @@
 .instructions {
   background: white;
   max-width: 500px;
+  font-size: 1.1rem;
   margin: -35px auto 15px;
   padding: 10px 5px;
   border-radius: 8px;
   color: var(--main-very-dark);
+  font-style: oblique;
 }
 
 .flex-direction-column {
@@ -189,7 +191,27 @@
   padding: 2px;
 }
 
-@media screen and (max-width: 900px) { 
+@media screen and (max-width: 900px) {
+  .tab-wrapper > .inner-navbar-tabs {
+    right: 0;
+    top: 0;
+    min-height: calc(100vh - 160px);
+    border-top: none;
+    font-size: 0.9rem;
+  }
+
+  .inner-tab {
+    height: 30px;
+  }
+
+  .admin-form {
+    margin: 0;
+    padding-top: 40px;
+    min-height: 600px;
+    border-radius: 0;
+    padding: 5px;
+  }
+
   .new-draft-form {
     max-width: 90vw;
     margin-left: 40%;
@@ -198,5 +220,17 @@
   .instructions {
     max-width: 400px;
     margin: 10px auto;
+  }
+
+  .admin-form > div {
+    margin-left: auto;
+  }
+
+  .new-draft-tab {
+    display: none;
+  }
+
+  li.navtab {
+    padding-bottom: 0;
   }
 }

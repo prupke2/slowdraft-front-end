@@ -35,7 +35,7 @@ const averagePickColumn = [
 		accessor: "average_pick",
 		disableFilters: true,
 		width: "30px",
-		sortDescFirst: true,
+		sortDescFirst: false,
 		sortType: sortNumbersUndefinedLast,
 		Cell: cell => cell?.value ? parseInt(cell.value, 10) : '',
 	},

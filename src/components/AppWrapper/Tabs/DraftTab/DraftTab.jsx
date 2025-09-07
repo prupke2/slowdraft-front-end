@@ -15,7 +15,6 @@ import NewDraftTab from "../AdminTab/NewDraftTab";
 import CountdownTimer from "../../Widget/CountdownTimer/CountdownTimer";
 import { pickUpdatedAnnouncement, publishToChat } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 import teamLogos from "../../../../util/teamLogos";
-// import { AddToHomepageModal } from "../../ModalWrapper/ModalWrappers";
 
 export default function DraftTab({
   user,
@@ -46,13 +45,6 @@ export default function DraftTab({
       getDraft(setCurrentPick, setDraftingNow, setPicks);
     }
   }, [setDraftingNow, setCurrentPick, setPicks])
-
-  // function updatePickLocalStorage(overallPick, newPickStatus) {
-  //   const revisedPicks = picks;
-  //   revisedPicks[[overallPick - 1]].disabled = newPickStatus === "disabled";
-  //   setPicks(revisedPicks);
-  //   localStorage.setItem("picks", JSON.stringify(revisedPicks));
-  // }
 
   function updatePick(event, round, overallPick) {
     setPage(round - 1);

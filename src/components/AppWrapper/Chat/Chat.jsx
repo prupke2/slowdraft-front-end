@@ -7,7 +7,7 @@ import CloseModalButton from '../ModalWrapper/CloseModalButton/CloseModalButton'
 import MessageLog from './MessageLog/MessageLog';
 import { useChannel, usePresenceListener } from 'ably/react';
 import UsernameStyled from '../UsernameStyled/UsernameStyled';
-import { delayFunc, removeDuplicatesUsers } from '../../../util/util';
+import { delayFunc, removeDuplicateUsers } from '../../../util/util';
 import toast from 'react-hot-toast';
 
 export default function Chat(
@@ -35,7 +35,7 @@ export default function Chat(
     { channelName: user.yahoo_league_id, options: { params: { rewind: 10 } } 
   }, (message) => {    
     setChatMessages(previousMessages => [...previousMessages, message]);
-    // if an "event" is set to chat, we need to check for updates
+    // if an "event" is sent to chat, we need to check for updates
     if (message?.data?.event) {      
       // delay before fetching to make sure the new data is available
       delayFunc(getLatestData, 1500);
@@ -50,7 +50,7 @@ export default function Chat(
   
   const { presenceData } = usePresenceListener(user.yahoo_league_id);
   const usersOnline = presenceData.map(msg => msg.data);
-  const uniqueUsersOnline = removeDuplicatesUsers(usersOnline);
+  const uniqueUsersOnline = removeDuplicateUsers(usersOnline);
 
   const userList = useCallback(() => {
     try {    

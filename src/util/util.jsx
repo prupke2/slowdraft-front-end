@@ -116,7 +116,8 @@ export function localEnvironment() {
   return (
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1" ||
-    window.location.hostname === "0.0.0.0"
+    window.location.hostname === "0.0.0.0" ||
+    process.env.NODE_ENV === "development"
   );
 }
 
@@ -128,7 +129,7 @@ export const binaryToBoolean = (binary) => {
   return binary === 1 || binary === "1" || binary === "true";
 };
 
-export function removeDuplicatesUsers(arr) {
+export function removeDuplicateUsers(arr) {
   // If users log in more than once, prevent them from appearing twice in the user list
   const uniqueUsers = [];
   try {
