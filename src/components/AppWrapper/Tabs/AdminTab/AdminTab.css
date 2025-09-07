@@ -25,7 +25,7 @@
   background: var(--main-dark);
   min-height: 700px;
   margin: 0 30px 30px;
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
   padding: 60px 0 0;
   position: relative;
   z-index: 1;
@@ -193,16 +193,15 @@
     top: 0;
     min-height: calc(100vh - 160px);
     border-top: none;
-    border-left: 1px solid var(--main-dark);
     font-size: 0.9rem;
   }
 
   .inner-tab {
-    height: 40px;
+    height: 30px;
   }
 
   .admin-form {
-    margin: 0 10px 10px;
+    margin: 0;
     padding-top: 40px;
     min-height: 600px;
     border-radius: 0;
@@ -218,10 +217,16 @@
     max-width: 400px;
     margin: 10px auto;
   }
+
   .admin-form > div {
     margin-left: auto;
   }
+
   .new-draft-tab {
     display: none;
+  }
+
+  li.navtab {
+    padding-bottom: 0;
   }
 }

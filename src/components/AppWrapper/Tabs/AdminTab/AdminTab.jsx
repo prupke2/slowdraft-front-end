@@ -14,7 +14,7 @@ export default function AdminTab({ channel }) {
   const defaultTabRoute = cachedAdminTab ? `/admin/${cachedAdminTab}` : "/admin/home";
 
   return (
-    <div className="navbar-tabs inner-navbar-tabs">
+    <div className="inner-navbar-tabs">
       <ul className="admin-navtab-list">
         <li className="navtab">
           <NavLink to="/admin/home" activeClassName="active">
