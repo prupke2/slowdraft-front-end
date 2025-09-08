@@ -7,6 +7,7 @@ import { getHeaders, capitalizeFirstLetter, API_URL } from "../../../util/util";
 import { timeSince } from "../../../util/time";
 import UsernameStyled from "../UsernameStyled/UsernameStyled";
 import "./ModalWrappers.css";
+import { useModalBlur } from "../../../hooks/useModalBlur";
 
 export const ViewForumPost = ({
   modalIsOpen,
@@ -16,6 +17,7 @@ export const ViewForumPost = ({
 }) => {
   const [forumPostReplies, setForumPostReplies] = useState(null);
   const user = JSON.parse(localStorage.getItem("user"));
+  useModalBlur(modalIsOpen);
 
   useEffect(() => {
     if (!forumPostReplies) {
@@ -99,6 +101,7 @@ export const ViewForumPost = ({
 };
 
 export const NewForumPost = ({ modalIsOpen, setIsOpen, user, post }) => {
+  useModalBlur(modalIsOpen);
   const type = post ? "edit" : "new";
   const isReplyEdit = type === "edit" && post?.parent_id;
   const modalTitle = isReplyEdit
@@ -127,6 +130,7 @@ export const NewForumPost = ({ modalIsOpen, setIsOpen, user, post }) => {
 };
 
 export const NewRuleModal = ({ modalIsOpen, setIsOpen, user, data }) => {
+  useModalBlur(modalIsOpen);
   const type = data ? "edit" : "new";
   return (
     <Modal
@@ -149,20 +153,23 @@ export const NewRuleModal = ({ modalIsOpen, setIsOpen, user, data }) => {
   );
 };
 
-export const ViewRuleModal = ({ modalIsOpen, setIsOpen, data }) => (
-  <Modal
-    isOpen={modalIsOpen}
-    onRequestClose={() => setIsOpen(false)}
-    contentLabel="Rule"
-    parentSelector={() => document.querySelector("main")}
-    id="rule-modal"
-    ariaHideApp={false}
-  >
-    <CloseModalButton setIsOpen={setIsOpen} />
-    <div className="modal-title">{parse(data?.title)}</div>
-    <div className="modal-forum-text">{parse(data?.body)}</div>
-  </Modal>
-);
+export const ViewRuleModal = ({ modalIsOpen, setIsOpen, data }) => {
+  useModalBlur(modalIsOpen);
+  return (
+    <Modal
+      isOpen={modalIsOpen}
+      onRequestClose={() => setIsOpen(false)}
+      contentLabel="Rule"
+      parentSelector={() => document.querySelector("main")}
+      id="rule-modal"
+      ariaHideApp={false}
+    >
+      <CloseModalButton setIsOpen={setIsOpen} />
+      <div className="modal-title">{parse(data?.title)}</div>
+      <div className="modal-forum-text">{parse(data?.body)}</div>
+    </Modal>
+  );
+};
 
 export const AddToHomepageModal = () => {
   const [modalOpen, setModalOpen] = useState(true);

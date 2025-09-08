@@ -68,18 +68,18 @@
 }
 
 .button-group {
-  max-width: 500px;
+  max-width: 100%;
   display: flex;
   justify-content: space-around;
   margin: 80px auto;
 }
 
 .draft-button-modal {
-  background-color: rgba(4, 122, 4, 0.9);
+  background-color: var(--success);
 }
 
 .cancel-button {
-  background-color: rgba(180, 31, 31, 0.9);
+  background-color: var(--error);
 }
 
 .modal-forum-text {
@@ -132,6 +132,12 @@
 .date-and-edit-button-wrapper {
   display: flex;
   flex-direction: column;
+}
+
+/* Modal backdrop blur effect */
+.modal-backdrop-blur {
+  filter: blur(3px);
+  transition: filter 0.3s ease;
 }
 
 @media screen and (max-width: 900px) { 

@@ -6,13 +6,16 @@ import Loading from "../../../Loading/Loading";
 import CloseModalButton from "../../ModalWrapper/CloseModalButton/CloseModalButton";
 import "../../ModalWrapper/ModalWrappers.css";
 import { playerDraftedAnnouncement, publishToChat } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
+import { useModalBlur } from "../../../../hooks/useModalBlur";
 
 export default function DraftModal({
   player,
   channel,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);  
+  useModalBlur(isOpen);
+
+  const [isLoading, setIsLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   function draftPlayer(data) {
     setIsLoading(true);
