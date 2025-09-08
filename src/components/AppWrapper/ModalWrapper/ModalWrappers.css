@@ -53,16 +53,17 @@
   border-radius: 15px;
   margin: 5px;
   padding: 3px 6px;
-  outline: none;
+  outline: none !important;
   width: 25px;
-  transition: background-color 0.1s ease-in-out;
+  transition: transform 0.1s ease-in-out;
 }
 
-.close-modal:hover {
+.close-modal:hover, .close-modal:focus, .close-modal:active {
   cursor: pointer;
   border: none !important;
-  background-color: var(--danger-hover) !important;
-  transition: background-color 0.1s ease-in-out;
+  background-color: transparent !important;
+  transform: scale(1.7);
+  transition: transform 0.15s ease-in-out;
 }
 
 .modal-title {
