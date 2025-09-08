@@ -7,7 +7,7 @@ export default function CloseModalButton({ setIsOpen, classes }) {
   }
   return (
     <div className={`close-button-wrapper ${classes}`}>
-      <button className="close-modal" onClick={closeModal}>
+      <button className="close-modal" onClick={closeModal} title="Close">
         <Emoji emoji="✖️" />
       </button>
     </div>

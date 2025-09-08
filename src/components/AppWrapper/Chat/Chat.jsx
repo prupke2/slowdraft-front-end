@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useConnectionStateListener } from 'ably/react';
 import "./Chat.css";
 import Loading from "../../Loading/Loading";
@@ -23,6 +23,19 @@ export default function Chat(
   }
 ) {
   const user = JSON.parse(localStorage.getItem("user"));
+  const [shouldPulseButton, setShouldPulseButton] = useState(false);
+
+  // Trigger pulse on button when chat closes
+  useEffect(() => {
+    if (!chatOpen && chatStatus === 'online') {
+      setShouldPulseButton(true);
+      const timer = setTimeout(() => {
+        setShouldPulseButton(false);
+      }, 1000); // Match animation duration
+      
+      return () => clearTimeout(timer);
+    }
+  }, [chatOpen, chatStatus]);
 
   const chatBackgroundColor = chatStatus === "offline" ? '#dbdbdb' : 'white';
   const chatStatusToMessageMap = {
@@ -135,7 +148,7 @@ export default function Chat(
     <>
     { !chatOpen && chatStatus === 'online' && 
       <button
-        className="openChatButton"
+        className={`openChatButton ${shouldPulseButton ? 'pulse' : ''}`}
         onClick={() => setChatOpen(true)}
       >
         <Emoji 
