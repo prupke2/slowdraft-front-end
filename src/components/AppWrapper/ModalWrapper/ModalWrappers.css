@@ -11,7 +11,6 @@
 }
 
 #forum-post-modal, #new-forum-post-modal, #rule-modal, #new-rule-modal {
-  background-color: wheat;
   width: calc(90vw - 250px);
   margin: 0;
   height: 85vh;
@@ -74,12 +73,24 @@
   margin: 80px auto;
 }
 
-.draft-button-modal {
+.success-background {
   background-color: var(--success);
 }
 
-.cancel-button {
+.success-background:hover {
+  background-color: var(--success-hover) !important;
+  border: 1px solid var(--success-hover);
+  cursor: pointer;
+}
+
+.danger-background {
   background-color: var(--error);
+}
+
+.danger-background:hover {
+  background-color: var(--error-hover) !important;
+  border: 1px solid var(--error-hover);
+  cursor: pointer;
 }
 
 .modal-forum-text {

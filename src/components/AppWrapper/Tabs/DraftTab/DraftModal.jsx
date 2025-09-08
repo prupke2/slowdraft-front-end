@@ -86,11 +86,11 @@ export default function DraftModal({
             {isLoading && <Loading alt small text="Drafting..." />}
             {!isLoading && (
               <>
-                <button className="cancel-button button-large" onClick={() => setIsOpen(false)}>
+                <button className="danger-background button-large" onClick={() => setIsOpen(false)}>
                   Cancel
                 </button>
                 <button
-                  className="draft-button-modal button-large"
+                  className="success-background button-large"
                   onClick={() => draftPlayer(player)}
                 >
                   Draft
