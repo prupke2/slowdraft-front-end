@@ -12,7 +12,7 @@
 	margin-top: 20px;
 }
 
-.watchlist-wrapper, .watchlist-wrapper:focus {
+.watchlist-button, .watchlist-button:focus {
   display: flex;
   justify-content: center;
   margin: 5px;
@@ -20,4 +20,21 @@
   border: 1px solid transparent;
   outline: none;
   width: 20px;
+}
+
+.watchlist-button span {
+  transition: transform 0.1s ease-in-out;
+}
+
+.watchlist-button.watched span {
+  transform: scale(0.9);
+}
+
+.watchlist-button:hover span {
+  transform: scale(1.4);
+  transition: transform 0.1s ease-in-out;
+}
+
+.watchlist-button.watched:hover span {
+  transform: scale(1);
 }

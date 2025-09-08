@@ -33,7 +33,7 @@ const WatchlistButton = ({ cell }) => {
 
   return (
 		<button 
-			className='watchlist-wrapper'
+			className={`watchlist-button ${isWatched ? 'watched' : ''}`}
 			title={watchedTitle}
 			onClick={onClickHandler}
 		>
