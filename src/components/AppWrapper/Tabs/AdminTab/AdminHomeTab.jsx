@@ -41,7 +41,7 @@ export default function AdminHomeTab() {
 
   return (
     <form className="admin-form add-keeper-form">
-      <div className="instructions">
+      <div className="instructions center">
         <div>
           <Emoji emoji="✨" />&nbsp;
           Use the refresh button below if users are reporting not seeing the latest data.
@@ -49,15 +49,17 @@ export default function AdminHomeTab() {
         </div>
       </div>
       <br />
-      <button
-        className={`refresh-button ${isSpinning ? 'spinning' : ''}`}
-        onClick={refreshData}
-        disabled={isSpinning}
-      >
-        <div>
-          <Emoji emoji="🔄" />
-        </div>
-      </button>
+      <div className="center">
+        <button
+          className={`refresh-button ${isSpinning ? 'spinning' : ''}`}
+          onClick={refreshData}
+          disabled={isSpinning}
+          >
+          <div>
+            <Emoji emoji="🔄" />
+          </div>
+        </button>
+      </div>
     </form>
   );
 }
