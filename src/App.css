@@ -28,6 +28,7 @@
   --success-hover: rgba(31, 197, 31, 0.9);
   --error: rgba(180, 31, 31, 0.9);
   --error-hover: rgba(255, 51, 51, 0.9);
+  --danger-hover: rgba(255, 51, 51, 0.9);
 }
 
 /* 🎨 colors: #ffffff | #1b2733 | #637282 | #AB24A1 */

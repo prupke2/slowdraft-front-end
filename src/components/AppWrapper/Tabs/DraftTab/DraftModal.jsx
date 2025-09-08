@@ -47,12 +47,11 @@ export default function DraftModal({
               draftTab.click();
             }, 500);
           }
-          setIsOpen(false);
-          setIsLoading(false);
         });
       } catch (err) {
         console.log('Error:', err);
         toast.error(`There was an error: ${err}. Please change tabs to see if the pick was saved before trying again.`);
+      } finally {
         setIsOpen(false);
         setIsLoading(false);
       }
@@ -90,7 +89,7 @@ export default function DraftModal({
                   Cancel
                 </button>
                 <button
-                  className="success-background button-large"
+                  className="success-background button-large draft-button"
                   onClick={() => draftPlayer(player)}
                 >
                   Draft
