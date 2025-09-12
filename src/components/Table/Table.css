@@ -27,6 +27,7 @@ table {
   top: 44px;
   bottom: 0;
   background-color: var(--main-even);
+  z-index: 1;
 }
 
 .narrow-table {
@@ -142,6 +143,11 @@ td.Pick {
 
 .empty-text {
   margin-bottom: 150px;
+}
+
+.draft-export-wrapper {
+  margin-left: auto;
+  margin: -0 0 -30px 0;
 }
 
 .pick-column-wrapper {

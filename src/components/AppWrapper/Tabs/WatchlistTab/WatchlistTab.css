@@ -15,7 +15,7 @@
 .watchlist-button, .watchlist-button:focus {
   display: flex;
   justify-content: center;
-  margin: 5px;
+  margin: 2px 5px;
   background-color: transparent;
   border: 1px solid transparent;
   outline: none;
