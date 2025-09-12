@@ -89,6 +89,7 @@ export function SelectTeamFilter({
   const isWideFilter = wideFilter ? "wide-filter" : null;
   return (
     <select
+      name="team-filter"
       value={filterValue}
       className={`team-filter ${isWideFilter}`}
       onChange={(e) => {
@@ -100,7 +101,7 @@ export function SelectTeamFilter({
 
       <option value="ANA">Anaheim</option>
       <option value="BOS">Boston</option>
-      <option value="BUG">Buffalo</option>
+      <option value="BUF">Buffalo</option>
       <option value="CGY">Calgary</option>
       <option value="CAR">Carolina</option>
       <option value="CHI">Chicago</option>
