@@ -15,6 +15,7 @@ import NewDraftTab from "../AdminTab/NewDraftTab";
 import CountdownTimer from "../../Widget/CountdownTimer/CountdownTimer";
 import { pickUpdatedAnnouncement, publishToChat } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 import teamLogos from "../../../../util/teamLogos";
+import DraftExport from "./DraftExport";
 
 export default function DraftTab({
   user,
@@ -304,6 +305,11 @@ export default function DraftTab({
         />
       }
       {!isRegisteredLeague && <NewDraftTab />}
+      {isAdmin && picks && picks?.length > 0 && (
+        <div className="draft-export-wrapper">
+          <DraftExport picks={picks} />
+        </div>
+      )}
       {!isLoading && isRegisteredLeague && (
         <Table
           data={picks}
