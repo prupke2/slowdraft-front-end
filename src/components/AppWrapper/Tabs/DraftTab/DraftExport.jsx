@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { CSVLink } from "react-csv";
 import { offsetMilliseconds } from "../../../../util/requests";
+import Emoji from "../../Emoji";
 
 export default function DraftExport({ picks }) {
   const csvLinkRef = useRef();
@@ -43,7 +44,8 @@ export default function DraftExport({ picks }) {
         className="large-button"
         title="Download CSV of draft picks"
       >
-        📥 Download Picks
+        <Emoji emoji="📥" />&nbsp;
+        Download Picks
       </button>
       <CSVLink
         data={csvData}

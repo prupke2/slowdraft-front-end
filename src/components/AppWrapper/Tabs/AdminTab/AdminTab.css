@@ -134,13 +134,13 @@
   margin-bottom: 30px;
 }
 
-.add-player-button {
-  margin-top: 20px;
-}
-
 .clear-button {
   height: 30px;
   margin: 4px;
+}
+
+.add-player-button {
+  margin-top: 20px;
 }
 
 .positions {

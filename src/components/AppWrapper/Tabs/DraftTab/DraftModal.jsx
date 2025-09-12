@@ -7,6 +7,7 @@ import CloseModalButton from "../../ModalWrapper/CloseModalButton/CloseModalButt
 import "../../ModalWrapper/ModalWrappers.css";
 import { playerDraftedAnnouncement, publishToChat } from "../../Chat/ChatAnnouncements/ChatAnnouncements";
 import { useModalBlur } from "../../../../hooks/useModalBlur";
+import Emoji from "../../Emoji";
 
 export default function DraftModal({
   player,
@@ -86,13 +87,13 @@ export default function DraftModal({
             {!isLoading && (
               <>
                 <button className="danger-background button-large" onClick={() => setIsOpen(false)}>
-                  Cancel
+                  <Emoji emoji="❌" />&nbsp;Cancel
                 </button>
                 <button
                   className="success-background button-large draft-button"
                   onClick={() => draftPlayer(player)}
                 >
-                  Draft
+                  <Emoji emoji="✅" />&nbsp;Draft
                 </button>
               </>
             )}

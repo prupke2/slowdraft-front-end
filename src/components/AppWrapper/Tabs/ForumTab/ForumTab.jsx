@@ -6,6 +6,7 @@ import { ViewForumPost, NewForumPost } from "../../ModalWrapper/ModalWrappers";
 import { getForumPosts } from "../../../../util/requests";
 import { timeSince } from "../../../../util/time";
 import UsernameStyled from "../../UsernameStyled/UsernameStyled";
+import Emoji from "../../Emoji";
 import "./ForumTab.css";
 
 export default function ForumTab({
@@ -58,6 +59,7 @@ export default function ForumTab({
               className="small-button"
               onClick={() => editPostHandler(cell.row.original)}
             >
+              <Emoji emoji="✏️" />&nbsp;
               Edit
             </button>
           )}

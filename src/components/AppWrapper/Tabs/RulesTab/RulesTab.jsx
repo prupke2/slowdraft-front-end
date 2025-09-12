@@ -5,6 +5,7 @@ import Loading from "../../../Loading/Loading";
 import { ViewRuleModal, NewRuleModal } from "../../ModalWrapper/ModalWrappers";
 import { getRules } from "../../../../util/requests";
 import "./RulesTab.css";
+import Emoji from "../../Emoji";
 
 export default function RulesTab({ getLatestData }) {
   const [viewModalOpen, setViewModalOpen] = useState(false);
@@ -71,6 +72,7 @@ export default function RulesTab({ getLatestData }) {
               className="small-button"
               onClick={() => editRuleHandler(cell.row.original)}
             >
+              <Emoji emoji="✏️" />&nbsp;
               Edit
             </button>
           )}

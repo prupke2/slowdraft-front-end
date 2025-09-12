@@ -137,6 +137,7 @@ export default function AddPlayerToDBTab() {
         onClick={(e) => addPlayerToDb(e)}
         disabled={!formComplete}
       >
+        <Emoji emoji="➕" />&nbsp;
         Add player
       </button>
     </form>

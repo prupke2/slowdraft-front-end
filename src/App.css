@@ -118,11 +118,13 @@ h3 {
 
 button {
   border-radius: 4px;
-  padding: 4px;
+  padding: 4px 6px;
   border: 1px solid var(--main-light);
   color: var(--main-light);
   font-weight: 800;
   background: var(--button-bg);
+  font-variant: small-caps;
+  filter: brightness(0.95);
 }
 
 button:disabled {

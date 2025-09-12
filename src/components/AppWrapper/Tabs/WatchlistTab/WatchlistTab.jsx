@@ -7,6 +7,7 @@ import Loading from "../../../Loading/Loading";
 import { SearchColumnFilter } from "../../../Table/FilterTypes/FilterTypes";
 import DraftModal from "../DraftTab/DraftModal";
 import PlayerCell from "../PlayersTab/PlayerCell";
+import Emoji from "../../Emoji";
 
 export default function WatchlistTab({ 
   draftingNow,
@@ -161,6 +162,7 @@ export default function WatchlistTab({
     <div className="watchlistWrapper">
       {takenPlayers?.length > 0 && (
         <button onClick={removeAllTakenPlayers}>
+          <Emoji emoji="➖" />&nbsp;
           Remove all taken players
         </button>
       )}

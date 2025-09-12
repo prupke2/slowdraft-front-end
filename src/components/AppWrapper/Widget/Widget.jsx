@@ -44,7 +44,7 @@ export default function Widget({
       )}
       <div className="widget-inner logout-wrapper">
         <button id="logout" onClick={logout}>
-          Logout
+           <Emoji emoji="🔒" />&nbsp;Logout
         </button>
       </div>
     </div>

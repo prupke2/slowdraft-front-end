@@ -122,7 +122,9 @@ export default function NewDraftTab() {
         ))}
       </div>
       <br />
-      <button onClick={createNewDraft}>Create draft</button>
+      <button onClick={createNewDraft}>
+        <Emoji emoji="➕" />&nbsp;Create draft
+      </button>
     </form>
   );
 }
