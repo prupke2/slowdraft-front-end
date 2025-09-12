@@ -15,38 +15,40 @@ export default function AdminTab({ channel }) {
 
   return (
     <div className="inner-navbar-tabs">
-      <ul className="admin-navtab-list">
-        <li className="navtab">
-          <NavLink to="/admin/home" activeClassName="active">
-            <div className="inner-tab">Home</div>
-          </NavLink>
-        </li>
-        <li className="navtab">
-          <NavLink to="/admin/add-player" activeClassName="active">
-            <div className="inner-tab">Add player to DB</div>
-          </NavLink>
-        </li>
-        <li className="navtab">
-          <NavLink to="/admin/add-keeper" activeClassName="active">
-            <div className="inner-tab">Add keeper</div>
-          </NavLink>
-        </li>
-        <li className="navtab">
-          <NavLink to="/admin/make-pick" activeClassName="active">
-            <div className="inner-tab">Make pick</div>
-          </NavLink>
-        </li>
-        <li className="navtab">
-          <NavLink to="/admin/add-pick" activeClassName="active">
-            <div className="inner-tab">Add draft pick</div>
-          </NavLink>
-        </li>
-        <li className="navtab new-draft-tab">
-          <NavLink to="/admin/new-draft" activeClassName="active">
-            <div className="inner-tab">New Draft</div>
-          </NavLink>
-        </li>
-      </ul>
+      <div className="admin-nav-wrapper">
+        <ul className="admin-navtab-list">
+          <li className="navtab">
+            <NavLink to="/admin/home" activeClassName="active">
+              <div className="inner-tab">Home</div>
+            </NavLink>
+          </li>
+          <li className="navtab">
+            <NavLink to="/admin/add-player" activeClassName="active">
+              <div className="inner-tab">Add player to DB</div>
+            </NavLink>
+          </li>
+          <li className="navtab">
+            <NavLink to="/admin/add-keeper" activeClassName="active">
+              <div className="inner-tab">Add keeper</div>
+            </NavLink>
+          </li>
+          <li className="navtab">
+            <NavLink to="/admin/make-pick" activeClassName="active">
+              <div className="inner-tab">Make pick</div>
+            </NavLink>
+          </li>
+          <li className="navtab">
+            <NavLink to="/admin/add-pick" activeClassName="active">
+              <div className="inner-tab">Add draft pick</div>
+            </NavLink>
+          </li>
+          <li className="navtab new-draft-tab">
+            <NavLink to="/admin/new-draft" activeClassName="active">
+              <div className="inner-tab">New Draft</div>
+            </NavLink>
+          </li>
+        </ul>
+      </div>
       <div className="admin-tab-wrapper">
         <Switch>
           {userInfo.role !== "admin" && <Redirect to="draft" />}

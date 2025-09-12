@@ -13,6 +13,16 @@
   padding: 0;
 }
 
+.admin-nav-wrapper {
+  position: -webkit-sticky;
+  background-color: var(--main-light);
+  border-top: 2px solid var(--main-dark);
+  position: sticky;
+  top: 44px;
+  bottom: 0;
+  z-index: 10;
+}
+
 .admin-navtab-list {
   position: relative;
 }
