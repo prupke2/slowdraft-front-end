@@ -101,6 +101,20 @@
   font-size: 1.1rem;
 }
 
+.clear-selected-player-wrapper {
+  position: relative;
+  right: 20px;
+  top: 1px;
+  transition: none;
+}
+
+.clear-selected-player-wrapper:hover, .clear-selected-player-wrapper:focus, .clear-selected-player-wrapper:active {
+  cursor: pointer;
+  color: var(--main-very-dark) !important;
+  transform: none;
+  transition: none;
+}
+
 .single-player {
   cursor: pointer;
   padding: 7px 10px;

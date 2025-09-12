@@ -75,7 +75,7 @@ export default function MakePickTab({ channel }) {
         </select>
       </div>
       <SelectPlayer
-        handleClick={(e) => draftPlayer(e)}
+        handleClick={draftPlayer}
         setPlayerId={setPlayerId}
       />
     </form>

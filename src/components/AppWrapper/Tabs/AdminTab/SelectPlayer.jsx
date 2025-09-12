@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SearchColumnFilter } from "../../../Table/FilterTypes/FilterTypes";
 import Table from "../../../Table/Table";
 import "./AdminTab.css";
+import Emoji from "../../Emoji";
 
 export default function SelectPlayer({ handleClick, setPlayerId }) {
   const [player, setPlayer] = useState(null);
@@ -67,12 +68,24 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
 
   function playerNameOnClick(cell) {
     const filter = document.getElementById("name-search-filter");
+
+    // Scroll table to top immediately
+    const tableContainer = document.querySelector('.player-list-wrapper');
+    if (tableContainer) {
+      tableContainer.scrollTop = 0;
+    }
+    
     setTimeout(() => {
       filter.value = cell.name;
       filter.disabled = true;
-    }, 300);
+    }, 100);
     setPlayer(cell);
     setPlayerId(cell.player_id);
+  }
+
+  function selectPlayerHandler(e) {
+    handleClick(e);
+    clearPlayer(e);
   }
 
   return (
@@ -91,13 +104,20 @@ export default function SelectPlayer({ handleClick, setPlayerId }) {
             tableType="singlePlayer"
           />
         </div>
-        <button className="clear-button" onClick={(e) => clearPlayer(e)}>
-          Clear
-        </button>
+        <div className="clear-selected-player-wrapper">
+          {dropdownState === "closed" && (
+            <button
+              className="close-modal clear-selected-player-wrapper"
+              onClick={clearPlayer}
+            >
+              <Emoji emoji="✖️" />
+            </button>
+          )}
+        </div>
       </div>
       {button && (
-        <button onClick={(e) => handleClick(e)} className="add-player-button">
-          Select {player.name}
+        <button onClick={selectPlayerHandler} className="clear-button add-player-button">
+          <Emoji emoji="✅" />&nbsp;Select {player.name}
         </button>
       )}
     </>
