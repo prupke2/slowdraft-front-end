@@ -66,8 +66,7 @@ export default function AddDraftPickTab() {
       </div>
       <br />
       <button onClick={addNewPick}>
-        <Emoji emoji="➕" />&nbsp;
-        Add draft pick
+        <Emoji emoji="➕" />&nbsp;Add draft pick
       </button>
     </form>
   );

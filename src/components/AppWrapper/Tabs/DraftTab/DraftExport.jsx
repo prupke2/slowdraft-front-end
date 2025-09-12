@@ -44,8 +44,7 @@ export default function DraftExport({ picks }) {
         className="large-button"
         title="Download CSV of draft picks"
       >
-        <Emoji emoji="📥" />&nbsp;
-        Download Picks
+        <Emoji emoji="📥" />&nbsp;Download Picks
       </button>
       <CSVLink
         data={csvData}

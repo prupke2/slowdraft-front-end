@@ -4,9 +4,10 @@ import AddKeeperTab from "./AddKeeperTab";
 import AddPlayerToDBTab from "./AddPlayerToDBTab";
 import MakePickTab from "./MakePickTab";
 import AddDraftPickTab from "./AddDraftPickTab";
-import { Switch, Route, Redirect, NavLink } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import NewDraftTab from "./NewDraftTab";
 import AdminHomeTab from "./AdminHomeTab";
+import NavHeader from "../../Navbar/NavHeader";
 
 export default function AdminTab({ channel }) {
   const userInfo = JSON.parse(localStorage.getItem("user"));
@@ -17,36 +18,12 @@ export default function AdminTab({ channel }) {
     <div className="inner-navbar-tabs">
       <div className="admin-nav-wrapper">
         <ul className="admin-navtab-list">
-          <li className="navtab">
-            <NavLink to="/admin/home" activeClassName="active">
-              <div className="inner-tab">Home</div>
-            </NavLink>
-          </li>
-          <li className="navtab">
-            <NavLink to="/admin/add-player" activeClassName="active">
-              <div className="inner-tab">Add player to DB</div>
-            </NavLink>
-          </li>
-          <li className="navtab">
-            <NavLink to="/admin/add-keeper" activeClassName="active">
-              <div className="inner-tab">Add keeper</div>
-            </NavLink>
-          </li>
-          <li className="navtab">
-            <NavLink to="/admin/make-pick" activeClassName="active">
-              <div className="inner-tab">Make pick</div>
-            </NavLink>
-          </li>
-          <li className="navtab">
-            <NavLink to="/admin/add-pick" activeClassName="active">
-              <div className="inner-tab">Add draft pick</div>
-            </NavLink>
-          </li>
-          <li className="navtab new-draft-tab">
-            <NavLink to="/admin/new-draft" activeClassName="active">
-              <div className="inner-tab">New Draft</div>
-            </NavLink>
-          </li>
+          <NavHeader text="Home" link="/admin/home" innerTab />
+          <NavHeader text="Add player to DB" link="/admin/add-player" innerTab />
+          <NavHeader text="Add keeper" link="/admin/add-keeper" innerTab />
+          <NavHeader text="Make pick" link="/admin/make-pick" innerTab />
+          <NavHeader text="Add draft pick" link="/admin/add-pick" innerTab />
+          <NavHeader text="New Draft" link="/admin/new-draft" innerTab />
         </ul>
       </div>
       <div className="admin-tab-wrapper">

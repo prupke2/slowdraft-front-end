@@ -72,8 +72,7 @@ export default function RulesTab({ getLatestData }) {
               className="small-button"
               onClick={() => editRuleHandler(cell.row.original)}
             >
-              <Emoji emoji="✏️" />&nbsp;
-              Edit
+              <Emoji emoji="✏️" />&nbsp;Edit
             </button>
           )}
         </div>

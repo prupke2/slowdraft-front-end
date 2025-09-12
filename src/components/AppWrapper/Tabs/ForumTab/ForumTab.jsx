@@ -59,8 +59,7 @@ export default function ForumTab({
               className="small-button"
               onClick={() => editPostHandler(cell.row.original)}
             >
-              <Emoji emoji="✏️" />&nbsp;
-              Edit
+              <Emoji emoji="✏️" />&nbsp;Edit
             </button>
           )}
         </div>
