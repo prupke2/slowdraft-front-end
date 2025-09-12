@@ -21,10 +21,6 @@ export default function Pagination({
   const scrollRightClass = !canNextPage ? 'disabled-pagination' : '';
   const currentRoundClass = pageIndex === currentRound ? 'disabled-pagination' : '';
 
-  if (!canNextPage && !canPreviousPage) {
-    return null;
-  }
-
   return (
     <ul className={`pagination ${extraPadding}`}>
       {/* <pre>

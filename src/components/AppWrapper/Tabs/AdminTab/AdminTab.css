@@ -19,13 +19,14 @@
   position: -webkit-sticky;
   background-color: var(--main-light);
   position: sticky;
-  top: 45px;
+  top: 43px;
   bottom: 0;
   z-index: 10;
 }
 
 .admin-navtab-list {
   position: relative;
+  border-top: 2px solid var(--main-dark);
 }
 
 .new-draft-tab > a.active {
@@ -58,10 +59,6 @@
 
 .admin-form > div > input, .admin-form > div > label, .wide-filter {
   width: 160px;
-}
-
-.new-draft-form {
-  max-width: 80vw;
 }
 
 .admin-user-dropdown {

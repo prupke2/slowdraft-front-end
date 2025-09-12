@@ -32,10 +32,6 @@
   color: var(--disabled);
 }
 
-.disabled-pagination span.page-link:hover {
-  background-color: white;
-}
-
 .pagination select {
   height: 33px;
   width: 250px;
