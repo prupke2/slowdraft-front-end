@@ -28,12 +28,12 @@ export default function PlayersTab({
   const [players, setPlayers] = useState(playersLocalStorage || []);
 
   // These caches are set in their respective filter components in FilterTypes.jsx
-  const teamFilterCache = localStorage.getItem("teamFilterCache") || 'all';
-  const positionFilterCache = localStorage.getItem("positionFilterCache") || 'all';
+  const teamFilterCache = localStorage.getItem("team-filter-cache") || 'all';
+  const positionFilterCache = localStorage.getItem("position-filter-cache") || 'all';
 
   // These caches are set in the useEffect hooks below
-  const prospectFilterCache = localStorage.getItem("prospectFilterCache");
-  const availabilityFilterCache = localStorage.getItem("availabilityFilterCache");
+  const prospectFilterCache = localStorage.getItem("prospect-filter-cache");
+  const availabilityFilterCache = localStorage.getItem("availability-filter-cache");
 
   const [prospectDropdown, setProspectDropdown] = useState(prospectFilterCache || 'all');
   const [availabilityDropdown, setAvailabilityDropdown] = useState(availabilityFilterCache || 'all');
@@ -62,11 +62,11 @@ export default function PlayersTab({
   }, [setPlayers, getLatestData, playerType]);
 
   useEffect(() => {
-    localStorage.setItem("prospectFilterCache", prospectDropdown);
+    localStorage.setItem("prospect-filter-cache", prospectDropdown);
   }, [prospectDropdown]);
 
   useEffect(() => {
-    localStorage.setItem("availabilityFilterCache", availabilityDropdown);
+    localStorage.setItem("availability-filter-cache", availabilityDropdown);
   }, [availabilityDropdown]);
 
   function prospectFilter(rows) {
@@ -223,10 +223,10 @@ export default function PlayersTab({
   }, [setPlayers, getLatestData, playerType]);
 
   function handleClearFilters() {
-    localStorage.removeItem("teamFilterCache");
-    localStorage.removeItem("positionFilterCache");
-    localStorage.removeItem("prospectFilterCache");
-    localStorage.removeItem("availabilityFilterCache");
+    localStorage.removeItem("team-filter-cache");
+    localStorage.removeItem("position-filter-cache");
+    localStorage.removeItem("prospect-filter-cache");
+    localStorage.removeItem("availability-filter-cache");
 
     setProspectDropdown('all');
     setAvailabilityDropdown('all');
@@ -283,8 +283,8 @@ export default function PlayersTab({
             data={playerList || []}
             columns={columns}
             tableState={tableState}
+            tableType={playerType}
             defaultColumn="name"
-            tableType="draft"
             paginationTop
             paginationBottom
           />

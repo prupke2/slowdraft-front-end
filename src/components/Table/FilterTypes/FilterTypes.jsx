@@ -93,7 +93,7 @@ export function SelectTeamFilter({
       value={filterValue}
       className={`team-filter ${isWideFilter}`}
       onChange={(e) => {
-        localStorage.setItem("teamFilterCache", e.target.value);
+        localStorage.setItem("team-filter-cache", e.target.value);
         setFilter(e.target.value);
       }}
     >
@@ -158,7 +158,7 @@ export function SelectPositionColumnFilter({
       className="position-filter"
       value={filterValue}
       onChange={(e) => {
-        localStorage.setItem("positionFilterCache", e.target.value);
+        localStorage.setItem("position-filter-cache", e.target.value);
         setFilter(e.target.value || undefined);
       }}
     >
