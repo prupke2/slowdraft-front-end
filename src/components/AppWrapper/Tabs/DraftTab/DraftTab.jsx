@@ -305,7 +305,7 @@ export default function DraftTab({
         />
       }
       {!isRegisteredLeague && <NewDraftTab />}
-      {isAdmin && picks && picks?.length > 0 && (
+      {draftIsOver && isAdmin && picks && picks?.length > 0 && (
         <div className="draft-export-wrapper">
           <DraftExport picks={picks} />
         </div>
