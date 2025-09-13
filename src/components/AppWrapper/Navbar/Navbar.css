@@ -122,6 +122,11 @@ li.navtab a.active,
     display: none;
   }
 
+  li.navtab-inner .nav-text {
+    display: flex;
+    height: 20px;
+  }
+
   .tab-wrapper {
     padding: 10px 0;
     margin: 25px 0 50px;
