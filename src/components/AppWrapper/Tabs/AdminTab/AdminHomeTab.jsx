@@ -137,7 +137,7 @@ export default function AdminHomeTab() {
       <div className="instructions center">
         <div>
           <Emoji emoji="✨" />&nbsp;
-          Control which users are currently up in the draft.
+          Control which users can see the "Draft" button.
         </div>
       </div>
       <div className="center">
