@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTable, useFilters, useSortBy, usePagination } from "react-table";
 import { matchSorter } from "match-sorter";
 import "./Table.css";
@@ -20,6 +20,22 @@ export default function Table({
   paginationBottom,
 }) {
   const isLiveDraft = JSON.parse(localStorage.getItem("liveDraft")) === "true";
+
+  // Create a unique key for this table's sort cache
+  const sortCacheKey = `${tableType}-sortBy-cache`;
+
+  const getCachedSort = () => {
+    try {
+      const cached = localStorage.getItem(sortCacheKey);
+      return cached ? JSON.parse(cached) : null;
+    } catch (error) {
+      console.error('Error parsing cached sort:', error);
+      return null;
+    }
+  };
+
+  const initialSort = getCachedSort() || tableState?.sortBy || [];
+
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -48,6 +64,7 @@ export default function Table({
     ...tableState,
     pageIndex: defaultPage || 0,
     pageSize: pageSize || 25,
+    sortBy: initialSort,
   };
 
   const {
@@ -66,6 +83,7 @@ export default function Table({
     // setPageSize,
     state: {
       pageIndex,
+      sortBy,
       // pageSize
     },
   } = useTable(
@@ -77,12 +95,22 @@ export default function Table({
       filterTypes,
       initialState: initialState,
       disableSortRemove: true,
-      autoResetSortBy: true,
+      autoResetSortBy: false,
     },
     useFilters,
     useSortBy,
     usePagination
   );
+
+  // Save sort state (of certain tables) to localStorage whenever it changes
+  useEffect(() => {
+    if (['singlePlayer', 'rules', 'forum'].includes(tableType)) {
+      return;
+    }
+    if (sortBy && sortBy.length > 0) {
+      localStorage.setItem(sortCacheKey, JSON.stringify(sortBy));
+    }
+  }, [sortBy, sortCacheKey, tableType]);
 
   const emptyTablePadding = page.length === 0 ? "empty-text" : null;
 
@@ -157,7 +185,7 @@ export default function Table({
             {page.map((row, i) => {
               prepareRow(row);
               const pickDisabled = row.cells[0].row.original.disabled === true ? "disabled-pick" : null;
-              const takenPlayer = (tableType === "draft" || tableType === "watchlist") && row.cells[0].row.original.user !== null ? "taken-player" : null;
+              const takenPlayer = (["draft", "goalies", "skaters", "watchlist"].includes(tableType) && row.cells[0].row.original.user !== null) ? "taken-player" : null;
 
               const currentPickRow =
                 isLiveDraft &&

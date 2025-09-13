@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   SearchColumnFilter,
   SelectTeamFilter,
@@ -11,6 +11,7 @@ import PlayerCell from "./PlayerCell";
 import { playersTabSkaterColumns, playersTabGoalieColumns } from "./PlayerColumns";
 import teamLogos from "../../../../util/teamLogos";
 import "./PlayersTab.css";
+import Emoji from "../../Emoji";
 
 export default function PlayersTab({
   playerType,
@@ -20,18 +21,29 @@ export default function PlayersTab({
   channel,
 }) {
   const playersLocalStorage = JSON.parse(localStorage.getItem("playerDBData")) || [];
-  
+    // Add a state to trigger re-renders
+  const [filterResetKey, setFilterResetKey] = useState(0);
+
   const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState(playersLocalStorage || []);
-  const [teamFilter, setTeamFilter] = useState('all');
+
+  // These caches are set in their respective filter components in FilterTypes.jsx
+  const teamFilterCache = localStorage.getItem("team-filter-cache") || 'all';
+  const positionFilterCache = localStorage.getItem("position-filter-cache") || 'all';
+
+  // These caches are set in the useEffect hooks below
+  const prospectFilterCache = localStorage.getItem("prospect-filter-cache");
+  const availabilityFilterCache = localStorage.getItem("availability-filter-cache");
+
+  const [prospectDropdown, setProspectDropdown] = useState(prospectFilterCache || 'all');
+  const [availabilityDropdown, setAvailabilityDropdown] = useState(availabilityFilterCache || 'all');
+
   const skaters = players.filter(p => p?.position !== 'G');
   const goalies = players.filter(p => p?.position === 'G');
   const playerList = playerType === 'skaters' ? skaters : goalies;
 
-  const [prospectDropdown, setProspectDropdown] = useState("all");
-  const [availabilityDropdown, setAvailabilityDropdown] = useState("available");
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
-  
+
   useEffect(() => {
     setIsLoading(true);
     getLatestData();
@@ -49,14 +61,13 @@ export default function PlayersTab({
     setIsLoading(false);
   }, [setPlayers, getLatestData, playerType]);
 
+  useEffect(() => {
+    localStorage.setItem("prospect-filter-cache", prospectDropdown);
+  }, [prospectDropdown]);
 
   useEffect(() => {
-    const teamFilterQuery = document.querySelector('.team-filter')?.value;
-    // Set team filter when playerType changes so that it persists across skater/goalie tab changes
-    if (teamFilterQuery) {
-      setTeamFilter(teamFilterQuery);
-    }
-  }, [playerType]);
+    localStorage.setItem("availability-filter-cache", availabilityDropdown);
+  }, [availabilityDropdown]);
 
   function prospectFilter(rows) {
     if (prospectDropdown === "all") {
@@ -152,7 +163,7 @@ export default function PlayersTab({
     },
   ];
 
-  const filters = [
+  const filters = useMemo(() => [
     {
       id: "userColumn",
       value: "null",
@@ -163,11 +174,15 @@ export default function PlayersTab({
     {
       id: "user",
     },
-    teamFilter !== 'all' && {
+    teamFilterCache !== 'all' && {
       id: "team",
-      value: teamFilter,
-    }
-  ];
+      value: teamFilterCache,
+    },
+    playerType === 'skaters' && positionFilterCache !== 'all' && {
+      id: "position",
+      value: positionFilterCache,
+    },
+  ], [teamFilterCache, positionFilterCache, playerType]);
 
   const goalieTableState = {
     hiddenColumns: [
@@ -207,6 +222,18 @@ export default function PlayersTab({
     setIsLoading(false);
   }, [setPlayers, getLatestData, playerType]);
 
+  function handleClearFilters() {
+    localStorage.removeItem("team-filter-cache");
+    localStorage.removeItem("position-filter-cache");
+    localStorage.removeItem("prospect-filter-cache");
+    localStorage.removeItem("availability-filter-cache");
+
+    setProspectDropdown('all');
+    setAvailabilityDropdown('all');
+    // Force table to re-render with fresh state
+    setFilterResetKey(prev => prev + 1);
+  }
+
   return (
     <>
       {isLoading && <Loading text="Loading players..." />}
@@ -240,14 +267,24 @@ export default function PlayersTab({
                 <option value="all">All {playerType}</option>
               </select>
             </div>
+            <div>
+              <button
+                onClick={handleClearFilters}  
+                className="small-button clear-filters-button"
+              >
+                <div><Emoji emoji="✖️" />&nbsp;</div>
+                <div>Clear filters</div>
+              </button>
+            </div>
           </div>
           <Table
+            key={`players-table-${playerType}-${filterResetKey}`}
             user={user}
             data={playerList || []}
             columns={columns}
             tableState={tableState}
+            tableType={playerType}
             defaultColumn="name"
-            tableType="draft"
             paginationTop
             paginationBottom
           />
