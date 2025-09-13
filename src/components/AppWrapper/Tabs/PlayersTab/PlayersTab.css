@@ -5,7 +5,7 @@ h3 {
 .player-tabs-filter-wrapper {
   display: flex;
   flex-direction: row;
-  width: 450px;
+  width: 750px;
   margin: 0 10px -50px 200px;
 }
 
@@ -49,10 +49,28 @@ h3 {
   justify-content: center;
 }
 
+.clear-filters-button {
+  margin: 30px 5px 0 20px;
+  color: white;
+  max-width: 120px;
+  font-size: 0.9rem;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 @media screen and (max-width: 900px) { 
   .player-tabs-filter-wrapper {
     margin: 0 auto;
-    width: 350px;
+    width: 550px;
+  }
+  .clear-filters-button {
+    margin: 20px 10px 0;
+    width: 65px;
+    font-size: 0.8rem;
   }
 }
 

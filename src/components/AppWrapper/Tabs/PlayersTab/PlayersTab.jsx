@@ -222,6 +222,18 @@ export default function PlayersTab({
     setIsLoading(false);
   }, [setPlayers, getLatestData, playerType]);
 
+  function handleClearFilters() {
+    localStorage.removeItem("teamFilterCache");
+    localStorage.removeItem("positionFilterCache");
+    localStorage.removeItem("prospectFilterCache");
+    localStorage.removeItem("availabilityFilterCache");
+
+    setProspectDropdown('all');
+    setAvailabilityDropdown('all');
+    // Force table to re-render with fresh state
+    setFilterResetKey(prev => prev + 1);
+  }
+
   return (
     <>
       {isLoading && <Loading text="Loading players..." />}
@@ -254,6 +266,15 @@ export default function PlayersTab({
                 <option value="available">All available {playerType}</option>
                 <option value="all">All {playerType}</option>
               </select>
+            </div>
+            <div>
+              <button
+                onClick={handleClearFilters}  
+                className="small-button clear-filters-button"
+              >
+                <div><Emoji emoji="✖️" />&nbsp;</div>
+                <div>Clear filters</div>
+              </button>
             </div>
           </div>
           <Table
