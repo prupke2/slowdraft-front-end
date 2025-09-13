@@ -23,6 +23,7 @@ export default function PlayersTab({
   
   const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState(playersLocalStorage || []);
+  const [teamFilter, setTeamFilter] = useState('all');
   const skaters = players.filter(p => p?.position !== 'G');
   const goalies = players.filter(p => p?.position === 'G');
   const playerList = playerType === 'skaters' ? skaters : goalies;
@@ -47,6 +48,15 @@ export default function PlayersTab({
     }
     setIsLoading(false);
   }, [setPlayers, getLatestData, playerType]);
+
+
+  useEffect(() => {
+    const teamFilterQuery = document.querySelector('.team-filter')?.value;
+    // Set team filter when playerType changes so that it persists across skater/goalie tab changes
+    if (teamFilterQuery) {
+      setTeamFilter(teamFilterQuery);
+    }
+  }, [playerType]);
 
   function prospectFilter(rows) {
     if (prospectDropdown === "all") {
@@ -153,6 +163,10 @@ export default function PlayersTab({
     {
       id: "user",
     },
+    teamFilter !== 'all' && {
+      id: "team",
+      value: teamFilter,
+    }
   ];
 
   const goalieTableState = {
