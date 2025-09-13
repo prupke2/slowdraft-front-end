@@ -145,7 +145,8 @@ export default function Table({
                   const statHeaderName = statIdToNameMap[column?.id];
                   const headerName = column.id === 'draft_pick_timestamp' ? 'Pick Timestamp' : statHeaderName || column.Header;
                   const title = column.canSort ? `Sort by ${headerName || ''}` : headerName;
-                  
+                  const headerClassName = column.canSort ? "sortable-column" : '';
+
                   // For the SelectPlayer table
                   if (!column.Header) {
                     return (
@@ -162,6 +163,7 @@ export default function Table({
                           column.getSortByToggleProps()
                         )}
                         title={title}
+                        className={headerClassName}
                       >
                         {column.render("Header")}
                         <span>
