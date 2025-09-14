@@ -132,8 +132,8 @@ li.navtab a.active,
   }
 
   .tab-wrapper {
-    padding: 10px 0;
-    margin: 25px 0 50px;
+    padding: 10px 0 40px;
+    margin: 25px 0;
   }
 
   .tab-wrapper > div:last-child {
