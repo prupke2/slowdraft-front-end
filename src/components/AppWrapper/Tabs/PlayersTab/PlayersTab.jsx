@@ -36,7 +36,7 @@ export default function PlayersTab({
   const availabilityFilterCache = localStorage.getItem("availability-filter-cache");
 
   const [prospectDropdown, setProspectDropdown] = useState(prospectFilterCache || 'all');
-  const [availabilityDropdown, setAvailabilityDropdown] = useState(availabilityFilterCache || 'all');
+  const [availabilityDropdown, setAvailabilityDropdown] = useState(availabilityFilterCache || 'available');
 
   const skaters = players.filter(p => p?.position !== 'G');
   const goalies = players.filter(p => p?.position === 'G');
@@ -229,7 +229,7 @@ export default function PlayersTab({
     localStorage.removeItem("availability-filter-cache");
 
     setProspectDropdown('all');
-    setAvailabilityDropdown('all');
+    setAvailabilityDropdown('available');
     // Force table to re-render with fresh state
     setFilterResetKey(prev => prev + 1);
   }
