@@ -188,8 +188,8 @@ export default function Table({
           <tbody {...getTableBodyProps()}>
             {page.map((row, i) => {
               prepareRow(row);
-              const pickDisabled = row.cells[0].row.original.disabled === true ? "disabled-pick" : null;
-              const takenPlayer = (["draft", "goalies", "skaters", "watchlist"].includes(tableType) && row.cells[0].row.original.user !== null) ? "taken-player" : null;
+              const pickDisabled = row.cells[0].row.original.disabled === true ? "disabled-pick" : "";
+              const takenPlayer = (["draft", "goalies", "skaters", "watchlist"].includes(tableType) && row.cells[0].row.original.user !== null) ? "taken-player" : "";
 
               const currentPickRow =
                 isLiveDraft &&
@@ -197,7 +197,7 @@ export default function Table({
                 currentPick.overall_pick ===
                   row.cells[0].row.original.overall_pick
                   ? "current-pick-row"
-                  : null;
+                  : "";
               return (
                 <tr
                   key={row.id}
