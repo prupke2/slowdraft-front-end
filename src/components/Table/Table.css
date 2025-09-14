@@ -249,12 +249,12 @@ td.Pick {
     left: 0;
     background: var(--main-even2);
     z-index: 1;
-    border-right: none;
   }
 
-  .table tbody tr td.Player:after {
+  .table tbody tr td.Player.playerTabPlayerHeader:after {
     content: "";
     position: absolute;
+    border-right: none;
     top: 0;
     right: 0;
     width: 2px;

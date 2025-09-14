@@ -208,7 +208,7 @@ export default function Table({
                   {row.cells.map((cell) => {
                     return (
                       <td
-                        className={cell.column.id === "draft_pick_timestamp" ? "Timestamp" : cell.column.Header}
+                        className={`${cell.column.id === "draft_pick_timestamp" ? "Timestamp" : cell.column.Header} ${playersTabs ? "playerTabPlayerHeader" : ""}`}
                         {...cell.getCellProps()}
                       >
                         {cell.render("Cell")}
