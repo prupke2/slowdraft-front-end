@@ -94,7 +94,7 @@ table tr:last-child td {
 }
 
 .taken-player {
-  background-color: rgba(110, 140, 140, 0.5) !important;
+  background-color: var(--unavailable) !important;
 }
 
 .current-pick-row {
@@ -220,26 +220,63 @@ td.Pick {
     margin: 0;
     padding: 0;
   }
+
+  .table.players-tabs-table {
+    margin: 95px 0 0 0;
+  }
+
   th.blank-cell, .admin-column {
     display: none;
   }
   .table thead th {
-    top: 45px;
     z-index: 5;
+    border: none;
+    border-left: 1px solid var(--main-very-dark);
+    outline: 1px solid var(--main-very-dark);
   }
+
+  .players-tabs {
+    margin: 95px 0 0 0;
+  }
+
+  .table thead th.players-header {
+    top: 144px;
+  }
+
   .table tbody tr td.Player {
+    position: -webkit-sticky;
     position: sticky;
     left: 0;
     background: var(--main-even2);
     z-index: 1;
+    border-right: none;
+  }
+
+  .table tbody tr td.Player:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    pointer-events: none;
+    box-shadow:var(--main-very-dark) 3px 0 6px 0;
   }
 
   .table tbody tr:nth-child(odd) td.Player {
     background: var(--main-even);
   }
+
+  .table tbody tr.taken-player td.Player {
+    background-color: var(--unavailable) !important;
+  }
+
   .table thead th, .table td {
-    font-size: 0.7rem;
+    font-size: 1.0rem;
     padding: 3px;
+  }
+  .table td {
+    font-size: 0.7rem;
   }
   .headshot {
     display: none;

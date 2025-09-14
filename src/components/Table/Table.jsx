@@ -114,6 +114,8 @@ export default function Table({
 
   const emptyTablePadding = page.length === 0 ? "empty-text" : null;
 
+  const playersTabs = ["skaters", "goalies"].includes(tableType);
+
   return (
     <div>
       {paginationTop && (
@@ -135,7 +137,7 @@ export default function Table({
       {!loading && (
         <table 
           autoComplete="off" 
-          className={`table ${emptyTablePadding}`}
+          className={`table ${emptyTablePadding} ${playersTabs ? "players-tabs-table" : ""}`}
           {...getTableProps()}
         >
           <thead>
@@ -157,7 +159,7 @@ export default function Table({
                   }
 
                   return (
-                    <th key={column.id} width={column.width}>
+                    <th key={column.id} width={column.width} className={playersTabs ? "players-header" : ""}>
                       <span
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()

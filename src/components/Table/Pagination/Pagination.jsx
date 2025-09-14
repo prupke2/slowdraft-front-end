@@ -20,9 +20,10 @@ export default function Pagination({
   const scrollLeftClass = !canPreviousPage ? 'disabled-pagination' : '';
   const scrollRightClass = !canNextPage ? 'disabled-pagination' : '';
   const currentRoundClass = pageIndex === currentRound ? 'disabled-pagination' : '';
+  const playersTabs = ["skaters", "goalies"].includes(tableType);
 
   return (
-    <ul className={`pagination ${extraPadding}`}>
+    <ul className={`pagination ${extraPadding} ${playersTabs ? 'players-tabs-pagination' : ''}`}>
       {/* <pre>
         <code>
           {JSON.stringify({ pageIndex, pageCount, canNextPage, canPreviousPage}, null, 2)}

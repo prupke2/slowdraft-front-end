@@ -69,11 +69,21 @@ h3 {
 
 @media screen and (max-width: 900px) { 
   .player-tabs-filter-wrapper {
+    position: fixed;
+    display: flex;
+    justify-content: space-around;
+    top: 44px;
     margin: 0 auto;
-    width: 550px;
+    padding-top: 5px;
+    font-size: 0.8rem;
+    padding-left: 10px;
+    width: 100%;
+    z-index: 10;
+    background-color: var(--main-dark);
   }
+
   .clear-filters-button {
-    margin: 20px 10px 0;
+    margin: 0 10px;
     width: 65px;
     font-size: 0.8rem;
   }

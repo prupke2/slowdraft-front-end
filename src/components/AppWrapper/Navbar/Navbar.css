@@ -118,6 +118,10 @@ li.navtab a.active,
     padding-bottom: 30px;
   }
 
+  li.navtab-inner:last-child {
+    display: none;
+  }
+
   .nav-text {
     display: none;
   }

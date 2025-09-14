@@ -15,6 +15,7 @@
   --alt-text: var(--yellow);
 
   --link: var(--main-very-dark);
+  --unavailable: rgb(114, 124, 161);
 
   /* --alt-bg: #637282;
   --h1-color: var(--alt-text);
