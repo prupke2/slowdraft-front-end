@@ -251,6 +251,11 @@ td.Pick {
     z-index: 1;
   }
 
+  .table thead tr th.Player {
+    z-index: 6;
+    left: 0;
+  }
+
   .table tbody tr td.Player.playerTabPlayerHeader:after {
     content: "";
     position: absolute;

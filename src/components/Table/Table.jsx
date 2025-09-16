@@ -159,7 +159,7 @@ export default function Table({
                   }
 
                   return (
-                    <th key={column.id} width={column.width} className={playersTabs ? "players-header" : ""}>
+                    <th key={column.id} width={column.width} className={`${playersTabs ? "players-header" : ""} ${column.Header}`}>
                       <span
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
