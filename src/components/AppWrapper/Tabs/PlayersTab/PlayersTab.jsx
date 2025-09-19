@@ -27,16 +27,27 @@ export default function PlayersTab({
   const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState(playersLocalStorage || []);
 
+  // filter defaults
+  const teamFilterDefault = 'all';
+  const positionFilterDefault = 'all';
+  const prospectFilterDefault = 'all';
+  const availabiltyFilterDefault = 'available';
+
   // These caches are set in their respective filter components in FilterTypes.jsx
-  const teamFilterCache = localStorage.getItem("team-filter-cache") || 'all';
-  const positionFilterCache = localStorage.getItem("position-filter-cache") || 'all';
+  const teamFilter = localStorage.getItem("team-filter-cache") || teamFilterDefault;
+  const positionFilter = localStorage.getItem("position-filter-cache") || positionFilterDefault;
 
   // These caches are set in the useEffect hooks below
   const prospectFilterCache = localStorage.getItem("prospect-filter-cache");
   const availabilityFilterCache = localStorage.getItem("availability-filter-cache");
 
-  const [prospectDropdown, setProspectDropdown] = useState(prospectFilterCache || 'all');
-  const [availabilityDropdown, setAvailabilityDropdown] = useState(availabilityFilterCache || 'available');
+  const [prospectDropdown, setProspectDropdown] = useState(prospectFilterCache || prospectFilterDefault);
+  const [availabilityDropdown, setAvailabilityDropdown] = useState(availabilityFilterCache || availabiltyFilterDefault);
+
+  const defaultFiltersApplied = teamFilter === teamFilterDefault
+    && positionFilter === positionFilterDefault
+    && prospectDropdown === prospectFilterDefault
+    && availabilityDropdown === availabiltyFilterDefault;
 
   const skaters = players.filter(p => p?.position !== 'G');
   const goalies = players.filter(p => p?.position === 'G');
@@ -50,7 +61,6 @@ export default function PlayersTab({
     const playerDBData = localStorage.getItem("playerDBData");
 
     if (playerDBData) {
-      console.log("Using cached data");
       const data = JSON.parse(playerDBData);
       setPlayers(data);
       setIsLoading(false);
@@ -172,15 +182,15 @@ export default function PlayersTab({
     {
       id: "user",
     },
-    teamFilterCache !== 'all' && {
+    teamFilter !== 'all' && {
       id: "team",
-      value: teamFilterCache,
+      value: teamFilter,
     },
-    playerType === 'skaters' && positionFilterCache !== 'all' && {
+    playerType === 'skaters' && positionFilter !== 'all' && {
       id: "position",
-      value: positionFilterCache,
+      value: positionFilter,
     },
-  ], [teamFilterCache, positionFilterCache, playerType]);
+  ], [teamFilter, positionFilter, playerType]);
 
   const goalieTableState = {
     hiddenColumns: [
@@ -265,15 +275,17 @@ export default function PlayersTab({
                 <option value="all">All {playerType}</option>
               </select>
             </div>
-            <div>
-              <button
-                onClick={handleClearFilters}  
-                className="small-button clear-filters-button"
-              >
-                <div><Emoji emoji="✖️" />&nbsp;</div>
-                <div>Clear filters</div>
-              </button>
-            </div>
+            { !defaultFiltersApplied && (
+              <div>
+                <button
+                  onClick={handleClearFilters}  
+                  className="small-button clear-filters-button"
+                >
+                  <div><Emoji emoji="✖️" />&nbsp;</div>
+                  <div>Reset filters</div>
+                </button>
+              </div>
+            )}
           </div>
           <Table
             key={`players-table-${playerType}-${filterResetKey}`}
