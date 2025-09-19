@@ -96,7 +96,7 @@
 
   .players-tabs-pagination li.pagination-arrows, .players-tabs-pagination li.pagination-goto-page {
     position: sticky;
-    width: 100px;
+    width: 5px;
     left: 0;
   }
 

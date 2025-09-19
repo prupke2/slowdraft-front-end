@@ -38,3 +38,9 @@
 .watchlist-button.watched:hover span {
   transform: scale(1);
 }
+
+@media screen and (max-width: 900px) {
+  .watchlistWrapper {
+    margin: 10px 0 0;
+  }
+}

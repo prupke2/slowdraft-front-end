@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
   SearchColumnFilter,
+  SelectPositionColumnFilter,
   SelectTeamFilter,
 } from "../../../Table/FilterTypes/FilterTypes";
 import Table from "../../../Table/Table";
@@ -8,7 +9,7 @@ import { getDBPlayers } from "../../../../util/requests";
 import Loading from "../../../Loading/Loading";
 import DraftModal from "../DraftTab/DraftModal";
 import PlayerCell from "./PlayerCell";
-import { playersTabSkaterColumns, playersTabGoalieColumns } from "./PlayerColumns";
+import { skaterStatColumns, goalieStatColumns } from "./PlayerColumns";
 import teamLogos from "../../../../util/teamLogos";
 import "./PlayersTab.css";
 import Emoji from "../../Emoji";
@@ -27,15 +28,19 @@ export default function PlayersTab({
   const [isLoading, setIsLoading] = useState(true);
   const [players, setPlayers] = useState(playersLocalStorage || []);
 
-  // filter defaults
+  // Filter defaults
   const teamFilterDefault = 'all';
   const positionFilterDefault = 'all';
   const prospectFilterDefault = 'all';
   const availabiltyFilterDefault = 'available';
 
   // These caches are set in their respective filter components in FilterTypes.jsx
-  const teamFilter = localStorage.getItem("team-filter-cache") || teamFilterDefault;
   const positionFilter = localStorage.getItem("position-filter-cache") || positionFilterDefault;
+  const teamFilter = localStorage.getItem("team-filter-cache") || teamFilterDefault;
+
+  // These two states are only used to keep the state for the "Reset filters" button
+  const [playersTabPositionFilter, setPlayersTabPositionFilter] = useState(positionFilter);
+  const [playersTabTeamFilter, setPlayersTabTeamFilter] = useState(teamFilter);
 
   // These caches are set in the useEffect hooks below
   const prospectFilterCache = localStorage.getItem("prospect-filter-cache");
@@ -44,8 +49,9 @@ export default function PlayersTab({
   const [prospectDropdown, setProspectDropdown] = useState(prospectFilterCache || prospectFilterDefault);
   const [availabilityDropdown, setAvailabilityDropdown] = useState(availabilityFilterCache || availabiltyFilterDefault);
 
-  const defaultFiltersApplied = teamFilter === teamFilterDefault
-    && positionFilter === positionFilterDefault
+  const defaultFiltersApplied = playersTabTeamFilter === teamFilterDefault
+    // Position filter is not used for goalies, so no need to check it for this tab
+    && (playerType === 'goalies' || playersTabPositionFilter === positionFilterDefault)
     && prospectDropdown === prospectFilterDefault
     && availabilityDropdown === availabiltyFilterDefault;
 
@@ -71,10 +77,10 @@ export default function PlayersTab({
     setIsLoading(false);
   }, [setPlayers, getLatestData, playerType]);
 
+  // Cache prospect and availability filter selections each time they change
   useEffect(() => {
     localStorage.setItem("prospect-filter-cache", prospectDropdown);
   }, [prospectDropdown]);
-
   useEffect(() => {
     localStorage.setItem("availability-filter-cache", availabilityDropdown);
   }, [availabilityDropdown]);
@@ -93,8 +99,7 @@ export default function PlayersTab({
     return rows.filter((row) => row.original.user === null);
   }
 
-  const statColumns =
-    playerType === "skaters" ? playersTabSkaterColumns : playersTabGoalieColumns;
+  const statColumns = playerType === "skaters" ? skaterStatColumns : goalieStatColumns;
 
   const columns = [
     {
@@ -136,7 +141,9 @@ export default function PlayersTab({
     {
       Header: "Team",
       accessor: "team",
-      Filter: SelectTeamFilter,
+      Filter: (props) => (
+        <SelectTeamFilter {...props} setPlayersTabTeamFilter={setPlayersTabTeamFilter} />
+      ),
       width: "50px",
       Cell: (row) => (
         <div className="team-logo-container">
@@ -150,6 +157,14 @@ export default function PlayersTab({
           )}
         </div>
       ),
+    },
+    {
+      Header: "Pos",
+      accessor: "position",
+      Filter: (props) => (
+        <SelectPositionColumnFilter {...props} setPlayersTabPositionFilter={setPlayersTabPositionFilter} />
+      ),
+      width: "30px",
     },
     ...statColumns,
     {
@@ -182,15 +197,15 @@ export default function PlayersTab({
     {
       id: "user",
     },
-    teamFilter !== 'all' && {
+    playersTabTeamFilter !== 'all' && {
       id: "team",
-      value: teamFilter,
+      value: playersTabTeamFilter,
     },
-    playerType === 'skaters' && positionFilter !== 'all' && {
+    playerType === 'skaters' && playersTabPositionFilter !== 'all' && {
       id: "position",
-      value: positionFilter,
+      value: playersTabPositionFilter,
     },
-  ], [teamFilter, positionFilter, playerType]);
+  ], [playersTabTeamFilter, playersTabPositionFilter, playerType]);
 
   const goalieTableState = {
     hiddenColumns: [
@@ -238,6 +253,8 @@ export default function PlayersTab({
 
     setProspectDropdown('all');
     setAvailabilityDropdown('available');
+    setPlayersTabTeamFilter('all');
+    setPlayersTabPositionFilter('all');
     // Force table to re-render with fresh state
     setFilterResetKey(prev => prev + 1);
   }
@@ -284,7 +301,7 @@ export default function PlayersTab({
                   className="small-button clear-filters-button"
                 >
                   <div><Emoji emoji="✖️" />&nbsp;</div>
-                  <div>Reset filters</div>
+                  <div>Reset&nbsp;Filters</div>
                 </button>
               )}
             </div>

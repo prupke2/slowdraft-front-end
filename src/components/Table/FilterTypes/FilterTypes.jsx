@@ -74,6 +74,7 @@ export function SelectTeamFilter({
   column: { filterValue, setFilter },
   wideFilter,
   disableAll,
+  setPlayersTabTeamFilter,
 }) {
   // Calculate the options for filtering
   // using the preFilteredRows
@@ -87,15 +88,20 @@ export function SelectTeamFilter({
   // }, [id, preFilteredRows])
 
   const isWideFilter = wideFilter ? "wide-filter" : null;
+  const onChangeHandler = (e) => {
+    localStorage.setItem("team-filter-cache", e.target.value);
+    setFilter(e.target.value || undefined);
+    if (setPlayersTabTeamFilter) {
+      setPlayersTabTeamFilter(e.target.value || undefined);
+    }
+  };
+
   return (
     <select
       name="team-filter"
       value={filterValue}
       className={`team-filter ${isWideFilter}`}
-      onChange={(e) => {
-        localStorage.setItem("team-filter-cache", e.target.value);
-        setFilter(e.target.value);
-      }}
+      onChange={onChangeHandler}
     >
       {!disableAll && <option value="">All</option>}
       {disableAll && <option value="">Select a team</option>}
@@ -144,6 +150,7 @@ export function SelectTeamFilter({
 
 export function SelectPositionColumnFilter({
   column: { filterValue, setFilter, preFilteredRows, id },
+  setPlayersTabPositionFilter,
 }) {
   const options = useMemo(() => {
     const options = new Set();
@@ -153,14 +160,19 @@ export function SelectPositionColumnFilter({
     return [...options.values()];
   }, [id, preFilteredRows]);
 
+  const onChangeHandler = (e) => {
+    localStorage.setItem("position-filter-cache", e.target.value);
+    setFilter(e.target.value || undefined);
+    if (setPlayersTabPositionFilter) {
+      setPlayersTabPositionFilter(e.target.value || undefined);
+    }
+  };
+
   return (
     <select
       className="position-filter"
       value={filterValue}
-      onChange={(e) => {
-        localStorage.setItem("position-filter-cache", e.target.value);
-        setFilter(e.target.value || undefined);
-      }}
+      onChange={onChangeHandler}
     >
       <option value="">All</option>
       {options.map((option, i) => {

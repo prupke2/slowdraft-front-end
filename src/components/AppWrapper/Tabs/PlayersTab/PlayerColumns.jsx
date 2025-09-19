@@ -1,6 +1,5 @@
 import React from "react";
 import PlayerCell from "./PlayerCell";
-import { SelectPositionColumnFilter } from "../../../Table/FilterTypes/FilterTypes";
 import teamLogos from "../../../../util/teamLogos";
 
 function multiSelectPositionsFilter(rows) {
@@ -290,24 +289,4 @@ export const watchlistTabGoalieColumns = [
 	staticTeamColumn,
 	...goalieStatColumns,
 	...goalieAccessors
-];
-
-export const playersTabSkaterColumns = [
-	{
-		Header: "Pos",
-		accessor: "position",
-		Filter: SelectPositionColumnFilter,
-		width: "30px",
-	},
-	...skaterStatColumns,
-];
-
-export const playersTabGoalieColumns = [
-	...goalieStatColumns,
-	{
-		Header: "Pos",
-		accessor: "position",
-		Filter: SelectPositionColumnFilter,
-		width: "30px",
-	},
 ];
