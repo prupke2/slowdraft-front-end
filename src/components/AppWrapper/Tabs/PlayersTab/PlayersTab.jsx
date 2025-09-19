@@ -197,15 +197,18 @@ export default function PlayersTab({
     {
       id: "user",
     },
-    playersTabTeamFilter !== 'all' && {
+    playersTabTeamFilter !== 'all' && playersTabTeamFilter !== undefined && {
       id: "team",
       value: playersTabTeamFilter,
     },
-    playerType === 'skaters' && playersTabPositionFilter !== 'all' && {
+    playerType === 'skaters' && playersTabPositionFilter !== 'all' && playersTabPositionFilter !== undefined && {
       id: "position",
       value: playersTabPositionFilter,
     },
   ], [playersTabTeamFilter, playersTabPositionFilter, playerType]);
+
+  console.log('filters: ', filters);
+  console.log('defaultFiltersApplied: ', defaultFiltersApplied);
 
   const goalieTableState = {
     hiddenColumns: [
