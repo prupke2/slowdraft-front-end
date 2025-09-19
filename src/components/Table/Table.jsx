@@ -130,6 +130,7 @@ export default function Table({
           pageCount={pageCount}
           pageIndex={pageIndex}
           pageOptions={pageOptions}
+          position="top"
         />
       )}
 
@@ -233,6 +234,7 @@ export default function Table({
           pageCount={pageCount}
           pageIndex={pageIndex}
           pageOptions={pageOptions}
+          position="bottom"
         />
       )}
     </div>

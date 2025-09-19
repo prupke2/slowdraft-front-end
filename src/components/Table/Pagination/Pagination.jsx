@@ -1,5 +1,6 @@
 import React from "react";
 import "./Pagination.css";
+import { scrollToTop } from "../../../util/util";
 
 export default function Pagination({
   currentRound,
@@ -12,6 +13,7 @@ export default function Pagination({
   pageCount,
   pageIndex,
   pageOptions,
+  position,
 }) {
   const pageOrRound = tableType === "draftPicks" ? "Round" : "Page";
   const isLiveDraft = localStorage.getItem("liveDraft") === "true";
@@ -22,8 +24,23 @@ export default function Pagination({
   const currentRoundClass = pageIndex === currentRound ? 'disabled-pagination' : '';
   const playersTabs = ["skaters", "goalies"].includes(tableType);
 
+  const goToPageNumber = (pageNum) => {
+    gotoPage(pageNum);
+    scrollToTop(position === "bottom");
+  }
+
+  const goToNextPage = () => {
+    nextPage();
+    scrollToTop(position === "bottom");
+  }
+
+  const goToPreviousPage = () => {
+    previousPage();
+    scrollToTop(position === "bottom");
+  }
+
   return (
-    <ul className={`pagination ${extraPadding} ${playersTabs ? 'players-tabs-pagination' : ''}`}>
+    <ul className={`pagination ${position} ${extraPadding} ${playersTabs ? 'players-tabs-pagination' : ''}`}>
       {/* <pre>
         <code>
           {JSON.stringify({ pageIndex, pageCount, canNextPage, canPreviousPage}, null, 2)}
@@ -32,14 +49,14 @@ export default function Pagination({
       <li className="pagination-arrows">
         <div
           className={`page-item ${scrollLeftClass}`}
-          onClick={() => gotoPage(0)}
+          onClick={() => goToPageNumber(0)}
           disabled={!canPreviousPage}
         >
           <span className="page-link page-first">First</span>
         </div>
         <div
           className={`page-item ${scrollLeftClass}`}
-          onClick={() => previousPage()}
+          onClick={() => goToPreviousPage()}
           disabled={!canPreviousPage}
         >
           <span className="page-link">{"<"}</span>
@@ -47,7 +64,7 @@ export default function Pagination({
         {showCurrentRoundButton && (
           <div
             className={`page-item ${currentRoundClass}`}
-            onClick={() => gotoPage(currentRound)}
+            onClick={() => goToPageNumber(currentRound)}
             disabled={pageIndex === currentRound}
           >
             <span className="page-link">
@@ -55,12 +72,12 @@ export default function Pagination({
             </span>
           </div>
         )}
-        <div className={`page-item ${scrollRightClass}`} onClick={() => canNextPage && nextPage()}>
+        <div className={`page-item ${scrollRightClass}`} onClick={() => canNextPage && goToNextPage()}>
           <span className="page-link">{">"}</span>
         </div>
         <div
           className={`page-item ${scrollRightClass}`}
-          onClick={() => canNextPage && gotoPage(pageCount - 1)}
+          onClick={() => canNextPage && goToPageNumber(pageCount - 1)}
         >
           <span className="page-link page-last">Last</span>
         </div>
