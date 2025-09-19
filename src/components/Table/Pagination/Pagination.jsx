@@ -26,17 +26,17 @@ export default function Pagination({
 
   const goToPageNumber = (pageNum) => {
     gotoPage(pageNum);
-    scrollToTop(position === "bottom");
+    scrollToTop(position === "bottom", playersTabs);
   }
 
   const goToNextPage = () => {
     nextPage();
-    scrollToTop(position === "bottom");
+    scrollToTop(position === "bottom", playersTabs);
   }
 
   const goToPreviousPage = () => {
     previousPage();
-    scrollToTop(position === "bottom");
+    scrollToTop(position === "bottom", playersTabs);
   }
 
   return (

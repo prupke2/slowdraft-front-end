@@ -150,8 +150,21 @@ export function delayFunc(func, delayInMs) {
   }, delayInMs);
 }
 
-export const scrollToTop = (isPagination = false) => {
+export const scrollToTop = (isPagination = false, isPlayersTabs = false) => {
+  let scrollHeight = 0;
+  if (isPagination) {
+    scrollHeight = 88;
+  }
+
+  // Add extra offset for mobile users on players tabs when paginating from the bottom
+  // This brings the view back to the top of the table
+  if (isPagination && isPlayersTabs && isMobileUser) {
+    scrollHeight += 56;
+  }
   const mainWindow = document.querySelector("main");
-  mainWindow.scrollTop = isPagination ? 88 : 0;
+
+  mainWindow.scrollTop = scrollHeight;
   mainWindow.scrollLeft = 0;
 };
+
+export const isMobileUser = window.screen.availWidth <= 800;

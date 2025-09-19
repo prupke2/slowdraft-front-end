@@ -7,6 +7,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import LeagueSelector from "./LeagueSelector/LeagueSelector";
 import { AblyProvider, ChannelProvider } from 'ably/react';
 import Chat from "./Chat/Chat";
+import { isMobileUser } from "../../util/util";
 
 export default function AppWrapper({
   logout,
@@ -16,9 +17,7 @@ export default function AppWrapper({
   draftingNow,
   setDraftingNow,
 }) {
-  const isRegisteredLeague =
-    localStorage.getItem("registeredLeague") === "true";
-  const isMobileUser = window.screen.availWidth <= 800;
+  const isRegisteredLeague = localStorage.getItem("registeredLeague") === "true";
 
   const leagueList = JSON.parse(localStorage.getItem("leagueList"));
   const [chatMessages, setChatMessages] = useState([]);
