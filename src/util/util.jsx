@@ -149,3 +149,9 @@ export function delayFunc(func, delayInMs) {
     func()
   }, delayInMs);
 }
+
+export const scrollToTop = (isPagination = false) => {
+  const mainWindow = document.querySelector("main");
+  mainWindow.scrollTop = isPagination ? 88 : 0;
+  mainWindow.scrollLeft = 0;
+};
