@@ -116,6 +116,8 @@ export default function Table({
 
   const playersTabs = ["skaters", "goalies"].includes(tableType);
 
+  const tabsWithScrollingPlayerColumn = ["skaters", "goalies", "teams", "watchlist"].includes(tableType);
+
   return (
     <div>
       {paginationTop && (
@@ -160,7 +162,11 @@ export default function Table({
                   }
 
                   return (
-                    <th key={column.id} width={column.width} className={`${playersTabs ? "players-header" : ""} ${column.Header}`}>
+                    <th
+                      key={column.id}
+                      width={column.width}
+                      className={`${tabsWithScrollingPlayerColumn ? "players-header" : ""} ${column.Header}`}
+                    >
                       <span
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
@@ -209,7 +215,7 @@ export default function Table({
                   {row.cells.map((cell) => {
                     return (
                       <td
-                        className={`${cell.column.id === "draft_pick_timestamp" ? "Timestamp" : cell.column.Header} ${playersTabs ? "playerTabPlayerHeader" : ""}`}
+                        className={`${cell.column.id === "draft_pick_timestamp" ? "Timestamp" : cell.column.Header} ${tabsWithScrollingPlayerColumn ? "player-box-shadow" : ""}`}
                         {...cell.getCellProps()}
                       >
                         {cell.render("Cell")}

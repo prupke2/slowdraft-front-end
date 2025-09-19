@@ -246,7 +246,7 @@ td.Pick {
     left: 0;
   }
 
-  .table tbody tr td.Player.playerTabPlayerHeader:after {
+  .table tbody tr td.Player.player-box-shadow:after, .table thead tr th.Player.players-header:after {
     content: "";
     position: absolute;
     border-right: none;
