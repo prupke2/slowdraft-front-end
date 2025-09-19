@@ -76,8 +76,10 @@ h3 {
   .player-tabs-filter-wrapper {
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    min-width: 90vw;
+    position: sticky;
+    left: 0;
+    margin: 0;
+    width: 0;
   }
 
   /* .skaters-tab {

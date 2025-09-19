@@ -186,6 +186,7 @@ export default function WatchlistTab({
           tableState={goalieTableState}
           defaultColumn="player_id"
           tableType="watchlist"
+          sticky
         />
       )}
     </div>

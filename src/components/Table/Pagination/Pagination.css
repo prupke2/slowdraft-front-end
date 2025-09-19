@@ -75,6 +75,12 @@
 }
 
 @media screen and (max-width: 900px) {
+  .pagination-wrapper {
+    position: sticky;
+    left: 0;
+    width: 0;
+  }
+
   .pagination {
     padding-right: 0;
     margin-right: 0;
@@ -90,7 +96,6 @@
     margin: auto;
     background-color: var(--main-dark);
     padding: 5px 5px 0;
-    min-width: none;
     height: 50px;
   }
 

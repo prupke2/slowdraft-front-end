@@ -193,6 +193,7 @@ export default function TeamTab({
                 defaultColumn="player_id"
                 draftingNow={draftingNow}
                 tableType="teams"
+                sticky
               />
             )}
           </>

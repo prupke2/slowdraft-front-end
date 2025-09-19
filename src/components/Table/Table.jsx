@@ -18,6 +18,7 @@ export default function Table({
   currentPick,
   paginationTop,
   paginationBottom,
+  sticky = false,
 }) {
   const isLiveDraft = JSON.parse(localStorage.getItem("liveDraft")) === "true";
 
@@ -119,7 +120,7 @@ export default function Table({
   const tabsWithScrollingPlayerColumn = ["skaters", "goalies", "teams", "watchlist"].includes(tableType);
 
   return (
-    <div>
+    <div className={`${sticky ? "table-sticky-wrapper-mobile" : ""}`}>
       {paginationTop && (
         <Pagination
           currentRound={currentPick ? currentPick.round - 1 : null}
@@ -165,7 +166,7 @@ export default function Table({
                     <th
                       key={column.id}
                       width={column.width}
-                      className={`${tabsWithScrollingPlayerColumn ? "players-header" : ""} ${column.Header}`}
+                      className={`${tabsWithScrollingPlayerColumn ? "players-header" : ""} ${column.Header} ${sticky ? "sticky" : ""}`}
                     >
                       <span
                         {...column.getHeaderProps(
@@ -215,7 +216,8 @@ export default function Table({
                   {row.cells.map((cell) => {
                     return (
                       <td
-                        className={`${cell.column.id === "draft_pick_timestamp" ? "Timestamp" : cell.column.Header} ${tabsWithScrollingPlayerColumn ? "player-box-shadow" : ""}`}
+                        className={
+                          `${cell.column.id === "draft_pick_timestamp" ? "Timestamp" : cell.column.Header} ${tabsWithScrollingPlayerColumn ? "player-box-shadow" : ""}`}
                         {...cell.getCellProps()}
                       >
                         {cell.render("Cell")}
