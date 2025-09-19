@@ -242,14 +242,16 @@ export default function PlayersTab({
     setFilterResetKey(prev => prev + 1);
   }
 
+  const tabClass = playerType === 'skaters' ? 'skaters-tab' : 'goalies-tab';
+
   return (
     <>
       {isLoading && <Loading text="Loading players..." />}
       {!isLoading && (
         <>
-          <div className="player-tabs-filter-wrapper">
+          <div className={`player-tabs-filter-wrapper ${tabClass}`}>
             <div className="player-type-wrapper">
-              <label>Player type: </label>
+              <label>Player&nbsp;type: </label>
               <select
                 id="prospect-filter-select"
                 value={prospectDropdown}
@@ -263,7 +265,7 @@ export default function PlayersTab({
                 <option value={"1"}>Prospects</option>
               </select>
             </div>
-            <div>
+            <div className="availability-wrapper">
               <label>Availability: </label>
               <select
                 value={availabilityDropdown}
@@ -275,8 +277,8 @@ export default function PlayersTab({
                 <option value="all">All {playerType}</option>
               </select>
             </div>
-            { !defaultFiltersApplied && (
-              <div>
+            <div className="clear-filters-wrapper">
+              { !defaultFiltersApplied && (
                 <button
                   onClick={handleClearFilters}  
                   className="small-button clear-filters-button"
@@ -284,8 +286,8 @@ export default function PlayersTab({
                   <div><Emoji emoji="✖️" />&nbsp;</div>
                   <div>Reset filters</div>
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
           <Table
             key={`players-table-${playerType}-${filterResetKey}`}

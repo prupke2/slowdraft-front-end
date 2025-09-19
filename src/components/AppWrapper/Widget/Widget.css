@@ -91,10 +91,10 @@
 
   #logout {
     position: fixed !important;
-    top: 5px;
-    right: 2px;
+    top: 2px;
+    right: 0;
     font-variant: small-caps;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     padding: 1px 4px;
     z-index: 1000;
   }

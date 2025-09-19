@@ -219,4 +219,11 @@ textarea {
   main > div {
     width: 100%;
   }
+
+  h2 {
+    position: sticky;
+    left: 0;
+    margin: 0;
+    width: 10px;
+  }
 }

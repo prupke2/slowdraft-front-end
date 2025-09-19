@@ -60,13 +60,17 @@
 
 @media screen and (max-width: 900px) { 
   .team-tab-header {
-    width: auto;
     flex-direction: column;
+    position: sticky;
+    left: 0;
+    width: 10px;
+    justify-content: space-around;
+    padding-left: 20px;
   }
   .team-and-logo-wrapper {
     margin: 10px auto;
   }
   .player-count {
-    margin: 5px auto;
+    margin: 5px 50px;
   }
 } 
