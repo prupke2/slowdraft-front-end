@@ -1,15 +1,6 @@
 .watchlistWrapper {
-	margin: 50px 10px 10px;
+	margin: 10px;
 	min-height: 85vh;
-}
-
-.sticky-wrapper {
-  flex-direction: column;
-  position: sticky;
-  left: 0;
-  width: 10px;
-  justify-content: space-around;
-  padding-left: 20px;
 }
 
 .remove-watchlist-button {
@@ -55,5 +46,13 @@
 @media screen and (max-width: 900px) {
   .watchlistWrapper {
     margin: 10px 0 0;
+  }
+  .sticky-wrapper {
+    flex-direction: column;
+    position: sticky;
+    left: 0;
+    width: 10px;
+    justify-content: space-around;
+    padding-left: 20px;
   }
 }
