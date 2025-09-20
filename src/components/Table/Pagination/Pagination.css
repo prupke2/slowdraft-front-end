@@ -82,9 +82,8 @@
   }
 
   .pagination {
-    padding-right: 0;
-    margin-right: 0;
     min-width: 300px;
+    width: 100vw;
   }
 
   .pagination.players-tabs-pagination.top {
@@ -108,12 +107,21 @@
   .players-tabs-pagination .page-or-round {
     position: relative;
     left: 260px;
-    bottom: 45px;
+    bottom: 35px;
   }
 
   .draftTabPaddingTop {
     padding-top: 20px;
   }
+
+  .pagination li.pagination-goto-page {
+    font-size: 0.7;
+  }
+
+  .page-item > span {
+    margin: 0;
+  }
+
 
   .pagination li.pagination-goto-page {
     font-size: 0.7;
