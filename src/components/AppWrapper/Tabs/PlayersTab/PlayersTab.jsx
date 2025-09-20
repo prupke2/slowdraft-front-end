@@ -207,9 +207,6 @@ export default function PlayersTab({
     },
   ], [playersTabTeamFilter, playersTabPositionFilter, playerType]);
 
-  console.log('filters: ', filters);
-  console.log('defaultFiltersApplied: ', defaultFiltersApplied);
-
   const goalieTableState = {
     hiddenColumns: [
       "position",
