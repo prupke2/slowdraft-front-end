@@ -118,5 +118,10 @@ h3 {
     left: 140px;
     font-size: 0.8rem;
   }
+
+  .clear-filters-button:hover {
+    cursor: pointer;
+    border: none !important;
+  }
 }
 
