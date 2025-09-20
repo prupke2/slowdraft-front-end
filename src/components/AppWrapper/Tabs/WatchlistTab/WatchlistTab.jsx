@@ -161,10 +161,15 @@ export default function WatchlistTab({
   return (
     <div className="watchlistWrapper">
       {takenPlayers?.length > 0 && (
-        <button onClick={removeAllTakenPlayers}>
-          <Emoji emoji="➖" />&nbsp;
-          Remove all taken players
-        </button>
+        <div className="sticky-wrapper">
+          <button
+            onClick={removeAllTakenPlayers}
+            className="remove-watchlist-button"
+           >
+            <Emoji emoji="➖" />&nbsp;
+            Remove all taken players
+          </button>
+        </div>
       )}
       <h2>Skaters</h2>
       {!watchedSkaters?.length ? EmptyVerbiage('skaters') : (

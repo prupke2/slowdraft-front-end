@@ -3,6 +3,19 @@
 	min-height: 85vh;
 }
 
+.sticky-wrapper {
+  flex-direction: column;
+  position: sticky;
+  left: 0;
+  width: 10px;
+  justify-content: space-around;
+  padding-left: 20px;
+}
+
+.remove-watchlist-button {
+  width: 150px;
+}
+
 .emptyVerbiage {
 	font-style: italic;
 	margin: 30px 10px;
