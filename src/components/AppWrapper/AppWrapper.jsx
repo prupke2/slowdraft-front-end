@@ -84,9 +84,19 @@ export default function AppWrapper({
   }, [chatClient]);
 
   useEffect(() => {
-    if (isRegisteredLeague) {
-      getLatestData();
-    }
+    const handleVisibilityChange = () => {
+      if (!document.hidden && isRegisteredLeague) {
+        getLatestData();
+      }
+    };
+
+    // Listen for when the page becomes visible again
+    // i.e. on mobile when switching apps or on desktop when switching tabs
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [getLatestData, isRegisteredLeague]);
 
   return (
