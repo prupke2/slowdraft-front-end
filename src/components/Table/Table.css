@@ -184,12 +184,6 @@ td.Pick {
   color: var(--main-light);
 }
 
-.team-logo-container {
-  min-width: 40px;
-  display: flex;
-  align-items: center;
-}
-
 #show-taken-dropdown {
   left: 360px;
 }
@@ -295,17 +289,6 @@ td.Pick {
   .teamLogo {
     height: 25px;
     width: auto;
-  }
-  .team-logo-container {
-    height: 100%;
-    min-height: 50px;
-    width: 40px;
-    align-items: center;
-  }
-  .team-logo-container img {
-    margin: 0 auto;
-    width: 25px;
-    height: auto;
   }
   #prospect-column, #team-dropdown-column, #show-taken-dropdown {
     top: 12px;
